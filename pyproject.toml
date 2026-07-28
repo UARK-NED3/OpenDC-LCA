@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "opendc-lca"
 version = "0.2.0"
-description = "Open, physics-informed life-cycle analysis for data-center cooling"
+description = "Open, physics-informed life-cycle assessment for data-center cooling"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -16,9 +16,24 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Topic :: Scientific/Engineering",
 ]
+keywords = [
+  "life-cycle-assessment",
+  "data-center",
+  "cooling",
+  "sustainability",
+]
+
+[project.urls]
+Homepage = "https://github.com/UARK-NED3/OpenDC-LCA"
+Documentation = "https://github.com/UARK-NED3/OpenDC-LCA#readme"
+Issues = "https://github.com/UARK-NED3/OpenDC-LCA/issues"
+Source = "https://github.com/UARK-NED3/OpenDC-LCA"
 
 [project.scripts]
 opendc-lca = "opendc_lca.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+opendc_lca = ["example_data/*.json"]

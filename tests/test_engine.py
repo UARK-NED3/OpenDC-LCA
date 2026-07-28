@@ -1,8 +1,14 @@
 import unittest
+import tempfile
+import xml.etree.ElementTree as ET
+from pathlib import Path
 
 from opendc_lca.engine import analyze, compare, sensitivity
 from opendc_lca.models import Scenario, ValidationError
 from opendc_lca.audit import audit
+from opendc_lca.examples import install_examples
+from opendc_lca.io import load_scenario
+from opendc_lca.report import generate_report
 
 
 def scenario_data():
@@ -190,6 +196,36 @@ class EngineTests(unittest.TestCase):
         data["study"]["replacement_model"] = "linearized"
         result = analyze(Scenario.from_dict(data))
         self.assertAlmostEqual(result.contributions["equipment"].ghg_kgco2e, 40)
+
+    def test_bundled_examples_install_and_run(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            paths = install_examples(temporary)
+            self.assertEqual(len(paths), 3)
+            self.assertTrue(all(path.exists() for path in paths))
+            result = analyze(load_scenario(paths[0]))
+            self.assertGreater(result.annual_impacts.ghg_kgco2e, 0)
+
+    def test_report_contains_results_equations_and_figures(self):
+        root = Path(__file__).resolve().parents[1]
+        scenarios = [
+            load_scenario(root / "examples" / name)
+            for name in (
+                "air-cooled.json",
+                "direct-to-chip.json",
+                "single-phase-immersion.json",
+            )
+        ]
+        with tempfile.TemporaryDirectory() as temporary:
+            artifacts = generate_report(scenarios, temporary)
+            self.assertTrue(all(path.exists() for path in artifacts.values()))
+            report = artifacts["report"].read_text(encoding="utf-8")
+            self.assertIn("E_{IT}", report)
+            self.assertIn("Illustrative, not decision-grade", report)
+            self.assertIn("impact-comparison.svg", report)
+            for key in ("impact_figure", "contribution_figure"):
+                ET.fromstring(artifacts[key].read_text(encoding="utf-8"))
+            results = artifacts["results"].read_text(encoding="utf-8")
+            self.assertIn('"model_version": "0.2.0"', results)
 
 
 if __name__ == "__main__":

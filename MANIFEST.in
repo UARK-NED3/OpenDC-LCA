@@ -1,0 +1,10 @@
+include CHANGELOG.md
+include CITATION.cff
+include CONTRIBUTING.md
+include LICENSE
+include RELEASING.md
+recursive-include data *.csv *.json *.md
+recursive-include docs *.md
+recursive-include examples *.json
+recursive-include results *.json *.md *.svg
+recursive-include schemas *.json

@@ -40,11 +40,32 @@ opendc-lca compare examples/air-cooled.json \
   examples/direct-to-chip.json examples/single-phase-immersion.json
 opendc-lca sensitivity examples/single-phase-immersion.json
 opendc-lca audit examples/single-phase-immersion.json
+opendc-lca report examples/*.json --output-dir results/my-screening
 python -m unittest discover -s tests -v
 ```
 
 Outputs are annual totals and values normalized per delivered IT MWh. JSON output
-is available with `--json`.
+is available with `--json`. Installed wheels include the examples; copy them to
+a working directory with:
+
+```bash
+opendc-lca examples --output-dir examples
+```
+
+## Representative output
+
+The repository includes a reproducible
+[screening report](results/representative-screening/REPORT.md), its
+[machine-readable results](results/representative-screening/results.json), and
+two dependency-free SVG figures:
+
+![Illustrative normalized impact comparison](results/representative-screening/impact-comparison.svg)
+
+![Illustrative GHG contribution analysis](results/representative-screening/ghg-contributions.svg)
+
+These results use synthetic factors to demonstrate the workflow. The displayed
+ranking is not evidence that one cooling architecture is environmentally
+preferable.
 
 ## Model boundary
 
@@ -73,6 +94,7 @@ tracked in the [research roadmap](docs/ROADMAP.md).
 - `data/`: data registry and provenance template
 - `docs/`: methodology, data plan, roadmap, and governance
 - `tests/`: deterministic reference tests
+- `results/representative-screening/`: reproducible example report and figures
 - `CHANGELOG.md`: release-level scientific and software changes
 
 ## Scientific principles
@@ -95,6 +117,7 @@ maintained in [LCA method decision notes](docs/LCA_METHOD_DECISION_NOTES.md).
 Research groups, operators, manufacturers, and students are welcome. Start with
 [CONTRIBUTING.md](CONTRIBUTING.md). Contributions of measured data must include
 units, boundary, test conditions, uncertainty, and a redistribution license.
+Release maintainers should follow [RELEASING.md](RELEASING.md).
 
 ## License and citation
 

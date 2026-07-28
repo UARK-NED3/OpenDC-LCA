@@ -3,7 +3,7 @@
 All notable changes are documented here. The project follows semantic
 versioning after the first stable release.
 
-## 0.2.0 — Unreleased
+## 0.2.0 — 2026-07-28
 
 ### Added
 
@@ -23,12 +23,16 @@ versioning after the first stable release.
   confidentiality declarations.
 - Comparative-claim blockers for missing uncertainty, independent panel review,
   canonical methods, or confidential-data review.
+- Installable example scenarios and deterministic Markdown, JSON, and SVG
+  report generation.
+- Representative synthetic screening results and release automation.
 
 ### Changed
 
 - Example scenarios now identify synthetic inputs and prohibit comparative
   interpretation.
-- CI validates the sensitivity workflow.
+- CI validates sensitivity, reporting, source distributions, and installed
+  wheels.
 
 ## 0.1.0 — 2026-07-28
 

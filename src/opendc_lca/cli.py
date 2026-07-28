@@ -10,6 +10,8 @@ from .engine import Result, analyze, compare, sensitivity
 from .io import load_scenario
 from .models import ValidationError
 from .audit import audit
+from .report import generate_report
+from .examples import install_examples
 
 
 def _print_table(results: list[Result]) -> None:
@@ -51,6 +53,11 @@ def _parser() -> argparse.ArgumentParser:
     child = subparsers.add_parser("audit")
     child.add_argument("scenario")
     child.add_argument("--json", action="store_true")
+    child = subparsers.add_parser("report")
+    child.add_argument("scenarios", nargs="+")
+    child.add_argument("--output-dir", required=True)
+    child = subparsers.add_parser("examples")
+    child.add_argument("--output-dir", required=True)
     return parser
 
 
@@ -60,6 +67,18 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "validate":
             scenario = load_scenario(args.scenario)
             print(f"Valid scenario: {scenario.name}")
+            return 0
+        if args.command == "examples":
+            for path in install_examples(args.output_dir):
+                print(path)
+            return 0
+        if args.command == "report":
+            artifacts = generate_report(
+                [load_scenario(path) for path in args.scenarios],
+                args.output_dir,
+            )
+            for name, path in artifacts.items():
+                print(f"{name}: {path}")
             return 0
         if args.command == "audit":
             findings = audit(load_scenario(args.scenario))
@@ -100,7 +119,7 @@ def main(argv: list[str] | None = None) -> int:
         else:
             _print_table(results)
         return 0
-    except (ValidationError, ValueError, KeyError) as exc:
+    except (ValidationError, ValueError, KeyError, FileExistsError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 

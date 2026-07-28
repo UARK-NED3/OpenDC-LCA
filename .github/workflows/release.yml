@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python -m pip install build twine
+      - run: python -m unittest discover -s tests -v
+      - run: python -m build
+      - run: python -m twine check dist/*
+      - name: Smoke-test installed wheel
+        run: |
+          python -m venv /tmp/opendc-lca-release
+          /tmp/opendc-lca-release/bin/pip install dist/*.whl
+          /tmp/opendc-lca-release/bin/opendc-lca examples --output-dir /tmp/examples
+          /tmp/opendc-lca-release/bin/opendc-lca report /tmp/examples/*.json --output-dir /tmp/report
+      - uses: actions/upload-artifact@v4
+        with:
+          name: opendc-lca-${{ github.ref_name }}
+          path: dist/*
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" dist/* --generate-notes --verify-tag
