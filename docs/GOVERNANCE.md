@@ -1,6 +1,6 @@
 # Governance
 
-OpenDC-LDA begins as a University of Arkansas–hosted research project.
+OpenDC-LCA begins as a University of Arkansas–hosted research project.
 
 ## Decision principles
 
@@ -25,4 +25,3 @@ agree on scope. Until then, repository administrators are interim maintainers.
 Software uses semantic versioning. Benchmark datasets are versioned separately
 and must remain citable. Published studies should record the code commit,
 scenario files, database versions, and data releases used.
-

@@ -3,13 +3,13 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "opendc-lda"
+name = "opendc-lca"
 version = "0.1.0"
 description = "Open, physics-informed life-cycle analysis for data-center cooling"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "OpenDC-LDA contributors" }]
+authors = [{ name = "OpenDC-LCA contributors" }]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "License :: OSI Approved :: MIT License",
@@ -18,8 +18,7 @@ classifiers = [
 ]
 
 [project.scripts]
-opendc-lda = "opendc_lda.cli:main"
+opendc-lca = "opendc_lca.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-

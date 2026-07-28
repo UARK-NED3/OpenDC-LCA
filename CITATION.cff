@@ -1,12 +1,11 @@
 cff-version: 1.2.0
-title: OpenDC-LDA
+title: OpenDC-LCA
 message: "If you use this software, cite the versioned release and associated dataset."
 type: software
 authors:
   - family-names: Hu
     given-names: Han
-repository-code: "https://github.com/UARK-NED3/OpenDC-LDA"
+repository-code: "https://github.com/UARK-NED3/OpenDC-LCA"
 license: MIT
 version: 0.1.0
 date-released: 2026-07-28
-

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/UARK-NED3/OpenDC-LDA/schemas/scenario.schema.json",
-  "title": "OpenDC-LDA Phase 1 scenario",
+  "$id": "https://github.com/UARK-NED3/OpenDC-LCA/schemas/scenario.schema.json",
+  "title": "OpenDC-LCA Phase 1 scenario",
   "type": "object",
   "required": [
     "name", "cooling_architecture", "it_capacity_kw", "capacity_factor",
@@ -43,4 +43,3 @@
   },
   "additionalProperties": false
 }
-

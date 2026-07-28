@@ -1,8 +1,8 @@
-# OpenDC-LDA
+# OpenDC-LCA
 
 Open, physics-informed life-cycle analysis for data-center cooling.
 
-OpenDC-LDA connects measured or simulated cooling performance with transparent
+OpenDC-LCA connects measured or simulated cooling performance with transparent
 life-cycle inventories. The first release is a small, dependency-free reference
 model for comparing air cooling, direct-to-chip liquid cooling, and immersion
 cooling on a common annual basis.
@@ -16,7 +16,7 @@ cooling on a common annual basis.
 
 Cooling comparisons are often reduced to PUE. That misses equipment production,
 coolant manufacture and loss, water consumption, hardware replacement, and the
-effect of location and utilization. OpenDC-LDA makes those assumptions explicit
+effect of location and utilization. OpenDC-LCA makes those assumptions explicit
 and machine-readable.
 
 The long-term goal is an open benchmark and model interface that can combine:
@@ -34,9 +34,9 @@ Requires Python 3.10 or newer.
 
 ```bash
 python -m pip install -e .
-opendc-lda validate examples/air-cooled.json
-opendc-lda run examples/air-cooled.json
-opendc-lda compare examples/air-cooled.json \
+opendc-lca validate examples/air-cooled.json
+opendc-lca run examples/air-cooled.json
+opendc-lca compare examples/air-cooled.json \
   examples/direct-to-chip.json examples/single-phase-immersion.json
 python -m unittest discover -s tests -v
 ```
@@ -61,7 +61,7 @@ tracked in the [research roadmap](docs/ROADMAP.md).
 
 ## Repository map
 
-- `src/opendc_lda/`: model, validation, and command-line interface
+- `src/opendc_lca/`: model, validation, and command-line interface
 - `schemas/`: canonical scenario JSON Schema
 - `examples/`: runnable illustrative scenarios
 - `data/`: data registry and provenance template
@@ -90,4 +90,3 @@ units, boundary, test conditions, uncertainty, and a redistribution license.
 Code and original documentation are available under the MIT License. Third-party
 datasets retain their own terms and must not be committed unless redistribution
 is permitted. Citation metadata are in [CITATION.cff](CITATION.cff).
-

@@ -1,7 +1,7 @@
 import unittest
 
-from opendc_lda.engine import analyze, compare
-from opendc_lda.models import Scenario, ValidationError
+from opendc_lca.engine import analyze, compare
+from opendc_lca.models import Scenario, ValidationError
 
 
 def scenario_data():

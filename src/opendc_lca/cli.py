@@ -33,7 +33,7 @@ def _print_table(results: list[Result]) -> None:
 
 
 def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="opendc-lda")
+    parser = argparse.ArgumentParser(prog="opendc-lca")
     subparsers = parser.add_subparsers(dest="command", required=True)
     for command in ("run", "validate"):
         child = subparsers.add_parser(command)
@@ -69,4 +69,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
