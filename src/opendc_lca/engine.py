@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from dataclasses import replace
+import math
 
 from .models import Impacts, Scenario
 
@@ -66,9 +67,21 @@ def analyze(scenario: Scenario) -> Result:
     equipment = Impacts()
     for component in scenario.components:
         lifecycle = component.production + component.end_of_life
-        equipment += lifecycle.scaled(
-            component.quantity / component.service_life_years
-        )
+        if scenario.study.replacement_model == "discrete":
+            installations = math.ceil(
+                scenario.facility_lifetime_years
+                / component.service_life_years
+            )
+            annual_quantity = (
+                component.quantity
+                * installations
+                / scenario.facility_lifetime_years
+            )
+        else:
+            annual_quantity = (
+                component.quantity / component.service_life_years
+            )
+        equipment += lifecycle.scaled(annual_quantity)
 
     fluid = Impacts()
     direct_fluid_emissions = Impacts()
@@ -127,6 +140,11 @@ def analyze(scenario: Scenario) -> Result:
             "allocation_method": scenario.study.allocation_method,
             "intended_use": scenario.study.intended_use,
             "comparative_assertion": scenario.study.comparative_assertion,
+            "ghg_method": scenario.study.ghg_method,
+            "primary_energy_method": scenario.study.primary_energy_method,
+            "water_method": scenario.study.water_method,
+            "replacement_model": scenario.study.replacement_model,
+            "critical_review_status": scenario.study.critical_review_status,
             "data_source_ids": [source.id for source in scenario.data_sources],
         },
     )

@@ -25,11 +25,14 @@ def audit(scenario: Scenario) -> list[Finding]:
     """Return deterministic scientific-quality findings for a scenario."""
     findings: list[Finding] = []
     weak_sources = []
+    unquantified_sources = []
+    insufficient_confidential_review = []
     for source in scenario.data_sources:
         source_text = f"{source.source_type} {source.quality}".lower()
         if any(word in source_text for word in ("synthetic", "illustrative", "test")):
             weak_sources.append(source.id)
         if source.uncertainty["distribution"] == "not_quantified":
+            unquantified_sources.append(source.id)
             findings.append(Finding(
                 "warning",
                 "UNCERTAINTY_NOT_QUANTIFIED",
@@ -41,6 +44,17 @@ def audit(scenario: Scenario) -> list[Finding]:
                 "NO_EXTERNAL_CITATION",
                 f"Data source '{source.id}' is not externally supported.",
             ))
+        if source.review_status == "unreviewed":
+            findings.append(Finding(
+                "warning",
+                "SOURCE_UNREVIEWED",
+                f"Data source '{source.id}' has not been reviewed.",
+            ))
+        if (
+            source.confidentiality != "public"
+            and source.review_status != "independently_reviewed"
+        ):
+            insufficient_confidential_review.append(source.id)
 
     if scenario.study.comparative_assertion and weak_sources:
         findings.append(Finding(
@@ -48,6 +62,44 @@ def audit(scenario: Scenario) -> list[Finding]:
             "UNSUPPORTED_COMPARATIVE_ASSERTION",
             "Comparative assertions cannot rely on synthetic, illustrative, "
             f"or test data sources: {', '.join(weak_sources)}.",
+        ))
+    if scenario.study.comparative_assertion and unquantified_sources:
+        findings.append(Finding(
+            "blocker",
+            "COMPARISON_REQUIRES_QUANTIFIED_UNCERTAINTY",
+            "Public comparative assertions require quantified uncertainty for: "
+            + ", ".join(unquantified_sources) + ".",
+        ))
+    if (
+        scenario.study.comparative_assertion
+        and scenario.study.critical_review_status != "independent_panel"
+    ):
+        findings.append(Finding(
+            "blocker",
+            "COMPARISON_REQUIRES_REVIEW_PANEL",
+            "A public comparative assertion requires an independent critical "
+            "review panel before release.",
+        ))
+    if scenario.study.comparative_assertion and insufficient_confidential_review:
+        findings.append(Finding(
+            "blocker",
+            "CONFIDENTIAL_DATA_REQUIRES_INDEPENDENT_REVIEW",
+            "Confidential or aggregated-confidential sources require independent "
+            "review: " + ", ".join(insufficient_confidential_review) + ".",
+        ))
+    methods = (
+        scenario.study.ghg_method,
+        scenario.study.primary_energy_method,
+        scenario.study.water_method,
+    )
+    if scenario.study.comparative_assertion and any(
+        "illustrative" in method.lower() for method in methods
+    ):
+        findings.append(Finding(
+            "blocker",
+            "COMPARISON_REQUIRES_CANONICAL_IMPACT_METHODS",
+            "Illustrative impact methods cannot support a public comparative "
+            "assertion.",
         ))
 
     if scenario.study.system_boundary == "custom":

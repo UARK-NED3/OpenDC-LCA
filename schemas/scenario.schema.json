@@ -17,7 +17,8 @@
       "required": [
         "functional_unit", "system_boundary", "electricity_accounting",
         "water_metric", "allocation_method", "intended_use",
-        "comparative_assertion"
+        "comparative_assertion", "ghg_method", "primary_energy_method",
+        "water_method", "replacement_model", "critical_review_status"
       ],
       "properties": {
         "functional_unit": { "enum": ["it_mwh"] },
@@ -28,11 +29,23 @@
             "custom"
           ]
         },
-        "electricity_accounting": { "type": "string", "minLength": 1 },
+        "electricity_accounting": {
+          "enum": ["location_based", "market_based", "consequential"]
+        },
         "water_metric": { "type": "string", "minLength": 1 },
         "allocation_method": { "type": "string", "minLength": 1 },
         "intended_use": { "type": "string", "minLength": 1 },
-        "comparative_assertion": { "type": "boolean" }
+        "comparative_assertion": { "type": "boolean" },
+        "ghg_method": { "type": "string", "minLength": 1 },
+        "primary_energy_method": { "type": "string", "minLength": 1 },
+        "water_method": { "type": "string", "minLength": 1 },
+        "replacement_model": { "enum": ["discrete", "linearized"] },
+        "critical_review_status": {
+          "enum": [
+            "not_required", "planned", "internal", "independent",
+            "independent_panel"
+          ]
+        }
       }
     },
     "it_capacity_kw": { "type": "number", "exclusiveMinimum": 0 },
@@ -70,7 +83,8 @@
         "additionalProperties": false,
         "required": [
           "id", "title", "source_type", "citation", "license",
-          "geography", "reference_year", "quality", "uncertainty"
+          "geography", "reference_year", "quality", "uncertainty",
+          "review_status", "confidentiality"
         ],
         "properties": {
           "id": { "type": "string", "minLength": 1 },
@@ -90,6 +104,14 @@
               "parameters": { "type": "object" },
               "notes": { "type": "string" }
             }
+          },
+          "review_status": {
+            "enum": [
+              "unreviewed", "internally_reviewed", "independently_reviewed"
+            ]
+          },
+          "confidentiality": {
+            "enum": ["public", "aggregated_confidential", "confidential"]
           }
         }
       }

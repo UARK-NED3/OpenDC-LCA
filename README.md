@@ -87,6 +87,8 @@ See [CONVENTIONS.md](docs/CONVENTIONS.md),
 [METHODOLOGY.md](docs/METHODOLOGY.md), and [DATA_PLAN.md](docs/DATA_PLAN.md).
 The first open dataset must follow the
 [benchmark protocol](docs/BENCHMARK_PROTOCOL.md).
+The 15 methodology questions and provisional, source-backed responses are
+maintained in [LCA method decision notes](docs/LCA_METHOD_DECISION_NOTES.md).
 
 ## Contributing
 

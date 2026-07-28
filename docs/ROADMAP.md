@@ -15,6 +15,8 @@
 - [x] Add automated scientific-quality and comparative-claim audit rules
 - [x] Publish a benchmark intake protocol and data templates
 - [x] Draft expert-review questions for the LCA methodology
+- [x] Develop source-backed provisional responses to all 15 method questions
+- [x] Encode discrete replacement schedules and comparative-review gates
 
 ## Phase 2 — experimental performance maps
 

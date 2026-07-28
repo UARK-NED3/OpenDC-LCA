@@ -81,6 +81,8 @@ A benchmark may be marked `independently_reviewed` only after:
 5. No confidential or non-redistributable values are exposed.
 6. An independent LCA reviewer approves method, allocation, and interpretation.
 7. An independent thermal reviewer approves the performance boundary.
+8. A public comparative assertion receives an independent critical-review panel
+   consistent with ISO 14044 and ISO 14071.
 
 ## Required outputs
 

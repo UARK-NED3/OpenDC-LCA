@@ -44,13 +44,17 @@ for a specific background database.
 
 ## Equipment and lifetime
 
-Production and end-of-life impacts are annualized over component service life:
+For benchmark studies, production and end-of-life impacts use discrete
+installations across the study period:
 
-`quantity × (production + end of life) / service life`
+`quantity × ceil(study period / service life) × impact / study period`
 
-Component service life may differ from facility life. Replacements are implicit
-in annualization. Studies must discuss whether fractional replacement is
-reasonable for the decision context.
+The `linearized` screening option instead uses:
+
+`quantity × impact / service life`
+
+Component service life may differ from facility life. Studies must declare the
+replacement model and test lifetime sensitivity when it affects conclusions.
 
 ## End-of-life credits
 
@@ -74,8 +78,9 @@ performance, lifetime, and end of life are demonstrably unchanged.
 ## Comparative claims
 
 Illustrative or synthetic data must set `comparative_assertion` to `false`.
-Public comparative claims should include independent review, uncertainty,
-sensitivity, consistent boundaries, and decision-grade provenance.
+Public comparative claims require quantified uncertainty, consistent boundaries,
+decision-grade provenance, and an independent critical-review panel. The
+automated audit is a quality gate, not an ISO conformity assessment.
 
 ## Significant figures
 

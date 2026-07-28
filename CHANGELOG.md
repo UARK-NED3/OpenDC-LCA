@@ -16,7 +16,13 @@ versioning after the first stable release.
 - Architectural decision record for data-layer separation.
 - Scientific audit with blockers for unsupported comparative assertions.
 - Benchmark protocol, dataset-package schema, and inventory/performance templates.
-- LCA methodology review questions for Dr. Darin Nutter.
+- Source-backed responses to 15 LCA method questions, prepared for Dr. Darin
+  Nutter to review for reasonableness.
+- Discrete equipment-replacement schedules with explicit linearized screening.
+- Impact-method, electricity-accounting, critical-review, source-review, and
+  confidentiality declarations.
+- Comparative-claim blockers for missing uncertainty, independent panel review,
+  canonical methods, or confidential-data review.
 
 ### Changed
 

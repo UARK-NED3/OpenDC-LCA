@@ -11,6 +11,25 @@ SUPPORTED_BOUNDARIES = {
     "facility_cradle_to_grave",
     "custom",
 }
+SUPPORTED_ELECTRICITY_ACCOUNTING = {
+    "location_based",
+    "market_based",
+    "consequential",
+}
+SUPPORTED_REPLACEMENT_MODELS = {"discrete", "linearized"}
+SUPPORTED_REVIEW_STATUSES = {
+    "not_required",
+    "planned",
+    "internal",
+    "independent",
+    "independent_panel",
+}
+SUPPORTED_SOURCE_REVIEW_STATUSES = {
+    "unreviewed",
+    "internally_reviewed",
+    "independently_reviewed",
+}
+SUPPORTED_CONFIDENTIALITY = {"public", "aggregated_confidential", "confidential"}
 
 
 class ValidationError(ValueError):
@@ -103,12 +122,15 @@ class DataSource:
     reference_year: int
     quality: str
     uncertainty: dict[str, Any]
+    review_status: str
+    confidentiality: str
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "DataSource":
         required = (
             "id", "title", "source_type", "citation", "license",
             "geography", "reference_year", "quality", "uncertainty",
+            "review_status", "confidentiality",
         )
         missing = [key for key in required if data.get(key) in (None, "")]
         if missing:
@@ -123,6 +145,18 @@ class DataSource:
             raise ValidationError(
                 "Data source uncertainty requires a distribution declaration"
             )
+        review_status = str(data["review_status"])
+        if review_status not in SUPPORTED_SOURCE_REVIEW_STATUSES:
+            raise ValidationError(
+                "Data source review_status must be one of: "
+                + ", ".join(sorted(SUPPORTED_SOURCE_REVIEW_STATUSES))
+            )
+        confidentiality = str(data["confidentiality"])
+        if confidentiality not in SUPPORTED_CONFIDENTIALITY:
+            raise ValidationError(
+                "Data source confidentiality must be one of: "
+                + ", ".join(sorted(SUPPORTED_CONFIDENTIALITY))
+            )
         return cls(
             id=str(data["id"]),
             title=str(data["title"]),
@@ -133,6 +167,8 @@ class DataSource:
             reference_year=year,
             quality=str(data["quality"]),
             uncertainty=dict(uncertainty),
+            review_status=review_status,
+            confidentiality=confidentiality,
         )
 
 
@@ -147,6 +183,11 @@ class StudyDefinition:
     allocation_method: str
     intended_use: str
     comparative_assertion: bool
+    ghg_method: str
+    primary_energy_method: str
+    water_method: str
+    replacement_model: str
+    critical_review_status: str
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "StudyDefinition":
@@ -162,9 +203,15 @@ class StudyDefinition:
                 "system_boundary must be one of: "
                 + ", ".join(sorted(SUPPORTED_BOUNDARIES))
             )
+        electricity = str(data.get("electricity_accounting", ""))
+        if electricity not in SUPPORTED_ELECTRICITY_ACCOUNTING:
+            raise ValidationError(
+                "electricity_accounting must be one of: "
+                + ", ".join(sorted(SUPPORTED_ELECTRICITY_ACCOUNTING))
+            )
         required_text = (
-            "electricity_accounting", "water_metric", "allocation_method",
-            "intended_use",
+            "water_metric", "allocation_method", "intended_use",
+            "ghg_method", "primary_energy_method", "water_method",
         )
         missing = [key for key in required_text if not str(data.get(key, "")).strip()]
         if missing:
@@ -174,14 +221,31 @@ class StudyDefinition:
         comparative = data.get("comparative_assertion")
         if not isinstance(comparative, bool):
             raise ValidationError("comparative_assertion must be true or false")
+        replacement_model = str(data.get("replacement_model", ""))
+        if replacement_model not in SUPPORTED_REPLACEMENT_MODELS:
+            raise ValidationError(
+                "replacement_model must be one of: "
+                + ", ".join(sorted(SUPPORTED_REPLACEMENT_MODELS))
+            )
+        review_status = str(data.get("critical_review_status", ""))
+        if review_status not in SUPPORTED_REVIEW_STATUSES:
+            raise ValidationError(
+                "critical_review_status must be one of: "
+                + ", ".join(sorted(SUPPORTED_REVIEW_STATUSES))
+            )
         return cls(
             functional_unit=functional_unit,
             system_boundary=boundary,
-            electricity_accounting=str(data["electricity_accounting"]),
+            electricity_accounting=electricity,
             water_metric=str(data["water_metric"]),
             allocation_method=str(data["allocation_method"]),
             intended_use=str(data["intended_use"]),
             comparative_assertion=comparative,
+            ghg_method=str(data["ghg_method"]),
+            primary_energy_method=str(data["primary_energy_method"]),
+            water_method=str(data["water_method"]),
+            replacement_model=replacement_model,
+            critical_review_status=review_status,
         )
 
 

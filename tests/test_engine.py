@@ -12,11 +12,16 @@ def scenario_data():
         "study": {
             "functional_unit": "it_mwh",
             "system_boundary": "cooling_system_cradle_to_grave",
-            "electricity_accounting": "test annual average",
+            "electricity_accounting": "location_based",
             "water_metric": "blue water consumption",
             "allocation_method": "cut-off",
             "intended_use": "unit testing",
             "comparative_assertion": False,
+            "ghg_method": "illustrative test GWP100",
+            "primary_energy_method": "illustrative test primary energy",
+            "water_method": "illustrative test blue water",
+            "replacement_model": "discrete",
+            "critical_review_status": "not_required",
         },
         "it_capacity_kw": 1,
         "capacity_factor": 1,
@@ -57,6 +62,8 @@ def scenario_data():
                 "parameters": {},
                 "notes": "unit test",
             },
+            "review_status": "unreviewed",
+            "confidentiality": "public",
         }],
     }
 
@@ -134,11 +141,55 @@ class EngineTests(unittest.TestCase):
             {finding.code for finding in findings},
         )
 
+    def test_reviewed_comparative_claim_passes_automated_blockers(self):
+        data = scenario_data()
+        data["study"].update({
+            "comparative_assertion": True,
+            "ghg_method": "IPCC AR6 GWP100",
+            "primary_energy_method": "Cumulative energy demand v1.11",
+            "water_method": "AWARE 1.2c",
+            "critical_review_status": "independent_panel",
+        })
+        source = data["data_sources"][0]
+        source.update({
+            "source_type": "manufacturer measurement",
+            "quality": "decision-grade",
+            "citation": "doi:10.0000/example",
+            "review_status": "independently_reviewed",
+            "confidentiality": "aggregated_confidential",
+            "uncertainty": {
+                "distribution": "lognormal",
+                "parameters": {"geometric_sd": 1.1},
+                "notes": "Reviewed measurement uncertainty.",
+            },
+        })
+        blockers = [
+            finding for finding in audit(Scenario.from_dict(data))
+            if finding.severity == "blocker"
+        ]
+        self.assertEqual(blockers, [])
+
     def test_duplicate_source_ids_are_rejected(self):
         data = scenario_data()
         data["data_sources"].append(dict(data["data_sources"][0]))
         with self.assertRaises(ValidationError):
             Scenario.from_dict(data)
+
+    def test_discrete_replacements_cover_study_period(self):
+        data = scenario_data()
+        data["facility_lifetime_years"] = 12
+        data["components"][0]["service_life_years"] = 5
+        result = analyze(Scenario.from_dict(data))
+        # Two units installed three times over 12 years: 6/12 of per-unit impact.
+        self.assertAlmostEqual(result.contributions["equipment"].ghg_kgco2e, 50)
+
+    def test_linearized_replacements_remain_available_for_screening(self):
+        data = scenario_data()
+        data["facility_lifetime_years"] = 12
+        data["components"][0]["service_life_years"] = 5
+        data["study"]["replacement_model"] = "linearized"
+        result = analyze(Scenario.from_dict(data))
+        self.assertAlmostEqual(result.contributions["equipment"].ghg_kgco2e, 40)
 
 
 if __name__ == "__main__":
