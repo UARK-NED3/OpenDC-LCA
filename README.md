@@ -38,6 +38,7 @@ opendc-lca validate examples/air-cooled.json
 opendc-lca run examples/air-cooled.json
 opendc-lca compare examples/air-cooled.json \
   examples/direct-to-chip.json examples/single-phase-immersion.json
+opendc-lca sensitivity examples/single-phase-immersion.json
 python -m unittest discover -s tests -v
 ```
 
@@ -54,6 +55,9 @@ The Phase 1 model includes:
 - annualized production and end-of-life impacts of equipment;
 - coolant manufacture, replenishment, and direct emissions from loss; and
 - an auditable contribution breakdown.
+- required provenance and explicit study-boundary declarations;
+- scenario SHA-256 digests and model version in JSON results; and
+- one-at-a-time GHG sensitivity screening.
 
 It does not yet model hourly operation, uncertainty propagation, water scarcity,
 heat reuse, workload output, or temperature-dependent reliability. These are
@@ -67,6 +71,7 @@ tracked in the [research roadmap](docs/ROADMAP.md).
 - `data/`: data registry and provenance template
 - `docs/`: methodology, data plan, roadmap, and governance
 - `tests/`: deterministic reference tests
+- `CHANGELOG.md`: release-level scientific and software changes
 
 ## Scientific principles
 
@@ -76,8 +81,8 @@ tracked in the [research roadmap](docs/ROADMAP.md).
 4. Report contribution analysis and sensitivity—not only a technology ranking.
 5. Never represent illustrative example factors as measured or authoritative.
 
-See [METHODOLOGY.md](docs/METHODOLOGY.md) and
-[DATA_PLAN.md](docs/DATA_PLAN.md).
+See [CONVENTIONS.md](docs/CONVENTIONS.md),
+[METHODOLOGY.md](docs/METHODOLOGY.md), and [DATA_PLAN.md](docs/DATA_PLAN.md).
 
 ## Contributing
 

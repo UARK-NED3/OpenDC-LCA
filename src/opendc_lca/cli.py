@@ -6,7 +6,7 @@ import argparse
 import json
 import sys
 
-from .engine import Result, analyze, compare
+from .engine import Result, analyze, compare, sensitivity
 from .io import load_scenario
 from .models import ValidationError
 
@@ -43,6 +43,10 @@ def _parser() -> argparse.ArgumentParser:
     child = subparsers.add_parser("compare")
     child.add_argument("scenarios", nargs="+")
     child.add_argument("--json", action="store_true")
+    child = subparsers.add_parser("sensitivity")
+    child.add_argument("scenario")
+    child.add_argument("--fraction", type=float, default=0.1)
+    child.add_argument("--json", action="store_true")
     return parser
 
 
@@ -52,6 +56,21 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "validate":
             scenario = load_scenario(args.scenario)
             print(f"Valid scenario: {scenario.name}")
+            return 0
+        if args.command == "sensitivity":
+            results = sensitivity(
+                load_scenario(args.scenario), fraction=args.fraction
+            )
+            if args.json:
+                print(json.dumps([item.as_dict() for item in results], indent=2))
+            else:
+                print("Parameter  Elasticity  Low GHG  High GHG")
+                for item in results:
+                    print(
+                        f"{item.parameter:36} {item.elasticity:10.3f} "
+                        f"{item.low_ghg_kgco2e_per_it_mwh:8.3f} "
+                        f"{item.high_ghg_kgco2e_per_it_mwh:9.3f}"
+                    )
             return 0
         if args.command == "run":
             results = [analyze(load_scenario(args.scenario))]

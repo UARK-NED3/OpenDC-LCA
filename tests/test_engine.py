@@ -1,6 +1,6 @@
 import unittest
 
-from opendc_lca.engine import analyze, compare
+from opendc_lca.engine import analyze, compare, sensitivity
 from opendc_lca.models import Scenario, ValidationError
 
 
@@ -8,6 +8,15 @@ def scenario_data():
     return {
         "name": "reference",
         "cooling_architecture": "air",
+        "study": {
+            "functional_unit": "it_mwh",
+            "system_boundary": "cooling_system_cradle_to_grave",
+            "electricity_accounting": "test annual average",
+            "water_metric": "blue water consumption",
+            "allocation_method": "cut-off",
+            "intended_use": "unit testing",
+            "comparative_assertion": False,
+        },
         "it_capacity_kw": 1,
         "capacity_factor": 1,
         "pue": 1.2,
@@ -31,6 +40,21 @@ def scenario_data():
                 "ghg_kgco2e": 0,
                 "primary_energy_mj": 0,
                 "blue_water_l": 0,
+            },
+        }],
+        "data_sources": [{
+            "id": "test",
+            "title": "Unit-test inputs",
+            "source_type": "synthetic",
+            "citation": "tests/test_engine.py",
+            "license": "MIT",
+            "geography": "test",
+            "reference_year": 2026,
+            "quality": "test-only",
+            "uncertainty": {
+                "distribution": "not_quantified",
+                "parameters": {},
+                "notes": "unit test",
             },
         }],
     }
@@ -86,6 +110,19 @@ class EngineTests(unittest.TestCase):
     def test_compare_requires_two_scenarios(self):
         with self.assertRaises(ValueError):
             compare([Scenario.from_dict(scenario_data())])
+
+    def test_sensitivity_ranks_grid_and_pue(self):
+        results = sensitivity(Scenario.from_dict(scenario_data()))
+        names = {item.parameter for item in results}
+        self.assertIn("pue", names)
+        self.assertIn("grid.ghg_kgco2e_per_kwh", names)
+        self.assertGreaterEqual(abs(results[0].elasticity), abs(results[-1].elasticity))
+
+    def test_missing_provenance_is_rejected(self):
+        data = scenario_data()
+        data["data_sources"] = []
+        with self.assertRaises(ValidationError):
+            Scenario.from_dict(data)
 
 
 if __name__ == "__main__":

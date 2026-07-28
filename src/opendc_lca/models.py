@@ -5,6 +5,13 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
+SUPPORTED_FUNCTIONAL_UNITS = {"it_mwh"}
+SUPPORTED_BOUNDARIES = {
+    "cooling_system_cradle_to_grave",
+    "facility_cradle_to_grave",
+    "custom",
+}
+
 
 class ValidationError(ValueError):
     """Raised when a scenario is incomplete or physically invalid."""
@@ -84,6 +91,101 @@ class GridFactors:
 
 
 @dataclass(frozen=True)
+class DataSource:
+    """Provenance for a foreground or background input."""
+
+    id: str
+    title: str
+    source_type: str
+    citation: str
+    license: str
+    geography: str
+    reference_year: int
+    quality: str
+    uncertainty: dict[str, Any]
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "DataSource":
+        required = (
+            "id", "title", "source_type", "citation", "license",
+            "geography", "reference_year", "quality", "uncertainty",
+        )
+        missing = [key for key in required if data.get(key) in (None, "")]
+        if missing:
+            raise ValidationError(
+                f"Data source is missing required fields: {', '.join(missing)}"
+            )
+        year = data["reference_year"]
+        if isinstance(year, bool) or not isinstance(year, int):
+            raise ValidationError("Data source reference_year must be an integer")
+        uncertainty = data["uncertainty"]
+        if not isinstance(uncertainty, dict) or not uncertainty.get("distribution"):
+            raise ValidationError(
+                "Data source uncertainty requires a distribution declaration"
+            )
+        return cls(
+            id=str(data["id"]),
+            title=str(data["title"]),
+            source_type=str(data["source_type"]),
+            citation=str(data["citation"]),
+            license=str(data["license"]),
+            geography=str(data["geography"]),
+            reference_year=year,
+            quality=str(data["quality"]),
+            uncertainty=dict(uncertainty),
+        )
+
+
+@dataclass(frozen=True)
+class StudyDefinition:
+    """Method choices required to interpret and reproduce a result."""
+
+    functional_unit: str
+    system_boundary: str
+    electricity_accounting: str
+    water_metric: str
+    allocation_method: str
+    intended_use: str
+    comparative_assertion: bool
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "StudyDefinition":
+        functional_unit = str(data.get("functional_unit", ""))
+        if functional_unit not in SUPPORTED_FUNCTIONAL_UNITS:
+            raise ValidationError(
+                "functional_unit must be one of: "
+                + ", ".join(sorted(SUPPORTED_FUNCTIONAL_UNITS))
+            )
+        boundary = str(data.get("system_boundary", ""))
+        if boundary not in SUPPORTED_BOUNDARIES:
+            raise ValidationError(
+                "system_boundary must be one of: "
+                + ", ".join(sorted(SUPPORTED_BOUNDARIES))
+            )
+        required_text = (
+            "electricity_accounting", "water_metric", "allocation_method",
+            "intended_use",
+        )
+        missing = [key for key in required_text if not str(data.get(key, "")).strip()]
+        if missing:
+            raise ValidationError(
+                f"Study definition is missing: {', '.join(missing)}"
+            )
+        comparative = data.get("comparative_assertion")
+        if not isinstance(comparative, bool):
+            raise ValidationError("comparative_assertion must be true or false")
+        return cls(
+            functional_unit=functional_unit,
+            system_boundary=boundary,
+            electricity_accounting=str(data["electricity_accounting"]),
+            water_metric=str(data["water_metric"]),
+            allocation_method=str(data["allocation_method"]),
+            intended_use=str(data["intended_use"]),
+            comparative_assertion=comparative,
+        )
+
+
+@dataclass(frozen=True)
 class Component:
     name: str
     quantity: float
@@ -151,8 +253,11 @@ class Scenario:
     onsite_water_l_per_kwh_it: float
     grid: GridFactors
     components: tuple[Component, ...]
+    study: StudyDefinition
+    data_sources: tuple[DataSource, ...]
     fluid: Fluid | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
+    source_digest_sha256: str = ""
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "Scenario":
@@ -169,6 +274,11 @@ class Scenario:
         components = tuple(
             Component.from_dict(item) for item in data.get("components", [])
         )
+        sources = tuple(
+            DataSource.from_dict(item) for item in data.get("data_sources", [])
+        )
+        if not sources:
+            raise ValidationError("At least one data_sources entry is required")
         fluid_data = data.get("fluid")
         return cls(
             name=name,
@@ -184,6 +294,8 @@ class Scenario:
             ),
             grid=GridFactors.from_dict(data["grid"]),
             components=components,
+            study=StudyDefinition.from_dict(data.get("study", {})),
+            data_sources=sources,
             fluid=Fluid.from_dict(fluid_data) if fluid_data else None,
             metadata=dict(data.get("metadata", {})),
         )

@@ -8,7 +8,10 @@
 - [x] Contribution analysis and normalized results
 - [x] Automated validation tests
 - [ ] Replace illustrative examples with reviewed open benchmark data
-- [ ] Publish a formal terminology and unit convention
+- [x] Publish a formal terminology and unit convention
+- [x] Require scenario provenance and study-boundary metadata
+- [x] Emit a versioned reproducibility digest
+- [x] Add one-at-a-time sensitivity screening
 
 ## Phase 2 — experimental performance maps
 
@@ -40,4 +43,3 @@
 - [ ] Cost and reliability objectives
 - [ ] Technology adoption maps by climate, grid, and rack density
 - [ ] Validated public benchmark and API
-

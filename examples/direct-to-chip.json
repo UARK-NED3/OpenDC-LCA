@@ -1,6 +1,15 @@
 {
   "name": "Illustrative direct-to-chip 1 MW",
   "cooling_architecture": "direct-to-chip",
+  "study": {
+    "functional_unit": "it_mwh",
+    "system_boundary": "cooling_system_cradle_to_grave",
+    "electricity_accounting": "illustrative annual-average location-based",
+    "water_metric": "blue water consumption",
+    "allocation_method": "cut-off with explicitly reported recovery credits",
+    "intended_use": "software demonstration and method development",
+    "comparative_assertion": false
+  },
   "it_capacity_kw": 1000,
   "capacity_factor": 0.75,
   "pue": 1.12,
@@ -28,9 +37,25 @@
       }
     }
   ],
+  "data_sources": [
+    {
+      "id": "illustrative-d2c-v0.2",
+      "title": "Illustrative direct-to-chip example inputs",
+      "source_type": "synthetic",
+      "citation": "OpenDC-LCA example; no external source",
+      "license": "MIT",
+      "geography": "unspecified United States",
+      "reference_year": 2026,
+      "quality": "illustrative—not decision-grade",
+      "uncertainty": {
+        "distribution": "not_quantified",
+        "parameters": {},
+        "notes": "Synthetic values; do not interpret as confidence bounds."
+      }
+    }
+  ],
   "metadata": {
     "data_quality": "illustrative",
     "warning": "Not decision-grade; replace all factors before research use."
   }
 }
-
