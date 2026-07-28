@@ -279,6 +279,9 @@ class Scenario:
         )
         if not sources:
             raise ValidationError("At least one data_sources entry is required")
+        source_ids = [source.id for source in sources]
+        if len(source_ids) != len(set(source_ids)):
+            raise ValidationError("data_sources IDs must be unique")
         fluid_data = data.get("fluid")
         return cls(
             name=name,

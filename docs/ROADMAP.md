@@ -12,6 +12,9 @@
 - [x] Require scenario provenance and study-boundary metadata
 - [x] Emit a versioned reproducibility digest
 - [x] Add one-at-a-time sensitivity screening
+- [x] Add automated scientific-quality and comparative-claim audit rules
+- [x] Publish a benchmark intake protocol and data templates
+- [x] Draft expert-review questions for the LCA methodology
 
 ## Phase 2 — experimental performance maps
 

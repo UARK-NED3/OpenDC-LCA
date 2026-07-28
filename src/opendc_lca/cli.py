@@ -9,6 +9,7 @@ import sys
 from .engine import Result, analyze, compare, sensitivity
 from .io import load_scenario
 from .models import ValidationError
+from .audit import audit
 
 
 def _print_table(results: list[Result]) -> None:
@@ -47,6 +48,9 @@ def _parser() -> argparse.ArgumentParser:
     child.add_argument("scenario")
     child.add_argument("--fraction", type=float, default=0.1)
     child.add_argument("--json", action="store_true")
+    child = subparsers.add_parser("audit")
+    child.add_argument("scenario")
+    child.add_argument("--json", action="store_true")
     return parser
 
 
@@ -57,6 +61,21 @@ def main(argv: list[str] | None = None) -> int:
             scenario = load_scenario(args.scenario)
             print(f"Valid scenario: {scenario.name}")
             return 0
+        if args.command == "audit":
+            findings = audit(load_scenario(args.scenario))
+            if args.json:
+                print(json.dumps(
+                    [finding.as_dict() for finding in findings], indent=2
+                ))
+            else:
+                for finding in findings:
+                    print(
+                        f"{finding.severity.upper():7} "
+                        f"{finding.code}: {finding.message}"
+                    )
+            return 3 if any(
+                finding.severity == "blocker" for finding in findings
+            ) else 0
         if args.command == "sensitivity":
             results = sensitivity(
                 load_scenario(args.scenario), fraction=args.fraction

@@ -18,3 +18,7 @@ Recommended open sources include EPD program operators, EPA eGRID, the Federal
 LCA Commons, NREL datasets, public manufacturer documentation, and original
 measurements released under an explicit data license.
 
+New benchmark packages should validate against
+`schemas/data-package.schema.json`. CSV starting points are available in
+`data/templates/`. A data package must include SHA-256 checksums for every file;
+metadata alone is not a substitute for preserving raw and processed data.

@@ -14,6 +14,9 @@ versioning after the first stable release.
 - SHA-256 scenario digests and model version in JSON output.
 - One-at-a-time GHG sensitivity command.
 - Architectural decision record for data-layer separation.
+- Scientific audit with blockers for unsupported comparative assertions.
+- Benchmark protocol, dataset-package schema, and inventory/performance templates.
+- LCA methodology review questions for Dr. Darin Nutter.
 
 ### Changed
 

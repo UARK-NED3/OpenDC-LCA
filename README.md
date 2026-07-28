@@ -39,6 +39,7 @@ opendc-lca run examples/air-cooled.json
 opendc-lca compare examples/air-cooled.json \
   examples/direct-to-chip.json examples/single-phase-immersion.json
 opendc-lca sensitivity examples/single-phase-immersion.json
+opendc-lca audit examples/single-phase-immersion.json
 python -m unittest discover -s tests -v
 ```
 
@@ -58,6 +59,7 @@ The Phase 1 model includes:
 - required provenance and explicit study-boundary declarations;
 - scenario SHA-256 digests and model version in JSON results; and
 - one-at-a-time GHG sensitivity screening.
+- automated scientific-quality findings and comparative-claim blockers.
 
 It does not yet model hourly operation, uncertainty propagation, water scarcity,
 heat reuse, workload output, or temperature-dependent reliability. These are
@@ -83,6 +85,8 @@ tracked in the [research roadmap](docs/ROADMAP.md).
 
 See [CONVENTIONS.md](docs/CONVENTIONS.md),
 [METHODOLOGY.md](docs/METHODOLOGY.md), and [DATA_PLAN.md](docs/DATA_PLAN.md).
+The first open dataset must follow the
+[benchmark protocol](docs/BENCHMARK_PROTOCOL.md).
 
 ## Contributing
 

@@ -2,6 +2,7 @@ import unittest
 
 from opendc_lca.engine import analyze, compare, sensitivity
 from opendc_lca.models import Scenario, ValidationError
+from opendc_lca.audit import audit
 
 
 def scenario_data():
@@ -121,6 +122,21 @@ class EngineTests(unittest.TestCase):
     def test_missing_provenance_is_rejected(self):
         data = scenario_data()
         data["data_sources"] = []
+        with self.assertRaises(ValidationError):
+            Scenario.from_dict(data)
+
+    def test_comparative_claim_with_synthetic_data_is_blocked(self):
+        data = scenario_data()
+        data["study"]["comparative_assertion"] = True
+        findings = audit(Scenario.from_dict(data))
+        self.assertIn(
+            "UNSUPPORTED_COMPARATIVE_ASSERTION",
+            {finding.code for finding in findings},
+        )
+
+    def test_duplicate_source_ids_are_rejected(self):
+        data = scenario_data()
+        data["data_sources"].append(dict(data["data_sources"][0]))
         with self.assertRaises(ValidationError):
             Scenario.from_dict(data)
 
