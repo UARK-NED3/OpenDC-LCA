@@ -1,0 +1,52 @@
+{
+  "name": "Illustrative single-phase immersion 1 MW",
+  "cooling_architecture": "single-phase-immersion",
+  "it_capacity_kw": 1000,
+  "capacity_factor": 0.75,
+  "pue": 1.08,
+  "facility_lifetime_years": 15,
+  "onsite_water_l_per_kwh_it": 0.05,
+  "grid": {
+    "ghg_kgco2e_per_kwh": 0.35,
+    "primary_energy_mj_per_kwh": 6.0,
+    "blue_water_l_per_kwh": 0.30
+  },
+  "components": [
+    {
+      "name": "Immersion tanks, pumps, heat exchangers, and dry cooler package",
+      "quantity": 1,
+      "service_life_years": 15,
+      "production": {
+        "ghg_kgco2e": 280000,
+        "primary_energy_mj": 3900000,
+        "blue_water_l": 610000
+      },
+      "end_of_life": {
+        "ghg_kgco2e": -21000,
+        "primary_energy_mj": -270000,
+        "blue_water_l": 9000
+      }
+    }
+  ],
+  "fluid": {
+    "name": "Illustrative low-GWP dielectric fluid",
+    "initial_charge_kg": 12000,
+    "annual_loss_fraction": 0.005,
+    "direct_gwp_kgco2e_per_kg": 1.0,
+    "production_per_kg": {
+      "ghg_kgco2e": 4.0,
+      "primary_energy_mj": 70.0,
+      "blue_water_l": 8.0
+    },
+    "end_of_life_per_kg": {
+      "ghg_kgco2e": 0.3,
+      "primary_energy_mj": 4.0,
+      "blue_water_l": 0.1
+    }
+  },
+  "metadata": {
+    "data_quality": "illustrative",
+    "warning": "Not decision-grade; replace all factors before research use."
+  }
+}
+

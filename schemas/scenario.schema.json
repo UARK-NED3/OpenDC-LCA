@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/UARK-NED3/OpenDC-LDA/schemas/scenario.schema.json",
+  "title": "OpenDC-LDA Phase 1 scenario",
+  "type": "object",
+  "required": [
+    "name", "cooling_architecture", "it_capacity_kw", "capacity_factor",
+    "pue", "facility_lifetime_years", "onsite_water_l_per_kwh_it",
+    "grid", "components"
+  ],
+  "properties": {
+    "name": { "type": "string", "minLength": 1 },
+    "cooling_architecture": { "type": "string", "minLength": 1 },
+    "it_capacity_kw": { "type": "number", "exclusiveMinimum": 0 },
+    "capacity_factor": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+    "pue": { "type": "number", "minimum": 1 },
+    "facility_lifetime_years": { "type": "number", "exclusiveMinimum": 0 },
+    "onsite_water_l_per_kwh_it": { "type": "number", "minimum": 0 },
+    "grid": {
+      "type": "object",
+      "required": [
+        "ghg_kgco2e_per_kwh", "primary_energy_mj_per_kwh",
+        "blue_water_l_per_kwh"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ghg_kgco2e_per_kwh": { "type": "number", "minimum": 0 },
+        "primary_energy_mj_per_kwh": { "type": "number", "minimum": 0 },
+        "blue_water_l_per_kwh": { "type": "number", "minimum": 0 }
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name", "quantity", "service_life_years", "production"
+        ]
+      }
+    },
+    "fluid": { "type": ["object", "null"] },
+    "metadata": { "type": "object" }
+  },
+  "additionalProperties": false
+}
+

@@ -1,0 +1,29 @@
+{
+  "dataset_id": "replace-with-stable-id",
+  "title": "",
+  "version": "0.1.0",
+  "creators": [],
+  "contact": "",
+  "source_url_or_doi": "",
+  "method": "",
+  "geography": "",
+  "reference_year": null,
+  "functional_unit": "",
+  "system_boundary": "",
+  "uncertainty": {
+    "distribution": "",
+    "parameters": {},
+    "notes": ""
+  },
+  "data_quality": {
+    "reliability": null,
+    "completeness": null,
+    "temporal": null,
+    "geographical": null,
+    "technological": null
+  },
+  "license": "",
+  "redistribution_permitted": false,
+  "notes": ""
+}
+

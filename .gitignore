@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+dist/
+build/
+.venv/
+.DS_Store
+
+# Restricted or local LCA databases
+private-data/
+licensed-data/
+*.zolca
+

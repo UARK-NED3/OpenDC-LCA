@@ -1,0 +1,6 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security or restricted-data concern
+    url: https://github.com/UARK-NED3/OpenDC-LDA/security
+    about: Do not disclose sensitive information in a public issue.
+

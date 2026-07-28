@@ -1,0 +1,36 @@
+{
+  "name": "Illustrative direct-to-chip 1 MW",
+  "cooling_architecture": "direct-to-chip",
+  "it_capacity_kw": 1000,
+  "capacity_factor": 0.75,
+  "pue": 1.12,
+  "facility_lifetime_years": 15,
+  "onsite_water_l_per_kwh_it": 0.10,
+  "grid": {
+    "ghg_kgco2e_per_kwh": 0.35,
+    "primary_energy_mj_per_kwh": 6.0,
+    "blue_water_l_per_kwh": 0.30
+  },
+  "components": [
+    {
+      "name": "Cold plates, CDU, manifolds, and dry cooler package",
+      "quantity": 1,
+      "service_life_years": 15,
+      "production": {
+        "ghg_kgco2e": 230000,
+        "primary_energy_mj": 3200000,
+        "blue_water_l": 510000
+      },
+      "end_of_life": {
+        "ghg_kgco2e": -17000,
+        "primary_energy_mj": -210000,
+        "blue_water_l": 8000
+      }
+    }
+  ],
+  "metadata": {
+    "data_quality": "illustrative",
+    "warning": "Not decision-grade; replace all factors before research use."
+  }
+}
+

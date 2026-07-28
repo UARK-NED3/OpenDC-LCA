@@ -1,0 +1,36 @@
+{
+  "name": "Illustrative air-cooled 1 MW",
+  "cooling_architecture": "air-cooled",
+  "it_capacity_kw": 1000,
+  "capacity_factor": 0.75,
+  "pue": 1.30,
+  "facility_lifetime_years": 15,
+  "onsite_water_l_per_kwh_it": 0.90,
+  "grid": {
+    "ghg_kgco2e_per_kwh": 0.35,
+    "primary_energy_mj_per_kwh": 6.0,
+    "blue_water_l_per_kwh": 0.30
+  },
+  "components": [
+    {
+      "name": "Air-side and heat-rejection equipment package",
+      "quantity": 1,
+      "service_life_years": 15,
+      "production": {
+        "ghg_kgco2e": 180000,
+        "primary_energy_mj": 2600000,
+        "blue_water_l": 420000
+      },
+      "end_of_life": {
+        "ghg_kgco2e": -12000,
+        "primary_energy_mj": -160000,
+        "blue_water_l": 6000
+      }
+    }
+  ],
+  "metadata": {
+    "data_quality": "illustrative",
+    "warning": "Not decision-grade; replace all factors before research use."
+  }
+}
+

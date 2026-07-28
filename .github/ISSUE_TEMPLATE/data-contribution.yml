@@ -1,0 +1,36 @@
+name: Data contribution
+description: Propose a measured, simulated, EPD, or public background dataset.
+title: "[Data]: "
+labels: ["data"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Data type
+      options:
+        - Laboratory measurement
+        - Simulation
+        - Field or partner data
+        - EPD
+        - Public background inventory
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description and scientific purpose
+    validations:
+      required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Source, method, boundary, units, and uncertainty
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: License and redistribution permission
+    validations:
+      required: true
+

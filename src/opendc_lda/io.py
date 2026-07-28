@@ -1,0 +1,22 @@
+"""Scenario loading helpers."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from .models import Scenario, ValidationError
+
+
+def load_scenario(path: str | Path) -> Scenario:
+    source = Path(path)
+    try:
+        data = json.loads(source.read_text(encoding="utf-8"))
+    except FileNotFoundError as exc:
+        raise ValidationError(f"Scenario not found: {source}") from exc
+    except json.JSONDecodeError as exc:
+        raise ValidationError(f"Invalid JSON in {source}: {exc}") from exc
+    if not isinstance(data, dict):
+        raise ValidationError("Scenario root must be a JSON object")
+    return Scenario.from_dict(data)
+
