@@ -10,7 +10,8 @@ artifacts. A maintainer should complete this checklist from a clean checkout.
 2. Regenerate the representative report:
 
    ```bash
-   opendc-lca report examples/*.json \
+   opendc-lca report examples/air-cooled.json \
+     examples/direct-to-chip.json examples/single-phase-immersion.json \
      --output-dir results/representative-screening
    ```
 

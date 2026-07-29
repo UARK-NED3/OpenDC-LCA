@@ -41,7 +41,9 @@ opendc-lca compare examples/air-cooled.json \
   examples/direct-to-chip.json examples/single-phase-immersion.json
 opendc-lca sensitivity examples/single-phase-immersion.json
 opendc-lca audit examples/single-phase-immersion.json
-opendc-lca report examples/*.json --output-dir results/my-screening
+opendc-lca report examples/air-cooled.json \
+  examples/direct-to-chip.json examples/single-phase-immersion.json \
+  --output-dir results/my-screening
 opendc-lca performance examples/performance-map-direct-to-chip.csv
 opendc-lca monte-carlo examples/direct-to-chip.json \
   examples/uncertainty-direct-to-chip.json
