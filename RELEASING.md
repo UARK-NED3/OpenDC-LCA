@@ -14,6 +14,15 @@ artifacts. A maintainer should complete this checklist from a clean checkout.
      --output-dir results/representative-screening
    ```
 
+   For version 0.3 and later, also regenerate the experimental report:
+
+   ```bash
+   opendc-lca experimental-report examples/direct-to-chip.json \
+     examples/performance-map-direct-to-chip.csv \
+     examples/uncertainty-direct-to-chip.json \
+     --output-dir results/v0.3-experimental
+   ```
+
 3. Run unit tests and the complete command-line smoke test:
 
    ```bash

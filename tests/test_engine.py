@@ -8,7 +8,13 @@ from opendc_lca.models import Scenario, ValidationError
 from opendc_lca.audit import audit
 from opendc_lca.examples import install_examples
 from opendc_lca.io import load_scenario
-from opendc_lca.report import generate_report
+from opendc_lca.report import generate_experimental_report, generate_report
+from opendc_lca.performance import (
+    apply_performance,
+    load_performance_map,
+    summarize_performance,
+)
+from opendc_lca.uncertainty import ParameterDistribution, monte_carlo
 
 
 def scenario_data():
@@ -200,7 +206,7 @@ class EngineTests(unittest.TestCase):
     def test_bundled_examples_install_and_run(self):
         with tempfile.TemporaryDirectory() as temporary:
             paths = install_examples(temporary)
-            self.assertEqual(len(paths), 3)
+            self.assertEqual(len(paths), 5)
             self.assertTrue(all(path.exists() for path in paths))
             result = analyze(load_scenario(paths[0]))
             self.assertGreater(result.annual_impacts.ghg_kgco2e, 0)
@@ -225,7 +231,107 @@ class EngineTests(unittest.TestCase):
             for key in ("impact_figure", "contribution_figure"):
                 ET.fromstring(artifacts[key].read_text(encoding="utf-8"))
             results = artifacts["results"].read_text(encoding="utf-8")
-            self.assertIn('"model_version": "0.2.0"', results)
+            self.assertIn('"model_version": "0.3.0"', results)
+
+    def test_performance_map_derives_energy_weighted_inputs(self):
+        root = Path(__file__).resolve().parents[1]
+        points = load_performance_map(
+            root / "examples" / "performance-map-direct-to-chip.csv"
+        )
+        summary = summarize_performance(points)
+        self.assertEqual(summary.point_count, 4)
+        self.assertGreater(summary.measured_pue, 1)
+        self.assertGreater(summary.cooling_cop, 0)
+        data = scenario_data()
+        data["cooling_architecture"] = "direct-to-chip"
+        data["data_sources"][0]["id"] = summary.source_ids[0]
+        scenario = apply_performance(Scenario.from_dict(data), summary)
+        self.assertAlmostEqual(scenario.pue, summary.measured_pue)
+        self.assertAlmostEqual(
+            scenario.onsite_water_l_per_kwh_it,
+            summary.onsite_water_l_per_kwh_it,
+        )
+
+    def test_seeded_monte_carlo_is_reproducible(self):
+        distributions = [
+            ParameterDistribution.from_dict({
+                "parameter": "pue",
+                "distribution": "uniform",
+                "parameters": {"low": 1.1, "high": 1.3},
+                "minimum": 1,
+            }),
+            ParameterDistribution.from_dict({
+                "parameter": "grid.ghg_kgco2e_per_kwh",
+                "distribution": "normal",
+                "parameters": {"mean": 0.5, "sd": 0.05},
+                "minimum": 0,
+            }),
+        ]
+        first = monte_carlo(
+            Scenario.from_dict(scenario_data()),
+            distributions,
+            samples=100,
+            seed=7,
+        )
+        second = monte_carlo(
+            Scenario.from_dict(scenario_data()),
+            distributions,
+            samples=100,
+            seed=7,
+        )
+        self.assertEqual(first, second)
+        self.assertLess(
+            first.ghg_kgco2e_per_it_mwh["p05"],
+            first.ghg_kgco2e_per_it_mwh["p95"],
+        )
+
+    def test_monte_carlo_rejects_unphysical_samples(self):
+        distribution = ParameterDistribution.from_dict({
+            "parameter": "pue",
+            "distribution": "uniform",
+            "parameters": {"low": 0.8, "high": 0.9},
+        })
+        with self.assertRaises(ValidationError):
+            monte_carlo(
+                Scenario.from_dict(scenario_data()),
+                [distribution],
+                samples=2,
+            )
+
+    def test_experimental_report_contains_valid_figures(self):
+        root = Path(__file__).resolve().parents[1]
+        points = load_performance_map(
+            root / "examples" / "performance-map-direct-to-chip.csv"
+        )
+        summary = summarize_performance(points)
+        distribution = ParameterDistribution.from_dict({
+            "parameter": "pue",
+            "distribution": "triangular",
+            "parameters": {"low": 1.05, "mode": 1.08, "high": 1.12},
+            "minimum": 1,
+        })
+        scenario_data_value = scenario_data()
+        scenario_data_value["cooling_architecture"] = "direct-to-chip"
+        scenario_data_value["data_sources"][0]["id"] = summary.source_ids[0]
+        result = monte_carlo(
+            apply_performance(
+                Scenario.from_dict(scenario_data_value), summary
+            ),
+            [distribution],
+            samples=25,
+            seed=3,
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            artifacts = generate_experimental_report(
+                summary, points, result, temporary
+            )
+            self.assertTrue(all(path.exists() for path in artifacts.values()))
+            for key in ("performance_figure", "uncertainty_figure"):
+                ET.fromstring(artifacts[key].read_text(encoding="utf-8"))
+            self.assertIn(
+                "Synthetic demonstration",
+                artifacts["report"].read_text(encoding="utf-8"),
+            )
 
 
 if __name__ == "__main__":

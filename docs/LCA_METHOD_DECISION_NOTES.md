@@ -146,8 +146,9 @@ controlling the conclusion. Ranges and one-at-a-time sensitivity support
 screening, not a decision-grade claim.
 
 **Package response.** The audit blocks comparisons with `not_quantified`
-sources. Version 0.2 provides one-at-a-time screening; correlated Monte Carlo and
-global sensitivity remain roadmap work.
+sources. Version 0.3 provides seeded independent-parameter Monte Carlo plus
+one-at-a-time screening. Correlated Monte Carlo, global sensitivity, and
+rank-reversal analysis remain roadmap work.
 
 Sources: [GHG Protocol uncertainty guidance](https://ghgprotocol.org/sites/default/files/2022-12/Quantitative%20Uncertainty%20Guidance.pdf);
 [Brightway tutorial](https://learn.brightway.dev/en/latest/content/chapters/BW25/BW25_introduction.html);
@@ -219,8 +220,9 @@ historical supermarket leakage defaults into data centers; collect
 technology-specific measurements or bounded scenarios.
 
 **Package response.** Charge, loss, direct GWP, production, and end of life are
-separate. The performance template captures load, climate, energy, and water.
-Hourly simulation and measured loss distributions are next.
+separate. Version 0.3 validates duration-weighted performance maps containing
+load, climate, energy, and water fields. Hourly simulation and measured loss
+distributions are next.
 
 Sources: [Burek and Nutter, storage and retail](https://ideas.repec.org/a/eee/rensus/v133y2020ics1364032120303610.html);
 [Burek and Nutter, regional distribution centers](https://hero.epa.gov/reference/5052553/);

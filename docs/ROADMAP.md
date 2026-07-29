@@ -20,10 +20,11 @@
 
 ## Phase 2 — experimental performance maps
 
-- [ ] Common laboratory data format
+- [x] Common laboratory data format
 - [ ] Pump, fan, CDU, and heat-rejection performance maps
 - [ ] Partial-load and transient workload support
-- [ ] Measurement uncertainty propagation
+- [x] Independent-parameter Monte Carlo uncertainty propagation
+- [ ] Correlated measurement uncertainty and model-form uncertainty
 - [ ] Reproducible reference experiments
 
 ## Phase 3 — dynamic and regionalized LCA
@@ -32,7 +33,8 @@
 - [ ] Dry, evaporative, and hybrid heat rejection
 - [ ] Water-scarcity characterization
 - [ ] Grid-decarbonization scenarios
-- [ ] Monte Carlo and global sensitivity analysis
+- [x] Screening Monte Carlo analysis
+- [ ] Correlated Monte Carlo and global sensitivity analysis
 
 ## Phase 4 — reliability and circularity
 

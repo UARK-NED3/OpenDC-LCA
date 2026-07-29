@@ -25,6 +25,7 @@ jobs:
           /tmp/opendc-lca-release/bin/pip install dist/*.whl
           /tmp/opendc-lca-release/bin/opendc-lca examples --output-dir /tmp/examples
           /tmp/opendc-lca-release/bin/opendc-lca report /tmp/examples/*.json --output-dir /tmp/report
+          /tmp/opendc-lca-release/bin/opendc-lca experimental-report /tmp/examples/direct-to-chip.json /tmp/examples/performance-map-direct-to-chip.csv /tmp/examples/uncertainty-direct-to-chip.json --output-dir /tmp/experimental
       - uses: actions/upload-artifact@v4
         with:
           name: opendc-lca-${{ github.ref_name }}

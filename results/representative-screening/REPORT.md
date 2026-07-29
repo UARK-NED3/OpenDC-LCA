@@ -50,7 +50,7 @@ Monte Carlo or global sensitivity analysis.
 
 ## Reproducibility
 
-- Model version: `0.2.0`
+- Model version: `0.3.0`
 - Scenario SHA-256 digests and complete contribution results:
   [`results.json`](results.json)
 - Inputs: bundled files from `examples/`

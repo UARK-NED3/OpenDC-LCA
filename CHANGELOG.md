@@ -3,6 +3,25 @@
 All notable changes are documented here. The project follows semantic
 versioning after the first stable release.
 
+## 0.3.0 — 2026-07-28
+
+### Added
+
+- Validated common laboratory performance-map CSV format.
+- Duration-weighted derivation of measured PUE, on-site water intensity, and
+  cooling COP.
+- Seeded Monte Carlo propagation for uniform, triangular, normal, and
+  lognormal input distributions.
+- An uncertainty JSON Schema and installable example specification.
+- Experimental Markdown/JSON reporting with performance and uncertainty SVG
+  figures.
+
+### Changed
+
+- Model and package version advanced to 0.3.0.
+- Scientific conventions now state the limits of independent-parameter
+  uncertainty propagation.
+
 ## 0.2.0 — 2026-07-28
 
 ### Added

@@ -9,7 +9,7 @@ import math
 from .models import Impacts, Scenario
 
 HOURS_PER_YEAR = 8760.0
-MODEL_VERSION = "0.2.0"
+MODEL_VERSION = "0.3.0"
 
 
 @dataclass(frozen=True)
