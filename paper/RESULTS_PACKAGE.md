@@ -1,5 +1,29 @@
 # Consolidated v0.4-v0.5 results package
 
+## Applied Energy extension: grid transition and ranking robustness
+
+The expanded analysis uses EPA eGRID releases for 2012, 2014, 2016, and
+2018–2023. The resulting panel contains 459 state-year observations. The
+generation-weighted U.S. total-output factor declined from 518.0 to 348.2 kg
+CO2e/MWh between 2012 and 2023. Holding the released Microsoft/WSP foreground
+model fixed, the modeled two-phase-versus-air benefit declined from 10.89 to
+7.58 kg CO2e per Vcore-year as the grid cleaned.
+
+Two-phase immersion remained the lowest modeled GHG architecture in all 459
+state-year cases and when server-related contributions were scaled from 0.38
+to 2.06 times the Boavizta median scenario. The closer cold-plate/one-phase
+comparison was sensitive: across 2023 state factors, a median 1.58% reduction
+in the cold-plate use-phase term would reverse the ordering. Two-phase could
+tolerate a median 5.99% use-phase increase before losing first rank.
+
+These results are screening re-bases between released endpoints. They identify
+the measurement resolution required to test rankings; they do not replace
+architecture-specific field performance or a state-specific process LCA.
+
+![Historical grid transition](figures/figure6_historical_grid_transition.svg)
+
+![Performance-ranking robustness](figures/figure7_performance_robustness.svg)
+
 ## Scope and evidentiary status
 
 This package contains two deliberately separated contributions:

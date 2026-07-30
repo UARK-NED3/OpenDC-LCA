@@ -25,6 +25,12 @@ evidence.
 6. **Construction procurement levers** (`figure5_material_levers.svg`):
    matched ÖKOBAUDAT steel and cement A1-A3 factors expose per-kilogram leverage
    while preserving the need for facility quantities.
+7. **Historical grid transition** (`figure6_historical_grid_transition.svg`):
+   459 EPA eGRID state-year observations show the national trajectory and the
+   states entering or leaving the cold-plate/one-phase crossover regime.
+8. **Performance-ranking robustness** (`figure7_performance_robustness.svg`):
+   use-phase break-even changes translate lifecycle rank differences into
+   experimental discrimination requirements.
 
 ## Supplementary figures
 
@@ -56,6 +62,15 @@ performance inputs preclude technology claims.
    (`table11_material_decarbonization_levers.csv`).
 7. Contribution-weighted pedigree priority
    (`table13_data_improvement_priority.csv`).
+8. Historical state factors and national trajectory
+   (`table14_egrid_historical_state_factors.csv`,
+   `table15_egrid_historical_national_factors.csv`).
+9. Historical cooling results and ranking robustness
+   (`table16_historical_cooling_results.csv`,
+   `table17_historical_ranking_robustness.csv`,
+   `table18_national_decarbonization_results.csv`).
+10. Server-inventory stress test
+    (`table19_server_inventory_stress_test.csv`).
 
 ## Supplementary tables and reusable evidence
 

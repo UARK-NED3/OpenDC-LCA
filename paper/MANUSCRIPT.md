@@ -1,4 +1,4 @@
-# OpenDC-LCA: an evidence-governed framework for transferable life-cycle assessment of data-center cooling
+# Grid decarbonization changes the lifecycle value and evidence requirements of data-center cooling
 
 **Han Hu and Darin W. Nutter**
 
@@ -38,6 +38,15 @@ precision. Re-basing the released greenhouse-gas contributions across 51
 eGRID state records identified a cold-plate/one-phase-immersion crossover near
 61 kg CO2e MWh−1: cold plate was lower only for Vermont among the observed
 states, whereas two-phase immersion remained lowest under the released model.
+Extending the analysis to nine eGRID years and 459 state-year observations
+showed that the generation-weighted U.S. factor declined from 518 to 348 kg
+CO2e MWh−1 between 2012 and 2023, lowering the modeled air-cooled result by
+30.3% but increasing its embodied share from 6.7% to 9.6%. Two-phase immersion
+remained lowest in every state-year and under a 0.38-2.06-fold server-inventory
+stress test, while its released use-phase advantage could deteriorate by a
+median 6.0% across 2023 states before losing first rank. By contrast, the
+cold-plate/one-phase ordering could reverse with a median 1.6% change in the
+cold-plate use-phase term, defining a demanding performance-validation target.
 Across the state range, embodied contributions increased from approximately
 4% to 57-58% as electricity intensity declined. A contribution-weighted
 pedigree diagnostic ranked use-phase performance first and server inventories
@@ -317,6 +326,27 @@ r^*=
 \tag{8}
 \]
 
+To evaluate temporal transferability, the same transformation was applied to
+EPA state total-output factors for 2012, 2014, 2016, and 2018-2023. Factors
+reported in pounds CO2e MWh−1 before the metric workbook were converted using
+0.45359237 kg lb−1. A generation-weighted U.S. factor was recalculated for
+each release from state generation and emission rates. We then recorded the
+lowest-GHG architecture, percentage margin to the second-ranked architecture,
+embodied share, and regret of each alternative for every state-year. This
+historical analysis represents observed annual electricity-system conditions,
+not a forecast or marginal-dispatch model.
+
+Ranking robustness was expressed as a use-phase break-even multiplier. For
+example, the multiplier applied to cold-plate use-phase impact that makes its
+total equal to one-phase immersion is
+\(m_\mathrm{CP}=(I_\mathrm{1P}-I_\mathrm{CP,emb})/
+I_\mathrm{CP,use}\). A value of 0.984 means that a 1.6% reduction in the
+released cold-plate use-phase term would reverse that pairwise ordering. The
+analogous multiplier for two-phase immersion measures the degradation that
+can be tolerated before it loses first rank. These are deterministic
+break-even tests that define required experimental discrimination; they are
+not distributions of field performance.
+
 To translate the released pedigree matrix into a research priority, each
 component's mean grid-case GHG contribution share \(\bar{s}_c\) was multiplied
 by its normalized mean pedigree weakness. With pedigree score \(q=1\) best
@@ -333,8 +363,13 @@ released model and weak according to the released assessment.
 
 Boavizta records were filtered to `Datacenter/Server` products with total GHG,
 manufacturing share and lifetime. Manufacturing GHG was calculated as total
-product GHG multiplied by the reported manufacturing share and was not mixed
-with the Microsoft Vcore-year results. ÖKOBAUDAT A1-A3 processes were compared
+product GHG multiplied by the reported manufacturing share. To test ranking
+robustness without mixing incompatible absolute units, the minimum, quartile,
+median, and maximum annualized Boavizta values were divided by the empirical
+median and used only as multiplicative stress factors on the Microsoft
+compute, storage, and networking contributions. The resulting scenarios are
+not a probability distribution and do not assert that the public products are
+interchangeable. ÖKOBAUDAT A1-A3 processes were compared
 within matched product families using \(100(1-I_\mathrm{alt}/I_\mathrm{base})\).
 These per-kilogram reductions were not propagated to a facility because the
 necessary architecture-specific material quantities are not public.
@@ -457,7 +492,7 @@ It did not independently recreate licensed background inventories,
 manufacturer data, confidential bills of materials, measured PUE values, or
 the complete virtual-core model.
 
-### 3.2. EPA eGRID geographic transfer case
+### 3.2. EPA eGRID geographic and historical transfer cases
 
 The metric eGRID 2023 workbook supplied state net generation (`STNGENAN`) and
 state annual CO2-equivalent total-output emission rate (`STC2ERTA`) [5]. The
@@ -466,6 +501,16 @@ generation-weighted mean was 348.194 kg CO2e MWh−1 and the observed state
 range was 23.696-893.079 kg CO2e MWh−1. These are annual, location-based
 factors; they are not marginal, hourly or market-based. The factors were used
 only in the affine re-basing of Eq. (7).
+
+Historical detailed workbooks supplied the same state fields for 2012, 2014,
+2016, and 2018-2022. Together with 2023, the panel contains nine releases and
+459 state-year observations. Each year contains 50 states and the District of
+Columbia after excluding Puerto Rico and national aggregate rows. File name,
+worksheet field, original unit conversion, generation, and factor are retained
+for every observation. Cross-year comparisons can be affected by EPA source
+updates and power-sector accounting revisions in addition to physical grid
+change, so the panel is interpreted as a sequence of released annual
+conditions.
 
 ### 3.3. Boavizta server product-footprint case
 
@@ -567,7 +612,63 @@ with Vcore-normalized server and building effects. This ranking should not be
 transferred to fluids, server designs or regulations outside the released
 foreground assumptions.
 
-### 4.3. Decarbonization transfers attention from operation to hardware
+### 4.3. Historical decarbonization lowers absolute savings but raises embodied importance
+
+The generation-weighted U.S. total-output factor declined from 518.0 kg CO2e
+MWh−1 in 2012 to 348.2 kg CO2e MWh−1 in 2023, a 32.8% reduction, although the
+trajectory was not monotonic: it increased from 371.5 in 2020 to 387.3 in
+2021 before declining again. Applying the same released foreground model
+reduced the national air-cooled result from 52.66 to 36.68 kg CO2e
+Vcore−1 yr−1 and the two-phase result from 41.77 to 29.10 kg CO2e
+Vcore−1 yr−1. The absolute benefit of two-phase relative to air therefore
+contracted from 10.89 to 7.58 kg CO2e Vcore−1 yr−1, while its percentage
+benefit remained near 20.7% because both use-phase terms scale with the same
+electricity-system trajectory.
+
+![Figure 4. Historical EPA eGRID state total-output intensities for nine releases between 2012 and 2023. Each dot is a state-year observation; the orange line is the generation-weighted U.S. factor. Blue points fall below the 60.8 kg CO2e MWh−1 cold-plate/one-phase crossover derived from the released Microsoft/WSP foreground model. The panel describes released annual conditions, not a forecast or marginal-emissions trajectory.](figures/figure6_historical_grid_transition.svg)
+
+Three states—Idaho, Vermont, and Washington—fell below the pairwise crossover
+in 2012, but only Vermont did so in each subsequent release. This does not
+indicate monotonic state decarbonization; Idaho and Washington moved above the
+threshold as their annual generation mix changed. More importantly,
+two-phase immersion remained the lowest modeled GHG option in all 459
+state-year cases. The result separates a sensitive pairwise ordering
+(cold plate versus one-phase) from the more robust first-ranked architecture
+under the released assumptions.
+
+At the national generation-weighted factor, the embodied share of the
+air-cooled result increased from 6.7% in 2012 to 9.6% in 2023; the two-phase
+share increased from 6.8% to 9.7%. The change is modest nationally because
+the U.S. factor remains well above the low-carbon state range, but it
+establishes the direction of travel: decarbonization reduces the absolute
+operational benefit available from cooling and increases the leverage of
+server lifetime, manufacturing, and replacement.
+
+### 4.4. Break-even analysis converts close rankings into measurement requirements
+
+Across the 2023 state factors, cold plate would need a median 1.58% reduction
+in its released use-phase contribution to equal one-phase immersion. The
+required change ranged from a 1.83% reduction on the most carbon-intensive
+grid to a 2.61% increase in Vermont, where cold plate was already lower.
+Consequently, a comparative experiment or field model with combined
+uncertainty greater than approximately 1-2% cannot resolve the pairwise
+ordering for most states without stronger evidence.
+
+![Figure 5. Use-phase break-even stress tests across 2023 state electricity intensities. The blue curve is the cold-plate use-phase change required to equal one-phase immersion; negative values require improvement. The orange curve is the two-phase use-phase increase tolerated before losing first rank. Embodied terms are held fixed. The analysis defines required discrimination and robustness within the released model, not expected field performance.](figures/figure7_performance_robustness.svg)
+
+Two-phase immersion exhibited a wider margin. Its released use-phase term
+could increase by 5.39-13.31% across the state range before another
+architecture became lower, with a median tolerance of 5.99%. Scaling the
+Microsoft compute, storage, and networking contributions by 0.38-2.06,
+corresponding to the minimum-to-maximum annualized Boavizta factors relative
+to their median, did not change the first-ranked technology in any of the 51
+states. The median winner margin increased slightly from 5.13% at the minimum
+server scale to 5.69% at the maximum because the released two-phase case has
+favorable server-related contributions. This is a robustness result for the
+published foreground structure, not evidence that any particular server can
+be substituted into an immersion system.
+
+### 4.5. Decarbonization transfers attention from operation to hardware
 
 At the high end of the eGRID state range, embodied contributions were
 approximately 4.0-4.2% of total GHG across architectures. At the lowest state
@@ -584,7 +685,7 @@ unchanged. An operational-only comparison can therefore be directionally
 useful on a carbon-intensive grid but becomes increasingly incomplete as
 electricity decarbonizes.
 
-### 4.4. Contribution-weighted pedigree scores identify the next evidence
+### 4.6. Contribution-weighted pedigree scores identify the next evidence
 
 The released pedigree assessment alone assigns the weakest average score to
 networking equipment (3.6/5), followed by storage servers (2.8/5). Weakness
@@ -594,7 +695,7 @@ because its 90.3% mean contribution outweighed a relatively good 1.4/5
 pedigree score. Storage, networking and compute-server evidence formed the
 next tier with nearly equal priority indices (0.0127-0.0129).
 
-![Figure 4. Contribution-weighted evidence-improvement priority derived from the released Microsoft/WSP grid-case GHG contributions and pedigree matrix. The diagnostic multiplies mean contribution share by normalized pedigree weakness; it is a transparent screening rank, not a formal expected value of information.](figures/figure3_data_priority.svg)
+![Figure 6. Contribution-weighted evidence-improvement priority derived from the released Microsoft/WSP grid-case GHG contributions and pedigree matrix. The diagnostic multiplies mean contribution share by normalized pedigree weakness; it is a transparent screening rank, not a formal expected value of information.](figures/figure3_data_priority.svg)
 
 This result separates two research programs. Improving measured PUE, IT power,
 utilization and water response has the greatest present consequence for
@@ -604,7 +705,7 @@ cleaner grids. Fluid data remain important for toxicity, regulation, leakage
 and feasibility even though their released climate contribution is small; the
 priority index is not a complete environmental, health and safety ranking.
 
-### 4.5. Public product and construction data quantify uncertainty and leverage
+### 4.7. Public product and construction data quantify uncertainty and leverage
 
 The 48 usable Boavizta server records yielded manufacturing GHG values from
 465 to 2,503 kg CO2e per server, with a median of 1,215 kg CO2e and an
@@ -614,7 +715,7 @@ approximately 5.4-fold full range is large relative to many reported cooling
 savings. Because manufacturer PCFs differ in method and configuration, this
 range is an evidence envelope rather than a product ranking.
 
-![Figure 5. Distribution of manufacturing GHG for 48 Boavizta `Datacenter/Server` records having total product GHG and manufacturing share. Dashed lines show the 25th percentile, median and 75th percentile. Heterogeneous manufacturer methods and product configurations preclude a product ranking.](figures/figure4_server_epd_distribution.svg)
+![Figure 7. Distribution of manufacturing GHG for 48 Boavizta `Datacenter/Server` records having total product GHG and manufacturing share. Dashed lines show the 25th percentile, median and 75th percentile. Heterogeneous manufacturer methods and product configurations preclude a product ranking.](figures/figure4_server_epd_distribution.svg)
 
 The selected ÖKOBAUDAT records identified large construction procurement
 levers (Figure 6). High-scrap electric-arc-furnace galvanized steel had 59.9%
@@ -624,9 +725,9 @@ cement had 49.8% lower GHG, 12.1% lower nonrenewable primary energy and 23.5%
 lower freshwater use than CEM II/A. Their facility significance cannot be
 calculated without architecture-specific material quantities.
 
-![Figure 6. Selected ÖKOBAUDAT 2024-II A1-A3 GHG factors for baseline and alternative steel and cement routes. The figure identifies unit-process procurement leverage; it does not quantify a data-center reduction because foreground quantities are unavailable.](figures/figure5_material_levers.svg)
+![Figure 8. Selected ÖKOBAUDAT 2024-II A1-A3 GHG factors for baseline and alternative steel and cement routes. The figure identifies unit-process procurement leverage; it does not quantify a data-center reduction because foreground quantities are unavailable.](figures/figure5_material_levers.svg)
 
-### 4.6. Temporal and measurement pathways remain validation cases
+### 4.8. Temporal and measurement pathways remain validation cases
 
 The Fayetteville TMY and assumed temperature-PUE curves produced annual mean
 PUE values of 1.0907, 1.0529, 1.0406 and 1.0352 for air, cold plate,
@@ -637,7 +738,7 @@ point uncertainty. Their role is to specify exactly how reviewed laboratory
 data will enter the lifecycle calculation. The resulting climate and surface
 figures are retained as Supplementary Figures rather than core evidence.
 
-### 4.7. Capability and evidence matrix
+### 4.9. Capability and evidence matrix
 
 Table 1 summarizes the implemented functions and the evidence required for
 their defensible use. The distinguishing contribution is the continuity from
@@ -659,7 +760,7 @@ audit blocks a comparative conclusion.
 | Scientific claim gate | Scenario, sources, evidence status and intent | Automated blockers and warnings | Reviewable findings | Independent critical review for public claims | Implemented |
 | Access | JSON or CSV | Shared engine through CLI, API and local GUI | JSON, tables, figures and reports | Same model version across interfaces | Implemented |
 
-### 4.8. Practitioner workflow and release verification
+### 4.10. Practitioner workflow and release verification
 
 The v1.1.0 practitioner path reduces the minimum viable screening study to the
 input-output contract in Table 2. It is available through four command-line
@@ -706,12 +807,25 @@ and crossover conditions. The same principle applies to climate, workload,
 water stress and equipment lifetime.
 
 Two-phase immersion did not cross another architecture in the tested state
-range. That result is stronger within the released model but is not universal.
+range or in any of the 459 historical state-year cases. It also retained first
+rank when server-related contributions were scaled across the empirical
+Boavizta envelope. That result is stronger within the released model but is
+not universal.
 It inherits the paper's assumptions concerning server count and performance,
 fluid production and loss, cooling-system boundaries, equipment lifetime and
 regulatory feasibility. A robust comparative claim should therefore report
 both the observed no-crossover range and the untested assumptions that could
 create one.
+
+The break-even analysis adds an energy-engineering interpretation. The median
+1.6% cold-plate use-phase improvement required to equal one-phase immersion is
+comparable to uncertainty that can arise from load, pump and fan power,
+heat-rejection control, weather, and facility-boundary choices. A close
+lifecycle ranking is therefore also an experimental-resolution problem. By
+contrast, the approximately 6% median degradation that two-phase could
+tolerate before losing first rank is a larger but still testable performance
+margin. Neither value substitutes for measurement; each specifies how
+accurate and representative the measurements must be.
 
 ### 5.2. Decarbonization changes the research question
 
@@ -724,6 +838,14 @@ increasingly sensitive to useful computation per server, server count,
 manufacturing, lifetime and replacement. Operational efficiency and embodied
 impact are therefore not competing narratives but successive constraints along
 a decarbonization pathway.
+
+The historical panel adds a planning implication. Grid decarbonization lowered
+the absolute two-phase-versus-air benefit from 10.89 to 7.58 kg CO2e per
+Vcore-year between the 2012 and 2023 generation-weighted conditions even
+though the relative saving remained nearly constant. Percentage reductions
+alone can therefore overstate the future system value of an efficiency
+intervention. Planning should report relative efficiency, absolute avoided
+impact, and the evolving embodied share together.
 
 The 5.4-fold range in public Boavizta server manufacturing footprints shows why
 a single generic server factor is inadequate for low-carbon scenarios. It
@@ -784,8 +906,10 @@ successful exchange and impact calculation are three distinct stages.
 ### 5.5. Limitations and decision-grade next steps
 
 The state analysis is a screening re-basis between two released endpoints, not
-a 51-state process LCA. It uses annual location-based eGRID factors and omits
-hourly or marginal emissions, procurement contracts and transmission effects.
+a state-specific process LCA. The nine-year extension contains 459 released
+state-year observations but still uses annual location-based eGRID factors and
+omits hourly or marginal emissions, procurement contracts and transmission
+effects.
 The exact reconstruction verifies released arithmetic, not licensed ecoinvent
 or LCA for Experts inventories, confidential bills of materials or measured
 PUE. The Boavizta sample mixes manufacturers and methods; the ÖKOBAUDAT factors
@@ -838,6 +962,13 @@ quality evidence into conditional, auditable lifecycle comparisons. It exactly
 reconstructed 24 released Microsoft/Nature totals and then exposed a result
 that a single reference scenario cannot show: cold plate and one-phase
 immersion cross near 60.8 kg CO2e MWh−1 within the observed U.S. state range.
+Across nine eGRID releases, the generation-weighted factor declined 32.8% and
+the absolute modeled two-phase-versus-air benefit declined 30.4%, while
+two-phase retained first rank in all 459 state-year cases. Pairwise
+cold-plate/one-phase ranking was sensitive to a median 1.6% use-phase change,
+whereas two-phase tolerated a median 6.0% degradation before losing first
+rank. Its first rank also persisted across a 0.38-2.06-fold server-inventory
+stress range.
 Across that range, the embodied share rose from about 4% to 57-58%, shifting
 the limiting evidence from operational electricity toward servers and
 replacement. Forty-eight public server records spanned 465-2,503 kg CO2e of
@@ -903,7 +1034,7 @@ be confirmed before submission.
    (2024). https://doi.org/10.5281/zenodo.14268168
 3. GreenDelta. openLCA: open source life cycle assessment software.
    https://www.openlca.org/
-4. UARK-NED3. OpenDC-LCA version 1.0.0.
+4. UARK-NED3. OpenDC-LCA version 1.1.0.
    https://github.com/UARK-NED3/OpenDC-LCA
 5. U.S. Environmental Protection Agency. Emissions & Generation Resource
    Integrated Database (eGRID), 2023 detailed data.

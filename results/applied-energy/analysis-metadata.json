@@ -1,0 +1,21 @@
+{
+  "egrid_years": [
+    2012,
+    2014,
+    2016,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023
+  ],
+  "state_year_observations": 459,
+  "reference_factor_2023_kgco2e_per_mwh": 348.1938262938331,
+  "cold_plate_one_phase_crossover_kgco2e_per_mwh": 60.79154470297151,
+  "evidence_status": {
+    "historical_transition": "EPA eGRID observations plus affine released-model re-basing",
+    "performance_robustness": "deterministic break-even stress test",
+    "server_inventory": "empirical multiplicative stress test; not probabilistic uncertainty"
+  }
+}

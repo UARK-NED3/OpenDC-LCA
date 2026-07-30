@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620" role="img" aria-label="Small performance deviations can reverse close cooling rankings">
+<style>text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:23px;font-weight:700}.axis{font-size:13px}.label{font-size:12px}.note{font-size:11px;fill:#52606d}</style>
+<rect width="100%" height="100%" fill="white"/>
+<text class="title" x="68" y="40">Small performance deviations can reverse close cooling rankings</text>
+<line x1="90.0" y1="90" x2="90.0" y2="440" stroke="#E5E7EB"/>
+<text class="axis" x="90.0" y="463" text-anchor="middle">0</text>
+<line x1="291.5" y1="90" x2="291.5" y2="440" stroke="#E5E7EB"/>
+<text class="axis" x="291.5" y="463" text-anchor="middle">200</text>
+<line x1="493.1" y1="90" x2="493.1" y2="440" stroke="#E5E7EB"/>
+<text class="axis" x="493.1" y="463" text-anchor="middle">400</text>
+<line x1="694.6" y1="90" x2="694.6" y2="440" stroke="#E5E7EB"/>
+<text class="axis" x="694.6" y="463" text-anchor="middle">600</text>
+<line x1="896.2" y1="90" x2="896.2" y2="440" stroke="#E5E7EB"/>
+<text class="axis" x="896.2" y="463" text-anchor="middle">800</text>
+<line x1="1097.7" y1="90" x2="1097.7" y2="440" stroke="#E5E7EB"/>
+<text class="axis" x="1097.7" y="463" text-anchor="middle">1000</text>
+<line x1="90" y1="440.0" x2="990" y2="440.0" stroke="#E5E7EB"/>
+<text class="axis" x="80" y="444.0" text-anchor="end">-4%</text>
+<line x1="90" y1="352.5" x2="990" y2="352.5" stroke="#E5E7EB"/>
+<text class="axis" x="80" y="356.5" text-anchor="end">0%</text>
+<line x1="90" y1="265.0" x2="990" y2="265.0" stroke="#E5E7EB"/>
+<text class="axis" x="80" y="269.0" text-anchor="end">4%</text>
+<line x1="90" y1="177.5" x2="990" y2="177.5" stroke="#E5E7EB"/>
+<text class="axis" x="80" y="181.5" text-anchor="end">8%</text>
+<line x1="90" y1="90.0" x2="990" y2="90.0" stroke="#E5E7EB"/>
+<text class="axis" x="80" y="94.0" text-anchor="end">12%</text>
+<polyline points="113.9,295.3 211.9,373.2 216.3,373.9 233.5,376.5 234.8,376.6 243.4,377.7 256.8,379.1 270.5,380.3 270.6,380.3 303.3,382.6 304.9,382.7 306.9,382.8 328.7,384.0 336.7,384.3 337.2,384.3 346.2,384.7 376.4,385.9 379.9,386.0 384.3,386.1 386.2,386.2 386.6,386.2 392.2,386.4 405.0,386.7 411.9,386.9 416.4,387.0 418.0,387.1 425.2,387.3 433.9,387.5 438.8,387.6 442.5,387.7 443.6,387.7 450.7,387.8 454.5,387.9 462.3,388.1 468.6,388.2 469.5,388.2 474.0,388.3 546.4,389.4 558.9,389.6 576.3,389.8 578.3,389.8 588.7,390.0 621.9,390.3 683.3,390.8 727.5,391.2 739.7,391.3 754.9,391.4 759.9,391.4 888.6,392.1 928.0,392.2 990.0,392.4" fill="none" stroke="#0072B2" stroke-width="3"/>
+<polyline points="113.9,61.4 211.9,188.0 216.3,189.8 233.5,195.9 234.8,196.3 243.4,198.8 256.8,202.2 270.5,205.1 270.6,205.2 303.3,210.7 304.9,210.9 306.9,211.2 328.7,214.0 336.7,214.9 337.2,214.9 346.2,215.9 376.4,218.6 379.9,218.9 384.3,219.2 386.2,219.3 386.6,219.4 392.2,219.8 405.0,220.7 411.9,221.1 416.4,221.4 418.0,221.5 425.2,222.0 433.9,222.5 438.8,222.7 442.5,222.9 443.6,223.0 450.7,223.4 454.5,223.5 462.3,223.9 468.6,224.2 469.5,224.3 474.0,224.5 546.4,227.2 558.9,227.6 576.3,228.1 578.3,228.2 588.7,228.5 621.9,229.3 683.3,230.6 727.5,231.4 739.7,231.6 754.9,231.8 759.9,231.9 888.6,233.5 928.0,233.9 990.0,234.5" fill="none" stroke="#D55E00" stroke-width="3"/>
+<line x1="90" y1="352.5" x2="990" y2="352.5" stroke="#111827" stroke-dasharray="3 4"/>
+<text class="axis" x="540" y="500" text-anchor="middle">2023 state electricity intensity (kg CO₂e/MWh)</text>
+<text class="axis" transform="translate(25 370) rotate(-90)">Required use-phase change at break-even</text>
+<line x1="170" y1="555" x2="200" y2="555" stroke="#0072B2" stroke-width="4"/>
+<text class="axis" x="210" y="560">Cold-plate change to equal one-phase</text>
+<line x1="570" y1="555" x2="600" y2="555" stroke="#D55E00" stroke-width="4"/>
+<text class="axis" x="610" y="560">Two-phase degradation tolerated before losing</text>
+<text class="note" x="90" y="598">The calculation holds embodied terms fixed and scales the released use-phase contribution; it defines measurement precision needs, not expected field performance.</text>
+</svg>
