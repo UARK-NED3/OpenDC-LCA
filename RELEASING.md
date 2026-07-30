@@ -10,8 +10,25 @@ artifacts. A maintainer should complete this checklist from a clean checkout.
 2. Regenerate the representative report:
 
    ```bash
-   opendc-lca report examples/*.json \
+   opendc-lca report examples/air-cooled.json \
+     examples/direct-to-chip.json examples/single-phase-immersion.json \
      --output-dir results/representative-screening
+   ```
+
+   For version 0.3 and later, also regenerate the experimental report:
+
+   ```bash
+   opendc-lca experimental-report examples/direct-to-chip.json \
+     examples/performance-map-direct-to-chip.csv \
+     examples/uncertainty-direct-to-chip.json \
+     --output-dir results/v0.3-experimental
+   ```
+
+   For version 0.5 and later, regenerate the public-data and paper packages:
+
+   ```bash
+   python scripts/refresh_public_data.py
+   python scripts/run_research_analysis.py
    ```
 
 3. Run unit tests and the complete command-line smoke test:

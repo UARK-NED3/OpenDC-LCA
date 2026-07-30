@@ -5,12 +5,14 @@ Open, physics-informed life-cycle analysis for data-center cooling.
 OpenDC-LCA connects measured or simulated cooling performance with transparent
 life-cycle inventories. The first release is a small, dependency-free reference
 model for comparing air cooling, direct-to-chip liquid cooling, and immersion
-cooling on a common annual basis.
+cooling on a common annual basis. Version 0.5 adds a Microsoft/Nature public
+result reproduction audit and an hourly climate-aware research preview.
 
 > [!IMPORTANT]
-> The example impact factors are illustrative—not decision-grade inventory
-> data. Replace them with reviewed public data, licensed databases, EPDs, or
-> partner-provided data before publishing conclusions.
+> The cooling-technology examples remain illustrative. A separate
+> [public-data screening](results/public-data-v0.3/REPORT.md) now demonstrates
+> traceable EPA eGRID, NOAA TMY, ÖKOBAUDAT, and GLAD adapters, but it does not
+> support a cooling-technology ranking.
 
 ## Why this project exists
 
@@ -40,7 +42,16 @@ opendc-lca compare examples/air-cooled.json \
   examples/direct-to-chip.json examples/single-phase-immersion.json
 opendc-lca sensitivity examples/single-phase-immersion.json
 opendc-lca audit examples/single-phase-immersion.json
-opendc-lca report examples/*.json --output-dir results/my-screening
+opendc-lca report examples/air-cooled.json \
+  examples/direct-to-chip.json examples/single-phase-immersion.json \
+  --output-dir results/my-screening
+opendc-lca performance examples/performance-map-direct-to-chip.csv
+opendc-lca monte-carlo examples/direct-to-chip.json \
+  examples/uncertainty-direct-to-chip.json
+opendc-lca experimental-report examples/direct-to-chip.json \
+  examples/performance-map-direct-to-chip.csv \
+  examples/uncertainty-direct-to-chip.json \
+  --output-dir results/my-experiment
 python -m unittest discover -s tests -v
 ```
 
@@ -67,6 +78,40 @@ These results use synthetic factors to demonstrate the workflow. The displayed
 ranking is not evidence that one cooling architecture is environmentally
 preferable.
 
+The [v0.3 experimental report](results/v0.3-experimental/REPORT.md) demonstrates
+the measurement-to-LCA path:
+
+![Synthetic partial-load performance map](results/v0.3-experimental/performance-map.svg)
+
+![Monte Carlo screening intervals](results/v0.3-experimental/uncertainty-intervals.svg)
+
+The [public-data report](results/public-data-v0.3/REPORT.md) provides a
+reproducible Arkansas operational-GHG/PUE sensitivity, Fayetteville climate
+summary, and selected construction-material factors:
+
+![Arkansas operational GHG sensitivity](results/public-data-v0.3/arkansas-operational-ghg-vs-pue.svg)
+
+Its raw third-party inputs are not redistributed. See the
+[data-source registry](data/SOURCES.md) and regenerate the committed derived
+records with `python scripts/refresh_public_data.py`.
+
+## v0.4-v0.5 research results
+
+The [paper results package](paper/RESULTS_PACKAGE.md) consolidates equations,
+machine-readable tables, editable figures, and a review workbook. Version 0.4
+independently reconstructs all 24 totals in the released Microsoft/Nature
+Figure 4 source data from their component contributions. Version 0.5 applies
+transparent hourly PUE hypotheses to the Fayetteville TMY and Arkansas eGRID
+factor.
+
+The reproduction audit is validated. The hourly technology comparison remains
+hypothesis-generating until the PUE curves are replaced by measured NED³
+performance maps.
+
+```bash
+python scripts/run_research_analysis.py
+```
+
 ## Model boundary
 
 The Phase 1 model includes:
@@ -81,10 +126,14 @@ The Phase 1 model includes:
 - scenario SHA-256 digests and model version in JSON results; and
 - one-at-a-time GHG sensitivity screening.
 - automated scientific-quality findings and comparative-claim blockers.
+- duration-weighted laboratory performance maps that derive measured PUE,
+  on-site water intensity, and cooling COP; and
+- reproducible independent-parameter Monte Carlo propagation with p05, p50,
+  p95, and mean results.
 
-It does not yet model hourly operation, uncertainty propagation, water scarcity,
-heat reuse, workload output, or temperature-dependent reliability. These are
-tracked in the [research roadmap](docs/ROADMAP.md).
+It does not yet model hourly operation, correlated or model-form uncertainty,
+water scarcity, heat reuse, workload output, or temperature-dependent
+reliability. These are tracked in the [research roadmap](docs/ROADMAP.md).
 
 ## Repository map
 
@@ -92,9 +141,14 @@ tracked in the [research roadmap](docs/ROADMAP.md).
 - `schemas/`: canonical scenario JSON Schema
 - `examples/`: runnable illustrative scenarios
 - `data/`: data registry and provenance template
+- `data/derived/`: compact, auditable summaries generated from local public data
 - `docs/`: methodology, data plan, roadmap, and governance
 - `tests/`: deterministic reference tests
 - `results/representative-screening/`: reproducible example report and figures
+- `results/v0.3-experimental/`: performance and uncertainty demonstration
+- `results/v0.4-microsoft-reproduction/`: released-result arithmetic audit
+- `results/v0.5-hourly-preview/`: climate-aware hypothesis demonstration
+- `paper/`: manuscript-ready tables, figures, workbook, and results narrative
 - `CHANGELOG.md`: release-level scientific and software changes
 
 ## Scientific principles
@@ -109,6 +163,8 @@ See [CONVENTIONS.md](docs/CONVENTIONS.md),
 [METHODOLOGY.md](docs/METHODOLOGY.md), and [DATA_PLAN.md](docs/DATA_PLAN.md).
 The first open dataset must follow the
 [benchmark protocol](docs/BENCHMARK_PROTOCOL.md).
+Laboratory and uncertainty inputs follow
+[PERFORMANCE_AND_UNCERTAINTY.md](docs/PERFORMANCE_AND_UNCERTAINTY.md).
 The 15 methodology questions and provisional, source-backed responses are
 maintained in [LCA method decision notes](docs/LCA_METHOD_DECISION_NOTES.md).
 

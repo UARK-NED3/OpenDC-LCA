@@ -1,0 +1,218 @@
+[
+  {
+    "metric": "Primary energy",
+    "electricity": "Grid",
+    "technology": "Air-cooled",
+    "published_normalized": 100.0,
+    "reproduced_component_sum": 99.99999999999999,
+    "absolute_difference": 1.4210854715202004e-14,
+    "reduction_vs_air_pct": 0.0
+  },
+  {
+    "metric": "Primary energy",
+    "electricity": "Grid",
+    "technology": "Cold plate",
+    "published_normalized": 85.02460062414333,
+    "reproduced_component_sum": 85.02460062414335,
+    "absolute_difference": 1.4210854715202004e-14,
+    "reduction_vs_air_pct": 14.975399375856668
+  },
+  {
+    "metric": "Primary energy",
+    "electricity": "Grid",
+    "technology": "One-phase",
+    "published_normalized": 84.66598873253865,
+    "reproduced_component_sum": 84.66598873253866,
+    "absolute_difference": 1.4210854715202004e-14,
+    "reduction_vs_air_pct": 15.334011267461346
+  },
+  {
+    "metric": "Primary energy",
+    "electricity": "Grid",
+    "technology": "Two-phase",
+    "published_normalized": 79.94758909622206,
+    "reproduced_component_sum": 79.94758909622206,
+    "absolute_difference": 0.0,
+    "reduction_vs_air_pct": 20.05241090377794
+  },
+  {
+    "metric": "Primary energy",
+    "electricity": "100% renewable",
+    "technology": "Air-cooled",
+    "published_normalized": 92.63095836919227,
+    "reproduced_component_sum": 92.63095836919226,
+    "absolute_difference": 1.4210854715202004e-14,
+    "reduction_vs_air_pct": 0.0
+  },
+  {
+    "metric": "Primary energy",
+    "electricity": "100% renewable",
+    "technology": "Cold plate",
+    "published_normalized": 78.76732310024443,
+    "reproduced_component_sum": 78.76732310024443,
+    "absolute_difference": 0.0,
+    "reduction_vs_air_pct": 14.966524705155903
+  },
+  {
+    "metric": "Primary energy",
+    "electricity": "100% renewable",
+    "technology": "One-phase",
+    "published_normalized": 78.53191692444338,
+    "reproduced_component_sum": 78.53191692444338,
+    "absolute_difference": 0.0,
+    "reduction_vs_air_pct": 15.220658074760918
+  },
+  {
+    "metric": "Primary energy",
+    "electricity": "100% renewable",
+    "technology": "Two-phase",
+    "published_normalized": 74.10842458659289,
+    "reproduced_component_sum": 74.10842458659288,
+    "absolute_difference": 1.4210854715202004e-14,
+    "reduction_vs_air_pct": 19.996051113684377
+  },
+  {
+    "metric": "GHG",
+    "electricity": "Grid",
+    "technology": "Air-cooled",
+    "published_normalized": 100.0,
+    "reproduced_component_sum": 100.0,
+    "absolute_difference": 0.0,
+    "reduction_vs_air_pct": 0.0
+  },
+  {
+    "metric": "GHG",
+    "electricity": "Grid",
+    "technology": "Cold plate",
+    "published_normalized": 84.82206096514042,
+    "reproduced_component_sum": 84.82206096514044,
+    "absolute_difference": 1.4210854715202004e-14,
+    "reduction_vs_air_pct": 15.177939034859577
+  },
+  {
+    "metric": "GHG",
+    "electricity": "Grid",
+    "technology": "One-phase",
+    "published_normalized": 83.58916331568221,
+    "reproduced_component_sum": 83.58916331568221,
+    "absolute_difference": 0.0,
+    "reduction_vs_air_pct": 16.410836684317786
+  },
+  {
+    "metric": "GHG",
+    "electricity": "Grid",
+    "technology": "Two-phase",
+    "published_normalized": 79.34191176115638,
+    "reproduced_component_sum": 79.34191176115638,
+    "absolute_difference": 0.0,
+    "reduction_vs_air_pct": 20.658088238843618
+  },
+  {
+    "metric": "GHG",
+    "electricity": "100% renewable",
+    "technology": "Air-cooled",
+    "published_normalized": 10.661628152147067,
+    "reproduced_component_sum": 10.661628152147067,
+    "absolute_difference": 0.0,
+    "reduction_vs_air_pct": 0.0
+  },
+  {
+    "metric": "GHG",
+    "electricity": "100% renewable",
+    "technology": "Cold plate",
+    "published_normalized": 8.962130435202702,
+    "reproduced_component_sum": 8.9621304352027,
+    "absolute_difference": 1.7763568394002505e-15,
+    "reduction_vs_air_pct": 15.940320677964326
+  },
+  {
+    "metric": "GHG",
+    "electricity": "100% renewable",
+    "technology": "One-phase",
+    "published_normalized": 9.222913864465534,
+    "reproduced_component_sum": 9.222913864465536,
+    "absolute_difference": 1.7763568394002505e-15,
+    "reduction_vs_air_pct": 13.49432063424385
+  },
+  {
+    "metric": "GHG",
+    "electricity": "100% renewable",
+    "technology": "Two-phase",
+    "published_normalized": 8.550962764325098,
+    "reproduced_component_sum": 8.5509627643251,
+    "absolute_difference": 1.7763568394002505e-15,
+    "reduction_vs_air_pct": 19.79683926039868
+  },
+  {
+    "metric": "Blue water",
+    "electricity": "Grid",
+    "technology": "Air-cooled",
+    "published_normalized": 100.0,
+    "reproduced_component_sum": 100.0,
+    "absolute_difference": 0.0,
+    "reduction_vs_air_pct": 0.0
+  },
+  {
+    "metric": "Blue water",
+    "electricity": "Grid",
+    "technology": "Cold plate",
+    "published_normalized": 69.35667439937643,
+    "reproduced_component_sum": 69.35667439937644,
+    "absolute_difference": 1.4210854715202004e-14,
+    "reduction_vs_air_pct": 30.643325600623573
+  },
+  {
+    "metric": "Blue water",
+    "electricity": "Grid",
+    "technology": "One-phase",
+    "published_normalized": 55.05996800099758,
+    "reproduced_component_sum": 55.059968000997564,
+    "absolute_difference": 1.4210854715202004e-14,
+    "reduction_vs_air_pct": 44.940031999002414
+  },
+  {
+    "metric": "Blue water",
+    "electricity": "Grid",
+    "technology": "Two-phase",
+    "published_normalized": 52.12242331046649,
+    "reproduced_component_sum": 52.122423310466495,
+    "absolute_difference": 7.105427357601002e-15,
+    "reduction_vs_air_pct": 47.877576689533505
+  },
+  {
+    "metric": "Blue water",
+    "electricity": "100% renewable",
+    "technology": "Air-cooled",
+    "published_normalized": 44.5491869608269,
+    "reproduced_component_sum": 44.5491869608269,
+    "absolute_difference": 0.0,
+    "reduction_vs_air_pct": 0.0
+  },
+  {
+    "metric": "Blue water",
+    "electricity": "100% renewable",
+    "technology": "Cold plate",
+    "published_normalized": 22.27170141437423,
+    "reproduced_component_sum": 22.27170141437423,
+    "absolute_difference": 0.0,
+    "reduction_vs_air_pct": 50.00649184920426
+  },
+  {
+    "metric": "Blue water",
+    "electricity": "100% renewable",
+    "technology": "One-phase",
+    "published_normalized": 8.902097542302501,
+    "reproduced_component_sum": 8.902097542302501,
+    "absolute_difference": 0.0,
+    "reduction_vs_air_pct": 80.0173737174366
+  },
+  {
+    "metric": "Blue water",
+    "electricity": "100% renewable",
+    "technology": "Two-phase",
+    "published_normalized": 8.183681239208688,
+    "reproduced_component_sum": 8.183681239208687,
+    "absolute_difference": 1.7763568394002505e-15,
+    "reduction_vs_air_pct": 81.63000988905861
+  }
+]

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520" role="img" aria-label="Illustrative hourly operational GHG screening in Arkansas">
+<style>text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:22px;font-weight:bold}.axis{font-size:14px}.small{font-size:12px;fill:#52606d}</style>
+<rect width="100%" height="100%" fill="white"/>
+<text class="title" x="55" y="36">Illustrative hourly operational GHG screening in Arkansas</text>
+<line x1="90" y1="410.0" x2="830" y2="410.0" stroke="#D1D5DB"/>
+<text class="axis" x="78" y="415.0" text-anchor="end">0</text>
+<line x1="90" y1="350.0" x2="830" y2="350.0" stroke="#D1D5DB"/>
+<text class="axis" x="78" y="355.0" text-anchor="end">100</text>
+<line x1="90" y1="290.0" x2="830" y2="290.0" stroke="#D1D5DB"/>
+<text class="axis" x="78" y="295.0" text-anchor="end">200</text>
+<line x1="90" y1="230.0" x2="830" y2="230.0" stroke="#D1D5DB"/>
+<text class="axis" x="78" y="235.0" text-anchor="end">300</text>
+<line x1="90" y1="170.0" x2="830" y2="170.0" stroke="#D1D5DB"/>
+<text class="axis" x="78" y="175.0" text-anchor="end">400</text>
+<line x1="90" y1="110.0" x2="830" y2="110.0" stroke="#D1D5DB"/>
+<text class="axis" x="78" y="115.0" text-anchor="end">500</text>
+<rect x="130" y="113.6" width="105" height="296.4" fill="#4B5563"/>
+<text class="axis" x="182.5" y="105.6" text-anchor="middle">494.0</text>
+<text class="axis" x="182.5" y="440" text-anchor="middle">Air-cooled</text>
+<rect x="315" y="123.9" width="105" height="286.1" fill="#0072B2"/>
+<text class="axis" x="367.5" y="115.9" text-anchor="middle">476.8</text>
+<text class="axis" x="367.5" y="440" text-anchor="middle">Cold plate</text>
+<rect x="500" y="127.2" width="105" height="282.8" fill="#009E73"/>
+<text class="axis" x="552.5" y="119.2" text-anchor="middle">471.3</text>
+<text class="axis" x="552.5" y="440" text-anchor="middle">One-phase</text>
+<rect x="685" y="128.7" width="105" height="281.3" fill="#D55E00"/>
+<text class="axis" x="737.5" y="120.7" text-anchor="middle">468.8</text>
+<text class="axis" x="737.5" y="440" text-anchor="middle">Two-phase</text>
+<text class="axis" transform="translate(22 345) rotate(-90)">kg CO2e per delivered IT MWh</text>
+</svg>

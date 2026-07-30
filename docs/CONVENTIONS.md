@@ -1,11 +1,11 @@
 # OpenDC-LCA conventions
 
-This document is normative for model version 0.2. Terms such as **must** and
+This document is normative for model version 0.3. Terms such as **must** and
 **should** indicate requirements and recommendations for publishable studies.
 
 ## Functional unit
 
-Version 0.2 supports `it_mwh`: one MWh of electricity delivered to IT equipment.
+Version 0.3 supports `it_mwh`: one MWh of electricity delivered to IT equipment.
 It may be used only when alternatives deliver equivalent computational service,
 utilization, reliability, and hardware life. If cooling changes any of these,
 authors must also report absolute results and explain why IT MWh remains a fair
@@ -87,3 +87,20 @@ automated audit is a quality gate, not an ISO conformity assessment.
 Machine-readable output retains calculation precision. Human-facing results
 should reflect input uncertainty and normally use no more than three significant
 figures. Numerical precision does not imply scientific certainty.
+
+## Laboratory performance maps
+
+Performance-map rows represent observations with explicit duration. Aggregate
+PUE and water intensity are energy-weighted, not arithmetic averages of row
+ratios. Cooling-system power includes the recorded pump, fan, CDU, and
+heat-rejection terms. Authors must define whether IT-integral fans are included
+in IT power or cooling power and apply that boundary consistently.
+
+## Monte Carlo screening
+
+Version 0.3 supports uniform, triangular, normal, and lognormal distributions
+for selected continuous inputs. A random seed and sample count are mandatory
+for reproducibility. Inputs are sampled independently. This implementation does
+not represent correlations, systematic measurement bias, or model-form
+uncertainty, and therefore does not by itself satisfy the uncertainty
+requirements for a public comparative assertion.

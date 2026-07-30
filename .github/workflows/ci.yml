@@ -21,10 +21,13 @@ jobs:
       - run: python -m pip install -e .
       - run: python -m unittest discover -s tests -v
       - run: opendc-lca validate examples/air-cooled.json
-      - run: opendc-lca compare examples/*.json
+      - run: opendc-lca compare examples/air-cooled.json examples/direct-to-chip.json examples/single-phase-immersion.json
       - run: opendc-lca sensitivity examples/single-phase-immersion.json
       - run: opendc-lca audit examples/single-phase-immersion.json
-      - run: opendc-lca report examples/*.json --output-dir /tmp/opendc-lca-report
+      - run: opendc-lca report examples/air-cooled.json examples/direct-to-chip.json examples/single-phase-immersion.json --output-dir /tmp/opendc-lca-report
+      - run: opendc-lca performance examples/performance-map-direct-to-chip.csv
+      - run: opendc-lca monte-carlo examples/direct-to-chip.json examples/uncertainty-direct-to-chip.json --samples 100
+      - run: opendc-lca experimental-report examples/direct-to-chip.json examples/performance-map-direct-to-chip.csv examples/uncertainty-direct-to-chip.json --output-dir /tmp/opendc-lca-experimental
   package:
     runs-on: ubuntu-latest
     steps:
@@ -40,4 +43,5 @@ jobs:
           python -m venv /tmp/opendc-lca-wheel
           /tmp/opendc-lca-wheel/bin/pip install dist/*.whl
           /tmp/opendc-lca-wheel/bin/opendc-lca examples --output-dir /tmp/examples
-          /tmp/opendc-lca-wheel/bin/opendc-lca report /tmp/examples/*.json --output-dir /tmp/report
+          /tmp/opendc-lca-wheel/bin/opendc-lca report /tmp/examples/air-cooled.json /tmp/examples/direct-to-chip.json /tmp/examples/single-phase-immersion.json --output-dir /tmp/report
+          /tmp/opendc-lca-wheel/bin/opendc-lca experimental-report /tmp/examples/direct-to-chip.json /tmp/examples/performance-map-direct-to-chip.csv /tmp/examples/uncertainty-direct-to-chip.json --output-dir /tmp/experimental

@@ -15,6 +15,8 @@ def install_examples(output_dir: str | Path) -> list[Path]:
         "air-cooled.json",
         "direct-to-chip.json",
         "single-phase-immersion.json",
+        "performance-map-direct-to-chip.csv",
+        "uncertainty-direct-to-chip.json",
     ):
         target = destination / name
         if target.exists():

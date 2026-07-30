@@ -3,6 +3,49 @@
 All notable changes are documented here. The project follows semantic
 versioning after the first stable release.
 
+## 0.5.0 — 2026-07-29
+
+### Added
+
+- Independent reconstruction of all 24 released Microsoft/Nature Figure 4
+  totals from component contributions.
+- A dependency-free XLSX cached-value reader for auditable source-data imports.
+- An hourly Fayetteville climate research preview with explicit, replaceable
+  temperature-PUE hypotheses and Arkansas eGRID operational GHG.
+- A paper-ready package containing CSV tables, SVG/PDF figures, equations,
+  provenance, and interpretation boundaries.
+
+### Changed
+
+- Package version advanced to 0.5.0.
+- Reproduction results and hypothesis-generating preview results are kept in
+  separate result namespaces to prevent unsupported comparative claims.
+
+## 0.3.0 — 2026-07-28
+
+### Added
+
+- Provider-native adapters for EPA eGRID XLSX, NOAA TMY CSV, ÖKOBAUDAT CSV, and
+  GLAD/openLCA JSON-LD archives.
+- A source registry, checksummed local-file manifest, and redistribution-safe
+  derived data layer.
+- A public-data screening report with Arkansas operational-GHG/PUE sensitivity,
+  Fayetteville climate context, construction factors, equations, and SVG plots.
+- Validated common laboratory performance-map CSV format.
+- Duration-weighted derivation of measured PUE, on-site water intensity, and
+  cooling COP.
+- Seeded Monte Carlo propagation for uniform, triangular, normal, and
+  lognormal input distributions.
+- An uncertainty JSON Schema and installable example specification.
+- Experimental Markdown/JSON reporting with performance and uncertainty SVG
+  figures.
+
+### Changed
+
+- Model and package version advanced to 0.3.0.
+- Scientific conventions now state the limits of independent-parameter
+  uncertainty propagation.
+
 ## 0.2.0 — 2026-07-28
 
 ### Added

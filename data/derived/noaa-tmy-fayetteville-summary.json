@@ -1,0 +1,24 @@
+{
+  "station_id": "USW00093993",
+  "station_name": "FAYETTEVILLE DRAKE FLD",
+  "latitude": 36.0103,
+  "longitude": -94.1683,
+  "elevation_m": 377.0,
+  "record_start_year": 1998,
+  "record_end_year": 2022,
+  "hours": 8760,
+  "mean_dry_bulb_c": 14.863827625570776,
+  "minimum_dry_bulb_c": -13.0,
+  "maximum_dry_bulb_c": 35.0,
+  "mean_relative_humidity_pct": 73.36906392694064,
+  "cooling_degree_hours_18c": 23027.750000000007,
+  "hours_above_30c": 319,
+  "hours_below_5c": 1648,
+  "missing_value_counts": {
+    "Precipitation": 4824,
+    "Snow Depth": 8669,
+    "Station level Pressure": 5120,
+    "Wind Direction": 496,
+    "Wind Gust": 7563
+  }
+}

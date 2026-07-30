@@ -1,6 +1,6 @@
 [
   {
-    "model_version": "0.2.0",
+    "model_version": "0.3.0",
     "scenario_digest_sha256": "f43496e98f670861c5e7290af7e5bfc6454f6b33a36666fd6d3ca0741a45d605",
     "scenario": "Illustrative air-cooled 1 MW",
     "cooling_architecture": "air-cooled",
@@ -66,7 +66,7 @@
     }
   },
   {
-    "model_version": "0.2.0",
+    "model_version": "0.3.0",
     "scenario_digest_sha256": "4a15b2a75923b3db5f7afc49cb1b677adcea04f7714ec9e44728b34f597bbc54",
     "scenario": "Illustrative direct-to-chip 1 MW",
     "cooling_architecture": "direct-to-chip",
@@ -132,7 +132,7 @@
     }
   },
   {
-    "model_version": "0.2.0",
+    "model_version": "0.3.0",
     "scenario_digest_sha256": "14341bdf15969ba6a08f9786a70e0a8b34d01e1ebae17e15920b88550f6a8b42",
     "scenario": "Illustrative single-phase immersion 1 MW",
     "cooling_architecture": "single-phase-immersion",

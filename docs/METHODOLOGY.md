@@ -67,3 +67,22 @@ Always report:
 - data quality and uncertainty; and
 - limitations that could reverse the ranking.
 
+## Public-data operational screening
+
+For one delivered IT MWh, annual location-based operational greenhouse-gas
+emissions are calculated as
+
+```text
+GHG_operational [kg CO2e / IT MWh]
+  = EF_grid [kg CO2e / facility MWh] × PUE
+```
+
+The v0.3 public-data example uses EPA eGRID 2023 state field `STC2ERTA`.
+This is a total-output annual factor. It must not be interpreted as an hourly,
+marginal, or market-based factor. NOAA TMY weather is reported separately as
+climate context until an hourly cooling-performance model is connected.
+
+Construction-product factors retain the ÖKOBAUDAT dataset UUID, declared unit,
+module, geography, reference year, and source URL. The current selected values
+are EN 15804+A2 A1–A3 screening proxies; they are not combined with A1 indicators
+or treated as a US data-center bill of materials.

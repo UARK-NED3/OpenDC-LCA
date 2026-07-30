@@ -1,0 +1,76 @@
+{
+  "model_version": "0.3.0",
+  "performance_summary": {
+    "architecture": "direct-to-chip",
+    "point_count": 4,
+    "total_duration_hours": 24.0,
+    "it_energy_kwh": 16000.0,
+    "cooling_energy_kwh": 1272.0,
+    "heat_removed_kwh": 16000.0,
+    "onsite_water_l": 1344.0,
+    "measured_pue": 1.0795,
+    "onsite_water_l_per_kwh_it": 0.084,
+    "cooling_cop": 12.578616352201259,
+    "source_ids": [
+      "illustrative-d2c-v0.2"
+    ]
+  },
+  "uncertainty": {
+    "model_version": "0.3.0",
+    "scenario": "Illustrative direct-to-chip 1 MW",
+    "scenario_digest_sha256": "75c67b1af02f2c642170a200cba1cafb585c57ffff9d08636dc254121f8b11b0",
+    "samples": 5000,
+    "seed": 20260728,
+    "parameter_distributions": [
+      {
+        "parameter": "pue",
+        "distribution": "triangular",
+        "parameters": {
+          "low": 1.06,
+          "mode": 1.09,
+          "high": 1.14
+        },
+        "minimum": 1.0
+      },
+      {
+        "parameter": "grid.ghg_kgco2e_per_kwh",
+        "distribution": "normal",
+        "parameters": {
+          "mean": 0.32,
+          "sd": 0.032
+        },
+        "minimum": 0.0
+      },
+      {
+        "parameter": "onsite_water_l_per_kwh_it",
+        "distribution": "uniform",
+        "parameters": {
+          "low": 0.03,
+          "high": 0.07
+        },
+        "minimum": 0.0
+      }
+    ],
+    "percentiles": {
+      "ghg_kgco2e_per_it_mwh": {
+        "p05": 293.827473003659,
+        "p50": 352.35833612818124,
+        "p95": 410.4953622801891,
+        "mean": 352.11703506981775
+      },
+      "primary_energy_mj_per_it_mwh": {
+        "p05": 6455.022579891594,
+        "p50": 6601.324046187274,
+        "p95": 6787.769727062856,
+        "mean": 6610.715874046643
+      },
+      "blue_water_l_per_it_mwh": {
+        "p05": 364.43942586989584,
+        "p50": 384.59029894071165,
+        "p95": 404.6282213005104,
+        "mean": 384.5552578486766
+      }
+    },
+    "independence_assumption": "Parameters are sampled independently; correlations are not modeled."
+  }
+}

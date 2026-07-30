@@ -1,0 +1,188 @@
+[
+  {
+    "source_group": "boavizta",
+    "local_path": "private-data/incoming/boavizta/boavizta-data-fr.csv",
+    "bytes": 376931,
+    "sha256": "598df96d95ef6557266bf96960910e41b64c159808aea4108fc56bb9630f37f0"
+  },
+  {
+    "source_group": "boavizta",
+    "local_path": "private-data/incoming/boavizta/boavizta-data-us.csv",
+    "bytes": 375704,
+    "sha256": "eaeb19cc36308c8759deeea496d270d9d6ed0e46c3f113099844c3f9bf6cca9c"
+  },
+  {
+    "source_group": "boavizta",
+    "local_path": "private-data/incoming/boavizta/sources.md",
+    "bytes": 9874,
+    "sha256": "bd2140919d0e0a3fd4ef41e69de7bf88fe0dbfac1240207a8f9cb6efbcf99590"
+  },
+  {
+    "source_group": "egrid2023",
+    "local_path": "private-data/incoming/egrid2023/egrid.txt",
+    "bytes": 7499,
+    "sha256": "9ba1b1c3fb77939059caf860a1c5b3dae28207efae06f2087fbd2454d7d6c3e3"
+  },
+  {
+    "source_group": "egrid2023",
+    "local_path": "private-data/incoming/egrid2023/egrid2023_data_metric_rev2.xlsx",
+    "bytes": 24803997,
+    "sha256": "3dfbbcf2f949d58d5b2dbee3aab8150bd04a0c8ebb730ba1cd37a013bd4450ab"
+  },
+  {
+    "source_group": "egrid2023",
+    "local_path": "private-data/incoming/egrid2023/egrid2023_data_rev2.xlsx",
+    "bytes": 21213301,
+    "sha256": "895cd81dd8662406189ad8adf5a2578dcb362cdb5cff7cca81b10ee6bd2447c6"
+  },
+  {
+    "source_group": "egrid2023",
+    "local_path": "private-data/incoming/egrid2023/egrid2023_technical_guide.pdf",
+    "bytes": 2768135,
+    "sha256": "12164c665217f1b4d00ac6a8115a3806710dab79993d02959cdf7f7f66abd841"
+  },
+  {
+    "source_group": "egrid2023",
+    "local_path": "private-data/incoming/egrid2023/summary_tables_rev2.pdf",
+    "bytes": 410720,
+    "sha256": "113fe8e8741c3ff6e8c533b4a5d442fecfa1bf919eb41a55bb4e86d9fb656cea"
+  },
+  {
+    "source_group": "egrid2023",
+    "local_path": "private-data/incoming/egrid2023/summary_tables_rev2.xlsx",
+    "bytes": 985651,
+    "sha256": "3c8c429110f08ccdc9b32707eb0784e3528a3ecd2706637168dc11457c5f1a47"
+  },
+  {
+    "source_group": "glad",
+    "local_path": "private-data/incoming/glad/nrel-hydrogen-jsonld/0381ede3-9567-44c0-9200-cbbef872097e_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "bytes": 2897997,
+    "sha256": "ae0a897c9acf86e99d13e1c1360e791e55012071955ba88eab1c6514961bd67d"
+  },
+  {
+    "source_group": "glad",
+    "local_path": "private-data/incoming/glad/nrel-hydrogen-jsonld/435c3df8-57d0-467c-8896-37212b19e2b1_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "bytes": 1445269,
+    "sha256": "85690b8cbae17bbedd2804c665d8cf75f79c0d430caebe6147a9c9c1df7481bf"
+  },
+  {
+    "source_group": "glad",
+    "local_path": "private-data/incoming/glad/nrel-hydrogen-jsonld/697947c1-fc38-4406-bee1-d1e5baaa71d8_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "bytes": 2904052,
+    "sha256": "77f30fcaf8e8792eb7c409474b6a6efa0dc243d757816209101861e57d597d6c"
+  },
+  {
+    "source_group": "glad",
+    "local_path": "private-data/incoming/glad/nrel-hydrogen-jsonld/982230dc-87c0-4ea0-8511-8e36064f66be_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "bytes": 1804901,
+    "sha256": "32f9a275934d2ffa5830df6a4330d276fa1ccf968e335c79172eff7be05dcb47"
+  },
+  {
+    "source_group": "glad",
+    "local_path": "private-data/incoming/glad/nrel-hydrogen-jsonld/9f8a4892-e27e-4cc5-af91-7bdfd600dee7_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "bytes": 1924132,
+    "sha256": "517b15e1507ca9255acb999c57f4971dbd58bab32bf42fe2a5407dd25dce24c1"
+  },
+  {
+    "source_group": "glad",
+    "local_path": "private-data/incoming/glad/nrel-hydrogen-jsonld/bc848aa4-1a9f-4848-87f1-d30c9e1deaff_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "bytes": 1369413,
+    "sha256": "0407a7d087c8ffab2c47b5d335cb99994b710ca37715458776294617f10b982d"
+  },
+  {
+    "source_group": "glad",
+    "local_path": "private-data/incoming/glad/nrel-hydrogen-jsonld/fea93709-0327-4eb4-b705-aa4db0f55cdf_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "bytes": 1887199,
+    "sha256": "a2c90c16956158394fb23387a2eebb5d86793dcc591aefdef2b105b9212172a5"
+  },
+  {
+    "source_group": "microsoft-nature",
+    "local_path": "private-data/incoming/microsoft-nature/41586_2025_8832_MOESM1_ESM.pdf",
+    "bytes": 802393,
+    "sha256": "58f487084ebb138d088a66c892d50ae6091b48a7923fd62ea13fb1c9751cdb34"
+  },
+  {
+    "source_group": "microsoft-nature",
+    "local_path": "private-data/incoming/microsoft-nature/41586_2025_8832_MOESM2_ESM.xlsx",
+    "bytes": 23640,
+    "sha256": "f2a39240110d1fc9eca6dad975a737518ee3d0de9bc8f80a0f148c7c683d950d"
+  },
+  {
+    "source_group": "microsoft-zenodo",
+    "local_path": "private-data/incoming/microsoft-zenodo/14268168.zip",
+    "bytes": 383198,
+    "sha256": "2a481efeb1a01e52c2bafa2615d44d39f2e7d8b7f241cf2feee789160b4e684d"
+  },
+  {
+    "source_group": "microsoft-zenodo",
+    "local_path": "private-data/incoming/microsoft-zenodo/Alissa_et_al_Supplemental_Data_EPDs.csv",
+    "bytes": 8693,
+    "sha256": "5645827de2e81275817ffe0d7b946f59fd65460adb2cb2c1c10f519d510f6661"
+  },
+  {
+    "source_group": "microsoft-zenodo",
+    "local_path": "private-data/incoming/microsoft-zenodo/LCA Tool with Detailed Equations.xlsx",
+    "bytes": 311068,
+    "sha256": "957b4b774318e181d0563d17ad8e92aff16398e6e147998083f27a0b99c81a6f"
+  },
+  {
+    "source_group": "microsoft-zenodo",
+    "local_path": "private-data/incoming/microsoft-zenodo/LCA_Tool_w_Raw_&_Normalized_PlusUncertainty&Details.xlsx",
+    "bytes": 62791,
+    "sha256": "f980d8216c32bdd0a6ee26cd10f739d7bb5ee8501505d6e1b4ca5fedb4b73ae6"
+  },
+  {
+    "source_group": "noaa-tmy",
+    "local_path": "private-data/incoming/noaa-tmy/fayetteville-ar-usw00093993/tmy-station_id-usw00093993-time_period-199801-202212-weights-equal-metadata.csv",
+    "bytes": 1844,
+    "sha256": "f4fdd9ee84019329fb971a038fdc172975dfd12e5648d60a8543487c16a5af53"
+  },
+  {
+    "source_group": "noaa-tmy",
+    "local_path": "private-data/incoming/noaa-tmy/fayetteville-ar-usw00093993/tmy-station_id-usw00093993-time_period-199801-202212-weights-equal.csv",
+    "bytes": 841402,
+    "sha256": "689d8494df704e1397194e5eda22406bbe3a6b2d384f5245003b35d1546ec584"
+  },
+  {
+    "source_group": "noaa-tmy",
+    "local_path": "private-data/incoming/noaa-tmy/fayetteville-ar-usw00093993/tmy-station_id-usw00093993-time_period-199801-202212-weights-equal.epw",
+    "bytes": 1969731,
+    "sha256": "72ee0ab1855bb0e4c9a7cd9d8cc048eee2c2f8a7504a7f222acc22829ebcd9be"
+  },
+  {
+    "source_group": "noaa-tmy",
+    "local_path": "private-data/incoming/noaa-tmy/fayetteville-ar-usw00093993/tmy-station_id-usw00093993-time_period-199801-202212-weights-equal.zip",
+    "bytes": 2813665,
+    "sha256": "df8f0487f502cf92e1184a43db1be6605c625b9ace4cffc8bd8f02903869586c"
+  },
+  {
+    "source_group": "oekobaudat",
+    "local_path": "private-data/incoming/oekobaudat/0068G_en_BF_200106ms.pdf",
+    "bytes": 2968611,
+    "sha256": "a5cb570a9cd9686db174ddae4f38bfedb5fa135313666a7b6f0d29909e3cb8fb"
+  },
+  {
+    "source_group": "oekobaudat",
+    "local_path": "private-data/incoming/oekobaudat/OBD_2024_II_2026-07-30T03_36_49.zip",
+    "bytes": 3521172782,
+    "sha256": "859c3f30e9d3f0bcd9c8c82c94745c7bd95020484f3d5ec1a3a60d775467be1a"
+  },
+  {
+    "source_group": "oekobaudat",
+    "local_path": "private-data/incoming/oekobaudat/OBD_2024_II_2026-07-30T03_36_57.csv",
+    "bytes": 51311919,
+    "sha256": "16aeb21b79141f1122e5f2959fd845656f0ec6fd3bfab1ec8f33498c107d3217"
+  },
+  {
+    "source_group": "usgs-wbd-hu12",
+    "local_path": "private-data/incoming/usgs-wbd-hu12/102020_wbd_hu12.gdb.zip",
+    "bytes": 749735424,
+    "sha256": "d3b6110e60724c7624f2041a34d4949f421ac5d30a3268b78713645e055683fa"
+  },
+  {
+    "source_group": "uslci",
+    "local_path": "private-data/incoming/uslci/uslci_v1.2026-06.0_olca2_6_1.zolca",
+    "bytes": 21399486,
+    "sha256": "a8219f729c9ef79c41f416153181c94f63f7b9cbc20c9f46d7ee1ec909b9fd76"
+  }
+]

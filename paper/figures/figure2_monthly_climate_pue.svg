@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520" role="img" aria-label="Fayetteville climate applied to transparent PUE hypotheses">
+<style>text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:22px;font-weight:bold}.axis{font-size:14px}.small{font-size:12px;fill:#52606d}</style>
+<rect width="100%" height="100%" fill="white"/>
+<text class="title" x="55" y="36">Fayetteville climate applied to transparent PUE hypotheses</text>
+<text class="axis" x="85.0" y="445" text-anchor="middle">1</text>
+<text class="axis" x="153.2" y="445" text-anchor="middle">2</text>
+<text class="axis" x="221.4" y="445" text-anchor="middle">3</text>
+<text class="axis" x="289.5" y="445" text-anchor="middle">4</text>
+<text class="axis" x="357.7" y="445" text-anchor="middle">5</text>
+<text class="axis" x="425.9" y="445" text-anchor="middle">6</text>
+<text class="axis" x="494.1" y="445" text-anchor="middle">7</text>
+<text class="axis" x="562.3" y="445" text-anchor="middle">8</text>
+<text class="axis" x="630.5" y="445" text-anchor="middle">9</text>
+<text class="axis" x="698.6" y="445" text-anchor="middle">10</text>
+<text class="axis" x="766.8" y="445" text-anchor="middle">11</text>
+<text class="axis" x="835.0" y="445" text-anchor="middle">12</text>
+<polyline points="85.0,196.7 153.2,198.2 221.4,198.0 289.5,182.0 357.7,153.3 425.9,109.3 494.1,95.5 562.3,103.6 630.5,137.7 698.6,181.9 766.8,191.7 835.0,197.4" fill="none" stroke="#4B5563" stroke-width="3"/>
+<polyline points="85.0,332.9 153.2,333.5 221.4,334.2 289.5,331.2 357.7,322.6 425.9,304.3 494.1,298.3 562.3,301.9 630.5,316.9 698.6,330.8 766.8,333.5 835.0,333.2" fill="none" stroke="#0072B2" stroke-width="3"/>
+<polyline points="85.0,376.8 153.2,377.1 221.4,377.4 289.5,377.4 357.7,375.7 425.9,370.4 494.1,368.4 562.3,369.3 630.5,374.8 698.6,377.1 766.8,377.5 835.0,376.9" fill="none" stroke="#009E73" stroke-width="3"/>
+<polyline points="85.0,398.1 153.2,398.4 221.4,398.7 289.5,398.7 357.7,398.6 425.9,396.8 494.1,396.0 562.3,396.2 630.5,398.4 698.6,398.8 766.8,398.7 835.0,398.2" fill="none" stroke="#D55E00" stroke-width="3"/>
+<line x1="85" y1="420.0" x2="835" y2="420.0" stroke="#E5E7EB"/>
+<text class="axis" x="75" y="425.0" text-anchor="end">1.03</text>
+<line x1="85" y1="335.0" x2="835" y2="335.0" stroke="#E5E7EB"/>
+<text class="axis" x="75" y="340.0" text-anchor="end">1.05</text>
+<line x1="85" y1="250.0" x2="835" y2="250.0" stroke="#E5E7EB"/>
+<text class="axis" x="75" y="255.0" text-anchor="end">1.07</text>
+<line x1="85" y1="165.0" x2="835" y2="165.0" stroke="#E5E7EB"/>
+<text class="axis" x="75" y="170.0" text-anchor="end">1.09</text>
+<line x1="85" y1="80.0" x2="835" y2="80.0" stroke="#E5E7EB"/>
+<text class="axis" x="75" y="85.0" text-anchor="end">1.11</text>
+<line x1="60" y1="480" x2="85" y2="480" stroke="#4B5563" stroke-width="4"/>
+<text class="axis" x="92" y="485">Air-cooled</text>
+<line x1="260" y1="480" x2="285" y2="480" stroke="#0072B2" stroke-width="4"/>
+<text class="axis" x="292" y="485">Cold plate</text>
+<line x1="460" y1="480" x2="485" y2="480" stroke="#009E73" stroke-width="4"/>
+<text class="axis" x="492" y="485">One-phase</text>
+<line x1="660" y1="480" x2="685" y2="480" stroke="#D55E00" stroke-width="4"/>
+<text class="axis" x="692" y="485">Two-phase</text>
+<text class="axis" transform="translate(23 330) rotate(-90)">Illustrative monthly mean PUE</text>
+</svg>
