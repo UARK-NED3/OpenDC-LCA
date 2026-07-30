@@ -7,9 +7,16 @@
 - Hourly TMY ingestion and temperature-dependent PUE research-preview model.
 - Paper-ready tables, figures, equations, workbook, citations, and review notes.
 
+## Delivered in v0.6
+
+- Complete load-temperature performance-surface contract.
+- In-envelope bilinear interpolation and explicit extrapolation failure.
+- Hourly workload-weather integration and measurement uncertainty bounds.
+- Evidence-status controls that block comparisons of synthetic datasets.
+
 ## Next evidence gate
 
-- Replace illustrative PUE curves with NED³ measurements for an air-cooled
+- Replace synthetic performance surfaces with NED³ measurements for an air-cooled
   reference and at least one liquid-cooling architecture.
 - Add load, humidity or wet-bulb conditions, coolant-loop measurements, and
   uncertainty.
@@ -36,15 +43,15 @@
 ## Phase 2 — experimental performance maps
 
 - [x] Common laboratory data format
-- [ ] Pump, fan, CDU, and heat-rejection performance maps
-- [ ] Partial-load and transient workload support
+- [x] Pump, fan, CDU, and heat-rejection performance-map interface
+- [x] Partial-load hourly workload support
 - [x] Independent-parameter Monte Carlo uncertainty propagation
 - [ ] Correlated measurement uncertainty and model-form uncertainty
 - [ ] Reproducible reference experiments
 
 ## Phase 3 — dynamic and regionalized LCA
 
-- [ ] Hourly weather, grid, and workload engine
+- [x] Hourly weather and workload engine with annual grid factors
 - [ ] Dry, evaporative, and hybrid heat rejection
 - [ ] Water-scarcity characterization
 - [ ] Grid-decarbonization scenarios

@@ -29,6 +29,7 @@ artifacts. A maintainer should complete this checklist from a clean checkout.
    ```bash
    python scripts/refresh_public_data.py
    python scripts/run_research_analysis.py
+   python scripts/run_v06_measurement_demo.py
    ```
 
 3. Run unit tests and the complete command-line smoke test:

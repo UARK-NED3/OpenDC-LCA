@@ -76,3 +76,23 @@ coupling.
 - EPA eGRID detailed data: https://www.epa.gov/egrid/detailed-data
 - NOAA Typical Meteorological Year:
   https://www.ncei.noaa.gov/access/typical-meteorological-year/
+
+## v0.6 measurement-ready extension
+
+Version 0.6 replaces the fixed temperature-PUE function interface with a
+complete measured load-by-temperature surface. It uses bilinear interpolation
+inside the measured grid, rejects extrapolation, aligns weather and workload
+hourly, and reports a screening interval based on declared measurement
+uncertainty.
+
+The included air-cooled and direct-to-chip surfaces are synthetic software
+fixtures. Their numerical difference is not a technology result, and the
+machine-readable output sets `comparative_claim_allowed` to `false`.
+
+![Synthetic hourly surface demonstration](figures/figure4_measurement_surface_demo.svg)
+
+![Synthetic surface contract](figures/figure5_synthetic_performance_surface.svg)
+
+Table 5 records the complete annual integration. The next manuscript-quality
+analysis should use the same interface with calibrated NED³ measurements and
+`reviewed` evidence status.

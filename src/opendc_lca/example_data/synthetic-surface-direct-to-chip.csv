@@ -1,0 +1,13 @@
+test_id,architecture,it_load_kw,heat_removed_kw,coolant_supply_c,coolant_return_c,flow_kg_s,pressure_drop_kpa,pump_power_kw,fan_power_kw,cdu_power_kw,heat_rejection_power_kw,onsite_water_l_h,ambient_dry_bulb_c,ambient_wet_bulb_c,duration_hours,measurement_uncertainty_percent,source_id
+SYN-direct-to-chip-40--15,direct-to-chip,40.0,40.0,30.0,40.0,0.4,8.0,0.43296,0.15744,0.3936,0.984,0.0,-15.0,-18.0,1.0,5.0,synthetic-v0.6-demo
+SYN-direct-to-chip-40-0,direct-to-chip,40.0,40.0,30.0,40.0,0.4,8.0,0.40656,0.14784,0.3696,0.9239999999999999,0.0,0.0,-3.0,1.0,5.0,synthetic-v0.6-demo
+SYN-direct-to-chip-40-20,direct-to-chip,40.0,40.0,30.0,40.0,0.4,8.0,0.40304,0.14656,0.36640000000000006,0.916,0.16000000000000003,20.0,17.0,1.0,5.0,synthetic-v0.6-demo
+SYN-direct-to-chip-40-35,direct-to-chip,40.0,40.0,30.0,40.0,0.4,8.0,0.5614399999999999,0.20415999999999998,0.5104,1.2759999999999998,0.4,35.0,32.0,1.0,5.0,synthetic-v0.6-demo
+SYN-direct-to-chip-70--15,direct-to-chip,70.0,70.0,30.0,40.0,0.7,14.0,0.6745200000000001,0.24528000000000003,0.6132000000000001,1.5330000000000001,0.0,-15.0,-18.0,1.0,5.0,synthetic-v0.6-demo
+SYN-direct-to-chip-70-0,direct-to-chip,70.0,70.0,30.0,40.0,0.7,14.0,0.6283200000000001,0.22848000000000002,0.5712,1.4280000000000002,0.0,0.0,-3.0,1.0,5.0,synthetic-v0.6-demo
+SYN-direct-to-chip-70-20,direct-to-chip,70.0,70.0,30.0,40.0,0.7,14.0,0.62216,0.22624000000000002,0.5656000000000001,1.4140000000000001,0.27999999999999997,20.0,17.0,1.0,5.0,synthetic-v0.6-demo
+SYN-direct-to-chip-70-35,direct-to-chip,70.0,70.0,30.0,40.0,0.7,14.0,0.8993600000000003,0.3270400000000001,0.8176000000000002,2.0440000000000005,0.7,35.0,32.0,1.0,5.0,synthetic-v0.6-demo
+SYN-direct-to-chip-100--15,direct-to-chip,100.0,100.0,30.0,40.0,1.0,20.0,0.8448000000000001,0.30720000000000003,0.7680000000000001,1.9200000000000002,0.0,-15.0,-18.0,1.0,5.0,synthetic-v0.6-demo
+SYN-direct-to-chip-100-0,direct-to-chip,100.0,100.0,30.0,40.0,1.0,20.0,0.7788,0.2832,0.7080000000000001,1.77,0.0,0.0,-3.0,1.0,5.0,synthetic-v0.6-demo
+SYN-direct-to-chip-100-20,direct-to-chip,100.0,100.0,30.0,40.0,1.0,20.0,0.7700000000000001,0.28,0.7000000000000002,1.7500000000000002,0.4,20.0,17.0,1.0,5.0,synthetic-v0.6-demo
+SYN-direct-to-chip-100-35,direct-to-chip,100.0,100.0,30.0,40.0,1.0,20.0,1.1660000000000001,0.42400000000000004,1.0600000000000003,2.6500000000000004,1.0,35.0,32.0,1.0,5.0,synthetic-v0.6-demo

@@ -3,6 +3,26 @@
 All notable changes are documented here. The project follows semantic
 versioning after the first stable release.
 
+## 0.6.0 — 2026-07-29
+
+### Added
+
+- Complete load-by-temperature performance-surface validation.
+- Bilinear interpolation with an explicit prohibition on extrapolation.
+- Hourly alignment of measured performance, NOAA weather, and workload.
+- Screening PUE uncertainty bounds derived from declared measurement
+  uncertainty.
+- Evidence statuses and a comparative-claim gate requiring at least two
+  reviewed performance datasets.
+- Laboratory and workload templates, a synthetic two-architecture
+  demonstration, two figures, and a paper table.
+
+### Changed
+
+- Package version advanced to 0.6.0.
+- The next evidence gate is now replacement of synthetic surfaces with NED³
+  measurements rather than additional assumed PUE curves.
+
 ## 0.5.0 — 2026-07-29
 
 ### Added

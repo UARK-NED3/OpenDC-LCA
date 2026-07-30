@@ -1,0 +1,3 @@
+architecture,hours,it_energy_kwh,cooling_energy_kwh,onsite_water_l,mean_pue,pue_lower,pue_upper,operational_kgco2e_per_it_mwh,source_ids,evidence_status
+air-cooled,8760,646050.0,47308.51205000029,8137.7916750000295,1.073227323040013,1.0695659568880125,1.0768886891920133,486.04382369177256,"('synthetic-v0.6-demo',)",synthetic
+direct-to-chip,8760,646050.0,26209.782782000362,2170.077779999993,1.040569279130099,1.0385408151735935,1.0425977430866027,471.2536294845416,"('synthetic-v0.6-demo',)",synthetic

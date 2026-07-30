@@ -9,5 +9,6 @@ This directory is the stable handoff for manuscript development.
 - `results-workbook.xlsx`: formula-driven review workbook.
 
 The v0.4 reproduction results are validated against released Microsoft/Nature
-source data. The v0.5 hourly results remain a research preview until the
-temperature-PUE assumptions are replaced with measured NED³ performance maps.
+source data. The v0.5 hourly results remain a research preview. Version 0.6
+provides the file contract and hourly engine for replacing its assumptions with
+measured NED³ performance surfaces.

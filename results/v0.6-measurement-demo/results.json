@@ -1,0 +1,44 @@
+{
+  "status": "synthetic protocol demonstration",
+  "comparative_claim_allowed": false,
+  "egrid": {
+    "data_year": 2023,
+    "state": "Arkansas",
+    "state_abbreviation": "AR",
+    "co2e_kg_per_mwh": 452.8805904,
+    "source_field": "ST23!STC2ERTA",
+    "co2e_kg_per_kwh": 0.4528805904
+  },
+  "results": [
+    {
+      "architecture": "air-cooled",
+      "hours": 8760,
+      "it_energy_kwh": 646050.0,
+      "cooling_energy_kwh": 47308.51205000029,
+      "onsite_water_l": 8137.7916750000295,
+      "mean_pue": 1.073227323040013,
+      "pue_lower": 1.0695659568880125,
+      "pue_upper": 1.0768886891920133,
+      "operational_kgco2e_per_it_mwh": 486.04382369177256,
+      "source_ids": [
+        "synthetic-v0.6-demo"
+      ],
+      "evidence_status": "synthetic"
+    },
+    {
+      "architecture": "direct-to-chip",
+      "hours": 8760,
+      "it_energy_kwh": 646050.0,
+      "cooling_energy_kwh": 26209.782782000362,
+      "onsite_water_l": 2170.077779999993,
+      "mean_pue": 1.040569279130099,
+      "pue_lower": 1.0385408151735935,
+      "pue_upper": 1.0425977430866027,
+      "operational_kgco2e_per_it_mwh": 471.2536294845416,
+      "source_ids": [
+        "synthetic-v0.6-demo"
+      ],
+      "evidence_status": "synthetic"
+    }
+  ]
+}

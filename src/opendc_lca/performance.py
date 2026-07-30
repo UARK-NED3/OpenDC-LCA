@@ -102,6 +102,38 @@ class PerformanceSummary:
         return asdict(self)
 
 
+@dataclass(frozen=True)
+class InterpolatedPerformance:
+    architecture: str
+    it_load_kw: float
+    ambient_dry_bulb_c: float
+    cooling_power_kw: float
+    onsite_water_l_h: float
+    measurement_uncertainty_percent: float
+
+    @property
+    def partial_pue(self) -> float:
+        return 1 + self.cooling_power_kw / self.it_load_kw
+
+
+@dataclass(frozen=True)
+class HourlyPerformanceResult:
+    architecture: str
+    hours: int
+    it_energy_kwh: float
+    cooling_energy_kwh: float
+    onsite_water_l: float
+    mean_pue: float
+    pue_lower: float
+    pue_upper: float
+    operational_kgco2e_per_it_mwh: float
+    source_ids: tuple[str, ...]
+    evidence_status: str
+
+    def as_dict(self) -> dict[str, object]:
+        return asdict(self)
+
+
 def load_performance_map(path: str | Path) -> list[PerformancePoint]:
     """Load and validate the common laboratory CSV format."""
     with Path(path).open(newline="", encoding="utf-8-sig") as handle:
@@ -240,4 +272,146 @@ def apply_performance(
         pue=summary.measured_pue,
         onsite_water_l_per_kwh_it=summary.onsite_water_l_per_kwh_it,
         source_digest_sha256=derived_digest,
+    )
+
+
+def _bracket(values: list[float], target: float, name: str) -> tuple[float, float]:
+    if target < values[0] or target > values[-1]:
+        raise ValidationError(
+            f"{name} {target} is outside measured range "
+            f"[{values[0]}, {values[-1]}]; extrapolation is disabled"
+        )
+    lower = max(value for value in values if value <= target)
+    upper = min(value for value in values if value >= target)
+    return lower, upper
+
+
+def _linear(value0: float, value1: float, fraction: float) -> float:
+    return value0 + fraction * (value1 - value0)
+
+
+def interpolate_performance(
+    points: list[PerformancePoint],
+    *,
+    it_load_kw: float,
+    ambient_dry_bulb_c: float,
+) -> InterpolatedPerformance:
+    """Bilinearly interpolate a complete load-by-temperature measurement grid."""
+    if not points:
+        raise ValidationError("At least one measured performance point is required")
+    architectures = {point.architecture for point in points}
+    if len(architectures) != 1:
+        raise ValidationError("Interpolation points must share one architecture")
+    loads = sorted({point.it_load_kw for point in points})
+    temperatures = sorted({point.ambient_dry_bulb_c for point in points})
+    grid = {
+        (point.it_load_kw, point.ambient_dry_bulb_c): point for point in points
+    }
+    if len(grid) != len(points):
+        raise ValidationError(
+            "Performance surface contains duplicate load-temperature combinations"
+        )
+    if len(grid) != len(loads) * len(temperatures):
+        raise ValidationError(
+            "Performance surface must contain every load-temperature combination"
+        )
+    load0, load1 = _bracket(loads, it_load_kw, "IT load")
+    temp0, temp1 = _bracket(
+        temperatures, ambient_dry_bulb_c, "Ambient dry-bulb temperature"
+    )
+    load_fraction = 0.0 if load1 == load0 else (it_load_kw - load0) / (load1 - load0)
+    temp_fraction = (
+        0.0
+        if temp1 == temp0
+        else (ambient_dry_bulb_c - temp0) / (temp1 - temp0)
+    )
+
+    def bilinear(attribute: str) -> float:
+        at_temp0 = _linear(
+            getattr(grid[(load0, temp0)], attribute),
+            getattr(grid[(load1, temp0)], attribute),
+            load_fraction,
+        )
+        at_temp1 = _linear(
+            getattr(grid[(load0, temp1)], attribute),
+            getattr(grid[(load1, temp1)], attribute),
+            load_fraction,
+        )
+        return _linear(at_temp0, at_temp1, temp_fraction)
+
+    return InterpolatedPerformance(
+        architecture=points[0].architecture,
+        it_load_kw=it_load_kw,
+        ambient_dry_bulb_c=ambient_dry_bulb_c,
+        cooling_power_kw=bilinear("cooling_power_kw"),
+        onsite_water_l_h=bilinear("onsite_water_l_h"),
+        measurement_uncertainty_percent=bilinear(
+            "measurement_uncertainty_percent"
+        ),
+    )
+
+
+def integrate_hourly_performance(
+    points: list[PerformancePoint],
+    hourly_dry_bulb_c: list[float],
+    hourly_load_fraction: list[float],
+    *,
+    rated_it_load_kw: float,
+    grid_kgco2e_per_mwh: float,
+    evidence_status: str,
+) -> HourlyPerformanceResult:
+    """Integrate a measured surface against aligned weather and workload."""
+    if len(hourly_dry_bulb_c) != len(hourly_load_fraction):
+        raise ValidationError("Weather and workload series must have equal length")
+    if not hourly_dry_bulb_c:
+        raise ValidationError("Hourly series cannot be empty")
+    if rated_it_load_kw <= 0 or grid_kgco2e_per_mwh < 0:
+        raise ValidationError("Rated IT load must be positive and grid factor non-negative")
+    if evidence_status not in {"synthetic", "measured", "reviewed"}:
+        raise ValidationError(
+            "evidence_status must be synthetic, measured, or reviewed"
+        )
+    it_energy = 0.0
+    cooling_energy = 0.0
+    cooling_lower = 0.0
+    cooling_upper = 0.0
+    water = 0.0
+    for temperature, fraction in zip(
+        hourly_dry_bulb_c, hourly_load_fraction
+    ):
+        if fraction <= 0 or fraction > 1:
+            raise ValidationError("Hourly load fractions must be in (0, 1]")
+        point = interpolate_performance(
+            points,
+            it_load_kw=rated_it_load_kw * fraction,
+            ambient_dry_bulb_c=temperature,
+        )
+        uncertainty = point.measurement_uncertainty_percent / 100.0
+        it_energy += point.it_load_kw
+        cooling_energy += point.cooling_power_kw
+        cooling_lower += point.cooling_power_kw * (1 - uncertainty)
+        cooling_upper += point.cooling_power_kw * (1 + uncertainty)
+        water += point.onsite_water_l_h
+    mean_pue = 1 + cooling_energy / it_energy
+    return HourlyPerformanceResult(
+        architecture=points[0].architecture,
+        hours=len(hourly_dry_bulb_c),
+        it_energy_kwh=it_energy,
+        cooling_energy_kwh=cooling_energy,
+        onsite_water_l=water,
+        mean_pue=mean_pue,
+        pue_lower=1 + cooling_lower / it_energy,
+        pue_upper=1 + cooling_upper / it_energy,
+        operational_kgco2e_per_it_mwh=mean_pue * grid_kgco2e_per_mwh,
+        source_ids=tuple(sorted({point.source_id for point in points})),
+        evidence_status=evidence_status,
+    )
+
+
+def measurement_comparative_claim_allowed(
+    results: list[HourlyPerformanceResult],
+) -> bool:
+    """Allow comparison only when at least two performance maps are reviewed."""
+    return len(results) >= 2 and all(
+        result.evidence_status == "reviewed" for result in results
     )

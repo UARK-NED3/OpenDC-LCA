@@ -5,8 +5,9 @@ Open, physics-informed life-cycle analysis for data-center cooling.
 OpenDC-LCA connects measured or simulated cooling performance with transparent
 life-cycle inventories. The first release is a small, dependency-free reference
 model for comparing air cooling, direct-to-chip liquid cooling, and immersion
-cooling on a common annual basis. Version 0.5 adds a Microsoft/Nature public
-result reproduction audit and an hourly climate-aware research preview.
+cooling on a common annual basis. Version 0.6 adds measurement-ready
+load-temperature surfaces, hourly workload integration, uncertainty bounds,
+and evidence-based comparative-claim controls.
 
 > [!IMPORTANT]
 > The cooling-technology examples remain illustrative. A separate
@@ -110,7 +111,13 @@ performance maps.
 
 ```bash
 python scripts/run_research_analysis.py
+python scripts/run_v06_measurement_demo.py
 ```
+
+The v0.6 demonstration uses synthetic surfaces solely to exercise the complete
+measurement-to-LCA path. The engine refuses extrapolation beyond the measured
+grid and does not authorize comparative claims until at least two performance
+datasets have been reviewed.
 
 ## Model boundary
 
@@ -148,6 +155,7 @@ reliability. These are tracked in the [research roadmap](docs/ROADMAP.md).
 - `results/v0.3-experimental/`: performance and uncertainty demonstration
 - `results/v0.4-microsoft-reproduction/`: released-result arithmetic audit
 - `results/v0.5-hourly-preview/`: climate-aware hypothesis demonstration
+- `results/v0.6-measurement-demo/`: measurement-surface protocol demonstration
 - `paper/`: manuscript-ready tables, figures, workbook, and results narrative
 - `CHANGELOG.md`: release-level scientific and software changes
 

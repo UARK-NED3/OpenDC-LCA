@@ -1,0 +1,2 @@
+timestamp,it_load_fraction,workload_id,source_id,quality_flag
+2026-01-01T00:00:00-06:00,0.75,example-workload,replace-with-source-id,example-only
