@@ -47,6 +47,7 @@ class ApiGuiTests(unittest.TestCase):
         self.assertIn("Audit findings are shown", HTML)
         self.assertIn("Guided study", HTML)
         self.assertIn("Data needed next", HTML)
+        self.assertIn(".hidden{display:none!important}", HTML)
 
     def test_practitioner_template_prepares_and_interprets(self):
         compact = new_practitioner_study()

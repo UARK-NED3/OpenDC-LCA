@@ -1,20 +1,52 @@
 # OpenDC-LCA
 
+[![CI](https://github.com/UARK-NED3/OpenDC-LCA/actions/workflows/ci.yml/badge.svg)](https://github.com/UARK-NED3/OpenDC-LCA/actions/workflows/ci.yml)
+[![GitHub release](https://img.shields.io/github/v/release/UARK-NED3/OpenDC-LCA)](https://github.com/UARK-NED3/OpenDC-LCA/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 Open, physics-informed life-cycle analysis for data-center cooling.
 
-OpenDC-LCA connects measured or simulated cooling performance with transparent
-life-cycle inventories. The first release is a small, dependency-free reference
-model for comparing air cooling, direct-to-chip liquid cooling, and immersion
-cooling on a common annual basis. Version 1.0 provides a stable Python API,
-command-line workflows, and a zero-dependency local GUI over the same validated
-calculation and scientific-audit engine. Version 1.1 adds openLCA/Brightway
-inventory exchange and reliability-driven replacement and maintenance.
+OpenDC-LCA helps data-center practitioners screen the annual greenhouse-gas,
+primary-energy, and blue-water implications of air, direct-to-chip, immersion,
+or user-defined cooling systems. It combines a guided local interface with
+traceable inputs, contribution analysis, scientific audit warnings, and
+machine-readable results.
 
 > [!IMPORTANT]
-> The integrated analysis combines released Microsoft/Nature foreground
-> results with EPA eGRID, Boavizta, ÖKOBAUDAT and released pedigree scores.
-> Its geographic results are screening re-bases, not independent regional
-> product LCAs. Synthetic performance examples remain non-comparative.
+> OpenDC-LCA produces screening results unless the foreground data, background
+> inventories, uncertainty, system boundaries, and critical review support a
+> stronger claim. Passing the automated audit is not an ISO conformity
+> assessment.
+
+## Start here
+
+Requires Python 3.10 or newer. Install the current release:
+
+```bash
+python -m pip install \
+  https://github.com/UARK-NED3/OpenDC-LCA/archive/refs/tags/v1.1.0.zip
+```
+
+Launch the guided local interface:
+
+```bash
+opendc-lca gui
+```
+
+The browser opens `http://127.0.0.1:8765/`. Enter the site, cooling, PUE,
+electricity, water, equipment, and source information; then select
+**Run screening**.
+
+![OpenDC-LCA guided practitioner study](docs/images/guided-study.png)
+
+The interface reports annual and per-IT-MWh impacts, evidence status, missing
+data, and whether a public comparison is blocked. It can also export the full
+governed scenario for reproducibility.
+
+- [Five-minute practitioner guide](docs/PRACTITIONER_GUIDE.md)
+- [Complete input and output reference](docs/INPUT_OUTPUT_REFERENCE.md)
+- [Example scenarios](examples/)
+- [Report an issue or request help](https://github.com/UARK-NED3/OpenDC-LCA/issues)
 
 Research outputs include the
 [manuscript](paper/MANUSCRIPT.md), an
@@ -38,15 +70,12 @@ The long-term goal is an open benchmark and model interface that can combine:
 - reliability, replacement, heat reuse, and end-of-life scenarios; and
 - optional adapters for licensed LCA databases without redistributing them.
 
-## Quick start
+## File-based workflow
 
-Requires Python 3.10 or newer.
-
-For a practitioner screening, create a compact input and a plain-language
-report:
+Users who prefer files or automation can generate a compact input and a
+plain-language report:
 
 ```bash
-python -m pip install -e .
 opendc-lca new-study my-input.json
 # Edit my-input.json with site, cooling, grid, water, and source information.
 opendc-lca prepare-study my-input.json my-scenario.json
@@ -54,11 +83,14 @@ opendc-lca practitioner-report my-scenario.json --output-dir my-results
 opendc-lca capabilities
 ```
 
-Alternatively, launch `opendc-lca gui` and use the **Guided study** tab. See
-the [practitioner guide](docs/PRACTITIONER_GUIDE.md) and complete
-[input/output reference](docs/INPUT_OUTPUT_REFERENCE.md).
+The results directory contains `PRACTITIONER_REPORT.md` for people and
+`practitioner-results.json` for software.
+
+<details>
+<summary>Advanced CLI, uncertainty, reliability, and LCA interoperability</summary>
 
 ```bash
+opendc-lca examples --output-dir examples
 opendc-lca validate examples/air-cooled.json
 opendc-lca run examples/air-cooled.json
 opendc-lca compare examples/air-cooled.json \
@@ -83,15 +115,10 @@ opendc-lca brightway-export foreground.zip brightway.json \
 python -m unittest discover -s tests -v
 ```
 
-Launch the local graphical interface:
+</details>
 
-```bash
-opendc-lca gui
-```
-
-The GUI accepts scenario JSON and performance-map CSV files, presents audit
-findings beside results, and exports machine-readable JSON. It binds to
-localhost by default and should not be exposed publicly.
+The advanced GUI also accepts full scenario JSON and performance-map CSV files.
+It binds to localhost by default and should not be exposed publicly.
 
 Outputs are annual totals and values normalized per delivered IT MWh. JSON output
 is available with `--json`. Installed wheels include the examples; copy them to

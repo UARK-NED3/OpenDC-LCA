@@ -31,7 +31,7 @@ header p{margin:.35rem 0 0;color:#d8e6ef}.wrap{max-width:1200px;margin:28px auto
 .tabs{display:flex;gap:8px}.tabs button{background:#dce8ee;color:var(--navy)}
 button{border:0;border-radius:5px;padding:10px 16px;font-weight:650;background:var(--blue);color:white;cursor:pointer}
 button.active{background:var(--navy);color:white}.panel{background:white;padding:24px;border-radius:8px;
-box-shadow:0 2px 10px #17212b16;margin-top:12px}.hidden{display:none}
+box-shadow:0 2px 10px #17212b16;margin-top:12px}.hidden{display:none!important}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}@media(max-width:850px){.grid{grid-template-columns:1fr}}
 textarea{width:100%;min-height:430px;font:13px ui-monospace,monospace;padding:12px;border:1px solid #bac8d1;border-radius:5px}
 input[type=file]{display:block;margin:10px 0 16px}.notice{background:#fff4e5;color:#743800;padding:12px;border-left:4px solid #d97706}
