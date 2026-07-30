@@ -1,6 +1,6 @@
 # OpenDC-LCA conventions
 
-This document is normative for model version 1.0. Terms such as **must** and
+This document is normative for model version 1.x. Terms such as **must** and
 **should** indicate requirements and recommendations for publishable studies.
 
 ## Functional unit
@@ -52,6 +52,14 @@ installations across the study period:
 The `linearized` screening option instead uses:
 
 `quantity × impact / service life`
+
+The `reliability` option uses an expected renewal count from a Weibull lifetime
+distribution. An optional Arrhenius acceleration factor adjusts characteristic
+life for a declared constant operating temperature. Scheduled maintenance
+impacts and downtime are represented separately. These are expectation models,
+not facility-availability simulations: redundancy, common-cause failures,
+repair queues, workload migration, time-varying temperature damage, and
+second-life pathways remain outside the current boundary.
 
 Component service life may differ from facility life. Studies must declare the
 replacement model and test lifetime sensitivity when it affects conclusions.

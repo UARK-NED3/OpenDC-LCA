@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "opendc-lca"
-version = "1.0.0"
+version = "1.1.0"
 description = "Open, physics-informed life-cycle assessment for data-center cooling"
 readme = "README.md"
 requires-python = ">=3.10"

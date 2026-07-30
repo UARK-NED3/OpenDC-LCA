@@ -37,6 +37,8 @@ $$m_{fluid,annual} =
 
 ![Annual GHG contribution analysis](ghg-contributions.svg)
 
+
+
 ## Leading local GHG sensitivities
 
 | Scenario | Highest-ranked parameter | Elasticity |
@@ -50,7 +52,7 @@ Monte Carlo or global sensitivity analysis.
 
 ## Reproducibility
 
-- Model version: `0.3.0`
+- Model version: `1.1.0`
 - Scenario SHA-256 digests and complete contribution results:
   [`results.json`](results.json)
 - Inputs: bundled files from `examples/`

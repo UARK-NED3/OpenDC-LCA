@@ -39,7 +39,9 @@
         "ghg_method": { "type": "string", "minLength": 1 },
         "primary_energy_method": { "type": "string", "minLength": 1 },
         "water_method": { "type": "string", "minLength": 1 },
-        "replacement_model": { "enum": ["discrete", "linearized"] },
+        "replacement_model": {
+          "enum": ["discrete", "linearized", "reliability"]
+        },
         "critical_review_status": {
           "enum": [
             "not_required", "planned", "internal", "independent",
@@ -72,7 +74,18 @@
         "type": "object",
         "required": [
           "name", "quantity", "service_life_years", "production"
-        ]
+        ],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "quantity": { "type": "number", "exclusiveMinimum": 0 },
+          "service_life_years": {
+            "type": "number", "exclusiveMinimum": 0
+          },
+          "production": { "$ref": "#/$defs/impacts" },
+          "end_of_life": { "$ref": "#/$defs/impactsWithCredits" },
+          "reliability": { "$ref": "#/$defs/reliability" }
+        },
+        "additionalProperties": false
       }
     },
     "data_sources": {
@@ -119,5 +132,67 @@
     "fluid": { "type": ["object", "null"] },
     "metadata": { "type": "object" }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "$defs": {
+    "impacts": {
+      "type": "object",
+      "required": ["ghg_kgco2e", "primary_energy_mj", "blue_water_l"],
+      "properties": {
+        "ghg_kgco2e": { "type": "number", "minimum": 0 },
+        "primary_energy_mj": { "type": "number", "minimum": 0 },
+        "blue_water_l": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "impactsWithCredits": {
+      "type": "object",
+      "required": ["ghg_kgco2e", "primary_energy_mj", "blue_water_l"],
+      "properties": {
+        "ghg_kgco2e": { "type": "number" },
+        "primary_energy_mj": { "type": "number" },
+        "blue_water_l": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "reliability": {
+      "type": "object",
+      "required": [
+        "model", "characteristic_life_years", "shape",
+        "repair_downtime_hours", "affected_capacity_fraction",
+        "maintenance_downtime_hours"
+      ],
+      "properties": {
+        "model": { "enum": ["weibull", "arrhenius_weibull"] },
+        "characteristic_life_years": {
+          "type": "number", "exclusiveMinimum": 0
+        },
+        "shape": { "type": "number", "exclusiveMinimum": 0 },
+        "reference_temperature_c": { "type": "number", "exclusiveMinimum": -273.15 },
+        "operating_temperature_c": { "type": "number", "exclusiveMinimum": -273.15 },
+        "activation_energy_ev": { "type": "number", "exclusiveMinimum": 0 },
+        "repair_downtime_hours": { "type": "number", "minimum": 0 },
+        "affected_capacity_fraction": {
+          "type": "number", "minimum": 0, "maximum": 1
+        },
+        "maintenance_interval_years": {
+          "type": ["number", "null"], "exclusiveMinimum": 0
+        },
+        "maintenance_downtime_hours": { "type": "number", "minimum": 0 },
+        "maintenance_impacts": { "$ref": "#/$defs/impacts" }
+      },
+      "allOf": [{
+        "if": {
+          "properties": { "model": { "const": "arrhenius_weibull" } }
+        },
+        "then": {
+          "required": [
+            "reference_temperature_c",
+            "operating_temperature_c",
+            "activation_energy_ev"
+          ]
+        }
+      }],
+      "additionalProperties": false
+    }
+  }
 }

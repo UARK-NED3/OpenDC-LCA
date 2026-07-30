@@ -36,6 +36,22 @@ surfaces governed by semantic versioning.
    python scripts/run_v06_measurement_demo.py
    ```
 
+   For version 1.1 and later, also exercise interoperability, reliability, and
+   benchmark-evidence gates:
+
+   ```bash
+   opendc-lca openlca-export examples/direct-to-chip.json foreground.zip
+   opendc-lca openlca-inspect foreground.zip
+   opendc-lca brightway-export foreground.zip foreground-bw.json \
+     --database opendc_lca
+   opendc-lca run examples/reliability-direct-to-chip.json
+   opendc-lca benchmark-validate templates/benchmark-manifest.json
+   ```
+
+   The template benchmark manifest is intentionally incomplete until real
+   evidence files and checksums are registered. A release must not relabel
+   synthetic results as measured or reviewed.
+
 3. Run unit tests and the complete command-line smoke test:
 
    ```bash
@@ -59,7 +75,11 @@ surfaces governed by semantic versioning.
    and source licenses.
 7. Obtain the scientific review appropriate to the intended claims. Synthetic
    examples never authorize comparative environmental claims.
-8. Merge the reviewed release pull request and create an annotated `vX.Y.Z`
+8. For a citable scientific-data release, validate and package the completed
+   benchmark manifest, archive the immutable package, and record its issued DOI.
+   DOI reservation, evidence review, and reviewer approval are external actions
+   and cannot be inferred from passing software tests.
+9. Merge the reviewed release pull request and create an annotated `vX.Y.Z`
    tag. Pushing the tag runs the GitHub release workflow and attaches the wheel
    and source distribution.
 

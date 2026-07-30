@@ -7,7 +7,8 @@ life-cycle inventories. The first release is a small, dependency-free reference
 model for comparing air cooling, direct-to-chip liquid cooling, and immersion
 cooling on a common annual basis. Version 1.0 provides a stable Python API,
 command-line workflows, and a zero-dependency local GUI over the same validated
-calculation and scientific-audit engine.
+calculation and scientific-audit engine. Version 1.1 adds openLCA/Brightway
+inventory exchange and reliability-driven replacement and maintenance.
 
 > [!IMPORTANT]
 > The cooling-technology examples remain illustrative. A separate
@@ -53,6 +54,11 @@ opendc-lca experimental-report examples/direct-to-chip.json \
   examples/performance-map-direct-to-chip.csv \
   examples/uncertainty-direct-to-chip.json \
   --output-dir results/my-experiment
+opendc-lca run examples/reliability-direct-to-chip.json --json
+opendc-lca openlca-export examples/direct-to-chip.json foreground.zip
+opendc-lca openlca-inspect foreground.zip
+opendc-lca brightway-export foreground.zip brightway.json \
+  --database opendc-foreground
 python -m unittest discover -s tests -v
 ```
 
@@ -136,7 +142,9 @@ The Phase 1 model includes:
 - IT and facility electricity derived from IT capacity, capacity factor, and PUE;
 - electricity-related GHG, primary-energy, and blue-water impacts;
 - on-site cooling water;
-- annualized production and end-of-life impacts of equipment;
+- annualized, discrete, or reliability-driven equipment replacement;
+- Weibull/Arrhenius failure, maintenance, downtime, and unserved-service
+  exposure indicators;
 - coolant manufacture, replenishment, and direct emissions from loss; and
 - an auditable contribution breakdown.
 - required provenance and explicit study-boundary declarations;
@@ -148,9 +156,9 @@ The Phase 1 model includes:
 - reproducible independent-parameter Monte Carlo propagation with p05, p50,
   p95, and mean results.
 
-It does not yet model hourly operation, correlated or model-form uncertainty,
-water scarcity, heat reuse, workload output, or temperature-dependent
-reliability. These are tracked in the [research roadmap](docs/ROADMAP.md).
+It does not yet model correlated or model-form uncertainty, water scarcity,
+heat reuse, redundancy networks, repair queues, or workload output. These are
+tracked in the [research roadmap](docs/ROADMAP.md).
 
 ## Repository map
 
@@ -182,6 +190,10 @@ See [CONVENTIONS.md](docs/CONVENTIONS.md),
 Application developers should use the stable [Python API](docs/API.md);
 interactive users can follow the [GUI guide](docs/GUI.md). Existing users
 should review the [1.0 migration notes](docs/MIGRATING_TO_1_0.md).
+Inventory exchange is documented in
+[INTEROPERABILITY.md](docs/INTEROPERABILITY.md), reliability in
+[RELIABILITY.md](docs/RELIABILITY.md), and measured-data release in
+[BENCHMARK_RELEASE.md](docs/BENCHMARK_RELEASE.md).
 The first open dataset must follow the
 [benchmark protocol](docs/BENCHMARK_PROTOCOL.md).
 Laboratory and uncertainty inputs follow

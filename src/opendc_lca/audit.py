@@ -110,6 +110,15 @@ def audit(scenario: Scenario) -> list[Finding]:
             "and inclusion/exclusion table.",
         ))
 
+    if scenario.study.replacement_model == "reliability":
+        findings.append(Finding(
+            "warning",
+            "RELIABILITY_EXPECTATION_MODEL_LIMITS",
+            "Reliability-driven replacements are expected values from independent "
+            "component renewal models. Redundancy, common-cause failures, repair "
+            "queues, workload migration, and time-varying damage are not modeled.",
+        ))
+
     has_credit = any(
         component.end_of_life.ghg_kgco2e < 0
         or component.end_of_life.primary_energy_mj < 0

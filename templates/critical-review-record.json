@@ -1,0 +1,23 @@
+{
+  "review_type": "independent",
+  "reviewers": [
+    {
+      "name": "REPLACE: reviewer name",
+      "affiliation": "REPLACE",
+      "independence_statement": "REPLACE"
+    }
+  ],
+  "scope": "REPLACE: goal and scope, inventory, LCIA, interpretation, software",
+  "findings": [
+    {
+      "id": "R-001",
+      "severity": "REPLACE",
+      "finding": "REPLACE",
+      "response": "REPLACE",
+      "status": "open"
+    }
+  ],
+  "disposition": "revision_required",
+  "completed_at": "REPLACE: ISO-8601 date",
+  "report_citation": "REPLACE OR REMOVE"
+}

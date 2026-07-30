@@ -8,6 +8,15 @@
   policy.
 - Release-ready tests, examples, research artifacts, and scientific safeguards.
 
+## Delivered in v1.1
+
+- Full-process openLCA JSON-LD reading and foreground export.
+- Brightway database-write mapping and optional direct installation.
+- Weibull and temperature-accelerated reliability-driven replacement,
+  maintenance, downtime, and unserved-service exposure.
+- Enforced benchmark manifest, independent-review record, and DOI-ready
+  release-package workflow.
+
 ## Delivered in v0.4-v0.5
 
 - Independent arithmetic reconstruction of all 24 released Microsoft/Nature
@@ -68,8 +77,10 @@
 
 ## Phase 4 — reliability and circularity
 
-- [ ] Temperature-history-to-failure models
-- [ ] Hardware replacement and second-life scenarios
+- [x] Temperature-parameterized Arrhenius-Weibull failure models
+- [x] Reliability-driven hardware replacement and maintenance
+- [ ] Time-varying temperature-history damage accumulation
+- [ ] Redundancy, common-cause failure, repair queues, and second-life scenarios
 - [ ] Fluid degradation, recovery, and loss distributions
 - [ ] Embodied impacts of servers, buildings, and power systems
 

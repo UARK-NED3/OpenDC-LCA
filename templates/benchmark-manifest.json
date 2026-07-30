@@ -1,0 +1,23 @@
+{
+  "title": "REPLACE: OpenDC-LCA cooling benchmark",
+  "version": "0.1.0",
+  "creators": [
+    {
+      "name": "REPLACE: creator name",
+      "orcid": "REPLACE OR REMOVE"
+    }
+  ],
+  "license": "REPLACE: SPDX identifier or data license",
+  "description": "REPLACE: measured systems, test boundary, and intended use",
+  "functional_unit": "it_mwh",
+  "system_boundary": "cooling_system_cradle_to_grave",
+  "evidence_status": "experimental_unreviewed",
+  "doi": null,
+  "files": [
+    {
+      "path": "REPLACE.csv",
+      "role": "performance_map",
+      "sha256": "REPLACE WITH SHA-256"
+    }
+  ]
+}

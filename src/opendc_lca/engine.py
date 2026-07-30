@@ -6,10 +6,41 @@ from dataclasses import dataclass
 from dataclasses import replace
 import math
 
-from .models import Impacts, Scenario
+from .models import Impacts, ReliabilityModel, Scenario
 
 HOURS_PER_YEAR = 8760.0
-MODEL_VERSION = "1.0.0"
+MODEL_VERSION = "1.1.0"
+K_BOLTZMANN_EV_PER_K = 8.617333262145e-5
+
+
+@dataclass(frozen=True)
+class ReliabilityResult:
+    component: str
+    model: str
+    adjusted_characteristic_life_years: float
+    expected_failures_over_study: float
+    expected_installations_over_study: float
+    scheduled_maintenance_events_over_study: float
+    annual_downtime_hours: float
+    annual_unserved_it_kwh: float
+
+    def as_dict(self) -> dict[str, object]:
+        return {
+            "component": self.component,
+            "model": self.model,
+            "adjusted_characteristic_life_years": (
+                self.adjusted_characteristic_life_years
+            ),
+            "expected_failures_over_study": self.expected_failures_over_study,
+            "expected_installations_over_study": (
+                self.expected_installations_over_study
+            ),
+            "scheduled_maintenance_events_over_study": (
+                self.scheduled_maintenance_events_over_study
+            ),
+            "annual_downtime_hours": self.annual_downtime_hours,
+            "annual_unserved_it_kwh": self.annual_unserved_it_kwh,
+        }
 
 
 @dataclass(frozen=True)
@@ -24,6 +55,7 @@ class Result:
     per_it_mwh: Impacts
     contributions: dict[str, Impacts]
     study_manifest: dict[str, object]
+    reliability: tuple[ReliabilityResult, ...] = ()
 
     def as_dict(self) -> dict[str, object]:
         return {
@@ -39,11 +71,59 @@ class Result:
                 key: value.as_dict() for key, value in self.contributions.items()
             },
             "study": self.study_manifest,
+            "reliability": [item.as_dict() for item in self.reliability],
             "normalization": {
                 "basis": "one MWh of delivered IT electricity",
                 "result_field": "per_it_mwh",
             },
         }
+
+
+def adjusted_characteristic_life(model: ReliabilityModel) -> float:
+    """Return Weibull characteristic life at the declared temperature."""
+    if model.model == "weibull":
+        return model.characteristic_life_years
+    assert model.reference_temperature_c is not None
+    assert model.operating_temperature_c is not None
+    assert model.activation_energy_ev is not None
+    reference_k = model.reference_temperature_c + 273.15
+    operating_k = model.operating_temperature_c + 273.15
+    acceleration = math.exp(
+        model.activation_energy_ev
+        / K_BOLTZMANN_EV_PER_K
+        * (1 / reference_k - 1 / operating_k)
+    )
+    return model.characteristic_life_years / acceleration
+
+
+def expected_weibull_failures(
+    study_years: float,
+    characteristic_life_years: float,
+    shape: float,
+    *,
+    steps_per_year: int = 120,
+) -> float:
+    """Solve the renewal equation for as-good-as-new Weibull replacements."""
+    steps = max(1, int(math.ceil(study_years * steps_per_year)))
+    dt = study_years / steps
+
+    def cdf(time_years: float) -> float:
+        return 1 - math.exp(
+            -((time_years / characteristic_life_years) ** shape)
+        )
+
+    increments = [0.0]
+    increments.extend(
+        cdf(index * dt) - cdf((index - 1) * dt)
+        for index in range(1, steps + 1)
+    )
+    renewal = [0.0] * (steps + 1)
+    for index in range(1, steps + 1):
+        renewal[index] = cdf(index * dt) + sum(
+            renewal[index - offset] * increments[offset]
+            for offset in range(1, index + 1)
+        )
+    return renewal[-1]
 
 
 def analyze(scenario: Scenario) -> Result:
@@ -65,9 +145,71 @@ def analyze(scenario: Scenario) -> Result:
     )
 
     equipment = Impacts()
+    maintenance = Impacts()
+    reliability_results: list[ReliabilityResult] = []
     for component in scenario.components:
         lifecycle = component.production + component.end_of_life
-        if scenario.study.replacement_model == "discrete":
+        if scenario.study.replacement_model == "reliability":
+            if component.reliability is None:
+                raise ValueError(
+                    "replacement_model 'reliability' requires a reliability "
+                    f"record for component '{component.name}'"
+                )
+            reliability = component.reliability
+            adjusted_life = adjusted_characteristic_life(reliability)
+            failures = expected_weibull_failures(
+                scenario.facility_lifetime_years,
+                adjusted_life,
+                reliability.shape,
+            )
+            installations = 1 + failures
+            maintenance_events = (
+                math.floor(
+                    scenario.facility_lifetime_years
+                    / reliability.maintenance_interval_years
+                )
+                if reliability.maintenance_interval_years
+                else 0
+            )
+            annual_quantity = (
+                component.quantity
+                * installations
+                / scenario.facility_lifetime_years
+            )
+            maintenance += reliability.maintenance_impacts.scaled(
+                component.quantity
+                * maintenance_events
+                / scenario.facility_lifetime_years
+            )
+            annual_downtime = (
+                component.quantity
+                * (
+                    failures * reliability.repair_downtime_hours
+                    + maintenance_events
+                    * reliability.maintenance_downtime_hours
+                )
+                / scenario.facility_lifetime_years
+            )
+            reliability_results.append(ReliabilityResult(
+                component=component.name,
+                model=reliability.model,
+                adjusted_characteristic_life_years=adjusted_life,
+                expected_failures_over_study=component.quantity * failures,
+                expected_installations_over_study=(
+                    component.quantity * installations
+                ),
+                scheduled_maintenance_events_over_study=(
+                    component.quantity * maintenance_events
+                ),
+                annual_downtime_hours=annual_downtime,
+                annual_unserved_it_kwh=(
+                    annual_downtime
+                    * scenario.it_capacity_kw
+                    * scenario.capacity_factor
+                    * reliability.affected_capacity_fraction
+                ),
+            ))
+        elif scenario.study.replacement_model == "discrete":
             installations = math.ceil(
                 scenario.facility_lifetime_years
                 / component.service_life_years
@@ -114,6 +256,7 @@ def analyze(scenario: Scenario) -> Result:
         "electricity": electricity,
         "onsite_water": onsite_water,
         "equipment": equipment,
+        "maintenance": maintenance,
         "fluid_lifecycle": fluid,
         "direct_fluid_emissions": direct_fluid_emissions,
     }
@@ -147,6 +290,7 @@ def analyze(scenario: Scenario) -> Result:
             "critical_review_status": scenario.study.critical_review_status,
             "data_source_ids": [source.id for source in scenario.data_sources],
         },
+        reliability=tuple(reliability_results),
     )
 
 

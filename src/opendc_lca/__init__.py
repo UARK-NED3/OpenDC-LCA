@@ -24,6 +24,20 @@ from .api import (
     summarize_performance_csv,
     validate_scenario,
 )
+from .benchmark import (
+    package_benchmark_release,
+    validate_benchmark_manifest,
+    validate_review_record,
+)
+from .interoperability import (
+    InventoryExchange,
+    InventoryProcess,
+    export_scenario_openlca_jsonld,
+    install_brightway_database,
+    read_openlca_jsonld,
+    to_brightway_data,
+    write_brightway_json,
+)
 
 __all__ = [
     "Scenario", "ValidationError", "analyze", "compare", "load_scenario",
@@ -39,5 +53,10 @@ __all__ = [
     "MonteCarloResult", "ParameterDistribution", "monte_carlo",
     "analyze_scenario", "audit_scenario", "summarize_performance_csv",
     "validate_scenario",
+    "InventoryExchange", "InventoryProcess", "read_openlca_jsonld",
+    "export_scenario_openlca_jsonld", "to_brightway_data",
+    "write_brightway_json", "install_brightway_database",
+    "validate_benchmark_manifest", "validate_review_record",
+    "package_benchmark_release",
 ]
-__version__ = "1.0.0"
+__version__ = "1.1.0"

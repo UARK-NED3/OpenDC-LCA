@@ -10,7 +10,8 @@ and surrounding text.
    - Panel (a): evidence acquisition, source registration, harmonization, and
      scenario assembly.
    - Panel (b): calculation engines, scientific audit and claim gate, and
-     reproducible outputs through the CLI, Python API, and local GUI.
+     reproducible outputs through the CLI, Python API, local GUI, openLCA
+     JSON-LD, and Brightway-ready mappings.
    - Contribution emphasized: a traceable interface between heterogeneous
      public/experimental evidence and reproducible data-center cooling LCA.
 
@@ -65,6 +66,15 @@ and surrounding text.
    - Contribution emphasized: exposing parameters that can reverse a ranking.
    - Status: screening uncertainty; independent parameter distributions.
 
+9. **Reliability-driven replacement and maintenance sensitivity**
+   - Expected Weibull renewal counts, Arrhenius-adjusted characteristic life,
+     maintenance impacts, and downtime exposure across declared thermal
+     conditions.
+   - Contribution emphasized: connecting cooling-dependent component
+     temperature assumptions to lifecycle replacement burdens.
+   - Status: model demonstration until lifetime and maintenance parameters are
+     supported by reviewed field or accelerated-life evidence.
+
 Figures 1-6 form the recommended main-text set. Figures 7-8 are recommended
 for the Supplementary Information unless journal length permits.
 
@@ -107,6 +117,11 @@ for the Supplementary Information unless journal length permits.
 8. **Scientific claim-gate criteria**
    - Evidence status, source completeness, functional-unit consistency,
      boundary compatibility, interpolation coverage, uncertainty disclosure,
-     and independent review.
+   and independent review.
+
+9. **Interoperability and reliability verification matrix**
+   - openLCA exchange preservation, Brightway mapping, reference-flow handling,
+     reliability equation checks, maintenance accounting, and unsupported
+     availability features.
 
 Tables 1-5 are recommended for the main text. Tables 6-8 can be supplementary.

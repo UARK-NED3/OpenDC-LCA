@@ -35,6 +35,9 @@ EQUATION_DISPLAY = {
     "7": "Q_c(P,T) = (1-α)(1-β)Q_11 + α(1-β)Q_21 + (1-α)βQ_12 + αβQ_22          (7)",
     "8": "PUE_h = 1 + Q_c,h / P_IT,h                                              (8)",
     "9": "GHG_op = [Σ_h E_IT,h PUE_h EF_grid,h] / [Σ_h E_IT,h]                   (9)",
+    "10": "F(t) = 1 - exp[-(t / eta)^beta]                                      (10)",
+    "11": "M(t) = F(t) + integral[0,t] M(t-x) dF(x)                              (11)",
+    "12": "eta_op = eta_ref / exp[Ea/kB (1/T_ref - 1/T_op)]                      (12)",
 }
 
 

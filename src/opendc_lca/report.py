@@ -168,6 +168,33 @@ def _results_table(results: list[Result]) -> str:
     return "\n".join(lines)
 
 
+def _reliability_table(results: list[Result]) -> str:
+    lines = [
+        "| Scenario | Component | Model | Adjusted life (yr) | "
+        "Expected failures | Downtime (h/yr) | Unserved IT exposure (kWh/yr) |",
+        "|---|---|---|---:|---:|---:|---:|",
+    ]
+    for result in results:
+        for record in result.reliability:
+            lines.append(
+                f"| {result.scenario} | {record.component} | {record.model} | "
+                f"{record.adjusted_characteristic_life_years:.3f} | "
+                f"{record.expected_failures:.3f} | "
+                f"{record.annual_downtime_hours:.3f} | "
+                f"{record.annual_unserved_it_kwh:.3f} |"
+            )
+    if len(lines) == 2:
+        return ""
+    return """## Reliability and replacement expectations
+
+The following values are expected counts from the declared renewal model. They
+are exposure indicators, not a facility-availability prediction; redundancy,
+common-cause failures, repair queues, and workload migration are outside the
+current model.
+
+""" + "\n".join(lines)
+
+
 def generate_report(
     scenarios: list[Scenario], output_dir: str | Path
 ) -> dict[str, Path]:
@@ -231,6 +258,8 @@ $$m_{{fluid,annual}} =
 ![Normalized impact comparison](impact-comparison.svg)
 
 ![Annual GHG contribution analysis](ghg-contributions.svg)
+
+{_reliability_table(results)}
 
 ## Leading local GHG sensitivities
 

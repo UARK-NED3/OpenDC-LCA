@@ -18,6 +18,16 @@ from .performance import (
     summarize_performance,
 )
 from .uncertainty import ParameterDistribution, monte_carlo
+from .benchmark import (
+    package_benchmark_release,
+    validate_benchmark_manifest,
+    validate_review_record,
+)
+from .interoperability import (
+    export_scenario_openlca_jsonld,
+    read_openlca_jsonld,
+    write_brightway_json,
+)
 
 
 def _print_table(results: list[Result]) -> None:
@@ -82,12 +92,73 @@ def _parser() -> argparse.ArgumentParser:
     child.add_argument("--port", type=int, default=8765)
     child.add_argument("--no-browser", action="store_true")
     child.add_argument("--allow-remote", action="store_true")
+    child = subparsers.add_parser("openlca-inspect")
+    child.add_argument("source")
+    child.add_argument("--process-id", action="append")
+    child.add_argument("--json", action="store_true")
+    child = subparsers.add_parser("openlca-export")
+    child.add_argument("scenario")
+    child.add_argument("output")
+    child = subparsers.add_parser("brightway-export")
+    child.add_argument("source")
+    child.add_argument("output")
+    child.add_argument("--database", required=True)
+    child.add_argument("--process-id", action="append")
+    child = subparsers.add_parser("benchmark-validate")
+    child.add_argument("manifest")
+    child.add_argument("--review")
+    child = subparsers.add_parser("benchmark-package")
+    child.add_argument("manifest")
+    child.add_argument("output")
+    child.add_argument("--review")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     try:
+        if args.command == "openlca-inspect":
+            processes = read_openlca_jsonld(
+                args.source, process_ids=args.process_id
+            )
+            if args.json:
+                print(json.dumps(
+                    [process.as_dict() for process in processes], indent=2
+                ))
+            else:
+                for process in processes:
+                    print(
+                        f"{process.id}  {process.name}  "
+                        f"({len(process.exchanges)} exchanges)"
+                    )
+            return 0
+        if args.command == "openlca-export":
+            print(export_scenario_openlca_jsonld(
+                load_scenario(args.scenario), args.output
+            ))
+            return 0
+        if args.command == "brightway-export":
+            processes = read_openlca_jsonld(
+                args.source, process_ids=args.process_id
+            )
+            print(write_brightway_json(
+                processes, args.output, database_name=args.database
+            ))
+            return 0
+        if args.command == "benchmark-validate":
+            manifest = validate_benchmark_manifest(args.manifest)
+            if args.review:
+                validate_review_record(args.review)
+            print(
+                f"Valid benchmark: {manifest['title']} "
+                f"({manifest['evidence_status']})"
+            )
+            return 0
+        if args.command == "benchmark-package":
+            print(package_benchmark_release(
+                args.manifest, args.output, review_path=args.review
+            ))
+            return 0
         if args.command == "gui":
             from .gui import serve_gui
             serve_gui(

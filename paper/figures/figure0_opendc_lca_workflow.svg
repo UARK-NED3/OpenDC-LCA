@@ -93,8 +93,9 @@
     <text x="161" y="704" text-anchor="middle" class="body">Uncertainty</text>
     <text x="161" y="726" text-anchor="middle" class="small">Monte Carlo</text>
     <rect x="238" y="674" width="112" height="72" rx="9" fill="#edf6fb" stroke="#8cb9d3"/>
-    <text x="294" y="704" text-anchor="middle" class="body">Sensitivity</text>
-    <text x="294" y="726" text-anchor="middle" class="small">ranking drivers</text>
+    <text x="294" y="699" text-anchor="middle" class="small">Sensitivity</text>
+    <text x="294" y="717" text-anchor="middle" class="small">+ reliability</text>
+    <text x="294" y="735" text-anchor="middle" class="small">drivers + failures</text>
   </g>
 
   <g filter="url(#shadow)">
@@ -107,7 +108,7 @@
     <text x="473" y="686" class="body">✓ Uncertainty disclosed</text>
     <text x="473" y="718" class="body">✓ Evidence reviewed</text>
     <rect x="476" y="738" width="252" height="29" rx="14" fill="#fff3e0"/>
-    <text x="602" y="758" text-anchor="middle" class="small">Synthetic evidence → comparative claim blocked</text>
+    <text x="602" y="757" text-anchor="middle" style="font-size:11px;fill:#3f6280">Synthetic evidence → comparative claim blocked</text>
   </g>
 
   <g filter="url(#shadow)">
@@ -127,11 +128,11 @@
     <rect x="1176" y="504" width="206" height="48" rx="14" fill="#e5dcf2"/>
     <text x="1279" y="535" text-anchor="middle" class="head">Access layers</text>
     <rect x="1206" y="584" width="146" height="45" rx="22" fill="#f3eff9" stroke="#9c82c1"/>
-    <text x="1279" y="612" text-anchor="middle" class="body">Command line</text>
+    <text x="1279" y="612" text-anchor="middle" class="body">CLI + Python API</text>
     <rect x="1206" y="650" width="146" height="45" rx="22" fill="#f3eff9" stroke="#9c82c1"/>
-    <text x="1279" y="678" text-anchor="middle" class="body">Python API</text>
+    <text x="1279" y="678" text-anchor="middle" class="body">Local GUI</text>
     <rect x="1206" y="716" width="146" height="45" rx="22" fill="#f3eff9" stroke="#9c82c1"/>
-    <text x="1279" y="744" text-anchor="middle" class="body">Local GUI</text>
+    <text x="1279" y="744" text-anchor="middle" class="body">openLCA + Brightway</text>
   </g>
 
   <path class="arrow" d="M378 643 H432"/>

@@ -16,7 +16,8 @@ SUPPORTED_ELECTRICITY_ACCOUNTING = {
     "market_based",
     "consequential",
 }
-SUPPORTED_REPLACEMENT_MODELS = {"discrete", "linearized"}
+SUPPORTED_REPLACEMENT_MODELS = {"discrete", "linearized", "reliability"}
+SUPPORTED_RELIABILITY_MODELS = {"weibull", "arrhenius_weibull"}
 SUPPORTED_REVIEW_STATUSES = {
     "not_required",
     "planned",
@@ -256,6 +257,7 @@ class Component:
     service_life_years: float
     production: Impacts
     end_of_life: Impacts = field(default_factory=Impacts)
+    reliability: "ReliabilityModel | None" = None
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "Component":
@@ -275,6 +277,83 @@ class Component:
                 }),
                 allow_negative=True,
             ),
+            reliability=(
+                ReliabilityModel.from_dict(data["reliability"])
+                if data.get("reliability")
+                else None
+            ),
+        )
+
+
+@dataclass(frozen=True)
+class ReliabilityModel:
+    """Failure, maintenance, and downtime assumptions for one component."""
+
+    model: str
+    characteristic_life_years: float
+    shape: float
+    reference_temperature_c: float | None
+    operating_temperature_c: float | None
+    activation_energy_ev: float | None
+    repair_downtime_hours: float
+    affected_capacity_fraction: float
+    maintenance_interval_years: float | None
+    maintenance_downtime_hours: float
+    maintenance_impacts: Impacts
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "ReliabilityModel":
+        model = str(data.get("model", ""))
+        if model not in SUPPORTED_RELIABILITY_MODELS:
+            raise ValidationError(
+                "reliability.model must be one of: "
+                + ", ".join(sorted(SUPPORTED_RELIABILITY_MODELS))
+            )
+        affected = _number(data, "affected_capacity_fraction")
+        if affected > 1:
+            raise ValidationError(
+                "affected_capacity_fraction must be between 0 and 1"
+            )
+        reference = operating = activation = None
+        if model == "arrhenius_weibull":
+            reference = _number(
+                data, "reference_temperature_c", allow_negative=True
+            )
+            operating = _number(
+                data, "operating_temperature_c", allow_negative=True
+            )
+            activation = _number(data, "activation_energy_ev", positive=True)
+            if reference <= -273.15 or operating <= -273.15:
+                raise ValidationError(
+                    "Reliability temperatures must exceed absolute zero"
+                )
+        interval_raw = data.get("maintenance_interval_years")
+        interval = (
+            _number(data, "maintenance_interval_years", positive=True)
+            if interval_raw is not None
+            else None
+        )
+        maintenance_impacts = data.get("maintenance_impacts", {
+            "ghg_kgco2e": 0,
+            "primary_energy_mj": 0,
+            "blue_water_l": 0,
+        })
+        return cls(
+            model=model,
+            characteristic_life_years=_number(
+                data, "characteristic_life_years", positive=True
+            ),
+            shape=_number(data, "shape", positive=True),
+            reference_temperature_c=reference,
+            operating_temperature_c=operating,
+            activation_energy_ev=activation,
+            repair_downtime_hours=_number(data, "repair_downtime_hours"),
+            affected_capacity_fraction=affected,
+            maintenance_interval_years=interval,
+            maintenance_downtime_hours=_number(
+                data, "maintenance_downtime_hours"
+            ),
+            maintenance_impacts=Impacts.from_dict(maintenance_impacts),
         )
 
 
@@ -347,6 +426,15 @@ class Scenario:
         if len(source_ids) != len(set(source_ids)):
             raise ValidationError("data_sources IDs must be unique")
         fluid_data = data.get("fluid")
+        study = StudyDefinition.from_dict(data.get("study", {}))
+        if (
+            study.replacement_model == "reliability"
+            and any(component.reliability is None for component in components)
+        ):
+            raise ValidationError(
+                "Every component requires reliability data when "
+                "replacement_model is 'reliability'"
+            )
         return cls(
             name=name,
             cooling_architecture=architecture,
@@ -361,7 +449,7 @@ class Scenario:
             ),
             grid=GridFactors.from_dict(data["grid"]),
             components=components,
-            study=StudyDefinition.from_dict(data.get("study", {})),
+            study=study,
             data_sources=sources,
             fluid=Fluid.from_dict(fluid_data) if fluid_data else None,
             metadata=dict(data.get("metadata", {})),

@@ -28,6 +28,10 @@ jobs:
       - run: opendc-lca performance examples/performance-map-direct-to-chip.csv
       - run: opendc-lca monte-carlo examples/direct-to-chip.json examples/uncertainty-direct-to-chip.json --samples 100
       - run: opendc-lca experimental-report examples/direct-to-chip.json examples/performance-map-direct-to-chip.csv examples/uncertainty-direct-to-chip.json --output-dir /tmp/opendc-lca-experimental
+      - run: opendc-lca run examples/reliability-direct-to-chip.json --json
+      - run: opendc-lca openlca-export examples/direct-to-chip.json /tmp/opendc-foreground.zip
+      - run: opendc-lca openlca-inspect /tmp/opendc-foreground.zip
+      - run: opendc-lca brightway-export /tmp/opendc-foreground.zip /tmp/opendc-brightway.json --database opendc-test
       - name: Smoke-test local GUI
         run: |
           opendc-lca gui --no-browser --port 8765 &
@@ -55,4 +59,7 @@ jobs:
           /tmp/opendc-lca-wheel/bin/opendc-lca examples --output-dir /tmp/examples
           /tmp/opendc-lca-wheel/bin/opendc-lca report /tmp/examples/air-cooled.json /tmp/examples/direct-to-chip.json /tmp/examples/single-phase-immersion.json --output-dir /tmp/report
           /tmp/opendc-lca-wheel/bin/opendc-lca experimental-report /tmp/examples/direct-to-chip.json /tmp/examples/performance-map-direct-to-chip.csv /tmp/examples/uncertainty-direct-to-chip.json --output-dir /tmp/experimental
-          /tmp/opendc-lca-wheel/bin/python -c "from opendc_lca import analyze_scenario, validate_scenario"
+          /tmp/opendc-lca-wheel/bin/opendc-lca run /tmp/examples/reliability-direct-to-chip.json --json
+          /tmp/opendc-lca-wheel/bin/opendc-lca openlca-export /tmp/examples/direct-to-chip.json /tmp/foreground.zip
+          /tmp/opendc-lca-wheel/bin/opendc-lca openlca-inspect /tmp/foreground.zip
+          /tmp/opendc-lca-wheel/bin/python -c "from opendc_lca import analyze_scenario, read_openlca_jsonld, validate_scenario"

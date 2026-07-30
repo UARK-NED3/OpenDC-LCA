@@ -206,7 +206,7 @@ class EngineTests(unittest.TestCase):
     def test_bundled_examples_install_and_run(self):
         with tempfile.TemporaryDirectory() as temporary:
             paths = install_examples(temporary)
-            self.assertEqual(len(paths), 5)
+            self.assertEqual(len(paths), 6)
             self.assertTrue(all(path.exists() for path in paths))
             result = analyze(load_scenario(paths[0]))
             self.assertGreater(result.annual_impacts.ghg_kgco2e, 0)
@@ -231,7 +231,7 @@ class EngineTests(unittest.TestCase):
             for key in ("impact_figure", "contribution_figure"):
                 ET.fromstring(artifacts[key].read_text(encoding="utf-8"))
             results = artifacts["results"].read_text(encoding="utf-8")
-            self.assertIn('"model_version": "1.0.0"', results)
+            self.assertIn('"model_version": "1.1.0"', results)
 
     def test_performance_map_derives_energy_weighted_inputs(self):
         root = Path(__file__).resolve().parents[1]

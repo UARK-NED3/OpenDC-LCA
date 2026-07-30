@@ -21,9 +21,10 @@ separation between illustrative calculations and evidence suitable for
 comparative claims. We present OpenDC-LCA, an open-source Python framework that
 connects traceable lifecycle inventories, public grid and climate data, and
 laboratory or simulated cooling-performance maps. The framework implements a
-common functional unit, explicit system boundaries, annualized and discrete
-replacement models, hourly weather-load-performance integration, uncertainty
-and sensitivity analysis, and a machine-readable scientific audit that blocks
+common functional unit, explicit system boundaries, annualized, discrete, and
+reliability-driven replacement models, hourly weather-load-performance
+integration, openLCA/Brightway inventory exchange, uncertainty and sensitivity
+analysis, and a machine-readable scientific audit that blocks
 comparative claims when evidence is synthetic or incomplete. As a validation
 case, OpenDC-LCA reconstructed all 24 normalized totals released with a 2025
 Microsoft data-center cooling study; the maximum absolute difference between
@@ -111,10 +112,11 @@ calculation engine.
 ![Figure 1. OpenDC-LCA evidence-to-decision workflow. Panel (a) connects heterogeneous published, public, laboratory, and simulated evidence to a registered and validated scenario package. Panel (b) connects the common package to static, temporal, uncertainty, and sensitivity engines; a scientific audit blocks comparative claims when evidence or compatibility requirements are not met.](figures/figure0_opendc_lca_workflow.svg)
 
 The framework is implemented in Python 3.10 or later and distributed under the
-MIT License [4]. Version 1.0 exposes validated scenario analysis,
+MIT License [4]. Version 1.1 exposes validated scenario analysis,
 performance-map summarization, scientific audit functions, report generation,
-and a local browser-based GUI. The GUI binds to the local host by default and
-does not alter the data model or calculation path.
+a local browser-based GUI, complete openLCA JSON-LD process exchange, and
+Brightway database-write mappings. The GUI binds to the local host by default
+and does not alter the data model or calculation path.
 
 ### 2.2. Goal, functional unit, and system boundary
 
@@ -255,6 +257,47 @@ independent critical review consistent with the intent of ISO 14040 and ISO
 14044 [7,8]. The automated audit supports review but is not an ISO conformity
 assessment.
 
+### 2.6. Inventory interoperability and reliability
+
+OpenDC-LCA reads complete openLCA JSON-LD process exchanges, including flow and
+provider identifiers, flow type, amount, unit, direction, and quantitative
+reference. The same records map to dictionaries accepted by
+`bw2data.Database.write`. Conversely, an OpenDC-LCA scenario can be exported as
+an annual foreground unit process containing delivered IT service, facility
+electricity, on-site water, and equipment exchanges. LCIA factors are not
+misrepresented as elementary flows; background providers, elementary-flow
+mapping, and impact methods remain explicit tasks in openLCA or Brightway.
+
+For a component with Weibull characteristic life \(\eta\) and shape
+\(\beta\), the first-failure distribution is
+
+\[
+F(t)=1-\exp[-(t/\eta)^\beta].
+\tag{10}
+\]
+
+Expected failures after as-good-as-new replacement are obtained from the
+renewal equation
+
+\[
+M(t)=F(t)+\int_0^t M(t-x)\,dF(x).
+\tag{11}
+\]
+
+An optional Arrhenius acceleration adjusts characteristic life from reference
+temperature \(T_\mathrm{ref}\) to operating temperature \(T_\mathrm{op}\):
+
+\[
+\eta_\mathrm{op}=\eta_\mathrm{ref}/
+\exp\{E_a/k_B(1/T_\mathrm{ref}-1/T_\mathrm{op})\}.
+\tag{12}
+\]
+
+The calculation reports expected failures and installations, scheduled
+maintenance, maintenance impacts, downtime, and unserved-IT-energy exposure.
+These are expectation values. Redundancy, common-cause failure, repair queues,
+and backup-system energy are outside the present model.
+
 ## 3. Data and evaluation cases
 
 ### 3.1. Microsoft/Nature released source data
@@ -292,8 +335,11 @@ test, not a finding about cooling technologies.
 The source registry also documents USLCI v1.2026-06.0, ÖKOBAUDAT 2024-II,
 Boavizta ICT factors, seven NREL hydrogen datasets accessed through GLAD and
 the Federal LCA Commons, and USGS watershed data [9-13]. These sources establish
-future adapters for equipment, building, backup-power, embodied ICT, and water
-context. Registration does not make datasets automatically compatible;
+inputs for equipment, building, backup-power, embodied ICT, and water context.
+The seven GLAD archives can now be read as complete openLCA JSON-LD inventories
+and mapped to Brightway; the `.zolca` USLCI backup must first be exported from
+openLCA as portable JSON-LD. Registration or successful exchange does not make
+datasets automatically compatible;
 geography, reference year, unit, product system, impact method, and allocation
 must be harmonized for each study.
 
@@ -371,6 +417,8 @@ audit blocks a comparative conclusion.
 | Static lifecycle screening | Energy, PUE, grid factors, equipment, fluids, water | Annual energy balance and lifecycle annualization | Absolute and normalized impacts | Compatible unit and boundary | Implemented |
 | Temporal operation | Hourly weather, workload, grid and cooling response | Hourly alignment and integration | PUE, energy, water, operational GHG | Full coverage and accounting basis | Implemented |
 | Performance surface | Load-temperature grid, uncertainty, source IDs | Bounded bilinear interpolation | Hourly cooling response | Reviewed measurements; no extrapolation | Implemented |
+| Inventory exchange | openLCA JSON-LD processes or OpenDC-LCA scenario | Exchange-preserving import/export and Brightway mapping | Foreground process network | Flow, provider, unit, system-model and LCIA compatibility review | Implemented |
+| Reliability | Weibull/Arrhenius parameters, maintenance and downtime | Renewal equation and lifecycle annualization | Expected failures, replacements, downtime and impacts | Empirical failure model and uncertainty | Implemented |
 | Uncertainty and sensitivity | Distributions, seed and perturbations | Monte Carlo and elasticity | Intervals and ranked drivers | Distribution and correlation review | Screening |
 | Scientific claim gate | Scenario, sources, evidence status and intent | Automated blockers and warnings | Reviewable findings | Independent critical review for public claims | Implemented |
 | Access | JSON or CSV | Shared engine through CLI, API and local GUI | JSON, tables, figures and reports | Same model version across interfaces | Implemented |
@@ -402,6 +450,12 @@ for software examples: a polished figure generated from synthetic values can
 look like a technology benchmark. Machine-readable blocking makes the
 limitation part of the result rather than a sentence that can be accidentally
 removed.
+
+The interoperability layer also clarifies the division of responsibility
+between tools. openLCA or Brightway manages background process networks and
+LCIA; OpenDC-LCA manages the cooling-specific foreground, temporal operation,
+reliability assumptions, and evidence gate. UUID preservation exposes missing
+providers and flow mappings instead of silently substituting a dataset.
 
 The third contribution is staged reproducibility. Exact reconstruction of the
 released Microsoft/Nature component totals establishes arithmetic and lineage
@@ -442,7 +496,10 @@ specific future year or extreme event.
 
 The synthetic surface demonstration applies independent point uncertainty and
 does not capture correlated sensor bias, interpolation error, model-form
-uncertainty, degradation, or failures. The supported functional unit does not
+uncertainty, or degradation. The reliability model uses expected Weibull renewal
+counts and optional Arrhenius temperature acceleration; it does not capture
+redundancy topology, dependent failures, repair queues, or time-varying damage.
+The supported functional unit does not
 yet capture useful computation directly. The audit cannot replace expert
 critical review, and a model can satisfy automated schema checks while still
 using scientifically inappropriate factors. Finally, the present framework is
@@ -453,8 +510,9 @@ a foreground and screening tool, not a complete life-cycle inventory database.
 Four steps would move OpenDC-LCA from a reproducible research framework toward
 decision-grade comparative studies. First, populate reviewed NED3
 load-temperature performance surfaces for multiple cooling architectures.
-Second, add adapters for USLCI and openLCA exchange formats while retaining
-provider licenses and process-system metadata. Third, add time-resolved grid
+Second, calibrate the implemented openLCA/Brightway mappings and reliability
+models against the selected USLCI processes and measured failure records while
+retaining licenses and process-system metadata. Third, add time-resolved grid
 factors, humidity-sensitive heat rejection, water-scarcity characterization,
 and workload-based functional units. Fourth, conduct an independent LCA
 critical review, including review of allocation, replacement, uncertainty,
@@ -465,11 +523,13 @@ answer isolated questions without context.
 ## 6. Conclusions
 
 OpenDC-LCA provides a transparent, open-source connection between data-center
-cooling physics and lifecycle interpretation. Version 1.0 registers evidence,
+cooling physics and lifecycle interpretation. Version 1.1 registers evidence,
 validates functional and physical assumptions, calculates static and temporal
-impacts, integrates measured load-temperature surfaces, propagates screening
-uncertainty, and emits machine-readable audit findings through a command line,
-Python API, and local GUI. The package exactly reconstructed all 24 released
+impacts, integrates measured load-temperature surfaces, exchanges foreground
+inventories with openLCA and Brightway, models reliability-driven replacement
+and maintenance, propagates screening uncertainty, and emits machine-readable
+audit findings through a command line, Python API, and local GUI. The package
+exactly reconstructed all 24 released
 normalized totals tested from the Microsoft/Nature study, with a maximum
 absolute numerical difference of 1.42 × 10⁻¹⁴ percentage points. Its climate
 and measurement-surface demonstrations show how public data and laboratory
@@ -485,7 +545,7 @@ software architecture.
 
 ## Data and code availability
 
-OpenDC-LCA version 1.0 source code, examples, documentation, tests, and derived
+OpenDC-LCA version 1.1 source code, examples, documentation, tests, and derived
 paper tables and figures are available at
 https://github.com/UARK-NED3/OpenDC-LCA. Provider-native raw files remain local
 when redistribution permission has not been established. Released

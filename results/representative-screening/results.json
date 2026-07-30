@@ -1,6 +1,6 @@
 [
   {
-    "model_version": "0.3.0",
+    "model_version": "1.1.0",
     "scenario_digest_sha256": "f43496e98f670861c5e7290af7e5bfc6454f6b33a36666fd6d3ca0741a45d605",
     "scenario": "Illustrative air-cooled 1 MW",
     "cooling_architecture": "air-cooled",
@@ -32,6 +32,11 @@
         "primary_energy_mj": 162666.66666666666,
         "blue_water_l": 28400.0
       },
+      "maintenance": {
+        "ghg_kgco2e": 0.0,
+        "primary_energy_mj": 0.0,
+        "blue_water_l": 0.0
+      },
       "fluid_lifecycle": {
         "ghg_kgco2e": 0.0,
         "primary_energy_mj": 0.0,
@@ -60,13 +65,14 @@
         "illustrative-air-v0.2"
       ]
     },
+    "reliability": [],
     "normalization": {
       "basis": "one MWh of delivered IT electricity",
       "result_field": "per_it_mwh"
     }
   },
   {
-    "model_version": "0.3.0",
+    "model_version": "1.1.0",
     "scenario_digest_sha256": "4a15b2a75923b3db5f7afc49cb1b677adcea04f7714ec9e44728b34f597bbc54",
     "scenario": "Illustrative direct-to-chip 1 MW",
     "cooling_architecture": "direct-to-chip",
@@ -98,6 +104,11 @@
         "primary_energy_mj": 199333.33333333334,
         "blue_water_l": 34533.333333333336
       },
+      "maintenance": {
+        "ghg_kgco2e": 0.0,
+        "primary_energy_mj": 0.0,
+        "blue_water_l": 0.0
+      },
       "fluid_lifecycle": {
         "ghg_kgco2e": 0.0,
         "primary_energy_mj": 0.0,
@@ -126,13 +137,14 @@
         "illustrative-d2c-v0.2"
       ]
     },
+    "reliability": [],
     "normalization": {
       "basis": "one MWh of delivered IT electricity",
       "result_field": "per_it_mwh"
     }
   },
   {
-    "model_version": "0.3.0",
+    "model_version": "1.1.0",
     "scenario_digest_sha256": "14341bdf15969ba6a08f9786a70e0a8b34d01e1ebae17e15920b88550f6a8b42",
     "scenario": "Illustrative single-phase immersion 1 MW",
     "cooling_architecture": "single-phase-immersion",
@@ -164,6 +176,11 @@
         "primary_energy_mj": 242000.0,
         "blue_water_l": 41266.666666666664
       },
+      "maintenance": {
+        "ghg_kgco2e": 0.0,
+        "primary_energy_mj": 0.0,
+        "blue_water_l": 0.0
+      },
       "fluid_lifecycle": {
         "ghg_kgco2e": 3678.8,
         "primary_energy_mj": 63384.0,
@@ -192,6 +209,7 @@
         "illustrative-immersion-v0.2"
       ]
     },
+    "reliability": [],
     "normalization": {
       "basis": "one MWh of delivered IT electricity",
       "result_field": "per_it_mwh"

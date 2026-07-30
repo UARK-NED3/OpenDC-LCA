@@ -3,6 +3,30 @@
 All notable changes are documented here. The project follows semantic
 versioning after the first stable release.
 
+## 1.1.0 — 2026-07-30
+
+### Added
+
+- Complete openLCA JSON-LD process and exchange reader, with selected-process
+  filtering and explicit `.zolca` export guidance.
+- OpenDC-LCA foreground export to openLCA JSON-LD and mapping to Brightway
+  `Database.write` structures, plus dependency-free Brightway JSON export.
+- Weibull renewal and Arrhenius-Weibull reliability models with expected
+  replacements, scheduled maintenance, downtime, unserved-service exposure,
+  and separate maintenance impacts.
+- Reliability-aware scenario example and deterministic interoperability,
+  renewal, temperature-acceleration, maintenance, and benchmark tests.
+- Validated benchmark manifest, independent-review record, citable release ZIP,
+  and DOI handoff workflow.
+
+### Changed
+
+- Package and calculation model versions advanced to 1.1.0.
+- Replacement models now support `discrete`, `linearized`, and `reliability`.
+- Interoperability and reliability are documented as model interfaces, not
+  evidence that imported inventories or synthetic failure parameters are
+  automatically suitable for comparative claims.
+
 ## 1.0.0 — 2026-07-29
 
 ### Added
