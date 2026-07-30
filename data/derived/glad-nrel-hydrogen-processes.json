@@ -1,0 +1,86 @@
+[
+  {
+    "archive": "0381ede3-9567-44c0-9200-cbbef872097e_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "uuid": "0381ede3-9567-44c0-9200-cbbef872097e",
+    "name": "Steam methane reforming plant; small-scale; construction",
+    "description": "This cradle to gate unit process is for the construction of one small-scale steam methane reforming plant. This model is based on European data but has been adapted to represent US conditions. Data were originally collected by Schreiber et al., 2020 and have been adapted by the National Renewable Energy Laboratory (NREL). Details for this dataset are restricted due to confidentiality. The system boundary of this dataset includes the main incoming materials with transportation and air emissions but excludes periphery materials such as cables and motors. It is important to note that this model is a rough estimation of the materials and emissions associated with constructing a small-scale steam methane reforming plant. This data should not be used for the construction of a large-scale plant due to different designs.",
+    "category": "23: Construction/2362: Nonresidential Building Construction",
+    "geography": "United States",
+    "process_type": "UNIT_PROCESS",
+    "valid_from": "2015-01-01",
+    "valid_until": "2022-12-31",
+    "owner": "National Renewable Energy Laboratory"
+  },
+  {
+    "archive": "435c3df8-57d0-467c-8896-37212b19e2b1_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "uuid": "435c3df8-57d0-467c-8896-37212b19e2b1",
+    "name": "Glass cermet; at plant",
+    "description": "This cradle to gate unit process is for the production of one kilogram of glass cermet. The original model was based on European data but has been adapted to represent US conditions. Data were originally collected by Schreiber et al., 2020 and have been adapted by the National Renewable Energy Laboratory (NREL). The system boundary of this dataset includes the main incoming materials with transportation.",
+    "category": "31-33: Manufacturing/3359: Other Electrical Equipment and Component Manufacturing",
+    "geography": "United States",
+    "process_type": "UNIT_PROCESS",
+    "valid_from": "2015-01-01",
+    "valid_until": "2022-12-31",
+    "owner": "National Renewable Energy Laboratory"
+  },
+  {
+    "archive": "697947c1-fc38-4406-bee1-d1e5baaa71d8_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "uuid": "697947c1-fc38-4406-bee1-d1e5baaa71d8",
+    "name": "Hydrogen; small scale-steam methane reforming; at plant",
+    "description": "This cradle to gate unit process is for 1 kilogram of hydrogen produced from small-scale steam methane reforming. This model is based on European primary data but has been adapted to represent US conditions. Data were collected by Schreiber et al., 2020 from process designs and simulations and have been adapted by the National Renewable Energy Laboratory (NREL). The output of this system is syngas which is composed of hydrogen and carbon monoxide, a stoichiometric (molar mass) allocation was used to allocate between hydrogen and carbon monoxide (2:1). The system boundary of this dataset includes the reforming process and incoming materials with transportation and excludes carbon dioxide from direct air capture and the syngas separation process. Steam is an avoided product in this dataset. The amount of avoided steam was calculated based on the output flow rate of syngas.  It is important to note that this model represents a small-scale steam methane reforming process (8,760 h load per year) which may use different technologies and be less efficient than a large scale process. ",
+    "category": "31-33: Manufacturing/3251: Basic Chemical Manufacturing",
+    "geography": "United States",
+    "process_type": "UNIT_PROCESS",
+    "valid_from": "2015-01-01",
+    "valid_until": "2022-12-31",
+    "owner": "National Renewable Energy Laboratory"
+  },
+  {
+    "archive": "982230dc-87c0-4ea0-8511-8e36064f66be_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "uuid": "982230dc-87c0-4ea0-8511-8e36064f66be",
+    "name": "Solid oxide electrolysis plant; construction",
+    "description": "This cradle to gate unit process is for the construction of one solid oxide electrolysis plant. This model is based on the solid oxide fuel cell balance of plant data for two facilities and has been adapted to represent US conditions. Data were originally collected by Schreiber et al., 2020 and have been adapted by the National Renewable Energy Laboratory (NREL). The system boundary of this dataset includes the main incoming materials with transportation but excludes the construction and materials for the pressure swing adsorption. ",
+    "category": "23: Construction/2362: Nonresidential Building Construction",
+    "geography": "United States",
+    "process_type": "UNIT_PROCESS",
+    "valid_from": "2015-01-01",
+    "valid_until": "2022-12-31",
+    "owner": "National Renewable Energy Laboratory"
+  },
+  {
+    "archive": "9f8a4892-e27e-4cc5-af91-7bdfd600dee7_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "uuid": "9f8a4892-e27e-4cc5-af91-7bdfd600dee7",
+    "name": "Hydrogen; solid oxide electrolysis, at plant",
+    "description": "This cradle to gate unit process is for 1 kilogram of hydrogen produced from solid oxide electrolysis. This model is based on European balance of plant data but has been adapted to represent US conditions. Data were originally collected by Schreiber et al., 2020 and have been adapted by the National Renewable Energy Laboratory (NREL). The output of this system is syngas which is composed of hydrogen and carbon monoxide, a stoichiometric (molar mass) allocation was used to allocate between hydrogen and carbon monoxide (2:1). The system boundary of this dataset includes the solid oxide electrolysis process and incoming materials with transportation and excludes carbon dioxide from direct air capture and the syngas separation process.",
+    "category": "31-33: Manufacturing/3251: Basic Chemical Manufacturing",
+    "geography": "United States",
+    "process_type": "UNIT_PROCESS",
+    "valid_from": "2015-01-01",
+    "valid_until": "2022-12-26",
+    "owner": "National Renewable Energy Laboratory"
+  },
+  {
+    "archive": "bc848aa4-1a9f-4848-87f1-d30c9e1deaff_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "uuid": "bc848aa4-1a9f-4848-87f1-d30c9e1deaff",
+    "name": "Solid oxide electrolysis cell; at plant",
+    "description": "This cradle to gate process is for 1 solid oxide electrolysis cell for use in solid oxide electrolysis hydrogen production. This model is based on European primary data but has been adapted to represent US conditions. Data were collected by Schreiber et al., 2020 from process designs and simulations and have been adapted by the National Renewable Energy Laboratory (NREL). The system boundary of this dataset includes the production process and incoming materials with transportation.",
+    "category": "31-33: Manufacturing/3359: Other Electrical Equipment and Component Manufacturing",
+    "geography": "United States",
+    "process_type": "UNIT_PROCESS",
+    "valid_from": "2015-01-01",
+    "valid_until": "2022-12-31",
+    "owner": "National Renewable Energy Laboratory"
+  },
+  {
+    "archive": "fea93709-0327-4eb4-b705-aa4db0f55cdf_7d7143983462ce7c48bf8d64bccbe5cafda11c45.zip",
+    "uuid": "fea93709-0327-4eb4-b705-aa4db0f55cdf",
+    "name": "Solid oxide electrolysis stack; 150 kW, at plant",
+    "description": "This cradle to gate unit process is for the assembly of a 150 kilowatt (kW) solid oxide electrolysis stack. The original model was based on European data but has been adapted to represent US conditions. Data were originally collected by Schreiber et al., 2020 and have been adapted by the National Renewable Energy Laboratory (NREL). The system boundary of this dataset includes the main incoming materials with transportation but excludes the argon and hydrogen incoming materials that are needed for annealing due to missing data.",
+    "category": "31-33: Manufacturing/3359: Other Electrical Equipment and Component Manufacturing",
+    "geography": "United States",
+    "process_type": "UNIT_PROCESS",
+    "valid_from": "2015-01-01",
+    "valid_until": "2022-12-31",
+    "owner": "National Renewable Energy Laboratory"
+  }
+]

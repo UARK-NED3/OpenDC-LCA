@@ -7,6 +7,12 @@ versioning after the first stable release.
 
 ### Added
 
+- Provider-native adapters for EPA eGRID XLSX, NOAA TMY CSV, ÖKOBAUDAT CSV, and
+  GLAD/openLCA JSON-LD archives.
+- A source registry, checksummed local-file manifest, and redistribution-safe
+  derived data layer.
+- A public-data screening report with Arkansas operational-GHG/PUE sensitivity,
+  Fayetteville climate context, construction factors, equations, and SVG plots.
 - Validated common laboratory performance-map CSV format.
 - Duration-weighted derivation of measured PUE, on-site water intensity, and
   cooling COP.

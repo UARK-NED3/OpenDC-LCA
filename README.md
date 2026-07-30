@@ -9,9 +9,10 @@ cooling on a common annual basis. Version 0.3 adds laboratory performance-map
 reduction and seeded Monte Carlo uncertainty propagation.
 
 > [!IMPORTANT]
-> The example impact factors are illustrative—not decision-grade inventory
-> data. Replace them with reviewed public data, licensed databases, EPDs, or
-> partner-provided data before publishing conclusions.
+> The cooling-technology examples remain illustrative. A separate
+> [public-data screening](results/public-data-v0.3/REPORT.md) now demonstrates
+> traceable EPA eGRID, NOAA TMY, ÖKOBAUDAT, and GLAD adapters, but it does not
+> support a cooling-technology ranking.
 
 ## Why this project exists
 
@@ -84,6 +85,16 @@ the measurement-to-LCA path:
 
 ![Monte Carlo screening intervals](results/v0.3-experimental/uncertainty-intervals.svg)
 
+The [public-data report](results/public-data-v0.3/REPORT.md) provides a
+reproducible Arkansas operational-GHG/PUE sensitivity, Fayetteville climate
+summary, and selected construction-material factors:
+
+![Arkansas operational GHG sensitivity](results/public-data-v0.3/arkansas-operational-ghg-vs-pue.svg)
+
+Its raw third-party inputs are not redistributed. See the
+[data-source registry](data/SOURCES.md) and regenerate the committed derived
+records with `python scripts/refresh_public_data.py`.
+
 ## Model boundary
 
 The Phase 1 model includes:
@@ -113,6 +124,7 @@ reliability. These are tracked in the [research roadmap](docs/ROADMAP.md).
 - `schemas/`: canonical scenario JSON Schema
 - `examples/`: runnable illustrative scenarios
 - `data/`: data registry and provenance template
+- `data/derived/`: compact, auditable summaries generated from local public data
 - `docs/`: methodology, data plan, roadmap, and governance
 - `tests/`: deterministic reference tests
 - `results/representative-screening/`: reproducible example report and figures

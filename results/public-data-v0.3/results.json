@@ -1,0 +1,147 @@
+{
+  "status": "screening analysis; not a comparative cooling-technology LCA",
+  "equation": "operational GHG [kg CO2e/IT MWh] = eGRID STC2ERTA [kg CO2e/MWh] × PUE",
+  "electricity_factor": {
+    "data_year": 2023,
+    "state": "Arkansas",
+    "state_abbreviation": "AR",
+    "co2e_kg_per_mwh": 452.8805904,
+    "source_field": "ST23!STC2ERTA",
+    "co2e_kg_per_kwh": 0.4528805904
+  },
+  "pue_sensitivity": [
+    {
+      "pue": 1.1,
+      "kg_co2e_per_it_mwh": 498.1686494400001
+    },
+    {
+      "pue": 1.2,
+      "kg_co2e_per_it_mwh": 543.45670848
+    },
+    {
+      "pue": 1.3,
+      "kg_co2e_per_it_mwh": 588.7447675200001
+    },
+    {
+      "pue": 1.4,
+      "kg_co2e_per_it_mwh": 634.03282656
+    }
+  ],
+  "climate_context": {
+    "station_id": "USW00093993",
+    "station_name": "FAYETTEVILLE DRAKE FLD",
+    "latitude": 36.0103,
+    "longitude": -94.1683,
+    "elevation_m": 377.0,
+    "record_start_year": 1998,
+    "record_end_year": 2022,
+    "hours": 8760,
+    "mean_dry_bulb_c": 14.863827625570776,
+    "minimum_dry_bulb_c": -13.0,
+    "maximum_dry_bulb_c": 35.0,
+    "mean_relative_humidity_pct": 73.36906392694064,
+    "cooling_degree_hours_18c": 23027.750000000007,
+    "hours_above_30c": 319,
+    "hours_below_5c": 1648,
+    "missing_value_counts": {
+      "Precipitation": 4824,
+      "Snow Depth": 8669,
+      "Station level Pressure": 5120,
+      "Wind Direction": 496,
+      "Wind Gust": 7563
+    }
+  },
+  "construction_screening_factors": [
+    {
+      "uuid": "42de525f-7c48-4722-b503-6f423b39b4f4",
+      "name": "Galvanized steel profile (electric arc furnace route, high scrap content)",
+      "module": "A1-A3",
+      "geography": "DE",
+      "dataset_type": "generic dataset",
+      "reference_year": 2023,
+      "reference_unit": "kg",
+      "gwp_total_kgco2e": 1.17194173644867,
+      "nonrenewable_primary_energy_mj": 14.5445623030148,
+      "renewable_primary_energy_mj": 2.21504503897776,
+      "freshwater_m3": 0.00299963787056284,
+      "url": "https://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/42de525f-7c48-4722-b503-6f423b39b4f4?version=20.26.070"
+    },
+    {
+      "uuid": "755a481d-a74b-4ba0-b417-cc26767b2d50",
+      "name": "Galvanized steel profile (blast furnace route, low scrap content), Steel sections",
+      "module": "A1-A3",
+      "geography": "DE",
+      "dataset_type": "generic dataset",
+      "reference_year": 2023,
+      "reference_unit": "kg",
+      "gwp_total_kgco2e": 2.92189441330103,
+      "nonrenewable_primary_energy_mj": 27.9183661002242,
+      "renewable_primary_energy_mj": 2.79774857922207,
+      "freshwater_m3": 0.00625261425086676,
+      "url": "https://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/755a481d-a74b-4ba0-b417-cc26767b2d50?version=20.26.070"
+    },
+    {
+      "uuid": "8f4e4fdb-fa6c-46b3-8680-57120c4bee5e",
+      "name": "Cement (CEM III 42,5)",
+      "module": "A1-A3",
+      "geography": "DE",
+      "dataset_type": "generic dataset",
+      "reference_year": 2023,
+      "reference_unit": "kg",
+      "gwp_total_kgco2e": 0.448996148211242,
+      "nonrenewable_primary_energy_mj": 2.12871338617216,
+      "renewable_primary_energy_mj": 0.940983463173126,
+      "freshwater_m3": 0.000454157321660014,
+      "url": "https://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/8f4e4fdb-fa6c-46b3-8680-57120c4bee5e?version=20.26.070"
+    },
+    {
+      "uuid": "a71e60a5-b64b-4715-ae8a-c8c8819149d2",
+      "name": "Ready-mix concrete C25/30",
+      "module": "A1-A3",
+      "geography": "DE",
+      "dataset_type": "generic dataset",
+      "reference_year": 2023,
+      "reference_unit": "m3",
+      "gwp_total_kgco2e": 221.656798081968,
+      "nonrenewable_primary_energy_mj": 764.69491370089,
+      "renewable_primary_energy_mj": 299.583162552754,
+      "freshwater_m3": 0.42468637661198,
+      "url": "https://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/a71e60a5-b64b-4715-ae8a-c8c8819149d2?version=20.26.070"
+    },
+    {
+      "uuid": "aaaedf41-a759-4756-bd55-cd2af3af17f4",
+      "name": "Cement (CEM II/A)",
+      "module": "A1-A3",
+      "geography": "DE",
+      "dataset_type": "generic dataset",
+      "reference_year": 2023,
+      "reference_unit": "kg",
+      "gwp_total_kgco2e": 0.894975353236286,
+      "nonrenewable_primary_energy_mj": 2.42300532960591,
+      "renewable_primary_energy_mj": 1.03407760553568,
+      "freshwater_m3": 0.000593763310607717,
+      "url": "https://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/aaaedf41-a759-4756-bd55-cd2af3af17f4?version=20.26.070"
+    },
+    {
+      "uuid": "d6f982e3-beda-49f0-a298-694fcbf3ba38",
+      "name": "Ready-mix concrete C30/37",
+      "module": "A1-A3",
+      "geography": "DE",
+      "dataset_type": "generic dataset",
+      "reference_year": 2023,
+      "reference_unit": "m3",
+      "gwp_total_kgco2e": 257.693592680481,
+      "nonrenewable_primary_energy_mj": 873.263980837819,
+      "renewable_primary_energy_mj": 341.774075697796,
+      "freshwater_m3": 0.450201931069143,
+      "url": "https://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d6f982e3-beda-49f0-a298-694fcbf3ba38?version=20.26.070"
+    }
+  ],
+  "limitations": [
+    "The eGRID calculation is annual, location-based, and operational only.",
+    "The TMY summary provides climate context; it is not yet coupled to cooling performance.",
+    "ÖKOBAUDAT factors are German EN 15804+A2 construction proxies, not a US bill of materials.",
+    "GLAD hydrogen records are catalogued but not used in the numerical results.",
+    "No cooling-technology ranking or comparative environmental claim is supported."
+  ]
+}
