@@ -7,9 +7,10 @@ dist/
 build/
 .venv/
 .DS_Store
+tmp/
+*.svg.png
 
 # Restricted or local LCA databases
 private-data/
 licensed-data/
 *.zolca
-
