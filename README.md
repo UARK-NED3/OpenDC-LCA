@@ -11,10 +11,16 @@ calculation and scientific-audit engine. Version 1.1 adds openLCA/Brightway
 inventory exchange and reliability-driven replacement and maintenance.
 
 > [!IMPORTANT]
-> The cooling-technology examples remain illustrative. A separate
-> [public-data screening](results/public-data-v0.3/REPORT.md) now demonstrates
-> traceable EPA eGRID, NOAA TMY, ÖKOBAUDAT, and GLAD adapters, but it does not
-> support a cooling-technology ranking.
+> The integrated analysis combines released Microsoft/Nature foreground
+> results with EPA eGRID, Boavizta, ÖKOBAUDAT and released pedigree scores.
+> Its geographic results are screening re-bases, not independent regional
+> product LCAs. Synthetic performance examples remain non-comparative.
+
+Research outputs include the
+[manuscript](paper/MANUSCRIPT.md), an
+[integrated evidence workbook](paper/OpenDC-LCA_integrated_evidence.xlsx), the
+[literature matrix](paper/LITERATURE_REVIEW_MATRIX.md), and a prioritized
+[reference-acquisition list](docs/REFERENCE_ACQUISITION.md).
 
 ## Why this project exists
 

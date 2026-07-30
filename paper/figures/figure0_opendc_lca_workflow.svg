@@ -1,145 +1,167 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900">
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="920" viewBox="0 0 1600 920" role="img" aria-label="OpenDC-LCA evidence synthesis and decision workflow">
   <defs>
-    <style>
-      .title{font:700 30px Arial,sans-serif;fill:#102a43}
-      .panel{font:700 24px Arial,sans-serif;fill:#102a43}
-      .head{font:700 19px Arial,sans-serif;fill:#102a43}
-      .body{font:15px Arial,sans-serif;fill:#243b53}
-      .small{font:13px Arial,sans-serif;fill:#486581}
-      .white{fill:#fff}
-      .arrow{stroke:#486581;stroke-width:3;fill:none;marker-end:url(#arrow)}
-      .dash{stroke:#829ab1;stroke-width:2;stroke-dasharray:8 7;fill:none}
-    </style>
-    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-      <path d="M0,0 L12,6 L0,12 z" fill="#486581"/>
-    </marker>
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
-      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#102a43" flood-opacity=".16"/>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#17324d" flood-opacity="0.12"/>
     </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#49677f"/>
+    </marker>
+    <style>
+      text{font-family:Arial,sans-serif;fill:#17324d}
+      .title{font-size:30px;font-weight:700}
+      .subtitle{font-size:17px;fill:#49677f}
+      .section{font-size:19px;font-weight:700}
+      .cardtitle{font-size:16px;font-weight:700}
+      .body{font-size:14px}
+      .small{font-size:12px;fill:#587086}
+      .number{font-size:28px;font-weight:700}
+      .badge{font-size:11px;font-weight:700;letter-spacing:.4px}
+    </style>
   </defs>
 
-  <rect width="1500" height="900" fill="#f7fafc"/>
-  <text x="750" y="46" text-anchor="middle" class="title">OpenDC-LCA: evidence-to-decision workflow for data-center cooling</text>
+  <rect width="1600" height="920" fill="#f7f9fb"/>
+  <text x="64" y="55" class="title">OpenDC-LCA turns heterogeneous evidence into testable cooling decisions</text>
+  <text x="64" y="84" class="subtitle">The domain layer preserves functional units and evidence status while linking public LCA, grid, product, material and laboratory data.</text>
 
-  <rect x="42" y="72" width="1416" height="335" rx="18" fill="#eef7f1" stroke="#9ac5a5" stroke-width="2"/>
-  <text x="70" y="108" class="panel">(a) Evidence acquisition and model-ready scenario assembly</text>
+  <rect x="52" y="112" width="1496" height="62" rx="15" fill="#17324d"/>
+  <text x="800" y="139" text-anchor="middle" style="font-size:16px;fill:#cfe3f1">DECISION QUESTION</text>
+  <text x="800" y="162" text-anchor="middle" style="font-size:20px;font-weight:700;fill:white">Which cooling architecture is preferable here, under what assumptions, and what evidence would most change the answer?</text>
 
+  <text x="64" y="218" class="section">1  Evidence atlas</text>
+  <text x="578" y="218" class="section">2  Harmonize without erasing differences</text>
+  <text x="1114" y="218" class="section">3  Decision-facing outputs</text>
+
+  <!-- Evidence cards -->
   <g filter="url(#shadow)">
-    <rect x="78" y="139" width="240" height="220" rx="14" fill="#ffffff" stroke="#6aa57a" stroke-width="2"/>
-    <rect x="78" y="139" width="240" height="48" rx="14" fill="#cfe8d5"/>
-    <text x="198" y="170" text-anchor="middle" class="head">Evidence sources</text>
-    <text x="101" y="216" class="body">• Published LCA results</text>
-    <text x="101" y="245" class="body">• Public inventories</text>
-    <text x="101" y="274" class="body">• Grid and climate data</text>
-    <text x="101" y="303" class="body">• Laboratory measurements</text>
-    <text x="101" y="332" class="body">• Simulation outputs</text>
+    <rect x="58" y="240" width="450" height="82" rx="12" fill="white" stroke="#7ca4bf"/>
+    <rect x="58" y="240" width="12" height="82" rx="6" fill="#0072b2"/>
+    <text x="88" y="268" class="cardtitle">Microsoft/WSP released model</text>
+    <text x="88" y="292" class="body">GHG · energy · blue water contributions</text>
+    <text x="475" y="270" class="number" text-anchor="end">24/24</text>
+    <text x="475" y="291" class="small" text-anchor="end">totals reconciled</text>
+
+    <rect x="58" y="336" width="450" height="82" rx="12" fill="white" stroke="#7ca4bf"/>
+    <rect x="58" y="336" width="12" height="82" rx="6" fill="#d55e00"/>
+    <text x="88" y="364" class="cardtitle">EPA eGRID 2023</text>
+    <text x="88" y="388" class="body">Location-based operational factors</text>
+    <text x="475" y="366" class="number" text-anchor="end">51</text>
+    <text x="475" y="387" class="small" text-anchor="end">state/DC records</text>
+
+    <rect x="58" y="432" width="450" height="82" rx="12" fill="white" stroke="#7ca4bf"/>
+    <rect x="58" y="432" width="12" height="82" rx="6" fill="#009e73"/>
+    <text x="88" y="460" class="cardtitle">Boavizta product footprints</text>
+    <text x="88" y="484" class="body">Server manufacturing dispersion</text>
+    <text x="475" y="462" class="number" text-anchor="end">48</text>
+    <text x="475" y="483" class="small" text-anchor="end">usable server records</text>
+
+    <rect x="58" y="528" width="450" height="82" rx="12" fill="white" stroke="#7ca4bf"/>
+    <rect x="58" y="528" width="12" height="82" rx="6" fill="#cc79a7"/>
+    <text x="88" y="556" class="cardtitle">ÖKOBAUDAT 2024-II</text>
+    <text x="88" y="580" class="body">Material-route A1-A3 alternatives</text>
+    <text x="475" y="558" class="number" text-anchor="end">6</text>
+    <text x="475" y="579" class="small" text-anchor="end">selected factors</text>
+
+    <rect x="58" y="624" width="450" height="82" rx="12" fill="white" stroke="#7ca4bf"/>
+    <rect x="58" y="624" width="12" height="82" rx="6" fill="#e69f00"/>
+    <text x="88" y="652" class="cardtitle">NOAA TMY + laboratory contract</text>
+    <text x="88" y="676" class="body">Climate boundary for hourly integration</text>
+    <text x="475" y="654" class="number" text-anchor="end">8,760</text>
+    <text x="475" y="675" class="small" text-anchor="end">weather hours</text>
+
+    <rect x="58" y="720" width="450" height="82" rx="12" fill="white" stroke="#7ca4bf"/>
+    <rect x="58" y="720" width="12" height="82" rx="6" fill="#7c3aed"/>
+    <text x="88" y="748" class="cardtitle">GLAD / USLCI / USGS</text>
+    <text x="88" y="772" class="body">Inventory/geography; not yet LCIA results</text>
+    <text x="475" y="750" class="number" text-anchor="end">GATED</text>
+    <text x="475" y="771" class="small" text-anchor="end">not silently substituted</text>
   </g>
 
+  <!-- Harmonization spine -->
   <g filter="url(#shadow)">
-    <rect x="381" y="139" width="250" height="220" rx="14" fill="#ffffff" stroke="#4b8bb3" stroke-width="2"/>
-    <rect x="381" y="139" width="250" height="48" rx="14" fill="#d7e9f5"/>
-    <text x="506" y="170" text-anchor="middle" class="head">Source registry</text>
-    <text x="405" y="216" class="body">Provider + persistent ID</text>
-    <text x="405" y="245" class="body">Version, year, geography</text>
-    <text x="405" y="274" class="body">Unit and system boundary</text>
-    <text x="405" y="303" class="body">License and evidence status</text>
-    <text x="405" y="332" class="body">Checksum and local manifest</text>
+    <rect x="570" y="240" width="474" height="562" rx="18" fill="white" stroke="#9bb1c2"/>
+  </g>
+  <line x1="613" y1="304" x2="613" y2="728" stroke="#b7c6d2" stroke-width="5"/>
+  <circle cx="613" cy="316" r="17" fill="#0072b2"/>
+  <circle cx="613" cy="424" r="17" fill="#d55e00"/>
+  <circle cx="613" cy="532" r="17" fill="#009e73"/>
+  <circle cx="613" cy="640" r="17" fill="#7c3aed"/>
+  <circle cx="613" cy="748" r="17" fill="#17324d"/>
+  <text x="613" y="321" text-anchor="middle" style="font-size:13px;font-weight:700;fill:white">A</text>
+  <text x="613" y="429" text-anchor="middle" style="font-size:13px;font-weight:700;fill:white">B</text>
+  <text x="613" y="537" text-anchor="middle" style="font-size:13px;font-weight:700;fill:white">C</text>
+  <text x="613" y="645" text-anchor="middle" style="font-size:13px;font-weight:700;fill:white">D</text>
+  <text x="613" y="753" text-anchor="middle" style="font-size:13px;font-weight:700;fill:white">E</text>
+
+  <text x="650" y="301" class="cardtitle">Register provenance</text>
+  <text x="650" y="326" class="body">Persistent ID · version · geography · license · review</text>
+  <rect x="650" y="340" width="158" height="23" rx="11" fill="#e8f2f8"/>
+  <text x="729" y="356" text-anchor="middle" class="badge">SOURCE LEDGER</text>
+
+  <text x="650" y="409" class="cardtitle">Keep functional units explicit</text>
+  <text x="650" y="434" class="body">Vcore-year ≠ IT MWh ≠ server-year ≠ kg material</text>
+  <rect x="650" y="448" width="190" height="23" rx="11" fill="#fff0e8"/>
+  <text x="745" y="464" text-anchor="middle" class="badge">NO SILENT CONVERSION</text>
+
+  <text x="650" y="517" class="cardtitle">Apply bounded transformations</text>
+  <text x="650" y="542" class="body">Reconstruct · re-base · interpolate · annualize</text>
+  <rect x="650" y="556" width="202" height="23" rx="11" fill="#e6f5ef"/>
+  <text x="751" y="572" text-anchor="middle" class="badge">DIGEST + EQUATION TRACE</text>
+
+  <text x="650" y="625" class="cardtitle">Propagate uncertainty and reliability</text>
+  <text x="650" y="650" class="body">Monte Carlo · lifetime renewal · maintenance burden</text>
+  <rect x="650" y="664" width="190" height="23" rx="11" fill="#f0eafd"/>
+  <text x="745" y="680" text-anchor="middle" class="badge">ASSUMPTIONS EXPOSED</text>
+
+  <text x="650" y="733" class="cardtitle">Gate the claim</text>
+  <text x="650" y="758" class="body">Evidence status + boundary + uncertainty + review</text>
+  <rect x="650" y="772" width="212" height="23" rx="11" fill="#e8edf1"/>
+  <text x="756" y="788" text-anchor="middle" class="badge">SYNTHETIC ≠ COMPARATIVE</text>
+
+  <!-- connecting arrows -->
+  <path d="M508 520 C535 520 542 520 565 520" fill="none" stroke="#49677f" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M1044 520 C1070 520 1082 520 1104 520" fill="none" stroke="#49677f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Outputs -->
+  <g filter="url(#shadow)">
+    <rect x="1114" y="240" width="420" height="122" rx="13" fill="white" stroke="#9bb1c2"/>
+    <text x="1140" y="269" class="cardtitle">Arithmetic reproduction</text>
+    <text x="1140" y="311" class="number">24/24</text>
+    <text x="1240" y="302" class="body">released totals</text>
+    <text x="1240" y="326" class="small">maximum error at rounding precision</text>
+    <polyline points="1390,328 1420,300 1450,310 1490,274" fill="none" stroke="#0072b2" stroke-width="4"/>
+
+    <rect x="1114" y="378" width="420" height="122" rx="13" fill="white" stroke="#9bb1c2"/>
+    <text x="1140" y="407" class="cardtitle">Location-dependent ranking</text>
+    <text x="1140" y="449" class="number">≈61</text>
+    <text x="1220" y="440" class="body">kg CO₂e/MWh</text>
+    <text x="1220" y="464" class="small">cold plate / one-phase crossover</text>
+    <line x1="1380" y1="458" x2="1500" y2="414" stroke="#009e73" stroke-width="4"/>
+    <line x1="1380" y1="414" x2="1500" y2="466" stroke="#d55e00" stroke-width="4"/>
+    <line x1="1436" y1="405" x2="1436" y2="474" stroke="#7c3aed" stroke-dasharray="5 4"/>
+
+    <rect x="1114" y="516" width="420" height="122" rx="13" fill="white" stroke="#9bb1c2"/>
+    <text x="1140" y="545" class="cardtitle">Evidence priority</text>
+    <text x="1140" y="587" class="number">USE</text>
+    <text x="1222" y="578" class="body">phase first; then servers</text>
+    <text x="1222" y="602" class="small">contribution × pedigree weakness</text>
+    <rect x="1390" y="566" width="100" height="15" fill="#2563eb"/>
+    <rect x="1390" y="590" width="28" height="15" fill="#88aeea"/>
+    <rect x="1390" y="614" width="27" height="15" fill="#88aeea"/>
+
+    <rect x="1114" y="654" width="420" height="148" rx="13" fill="white" stroke="#9bb1c2"/>
+    <text x="1140" y="683" class="cardtitle">Actionable experiment and inventory plan</text>
+    <circle cx="1150" cy="716" r="6" fill="#e69f00"/>
+    <text x="1170" y="721" class="body">Load × weather cooling surfaces</text>
+    <circle cx="1150" cy="746" r="6" fill="#cc79a7"/>
+    <text x="1170" y="751" class="body">Architecture-resolved bills of materials</text>
+    <circle cx="1150" cy="776" r="6" fill="#7c3aed"/>
+    <text x="1170" y="781" class="body">Fluid, failure and water-scarcity evidence</text>
   </g>
 
-  <g filter="url(#shadow)">
-    <rect x="694" y="139" width="265" height="220" rx="14" fill="#ffffff" stroke="#b08a35" stroke-width="2"/>
-    <rect x="694" y="139" width="265" height="48" rx="14" fill="#f5e6bd"/>
-    <text x="826" y="170" text-anchor="middle" class="head">Harmonize + validate</text>
-    <text x="718" y="216" class="body">Functional unit and boundary</text>
-    <text x="718" y="245" class="body">Units and reference flows</text>
-    <text x="718" y="274" class="body">Architecture and lifetime</text>
-    <text x="718" y="303" class="body">Physical-value constraints</text>
-    <text x="718" y="332" class="body">Compatibility checks</text>
-  </g>
-
-  <g filter="url(#shadow)">
-    <rect x="1022" y="139" width="360" height="220" rx="14" fill="#ffffff" stroke="#7b61a8" stroke-width="2"/>
-    <rect x="1022" y="139" width="360" height="48" rx="14" fill="#e5dcf2"/>
-    <text x="1202" y="170" text-anchor="middle" class="head">Transparent scenario package</text>
-    <rect x="1054" y="211" width="122" height="99" rx="9" fill="#f3eff9" stroke="#9c82c1"/>
-    <text x="1115" y="240" text-anchor="middle" class="body">scenario.json</text>
-    <text x="1115" y="266" text-anchor="middle" class="small">inventory</text>
-    <text x="1115" y="289" text-anchor="middle" class="small">provenance</text>
-    <rect x="1192" y="211" width="158" height="99" rx="9" fill="#f3eff9" stroke="#9c82c1"/>
-    <text x="1271" y="240" text-anchor="middle" class="body">performance.csv</text>
-    <text x="1271" y="266" text-anchor="middle" class="small">load × weather</text>
-    <text x="1271" y="289" text-anchor="middle" class="small">uncertainty</text>
-    <text x="1202" y="337" text-anchor="middle" class="small">Human-readable • machine-readable • reviewable</text>
-  </g>
-
-  <path class="arrow" d="M318 249 H370"/>
-  <path class="arrow" d="M631 249 H683"/>
-  <path class="arrow" d="M959 249 H1011"/>
-
-  <rect x="42" y="432" width="1416" height="416" rx="18" fill="#f3f5fb" stroke="#aab7d1" stroke-width="2"/>
-  <text x="70" y="468" class="panel">(b) Calculation, scientific audit, and reproducible communication</text>
-
-  <g filter="url(#shadow)">
-    <rect x="78" y="504" width="300" height="278" rx="14" fill="#ffffff" stroke="#4b8bb3" stroke-width="2"/>
-    <rect x="78" y="504" width="300" height="48" rx="14" fill="#d7e9f5"/>
-    <text x="228" y="535" text-anchor="middle" class="head">Analysis engines</text>
-    <rect x="105" y="580" width="112" height="72" rx="9" fill="#edf6fb" stroke="#8cb9d3"/>
-    <text x="161" y="610" text-anchor="middle" class="body">Static LCA</text>
-    <text x="161" y="632" text-anchor="middle" class="small">annualized</text>
-    <rect x="238" y="580" width="112" height="72" rx="9" fill="#edf6fb" stroke="#8cb9d3"/>
-    <text x="294" y="610" text-anchor="middle" class="body">Hourly model</text>
-    <text x="294" y="632" text-anchor="middle" class="small">weather + load</text>
-    <rect x="105" y="674" width="112" height="72" rx="9" fill="#edf6fb" stroke="#8cb9d3"/>
-    <text x="161" y="704" text-anchor="middle" class="body">Uncertainty</text>
-    <text x="161" y="726" text-anchor="middle" class="small">Monte Carlo</text>
-    <rect x="238" y="674" width="112" height="72" rx="9" fill="#edf6fb" stroke="#8cb9d3"/>
-    <text x="294" y="699" text-anchor="middle" class="small">Sensitivity</text>
-    <text x="294" y="717" text-anchor="middle" class="small">+ reliability</text>
-    <text x="294" y="735" text-anchor="middle" class="small">drivers + failures</text>
-  </g>
-
-  <g filter="url(#shadow)">
-    <rect x="443" y="504" width="318" height="278" rx="14" fill="#ffffff" stroke="#c17b2c" stroke-width="2"/>
-    <rect x="443" y="504" width="318" height="48" rx="14" fill="#f8dfbf"/>
-    <text x="602" y="535" text-anchor="middle" class="head">Scientific audit + claim gate</text>
-    <text x="473" y="590" class="body">✓ Provenance complete</text>
-    <text x="473" y="622" class="body">✓ Boundaries and units compatible</text>
-    <text x="473" y="654" class="body">✓ Interpolation domain covered</text>
-    <text x="473" y="686" class="body">✓ Uncertainty disclosed</text>
-    <text x="473" y="718" class="body">✓ Evidence reviewed</text>
-    <rect x="476" y="738" width="252" height="29" rx="14" fill="#fff3e0"/>
-    <text x="602" y="757" text-anchor="middle" style="font-size:11px;fill:#3f6280">Synthetic evidence → comparative claim blocked</text>
-  </g>
-
-  <g filter="url(#shadow)">
-    <rect x="826" y="504" width="285" height="278" rx="14" fill="#ffffff" stroke="#6aa57a" stroke-width="2"/>
-    <rect x="826" y="504" width="285" height="48" rx="14" fill="#cfe8d5"/>
-    <text x="968" y="535" text-anchor="middle" class="head">Scientific outputs</text>
-    <text x="855" y="590" class="body">• Absolute + normalized impacts</text>
-    <text x="855" y="622" class="body">• Contribution breakdowns</text>
-    <text x="855" y="654" class="body">• Climate-performance integration</text>
-    <text x="855" y="686" class="body">• Sensitivity + intervals</text>
-    <text x="855" y="718" class="body">• Audit findings + evidence labels</text>
-    <text x="855" y="750" class="body">• Figures, tables, JSON reports</text>
-  </g>
-
-  <g filter="url(#shadow)">
-    <rect x="1176" y="504" width="206" height="278" rx="14" fill="#ffffff" stroke="#7b61a8" stroke-width="2"/>
-    <rect x="1176" y="504" width="206" height="48" rx="14" fill="#e5dcf2"/>
-    <text x="1279" y="535" text-anchor="middle" class="head">Access layers</text>
-    <rect x="1206" y="584" width="146" height="45" rx="22" fill="#f3eff9" stroke="#9c82c1"/>
-    <text x="1279" y="612" text-anchor="middle" class="body">CLI + Python API</text>
-    <rect x="1206" y="650" width="146" height="45" rx="22" fill="#f3eff9" stroke="#9c82c1"/>
-    <text x="1279" y="678" text-anchor="middle" class="body">Local GUI</text>
-    <rect x="1206" y="716" width="146" height="45" rx="22" fill="#f3eff9" stroke="#9c82c1"/>
-    <text x="1279" y="744" text-anchor="middle" class="body">openLCA + Brightway</text>
-  </g>
-
-  <path class="arrow" d="M378 643 H432"/>
-  <path class="arrow" d="M761 643 H815"/>
-  <path class="arrow" d="M1111 643 H1165"/>
-  <path class="dash" d="M1202 359 V432"/>
-  <text x="1220" y="401" class="small">same validated inputs</text>
-
-  <text x="750" y="880" text-anchor="middle" class="small">Every result retains source identifiers, model version, assumptions, evidence status, and machine-readable audit findings.</text>
+  <rect x="52" y="838" width="1496" height="54" rx="13" fill="#e8edf1"/>
+  <circle cx="83" cy="865" r="7" fill="#0072b2"/><text x="98" y="870" class="small">released/reconstructed</text>
+  <circle cx="282" cy="865" r="7" fill="#d55e00"/><text x="297" y="870" class="small">screening transformation</text>
+  <circle cx="508" cy="865" r="7" fill="#009e73"/><text x="523" y="870" class="small">public product/process evidence</text>
+  <circle cx="790" cy="865" r="7" fill="#7c3aed"/><text x="805" y="870" class="small">requires provider or LCIA linking</text>
+  <text x="1518" y="870" text-anchor="end" class="small">Every output carries source IDs, equations, model version and evidence status.</text>
 </svg>

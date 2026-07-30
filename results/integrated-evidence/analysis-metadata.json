@@ -1,0 +1,16 @@
+{
+  "egrid_generation_weighted_national_kgco2e_per_mwh": 348.19382629383307,
+  "state_factor_range_kgco2e_per_mwh": [
+    23.6956104,
+    893.0789784
+  ],
+  "states_included": 51,
+  "boavizta_servers_included": 48,
+  "microsoft_pedigree_records_parsed": 45,
+  "evidence_status": {
+    "microsoft_reconstruction": "released source-data reconstruction",
+    "state_rebase": "screening scenario; affine interpolation",
+    "boavizta": "cross-product evidence synthesis",
+    "oekobaudat": "unit-process scenario; no facility BOM propagation"
+  }
+}

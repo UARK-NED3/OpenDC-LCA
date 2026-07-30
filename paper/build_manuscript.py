@@ -32,12 +32,15 @@ EQUATION_DISPLAY = {
     "4": "I_k,eq = Σ_i q_i ceil(L_s/L_i) (I_k,i^prod + I_k,i^EOL) / L_s          (4)",
     "5": "m_prod,annual = m_0 / L_f + m_loss                                      (5)",
     "6": "I_k,fluid = m_prod,annual I_k^fluid;   GHG_direct = m_loss GWP_direct   (6)",
-    "7": "Q_c(P,T) = (1-α)(1-β)Q_11 + α(1-β)Q_21 + (1-α)βQ_12 + αβQ_22          (7)",
-    "8": "PUE_h = 1 + Q_c,h / P_IT,h                                              (8)",
-    "9": "GHG_op = [Σ_h E_IT,h PUE_h EF_grid,h] / [Σ_h E_IT,h]                   (9)",
-    "10": "F(t) = 1 - exp[-(t / eta)^beta]                                      (10)",
-    "11": "M(t) = F(t) + integral[0,t] M(t-x) dF(x)                              (11)",
-    "12": "eta_op = eta_ref / exp[Ea/kB (1/T_ref - 1/T_op)]                      (12)",
+    "7": "I_j,s = I_j,RE + (I_j,grid - I_j,RE) EF_s / EF_US                       (7)",
+    "8": "EF*_(a,b) = EF_US (I_b,RE - I_a,RE) / [(I_a,grid-I_a,RE) - (I_b,grid-I_b,RE)]  (8)",
+    "9": "P_c = S_c [(D_c - 1) / 4]                                              (9)",
+    "10": "Q_c(P,T) = (1-α)(1-β)Q_11 + α(1-β)Q_21 + (1-α)βQ_12 + αβQ_22         (10)",
+    "11": "PUE_h = 1 + Q_c,h / P_IT,h                                            (11)",
+    "12": "GHG_op = [Σ_h E_IT,h PUE_h EF_grid,h] / [Σ_h E_IT,h]                 (12)",
+    "13": "F(t) = 1 - exp[-(t / eta)^beta]                                      (13)",
+    "14": "M(t) = F(t) + integral[0,t] M(t-x) dF(x)                              (14)",
+    "15": "eta_op = eta_ref / exp[Ea/kB (1/T_ref - 1/T_op)]                      (15)",
 }
 
 

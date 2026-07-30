@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560" role="img" aria-label="Public server manufacturing footprints span 5.4-fold">
+<style>text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:22px;font-weight:700}.axis{font-size:13px}.label{font-size:12px}.note{font-size:11px;fill:#52606d}</style>
+<rect width="100%" height="100%" fill="white"/>
+<text class="title" x="64" y="38">Public server manufacturing footprints span 5.4-fold</text>
+<rect x="90.0" y="366.2" width="63.7" height="38.8" fill="#009E73"/>
+<rect x="156.7" y="340.4" width="63.7" height="64.6" fill="#009E73"/>
+<rect x="223.3" y="392.1" width="63.7" height="12.9" fill="#009E73"/>
+<rect x="290.0" y="379.2" width="63.7" height="25.8" fill="#009E73"/>
+<rect x="356.7" y="95.0" width="63.7" height="310.0" fill="#009E73"/>
+<rect x="423.3" y="379.2" width="63.7" height="25.8" fill="#009E73"/>
+<rect x="490.0" y="340.4" width="63.7" height="64.6" fill="#009E73"/>
+<rect x="556.7" y="340.4" width="63.7" height="64.6" fill="#009E73"/>
+<rect x="623.3" y="405.0" width="63.7" height="0.0" fill="#009E73"/>
+<rect x="690.0" y="405.0" width="63.7" height="0.0" fill="#009E73"/>
+<rect x="756.7" y="405.0" width="63.7" height="0.0" fill="#009E73"/>
+<rect x="823.3" y="392.1" width="63.7" height="12.9" fill="#009E73"/>
+<line x1="357.4" y1="95" x2="357.4" y2="405" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 4"/>
+<text class="label" x="362.4" y="113">P25: 1146</text>
+<line x1="384.6" y1="95" x2="384.6" y2="405" stroke="#D55E00" stroke-width="2" stroke-dasharray="6 4"/>
+<text class="label" x="389.6" y="137">Median: 1215</text>
+<line x1="432.3" y1="95" x2="432.3" y2="405" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 4"/>
+<text class="label" x="437.3" y="161">P75: 1337</text>
+<text class="axis" x="490" y="455" text-anchor="middle">Manufacturing GWP (kg CO₂e per server)</text>
+<text class="axis" transform="translate(28 330) rotate(-90)">Count</text>
+<text class="note" x="90" y="500">n = 48 Boavizta server records; values inherit heterogeneous manufacturer PCF methods and declared lifetimes.</text>
+</svg>

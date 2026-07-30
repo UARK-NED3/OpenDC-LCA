@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560" role="img" aria-label="Grid decarbonization changes impact magnitude and can reverse close rankings">
+<style>text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:22px;font-weight:700}.axis{font-size:13px}.label{font-size:12px}.note{font-size:11px;fill:#52606d}</style>
+<rect width="100%" height="100%" fill="white"/>
+<text class="title" x="64" y="38">Grid decarbonization changes impact magnitude and can reverse close rankings</text>
+<line x1="85.0" y1="85" x2="85.0" y2="425" stroke="#E5E7EB"/>
+<text class="axis" x="85.0" y="448" text-anchor="middle">0</text>
+<line x1="268.6" y1="85" x2="268.6" y2="425" stroke="#E5E7EB"/>
+<text class="axis" x="268.6" y="448" text-anchor="middle">200</text>
+<line x1="452.3" y1="85" x2="452.3" y2="425" stroke="#E5E7EB"/>
+<text class="axis" x="452.3" y="448" text-anchor="middle">400</text>
+<line x1="635.9" y1="85" x2="635.9" y2="425" stroke="#E5E7EB"/>
+<text class="axis" x="635.9" y="448" text-anchor="middle">600</text>
+<line x1="819.5" y1="85" x2="819.5" y2="425" stroke="#E5E7EB"/>
+<text class="axis" x="819.5" y="448" text-anchor="middle">800</text>
+<line x1="1003.2" y1="85" x2="1003.2" y2="425" stroke="#E5E7EB"/>
+<text class="axis" x="1003.2" y="448" text-anchor="middle">1000</text>
+<line x1="85" y1="425.0" x2="905" y2="425.0" stroke="#E5E7EB"/>
+<text class="axis" x="75" y="429.0" text-anchor="end">0</text>
+<line x1="85" y1="388.2" x2="905" y2="388.2" stroke="#E5E7EB"/>
+<text class="axis" x="75" y="392.2" text-anchor="end">10</text>
+<line x1="85" y1="351.4" x2="905" y2="351.4" stroke="#E5E7EB"/>
+<text class="axis" x="75" y="355.4" text-anchor="end">20</text>
+<line x1="85" y1="314.6" x2="905" y2="314.6" stroke="#E5E7EB"/>
+<text class="axis" x="75" y="318.6" text-anchor="end">30</text>
+<line x1="85" y1="277.8" x2="905" y2="277.8" stroke="#E5E7EB"/>
+<text class="axis" x="75" y="281.8" text-anchor="end">40</text>
+<line x1="85" y1="240.9" x2="905" y2="240.9" stroke="#E5E7EB"/>
+<text class="axis" x="75" y="244.9" text-anchor="end">50</text>
+<polyline points="106.8,402.4 196.0,368.7 200.0,367.2 215.7,361.3 217.0,360.8 224.8,357.9 237.0,353.2 249.4,348.6 249.5,348.5 279.3,337.3 280.8,336.7 282.6,336.0 302.5,328.5 309.7,325.8 310.2,325.6 318.4,322.5 345.9,312.2 349.1,310.9 353.2,309.4 354.8,308.8 355.2,308.6 360.4,306.7 372.0,302.3 378.3,299.9 382.4,298.4 383.8,297.9 390.4,295.4 398.3,292.4 402.8,290.7 406.2,289.4 407.2,289.0 413.7,286.6 417.1,285.3 424.2,282.6 430.0,280.4 430.7,280.2 434.8,278.6 500.8,253.7 512.2,249.4 528.1,243.4 529.9,242.7 539.4,239.1 569.6,227.7 625.5,206.6 665.9,191.4 676.9,187.3 690.8,182.0 695.4,180.3 812.6,136.1 848.5,122.5 905.0,101.2" fill="none" stroke="#4B5563" stroke-width="3"/>
+<polyline points="106.8,405.9 196.0,377.3 200.0,376.0 215.7,371.0 217.0,370.6 224.8,368.1 237.0,364.2 249.4,360.2 249.5,360.2 279.3,350.6 280.8,350.2 282.6,349.6 302.5,343.2 309.7,340.9 310.2,340.7 318.4,338.1 345.9,329.3 349.1,328.3 353.2,327.0 354.8,326.4 355.2,326.3 360.4,324.7 372.0,320.9 378.3,318.9 382.4,317.6 383.8,317.2 390.4,315.0 398.3,312.5 402.8,311.1 406.2,310.0 407.2,309.7 413.7,307.6 417.1,306.5 424.2,304.2 430.0,302.4 430.7,302.1 434.8,300.8 500.8,279.7 512.2,276.0 528.1,270.9 529.9,270.3 539.4,267.3 569.6,257.6 625.5,239.7 665.9,226.8 676.9,223.2 690.8,218.8 695.4,217.3 812.6,179.8 848.5,168.3 905.0,150.2" fill="none" stroke="#0072B2" stroke-width="3"/>
+<polyline points="106.8,405.7 196.0,377.7 200.0,376.4 215.7,371.5 217.0,371.1 224.8,368.6 237.0,364.8 249.4,360.9 249.5,360.9 279.3,351.5 280.8,351.0 282.6,350.5 302.5,344.2 309.7,342.0 310.2,341.8 318.4,339.2 345.9,330.6 349.1,329.6 353.2,328.3 354.8,327.8 355.2,327.7 360.4,326.1 372.0,322.4 378.3,320.4 382.4,319.1 383.8,318.7 390.4,316.6 398.3,314.1 402.8,312.7 406.2,311.7 407.2,311.3 413.7,309.3 417.1,308.2 424.2,306.0 430.0,304.2 430.7,304.0 434.8,302.7 500.8,281.9 512.2,278.4 528.1,273.4 529.9,272.8 539.4,269.8 569.6,260.3 625.5,242.8 665.9,230.1 676.9,226.6 690.8,222.3 695.4,220.8 812.6,184.0 848.5,172.7 905.0,155.0" fill="none" stroke="#009E73" stroke-width="3"/>
+<polyline points="106.8,406.9 196.0,380.3 200.0,379.1 215.7,374.4 217.0,374.0 224.8,371.7 237.0,368.0 249.4,364.3 249.5,364.3 279.3,355.3 280.8,354.9 282.6,354.4 302.5,348.4 309.7,346.3 310.2,346.1 318.4,343.7 345.9,335.4 349.1,334.5 353.2,333.3 354.8,332.8 355.2,332.7 360.4,331.1 372.0,327.6 378.3,325.8 382.4,324.5 383.8,324.1 390.4,322.1 398.3,319.8 402.8,318.4 406.2,317.4 407.2,317.1 413.7,315.2 417.1,314.2 424.2,312.0 430.0,310.3 430.7,310.1 434.8,308.9 500.8,289.1 512.2,285.7 528.1,281.0 529.9,280.4 539.4,277.6 569.6,268.6 625.5,251.8 665.9,239.8 676.9,236.5 690.8,232.3 695.4,231.0 812.6,195.9 848.5,185.2 905.0,168.3" fill="none" stroke="#D55E00" stroke-width="3"/>
+<line x1="140.8" y1="85" x2="140.8" y2="425" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 5"/>
+<text class="label" x="147.8" y="103">CP/1P crossover ≈ 61 kg CO₂e/MWh</text>
+<line x1="404.7" y1="85" x2="404.7" y2="425" stroke="#111827" stroke-dasharray="2 4"/>
+<text class="note" x="409.7" y="417">eGRID 2023 generation-weighted U.S.</text>
+<text class="axis" x="490" y="485" text-anchor="middle">State total-output electricity intensity (kg CO₂e/MWh)</text>
+<text class="axis" transform="translate(22 350) rotate(-90)">kg CO₂e per Vcore-year (screening re-base)</text>
+<line x1="80" y1="525" x2="105" y2="525" stroke="#4B5563" stroke-width="4"/>
+<text class="axis" x="113" y="530">Air-cooled</text>
+<line x1="285" y1="525" x2="310" y2="525" stroke="#0072B2" stroke-width="4"/>
+<text class="axis" x="318" y="530">Cold plate</text>
+<line x1="490" y1="525" x2="515" y2="525" stroke="#009E73" stroke-width="4"/>
+<text class="axis" x="523" y="530">One-phase</text>
+<line x1="695" y1="525" x2="720" y2="525" stroke="#D55E00" stroke-width="4"/>
+<text class="axis" x="728" y="530">Two-phase</text>
+</svg>

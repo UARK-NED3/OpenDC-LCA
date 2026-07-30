@@ -1,0 +1,10 @@
+component,pedigree_criteria_scored,mean_pedigree_score_1_best_5_worst,mean_grid_ghg_contribution_pct,normalized_data_weakness,contribution_weighted_priority_index,interpretation
+Use Phase,5,1.4,90.33107156825379,0.09999999999999998,0.09033107156825376,Higher values identify evidence whose improvement has both greater modeled consequence and poorer data quality.
+Storage Server,5,2.8,2.867868450980753,0.44999999999999996,0.012905408029413387,Higher values identify evidence whose improvement has both greater modeled consequence and poorer data quality.
+Networking Equipment,5,3.6,1.9538551712153598,0.65,0.012700058612899839,Higher values identify evidence whose improvement has both greater modeled consequence and poorer data quality.
+Compute Server,5,2.2,4.218370789933195,0.30000000000000004,0.012655112369799585,Higher values identify evidence whose improvement has both greater modeled consequence and poorer data quality.
+Building,5,2.4,0.33872877373649346,0.35,0.0011855507080777272,Higher values identify evidence whose improvement has both greater modeled consequence and poorer data quality.
+Support Equipment,5,2.4,0.22127324269089113,0.35,0.0007744563494181189,Higher values identify evidence whose improvement has both greater modeled consequence and poorer data quality.
+Rack/Tank,5,2.2,0.042827909819270565,0.30000000000000004,0.0001284837294578117,Higher values identify evidence whose improvement has both greater modeled consequence and poorer data quality.
+Fluid,5,2.0,0.021124618374047208,0.25,5.281154593511802e-05,Higher values identify evidence whose improvement has both greater modeled consequence and poorer data quality.
+Cable,5,2.2,0.00487947499621523,0.30000000000000004,1.4638424988645693e-05,Higher values identify evidence whose improvement has both greater modeled consequence and poorer data quality.

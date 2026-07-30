@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560" role="img" aria-label="Contribution-weighted data quality identifies the next evidence">
+<style>text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:22px;font-weight:700}.axis{font-size:13px}.label{font-size:12px}.note{font-size:11px;fill:#52606d}</style>
+<rect width="100%" height="100%" fill="white"/>
+<text class="title" x="64" y="38">Contribution-weighted data quality identifies the next evidence</text>
+<text class="axis" x="276" y="102" text-anchor="end">Use Phase</text>
+<rect x="290" y="87" width="590.0" height="23" rx="4" fill="#2563EB"/>
+<text class="label" x="888.0" y="103">9.0</text>
+<text class="note" x="290" y="124">90.3% mean contribution; pedigree 1.4/5</text>
+<text class="axis" x="276" y="150" text-anchor="end">Storage Server</text>
+<rect x="290" y="135" width="84.3" height="23" rx="4" fill="#2563EB"/>
+<text class="label" x="382.3" y="151">1.3</text>
+<text class="note" x="290" y="172">2.9% mean contribution; pedigree 2.8/5</text>
+<text class="axis" x="276" y="198" text-anchor="end">Networking Equipment</text>
+<rect x="290" y="183" width="83.0" height="23" rx="4" fill="#2563EB"/>
+<text class="label" x="381.0" y="199">1.3</text>
+<text class="note" x="290" y="220">2.0% mean contribution; pedigree 3.6/5</text>
+<text class="axis" x="276" y="246" text-anchor="end">Compute Server</text>
+<rect x="290" y="231" width="82.7" height="23" rx="4" fill="#2563EB"/>
+<text class="label" x="380.7" y="247">1.3</text>
+<text class="note" x="290" y="268">4.2% mean contribution; pedigree 2.2/5</text>
+<text class="axis" x="276" y="294" text-anchor="end">Building</text>
+<rect x="290" y="279" width="7.7" height="23" rx="4" fill="#2563EB"/>
+<text class="label" x="305.7" y="295">0.1</text>
+<text class="note" x="290" y="316">0.3% mean contribution; pedigree 2.4/5</text>
+<text class="axis" x="276" y="342" text-anchor="end">Support Equipment</text>
+<rect x="290" y="327" width="5.1" height="23" rx="4" fill="#2563EB"/>
+<text class="label" x="303.1" y="343">0.1</text>
+<text class="note" x="290" y="364">0.2% mean contribution; pedigree 2.4/5</text>
+<text class="axis" x="276" y="390" text-anchor="end">Rack/Tank</text>
+<rect x="290" y="375" width="0.8" height="23" rx="4" fill="#2563EB"/>
+<text class="label" x="298.8" y="391">0.0</text>
+<text class="note" x="290" y="412">0.0% mean contribution; pedigree 2.2/5</text>
+<text class="axis" x="276" y="438" text-anchor="end">Fluid</text>
+<rect x="290" y="423" width="0.3" height="23" rx="4" fill="#2563EB"/>
+<text class="label" x="298.3" y="439">0.0</text>
+<text class="note" x="290" y="460">0.0% mean contribution; pedigree 2.0/5</text>
+<text class="axis" x="590" y="505" text-anchor="middle">Priority index = mean GHG share × normalized pedigree weakness</text>
+<text class="note" x="64" y="542">Screening diagnostic from released Microsoft/WSP contribution and pedigree data; not a statistical value-of-information calculation.</text>
+</svg>

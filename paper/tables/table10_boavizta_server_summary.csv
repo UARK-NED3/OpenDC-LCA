@@ -1,0 +1,3 @@
+metric,unit,n,minimum,p25,median,p75,maximum
+server manufacturing GWP,kg CO2e/server,48,465.0,1146.045,1215.355,1336.8899999999999,2502.63
+annualized server manufacturing GWP,kg CO2e/server-year,48,116.25,286.51125,303.83875,334.22249999999997,625.6575
