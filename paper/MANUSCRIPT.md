@@ -22,7 +22,11 @@ measurement priorities. We present OpenDC-LCA, an open-source,
 evidence-governed research layer that couples data-center cooling physics to
 general life-cycle assessment (LCA) tools while preserving source identity,
 functional unit, geography, transformation equations, uncertainty, and
-evidence status. The framework supports openLCA JSON-LD and Brightway
+evidence status. A guided practitioner workflow converts a compact facility,
+cooling, electricity, water, equipment, and source record into the governed
+scenario schema and returns both a plain-language report and machine-readable
+results with contribution breakdowns, audit findings, evidence level, and
+next-data requirements. The framework supports openLCA JSON-LD and Brightway
 interoperability, hourly weather-load-performance integration, discrete and
 reliability-driven replacement, uncertainty analysis, and a machine-readable
 claim gate. We use released Microsoft/WSP results, EPA eGRID 2023, 48 Boavizta
@@ -191,11 +195,19 @@ calculation engine.
 ![Figure 1. OpenDC-LCA evidence-to-decision architecture. The evidence atlas identifies the numerical role and limits of each downloaded source; the harmonization spine preserves provenance, functional unit, bounded transformations, uncertainty and evidence status; decision-facing outputs expose arithmetic reconstruction, geographic crossover conditions, data-improvement priorities and the next experimental or inventory need.](figures/figure0_opendc_lca_workflow.svg)
 
 The framework is implemented in Python 3.10 or later and distributed under the
-MIT License [4]. Version 1.1 exposes validated scenario analysis,
+MIT License [4]. Version 1.1.0 exposes validated scenario analysis,
 performance-map summarization, scientific audit functions, report generation,
 a local browser-based GUI, complete openLCA JSON-LD process exchange, and
-Brightway database-write mappings. The GUI binds to the local host by default
-and does not alter the data model or calculation path.
+Brightway database-write mappings. For first-time users, a compact input
+contract requests IT capacity, utilization, PUE, facility lifetime, onsite
+water, three electricity factors, optional aggregate cooling equipment, and a
+citable source record. The software expands this record into the governed
+scenario schema before calculation; it does not maintain a separate simplified
+model. The resulting practitioner report includes annual and per-IT-MWh
+impacts, contributions, automated evidence classification, warnings or
+blockers, and the specific evidence required to strengthen the study. The GUI
+binds to the local host by default and does not alter the data model or
+calculation path.
 
 ### 2.2. Goal, functional unit, and system boundary
 
@@ -647,6 +659,37 @@ audit blocks a comparative conclusion.
 | Scientific claim gate | Scenario, sources, evidence status and intent | Automated blockers and warnings | Reviewable findings | Independent critical review for public claims | Implemented |
 | Access | JSON or CSV | Shared engine through CLI, API and local GUI | JSON, tables, figures and reports | Same model version across interfaces | Implemented |
 
+### 4.8. Practitioner workflow and release verification
+
+The v1.1.0 practitioner path reduces the minimum viable screening study to the
+input-output contract in Table 2. It is available through four command-line
+operations (`capabilities`, `new-study`, `prepare-study`, and
+`practitioner-report`), corresponding Python API calls, and the guided local
+interface. Both practitioner interfaces first create the full governed
+scenario and then call the same analysis and audit functions used by the
+advanced workflow. Thus, ease of entry does not bypass provenance, unit,
+boundary, or evidence checks.
+
+**Table 2. Compact practitioner input-output contract in OpenDC-LCA v1.1.0.**
+
+| Stage | User-supplied information | Machine action | Principal output |
+|---|---|---|---|
+| Define facility | Study name, cooling architecture, geography, reference year, IT capacity, capacity factor, PUE, lifetime and onsite water | Validate physical ranges and compute annual IT and facility electricity | Transparent operating basis |
+| Add electricity | Location-based GHG, primary-energy and blue-water factors with compatible accounting basis | Apply factors to annual facility electricity | Annual and per-IT-MWh operational impacts |
+| Add equipment, if known | Quantity, service life, production and end-of-life impacts | Annualize production and replacement over the study period | Operational-plus-equipment totals and contribution shares |
+| Register evidence | Source ID, title, citation, license, quality, uncertainty, review and confidentiality status | Preserve metadata in the governed scenario and run the scientific audit | Traceable evidence level, warnings and blockers |
+| Export decision record | No additional input | Serialize the same calculation and audit result for people and software | `PRACTITIONER_REPORT.md`, `practitioner-results.json`, model version and scenario SHA-256 digest |
+
+The public release was checked at three levels. First, 40 automated tests cover
+the calculation engine, provenance and claim gate, performance maps,
+uncertainty, reports, interoperability, reliability, API, GUI endpoints, and
+the end-to-end practitioner commands. Second, the wheel was installed in a
+clean Python 3.12 environment and the practitioner workflow was executed from
+template creation through report generation. Third, the tagged GitHub release
+contains both wheel and source-distribution artifacts produced by the release
+workflow. These checks establish installation and software consistency; they
+do not constitute ISO critical review or validate user-supplied factors.
+
 ## 5. Discussion
 
 ### 5.1. The technology ranking is conditional, not universal
@@ -768,6 +811,26 @@ openLCA or Brightway. Dr. Nutter's independent review should assess the
 recorded methodological decisions, dataset mappings and claim-gate findings as
 a coherent package before public comparative assertions are made.
 
+### 5.6. Practitioner use and interpretation boundary
+
+The guided workflow makes the framework usable before a complete bill of
+materials is available, but it labels the consequence. A study without
+equipment data is identified as operational-only; a zero factor is treated as
+zero rather than as an undocumented unknown; and omitted fluids, reliability,
+hourly variation, scarcity characterization, or compute-performance effects
+remain visible in the capability boundary and next-data list. This is a
+deliberate adoption strategy: practitioners can obtain a reproducible
+screening result immediately while receiving an explicit acquisition plan for
+decision-grade evidence.
+
+The human-readable and JSON outputs serve different users without creating two
+scientific records. The report supports engineering review and procurement
+discussion, whereas the JSON result supports portfolio aggregation,
+dashboards, scripted comparisons, and archival. Model version and scenario
+digest make the result attributable to a specific calculation and governed
+input. Comparative communication remains conditional on the automated claim
+gate and, for public assertions, independent critical review.
+
 ## 6. Conclusions
 
 OpenDC-LCA converts heterogeneous cooling, grid, server, construction and data-
@@ -789,16 +852,26 @@ Third, contribution-weighted data quality can convert an LCA into a prioritized
 experimental and data-acquisition program. OpenDC-LCA operationalizes these
 principles through traceable source registration, temporal performance maps,
 reliability, openLCA/Brightway exchange and machine-readable claim gates. The
+released v1.1.0 package also provides a guided path from a compact practitioner
+input to a governed scenario, plain-language report, machine-readable result,
+evidence classification, and next-data plan. This makes the framework usable
+for screening while preserving a visible boundary between calculated,
+omitted, and insufficiently supported effects. The
 remaining barrier to a public decision-grade benchmark is evidence: harmonized
 bills of quantities, measured operating surfaces, time- and watershed-resolved
 factors, and independent critical review.
 
 ## Data and code availability
 
-OpenDC-LCA version 1.1 source code, examples, documentation, tests, and derived
-paper tables and figures are available at
-https://github.com/UARK-NED3/OpenDC-LCA. Provider-native raw files remain local
-when redistribution permission has not been established. Released
+OpenDC-LCA version 1.1.0 source code, examples, documentation, tests, and
+derived paper tables and figures are available at
+https://github.com/UARK-NED3/OpenDC-LCA. Installable wheel and source archives
+are preserved in the tagged release at
+https://github.com/UARK-NED3/OpenDC-LCA/releases/tag/v1.1.0. The repository
+documents the guided interface, compact input contract, advanced schema,
+command-line interface, Python API, report fields, and current capability
+boundary. Provider-native raw files remain local when redistribution
+permission has not been established. Released
 Microsoft/Nature model files are available from Zenodo [2]. EPA eGRID and NOAA
 TMY data are available from their respective public portals [5,6].
 

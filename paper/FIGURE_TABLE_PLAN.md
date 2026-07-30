@@ -45,15 +45,16 @@ performance inputs preclude technology claims.
 ## Main-text tables
 
 1. OpenDC-LCA capability and evidence matrix.
-2. Microsoft/Nature reconstruction audit
+2. Compact practitioner input-output contract (manuscript Table 2).
+3. Microsoft/Nature reconstruction audit
    (`table1_microsoft_reproduction_audit.csv`).
-3. eGRID state re-basing and crossover summary
+4. eGRID state re-basing and crossover summary
    (`table7_state_rank_summary.csv`, `table8_crossover_thresholds.csv`).
-4. Boavizta server footprint summary
+5. Boavizta server footprint summary
    (`table10_boavizta_server_summary.csv`).
-5. ÖKOBAUDAT material leverage
+6. ÖKOBAUDAT material leverage
    (`table11_material_decarbonization_levers.csv`).
-6. Contribution-weighted pedigree priority
+7. Contribution-weighted pedigree priority
    (`table13_data_improvement_priority.csv`).
 
 ## Supplementary tables and reusable evidence
