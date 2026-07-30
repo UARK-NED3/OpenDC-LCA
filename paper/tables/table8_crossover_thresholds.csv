@@ -1,4 +1,4 @@
 technology_a,technology_b,crossover_egrid_ratio,crossover_kgco2e_per_mwh,within_observed_state_range,interpretation
-Cold plate,One-phase,0.17459110447199847,60.79154470297149,True,Cold plate has lower modeled GHG below the crossover; One-phase has lower modeled GHG above it.
-Cold plate,Two-phase,-0.08111445429268059,-28.24355220790469,False,Cold plate has lower modeled GHG below the crossover; Two-phase has lower modeled GHG above it.
-One-phase,Two-phase,-0.18794255439881485,-65.44043713956022,False,One-phase has lower modeled GHG below the crossover; Two-phase has lower modeled GHG above it.
+Cold plate,One-phase,0.17459110447199847,96.70396924389829,True,Cold plate has lower modeled GHG below the crossover; One-phase has lower modeled GHG above it.
+Cold plate,Two-phase,-0.08111445429268059,-35.94593866724408,False,Cold plate has lower modeled GHG below the crossover; Two-phase has lower modeled GHG above it.
+One-phase,Two-phase,-0.18794255439881485,-91.36412241678887,False,One-phase has lower modeled GHG below the crossover; Two-phase has lower modeled GHG above it.

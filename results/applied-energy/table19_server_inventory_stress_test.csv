@@ -1,21 +1,21 @@
 server_scenario,server_inventory_scale_vs_boavizta_median,technology,states_where_lowest_ghg,median_winner_margin_pct,interpretation
-minimum,0.38260425966075756,Air-cooled,0,5.133976343846824,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-minimum,0.38260425966075756,Cold plate,0,5.133976343846824,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-minimum,0.38260425966075756,One-phase,0,5.133976343846824,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-minimum,0.38260425966075756,Two-phase,51,5.133976343846824,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-p25,0.94297139518906,Air-cooled,0,5.351074928568678,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-p25,0.94297139518906,Cold plate,0,5.351074928568678,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-p25,0.94297139518906,One-phase,0,5.351074928568678,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-p25,0.94297139518906,Two-phase,51,5.351074928568678,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-median,1.0,Air-cooled,0,5.371840914386383,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-median,1.0,Cold plate,0,5.371840914386383,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-median,1.0,One-phase,0,5.371840914386383,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-median,1.0,Two-phase,51,5.371840914386383,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-p75,1.0999995885975702,Air-cooled,0,5.407702685333615,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-p75,1.0999995885975702,Cold plate,0,5.407702685333615,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-p75,1.0999995885975702,One-phase,0,5.407702685333615,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-p75,1.0999995885975702,Two-phase,51,5.407702685333615,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-maximum,2.059176125494197,Air-cooled,0,5.694830479886481,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-maximum,2.059176125494197,Cold plate,0,5.694830479886481,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-maximum,2.059176125494197,One-phase,0,5.694830479886481,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
-maximum,2.059176125494197,Two-phase,51,5.694830479886481,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+minimum,0.38260425966075756,Air-cooled,0,5.173565799197188,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+minimum,0.38260425966075756,Cold plate,0,5.173565799197188,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+minimum,0.38260425966075756,One-phase,0,5.173565799197188,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+minimum,0.38260425966075756,Two-phase,51,5.173565799197188,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+p25,0.94297139518906,Air-cooled,0,5.474356641082223,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+p25,0.94297139518906,Cold plate,0,5.474356641082223,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+p25,0.94297139518906,One-phase,0,5.474356641082223,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+p25,0.94297139518906,Two-phase,51,5.474356641082223,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+median,1.0,Air-cooled,0,5.502610343648651,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+median,1.0,Cold plate,0,5.502610343648651,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+median,1.0,One-phase,0,5.502610343648651,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+median,1.0,Two-phase,51,5.502610343648651,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+p75,1.0999995885975702,Air-cooled,0,5.551101850597928,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+p75,1.0999995885975702,Cold plate,0,5.551101850597928,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+p75,1.0999995885975702,One-phase,0,5.551101850597928,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+p75,1.0999995885975702,Two-phase,51,5.551101850597928,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+maximum,2.059176125494197,Air-cooled,0,5.823949277365337,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+maximum,2.059176125494197,Cold plate,0,5.823949277365337,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+maximum,2.059176125494197,One-phase,0,5.823949277365337,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.
+maximum,2.059176125494197,Two-phase,51,5.823949277365337,Multiplicative stress test using empirical Boavizta annualized server-footprint dispersion; not a probability model.

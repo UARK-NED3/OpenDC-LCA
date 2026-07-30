@@ -9,6 +9,8 @@ This directory is the stable handoff for manuscript development.
   portfolio with evidence labels.
 - `RESULTS_PACKAGE.md`: consolidated interpretation, equations, limitations,
   and paper-use guidance.
+- `RESPONSE_TO_REVIEW.md`: point-by-point record of completed revisions and
+  evidence still required before submission.
 - `tables/`: machine-readable CSV tables.
 - `figures/`: editable, publication-ready SVG figures.
 - `results-workbook.xlsx`: formula-driven review workbook.
@@ -24,13 +26,14 @@ python paper/build_overleaf.py
 cd paper/overleaf && tectonic main.tex
 ```
 
-The v0.4 reproduction results are validated against released Microsoft/Nature
-source data. The v0.5 hourly results remain a research preview. Version 0.6
+The v0.4 results audit arithmetic consistency against released Microsoft/Nature
+source data; it is not empirical or background-inventory validation. The v0.5
+hourly results remain a research preview. Version 0.6
 provides the file contract and hourly engine for replacing its assumptions with
 measured NED³ performance surfaces.
 
-The Applied Energy extension adds nine EPA eGRID releases, 459 state-year
-observations, historical absolute-benefit and embodied-share trajectories,
+The Applied Energy extension adds nine EPA eGRID releases, 459 controlled
+state-year electricity-factor scenarios, historical absolute-benefit and embodied-share trajectories,
 use-phase break-even requirements, and a Boavizta-informed server-inventory
 stress test. These are transparent screening transformations of released
 foreground results, not substitutes for measured cooling-performance surfaces

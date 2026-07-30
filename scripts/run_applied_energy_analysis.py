@@ -37,6 +37,10 @@ RESULTS = ROOT / "results" / "applied-energy"
 TECHNOLOGIES = integrated.TECHNOLOGIES
 COLORS = integrated.COLORS
 LB_TO_KG = 0.45359237
+MICROSOFT_GRID_GHG_KG_PER_MWH = integrated.MICROSOFT_GRID_GHG_KG_PER_MWH
+MICROSOFT_RENEWABLE_GHG_KG_PER_MWH = (
+    integrated.MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+)
 
 FILES = {
     2012: ("eGRID2012_Data.xlsx", "ST12"),
@@ -166,11 +170,16 @@ def total_at_factor(
 ) -> tuple[float, float, float]:
     grid = components["grid"][technology]
     renewable = components["renewable"][technology]
+    endpoint_fraction = (
+        factor - MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+    ) / (
+        MICROSOFT_GRID_GHG_KG_PER_MWH
+        - MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+    )
     use = (
         renewable["Use Phase Impacts"]
         + (grid["Use Phase Impacts"] - renewable["Use Phase Impacts"])
-        * factor
-        / reference_factor
+        * endpoint_fraction
     ) * use_scale
     server_labels = {
         "Compute Server Impacts",
@@ -482,6 +491,10 @@ def main() -> None:
         "egrid_years": [row["year"] for row in factors],
         "state_year_observations": len(historical),
         "reference_factor_2023_kgco2e_per_mwh": reference_factor,
+        "microsoft_grid_endpoint_kgco2e_per_mwh": MICROSOFT_GRID_GHG_KG_PER_MWH,
+        "microsoft_renewable_endpoint_kgco2e_per_mwh": (
+            MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+        ),
         "cold_plate_one_phase_crossover_kgco2e_per_mwh": crossover,
         "evidence_status": {
             "historical_transition": "EPA eGRID observations plus affine released-model re-basing",

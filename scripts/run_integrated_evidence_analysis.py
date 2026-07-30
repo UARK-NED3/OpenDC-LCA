@@ -23,6 +23,8 @@ FIGURES = ROOT / "paper" / "figures"
 RESULTS = ROOT / "results" / "integrated-evidence"
 
 TECHNOLOGIES = ("Air-cooled", "Cold plate", "One-phase", "Two-phase")
+MICROSOFT_GRID_GHG_KG_PER_MWH = 524.893385656191
+MICROSOFT_RENEWABLE_GHG_KG_PER_MWH = 6.13302490385571
 COLORS = {
     "Air-cooled": "#4B5563",
     "Cold plate": "#0072B2",
@@ -136,7 +138,12 @@ def state_rebased_results(
     rows = []
     summary = []
     for state in states:
-        ratio = float(state["co2e_kg_per_mwh"]) / national_factor
+        ratio = (
+            float(state["co2e_kg_per_mwh"]) - MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+        ) / (
+            MICROSOFT_GRID_GHG_KG_PER_MWH
+            - MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+        )
         totals = {}
         for technology in TECHNOLOGIES:
             grid = components["grid"][technology]
@@ -162,7 +169,7 @@ def state_rebased_results(
                     "embodied_share_pct": 100 * embodied / total,
                     "method": (
                         "Affine re-basing between Microsoft 100% renewable and "
-                        "grid cases using eGRID state/national intensity ratio"
+                        "grid endpoints using their released GaBi factors"
                     ),
                 }
             )
@@ -210,7 +217,14 @@ def crossover_rows(
                 "technology_a": left,
                 "technology_b": right,
                 "crossover_egrid_ratio": ratio,
-                "crossover_kgco2e_per_mwh": ratio * national_factor,
+                "crossover_kgco2e_per_mwh": (
+                    MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+                    + ratio
+                    * (
+                        MICROSOFT_GRID_GHG_KG_PER_MWH
+                        - MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+                    )
+                ),
                 "within_observed_state_range": False,
                 "interpretation": (
                     f"{left} has lower modeled GHG below the crossover; "
@@ -652,13 +666,22 @@ def main() -> None:
         json.dumps(
             {
                 "egrid_generation_weighted_national_kgco2e_per_mwh": national_factor,
+                "microsoft_grid_endpoint_kgco2e_per_mwh": (
+                    MICROSOFT_GRID_GHG_KG_PER_MWH
+                ),
+                "microsoft_renewable_endpoint_kgco2e_per_mwh": (
+                    MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+                ),
                 "state_factor_range_kgco2e_per_mwh": [observed_min, observed_max],
                 "states_included": len(states),
                 "boavizta_servers_included": len(server_rows),
                 "microsoft_pedigree_records_parsed": len(pedigree),
                 "evidence_status": {
-                    "microsoft_reconstruction": "released source-data reconstruction",
-                    "state_rebase": "screening scenario; affine interpolation",
+                    "microsoft_reconstruction": "released arithmetic consistency audit",
+                    "state_rebase": (
+                        "controlled screening scenario; affine interpolation "
+                        "between released GaBi electricity endpoints"
+                    ),
                     "boavizta": "cross-product evidence synthesis",
                     "oekobaudat": "unit-process scenario; no facility BOM propagation",
                 },

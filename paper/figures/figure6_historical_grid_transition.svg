@@ -96,7 +96,7 @@
 <circle cx="509.5" cy="159.1" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="597.9" cy="159.1" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="601.7" cy="159.1" r="4" fill="#9CA3AF" opacity="0.72"/>
-<circle cx="145.9" cy="159.1" r="4" fill="#9CA3AF" opacity="0.72"/>
+<circle cx="145.9" cy="159.1" r="4" fill="#0072B2" opacity="0.72"/>
 <circle cx="468.1" cy="159.1" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="842.2" cy="159.1" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="628.3" cy="159.1" r="4" fill="#9CA3AF" opacity="0.72"/>
@@ -147,7 +147,7 @@
 <circle cx="472.2" cy="228.2" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="671.5" cy="228.2" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="470.8" cy="228.2" r="4" fill="#9CA3AF" opacity="0.72"/>
-<circle cx="161.8" cy="228.2" r="4" fill="#9CA3AF" opacity="0.72"/>
+<circle cx="161.8" cy="228.2" r="4" fill="#0072B2" opacity="0.72"/>
 <circle cx="399.6" cy="228.2" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="782.3" cy="228.2" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="546.8" cy="228.2" r="4" fill="#9CA3AF" opacity="0.72"/>
@@ -181,7 +181,7 @@
 <circle cx="711.6" cy="228.2" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="400.7" cy="228.2" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="115.4" cy="228.2" r="4" fill="#0072B2" opacity="0.72"/>
-<circle cx="161.3" cy="228.2" r="4" fill="#9CA3AF" opacity="0.72"/>
+<circle cx="161.3" cy="228.2" r="4" fill="#0072B2" opacity="0.72"/>
 <circle cx="619.8" cy="228.2" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="845.2" cy="228.2" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="864.3" cy="228.2" r="4" fill="#9CA3AF" opacity="0.72"/>
@@ -198,7 +198,7 @@
 <circle cx="443.5" cy="297.3" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="668.5" cy="297.3" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="498.7" cy="297.3" r="4" fill="#9CA3AF" opacity="0.72"/>
-<circle cx="151.0" cy="297.3" r="4" fill="#9CA3AF" opacity="0.72"/>
+<circle cx="151.0" cy="297.3" r="4" fill="#0072B2" opacity="0.72"/>
 <circle cx="400.5" cy="297.3" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="753.3" cy="297.3" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="468.1" cy="297.3" r="4" fill="#9CA3AF" opacity="0.72"/>
@@ -232,7 +232,7 @@
 <circle cx="700.5" cy="297.3" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="371.8" cy="297.3" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="111.8" cy="297.3" r="4" fill="#0072B2" opacity="0.72"/>
-<circle cx="165.9" cy="297.3" r="4" fill="#9CA3AF" opacity="0.72"/>
+<circle cx="165.9" cy="297.3" r="4" fill="#0072B2" opacity="0.72"/>
 <circle cx="619.7" cy="297.3" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="834.1" cy="297.3" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="872.9" cy="297.3" r="4" fill="#9CA3AF" opacity="0.72"/>
@@ -249,7 +249,7 @@
 <circle cx="424.2" cy="331.8" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="682.8" cy="331.8" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="416.8" cy="331.8" r="4" fill="#9CA3AF" opacity="0.72"/>
-<circle cx="170.2" cy="331.8" r="4" fill="#9CA3AF" opacity="0.72"/>
+<circle cx="170.2" cy="331.8" r="4" fill="#0072B2" opacity="0.72"/>
 <circle cx="365.3" cy="331.8" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="710.0" cy="331.8" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="429.0" cy="331.8" r="4" fill="#9CA3AF" opacity="0.72"/>
@@ -385,7 +385,7 @@
 <circle cx="686.1" cy="400.9" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="318.2" cy="400.9" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="107.0" cy="400.9" r="4" fill="#0072B2" opacity="0.72"/>
-<circle cx="167.0" cy="400.9" r="4" fill="#9CA3AF" opacity="0.72"/>
+<circle cx="167.0" cy="400.9" r="4" fill="#0072B2" opacity="0.72"/>
 <circle cx="573.7" cy="400.9" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="833.3" cy="400.9" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="790.9" cy="400.9" r="4" fill="#9CA3AF" opacity="0.72"/>
@@ -436,7 +436,7 @@
 <circle cx="668.3" cy="435.5" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="313.8" cy="435.5" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="106.2" cy="435.5" r="4" fill="#0072B2" opacity="0.72"/>
-<circle cx="160.5" cy="435.5" r="4" fill="#9CA3AF" opacity="0.72"/>
+<circle cx="160.5" cy="435.5" r="4" fill="#0072B2" opacity="0.72"/>
 <circle cx="537.1" cy="435.5" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="839.0" cy="435.5" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="779.5" cy="435.5" r="4" fill="#9CA3AF" opacity="0.72"/>
@@ -492,8 +492,8 @@
 <circle cx="836.9" cy="470.0" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="785.5" cy="470.0" r="4" fill="#9CA3AF" opacity="0.72"/>
 <polyline points="523.2,90.0 518.8,159.1 470.9,228.2 451.5,297.3 426.2,331.8 400.7,366.4 413.9,400.9 402.7,435.5 381.2,470.0" fill="none" stroke="#D55E00" stroke-width="4"/>
-<line x1="140.8" y1="90" x2="140.8" y2="470" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 5"/>
-<text class="label" x="147.8" y="108">cold-plate/one-phase crossover: 60.8</text>
+<line x1="170.9" y1="90" x2="170.9" y2="470" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 5"/>
+<text class="label" x="177.9" y="108">cold-plate/one-phase crossover: 96.7</text>
 <text class="axis" x="550" y="535" text-anchor="middle">State total-output electricity intensity (kg CO₂e/MWh)</text>
 <text class="note" x="90" y="578">Dots: state-year observations; orange line: generation-weighted U.S. factor; blue dots fall below the released-model crossover.</text>
 </svg>

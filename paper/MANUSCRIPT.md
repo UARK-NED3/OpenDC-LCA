@@ -1,4 +1,4 @@
-# Grid decarbonization changes the lifecycle value and evidence requirements of data-center cooling
+# Grid decarbonization changes the lifecycle greenhouse-gas value and evidence requirements of data-center cooling
 
 **Han Hu and Darin W. Nutter**
 
@@ -10,56 +10,32 @@ and corresponding-author information must be confirmed before submission.*
 
 ## Abstract
 
-Liquid cooling can reduce data-center operating energy and water use, yet the
-preferred architecture depends on electricity supply, compute performance,
-hardware and fluid inventories, service life, climate, and the functional unit
-used for comparison. Existing studies establish the importance of these
-effects but are difficult to update or transfer because foreground bills of
-materials and background processes are often proprietary, operational
-performance is represented by annual averages, water consumption is rarely
-scarcity-weighted, and data-quality assessments are not connected to
-measurement priorities. We present OpenDC-LCA, an open-source,
-evidence-governed research layer that couples data-center cooling physics to
-general life-cycle assessment (LCA) tools while preserving source identity,
-functional unit, geography, transformation equations, uncertainty, and
-evidence status. A guided practitioner workflow converts a compact facility,
-cooling, electricity, water, equipment, and source record into the governed
-scenario schema and returns both a plain-language report and machine-readable
-results with contribution breakdowns, audit findings, evidence level, and
-next-data requirements. The framework supports openLCA JSON-LD and Brightway
-interoperability, hourly weather-load-performance integration, discrete and
-reliability-driven replacement, uncertainty analysis, and a machine-readable
-claim gate. We use released Microsoft/WSP results, EPA eGRID 2023, 48 Boavizta
-server product-carbon-footprint records, selected ÖKOBAUDAT construction
-processes, NOAA weather data, and the released Microsoft pedigree assessment
-to demonstrate analyses that cannot be obtained from any source alone. All 24
-released normalized totals were independently reconciled to floating-point
-precision. Re-basing the released greenhouse-gas contributions across 51
-eGRID state records identified a cold-plate/one-phase-immersion crossover near
-61 kg CO2e MWh−1: cold plate was lower only for Vermont among the observed
-states, whereas two-phase immersion remained lowest under the released model.
-Extending the analysis to nine eGRID years and 459 state-year observations
-showed that the generation-weighted U.S. factor declined from 518 to 348 kg
-CO2e MWh−1 between 2012 and 2023, lowering the modeled air-cooled result by
-30.3% but increasing its embodied share from 6.7% to 9.6%. Two-phase immersion
-remained lowest in every state-year and under a 0.38-2.06-fold server-inventory
-stress test, while its released use-phase advantage could deteriorate by a
-median 6.0% across 2023 states before losing first rank. By contrast, the
-cold-plate/one-phase ordering could reverse with a median 1.6% change in the
-cold-plate use-phase term, defining a demanding performance-validation target.
-Across the state range, embodied contributions increased from approximately
-4% to 57-58% as electricity intensity declined. A contribution-weighted
-pedigree diagnostic ranked use-phase performance first and server inventories
-next as evidence-improvement priorities. Public server records showed a
-manufacturing median of 1,215 kg CO2e per server and a 465-2,503 kg CO2e
-range. ÖKOBAUDAT unit-process comparisons indicated 60% lower A1-A3 GHG for
-high-scrap electric-arc-furnace steel than a blast-furnace route and 50% lower
-GHG for CEM III than CEM II/A cement, but facility propagation is blocked
-until quantities are disclosed. The results show that open data can support
-new, decision-relevant deductions when incompatible units and evidence limits
-are not hidden. OpenDC-LCA complements rather than replaces openLCA or
-Brightway by supplying the cooling-specific engineering, evidence lineage, and
-claim governance needed for reproducible comparative research.
+Cooling choices alter data-center operating energy, hardware requirements and
+lifecycle burdens, but published rankings are difficult to transfer across
+electricity systems and functional units. We present OpenDC-LCA, an open-source
+foreground and evidence-governance layer for reproducible data-center cooling
+LCA. It preserves source identity, functional unit, geography, transformation
+equations and evidence status while connecting static lifecycle models to
+hourly performance, replacement, openLCA and Brightway. We audited 24 released
+Microsoft/WSP normalized results and combined their Vcore-year foreground model
+with its released GaBi electricity endpoints (6.13 and 524.89 kg CO2e MWh−1),
+nine EPA eGRID releases, 48 Boavizta server records, selected ÖKOBAUDAT
+processes and a published pedigree matrix. Holding the released foreground
+model fixed, the cold-plate/one-phase-immersion crossover occurred at 96.7 kg
+CO2e MWh−1; Vermont was the only 2023 state below it. Across 459 controlled
+state-year electricity-factor scenarios, two-phase immersion retained the
+lowest modeled greenhouse-gas total. The generation-weighted U.S. factor fell
+32.8% from 2012 to 2023, reducing the modeled absolute two-phase-versus-air
+benefit from 7.49 to 5.26 kg CO2e Vcore−1 yr−1 while increasing the air-cooled
+embodied share from 9.7% to 13.8%. A deterministic break-even test found that
+a median 1.38% reduction in the cold-plate use-phase term would equal
+one-phase immersion across 2023 states; this is a performance-discrimination
+target, not a confidence interval. Server-footprint and construction-process
+data identify potentially influential inputs but cannot be propagated without
+architecture-specific quantities and functional-performance mappings. The
+study demonstrates how open evidence can expose conditional rankings and
+prioritize measurements without presenting secondary-data scenarios as
+independent LCAs or field validation.
 
 **Keywords:** data center; cooling; life-cycle assessment; PUE; immersion
 cooling; liquid cooling; reproducibility; open-source software
@@ -179,7 +155,7 @@ objectives are to:
    status across heterogeneous cooling evidence;
 2. connect static lifecycle models to measured load-weather performance,
    replacement and general-purpose LCA inventories;
-3. independently reconstruct the released Microsoft/WSP results and use them
+3. independently audit the arithmetic of the released Microsoft/WSP results and use them
    with public data to derive location-dependent rankings and burden shifts;
 4. combine contribution magnitude with released pedigree scores to prioritize
    the next experiments and inventories; and
@@ -218,14 +194,20 @@ blockers, and the specific evidence required to strengthen the study. The GUI
 binds to the local host by default and does not alter the data model or
 calculation path.
 
-### 2.2. Goal, functional unit, and system boundary
+### 2.2. Goal, functional units, and system boundary
 
-The present functional unit is one MWh of electricity delivered to IT equipment
-(`it_mwh`). This denominator is valid only when the alternatives provide
-equivalent computational service, utilization, reliability, and hardware life.
-If cooling changes compute performance, throttling, server configuration, or
-replacement, an IT-energy denominator alone is insufficient and absolute
-results plus a service-based unit should be reported.
+The software's default practitioner functional unit is one MWh of electricity
+delivered to IT equipment (`it_mwh`). It supports facility screening only when
+alternatives provide equivalent computational service, utilization,
+reliability and hardware life. The secondary Microsoft/WSP analysis is a
+separate research case and retains its published functional unit of one
+Vcore-year. We do not convert between IT MWh and Vcore-year because the public
+files do not provide a workload-specific, architecture-independent mapping
+between electricity and useful computation. Results in these two units are
+therefore reported in separate analyses and are never numerically combined.
+If cooling changes throttling, server configuration, compute throughput or
+replacement, an IT-energy denominator alone is insufficient and a reviewed
+service-based unit is required.
 
 The default `cooling_system_cradle_to_grave` boundary includes cooling and
 heat-rejection equipment, fluids, represented maintenance and replacement,
@@ -297,44 +279,50 @@ GHG_\mathrm{direct}=m_\mathrm{loss}GWP_\mathrm{direct}.
 ### 2.4. Multi-source evidence synthesis
 
 The Microsoft/WSP normalized GHG workbook reports use-phase and embodied
-contributions for a U.S. grid case and a 100% renewable case. To test
-geographic transferability without asserting access to the proprietary
-background model, we used an affine re-basing. For technology \(j\), eGRID
-state \(s\), and the generation-weighted national eGRID factor
-\(EF_\mathrm{US}\),
+contributions for a U.S. grid case and a 100% renewable case. The accompanying
+detailed workbook identifies these background electricity results as 524.893
+kg CO2e MWh−1 for U.S. average electricity and 6.133 kg CO2e MWh−1 for U.S.
+average wind under IPCC AR5 GTP100 excluding biogenic carbon. To test
+electricity-system sensitivity without asserting access to the proprietary
+process network, we used an affine interpolation or extrapolation between
+these released anchors. For technology \(j\), external electricity factor
+\(EF_s\), grid anchor \(EF_G\), and renewable anchor \(EF_R\),
 
 \[
-I_{j,s}=I_{j,\mathrm{RE}}+
-\left(I_{j,\mathrm{grid}}-I_{j,\mathrm{RE}}\right)
-\frac{EF_s}{EF_\mathrm{US}}.
+I_{j,s}=I_{j,R}+
+\left(I_{j,G}-I_{j,R}\right)
+\frac{EF_s-EF_R}{EF_G-EF_R}.
 \tag{7}
 \]
 
-The published grid and renewable endpoints are therefore reproduced at ratios
-one and zero, respectively. This is a screening transformation, not a claim
-that all upstream electricity impacts scale with direct eGRID CO2e. State
-records with missing or nonpositive generation were excluded. The crossover
-between technologies \(a\) and \(b\) follows by equating the two affine
-relationships:
+The two published electricity endpoints are therefore reproduced exactly,
+without forcing the Microsoft grid case to equal the lower 2023 eGRID national
+factor. This is a controlled screening transformation, not a claim that all
+upstream electricity impacts scale with eGRID total-output CO2e. State records
+with missing or nonpositive generation were excluded. The crossover between
+technologies \(a\) and \(b\) follows by equating the two affine relationships:
 
 \[
 r^*=
 \frac{I_{b,\mathrm{RE}}-I_{a,\mathrm{RE}}}
 {\left(I_{a,\mathrm{grid}}-I_{a,\mathrm{RE}}\right)
 -\left(I_{b,\mathrm{grid}}-I_{b,\mathrm{RE}}\right)},
-\qquad EF^*=r^*EF_\mathrm{US}.
+\qquad EF^*=EF_R+r^*(EF_G-EF_R).
 \tag{8}
 \]
 
-To evaluate temporal transferability, the same transformation was applied to
+To evaluate temporal sensitivity, the same transformation was applied to
 EPA state total-output factors for 2012, 2014, 2016, and 2018-2023. Factors
 reported in pounds CO2e MWh−1 before the metric workbook were converted using
 0.45359237 kg lb−1. A generation-weighted U.S. factor was recalculated for
 each release from state generation and emission rates. We then recorded the
 lowest-GHG architecture, percentage margin to the second-ranked architecture,
-embodied share, and regret of each alternative for every state-year. This
-historical analysis represents observed annual electricity-system conditions,
-not a forecast or marginal-dispatch model.
+embodied share, and regret of each alternative for every state-year. The 459
+rows are controlled evaluations of one fixed foreground model at observed
+annual electricity factors, not 459 independent LCAs or statistical
+replicates. State total-output factors describe in-state generation and are
+not consumption-based factors; imports, exports, contractual procurement,
+hourly dispatch and transmission are outside the analysis.
 
 Ranking robustness was expressed as a use-phase break-even multiplier. For
 example, the multiplier applied to cold-plate use-phase impact that makes its
@@ -482,7 +470,7 @@ and backup-system energy are outside the present model.
 
 ### 3.1. Microsoft/Nature released source data
 
-The validation case used the source data and model archive released with Alissa
+The arithmetic-consistency case used the source data and model archive released with Alissa
 et al. [1,2]. The tested claim was limited: for each architecture, electricity
 scenario, and impact category, did the released normalized total equal the sum
 of the seven released contributions for use phase, building, server, rack or
@@ -504,13 +492,15 @@ only in the affine re-basing of Eq. (7).
 
 Historical detailed workbooks supplied the same state fields for 2012, 2014,
 2016, and 2018-2022. Together with 2023, the panel contains nine releases and
-459 state-year observations. Each year contains 50 states and the District of
+459 state-year electricity-factor records. Each year contains 50 states and the District of
 Columbia after excluding Puerto Rico and national aggregate rows. File name,
 worksheet field, original unit conversion, generation, and factor are retained
 for every observation. Cross-year comparisons can be affected by EPA source
 updates and power-sector accounting revisions in addition to physical grid
 change, so the panel is interpreted as a sequence of released annual
-conditions.
+conditions. Because the state total-output rate represents generation within
+the state, it should not be interpreted as the consumption mix of a data center
+located there.
 
 ### 3.3. Boavizta server product-footprint case
 
@@ -580,7 +570,7 @@ released contribution categories. The maximum absolute disagreement was
 1.42 × 10⁻¹⁴ percentage points, consistent with floating-point representation.
 Figure 2 summarizes the grid-scenario reductions relative to air cooling.
 
-![Figure 2. Reconstructed reductions relative to the air-cooled case for the grid scenario in the released Microsoft/Nature source data. Values are derived from published normalized component contributions and validate arithmetic consistency, not proprietary background inventories or foreground bills of materials.](figures/figure1_microsoft_grid_reductions.svg)
+![Figure 2. Reconciled reductions relative to the air-cooled case for the grid scenario in the released Microsoft/Nature source data. Values are derived from published normalized component contributions and audit arithmetic consistency; they do not validate proprietary background inventories, foreground bills of materials or field performance.](figures/figure1_microsoft_grid_reductions.svg)
 
 For primary energy, the released data gave reductions of 14.98%, 15.33%, and
 20.05% for cold plate, one-phase immersion, and two-phase immersion,
@@ -593,15 +583,15 @@ remained dependent on embodied and non-electricity terms.
 ### 4.2. Grid intensity changes the cold-plate/one-phase ranking
 
 Figure 3 applies Eq. (7) to the 51 eGRID state/DC records. The modeled
-cold-plate and one-phase totals intersect at 60.8 kg CO2e MWh−1, within the
+cold-plate and one-phase totals intersect at 96.7 kg CO2e MWh−1, within the
 observed 23.7-893.1 kg CO2e MWh−1 state range. Cold plate was lower than
 one-phase immersion only for Vermont (23.7 kg CO2e MWh−1); one-phase was lower
 for the other 50 records. At the Arkansas factor (452.9 kg CO2e MWh−1),
-one-phase was lower than cold plate by 0.617 kg CO2e Vcore−1 yr−1. Two-phase
+one-phase was lower than cold plate by 0.376 kg CO2e Vcore−1 yr−1. Two-phase
 immersion remained the lowest-GHG architecture in all 51 re-based cases under
 the released assumptions.
 
-![Figure 3. Screening re-basing of the released Microsoft/WSP GHG contributions across EPA eGRID 2023 state total-output intensities. The vertical dashed line marks the cold-plate/one-phase crossover near 61 kg CO2e MWh−1. Lines connect state scenarios and do not represent a dynamic grid trajectory. Two-phase immersion remains lowest under the released foreground assumptions.](figures/figure2_grid_crossover.svg)
+![Figure 3. Screening re-basing of the released Microsoft/WSP GHG contributions across EPA eGRID 2023 state total-output intensities. The vertical dashed line marks the cold-plate/one-phase crossover near 96.7 kg CO2e MWh−1. Lines connect state scenarios and do not represent a dynamic grid trajectory. Two-phase immersion remains lowest under the released foreground assumptions.](figures/figure2_grid_crossover.svg)
 
 The result has two implications. First, the statement that one liquid-cooling
 architecture is categorically preferable does not follow from a national-
@@ -618,27 +608,28 @@ The generation-weighted U.S. total-output factor declined from 518.0 kg CO2e
 MWh−1 in 2012 to 348.2 kg CO2e MWh−1 in 2023, a 32.8% reduction, although the
 trajectory was not monotonic: it increased from 371.5 in 2020 to 387.3 in
 2021 before declining again. Applying the same released foreground model
-reduced the national air-cooled result from 52.66 to 36.68 kg CO2e
-Vcore−1 yr−1 and the two-phase result from 41.77 to 29.10 kg CO2e
+reduced the national air-cooled result from 36.25 to 25.52 kg CO2e
+Vcore−1 yr−1 and the two-phase result from 28.76 to 20.26 kg CO2e
 Vcore−1 yr−1. The absolute benefit of two-phase relative to air therefore
-contracted from 10.89 to 7.58 kg CO2e Vcore−1 yr−1, while its percentage
-benefit remained near 20.7% because both use-phase terms scale with the same
+contracted from 7.49 to 5.26 kg CO2e Vcore−1 yr−1, while its percentage
+benefit remained near 20.6% because both use-phase terms scale with the same
 electricity-system trajectory.
 
-![Figure 4. Historical EPA eGRID state total-output intensities for nine releases between 2012 and 2023. Each dot is a state-year observation; the orange line is the generation-weighted U.S. factor. Blue points fall below the 60.8 kg CO2e MWh−1 cold-plate/one-phase crossover derived from the released Microsoft/WSP foreground model. The panel describes released annual conditions, not a forecast or marginal-emissions trajectory.](figures/figure6_historical_grid_transition.svg)
+![Figure 4. Historical EPA eGRID state total-output intensities for nine releases between 2012 and 2023. Each dot is a state-year electricity-factor scenario; the orange line is the generation-weighted U.S. factor. Blue points fall below the 96.7 kg CO2e MWh−1 cold-plate/one-phase crossover derived from the released Microsoft/WSP foreground model. The panel describes released annual generation conditions, not consumption, a forecast, marginal emissions or independent LCAs.](figures/figure6_historical_grid_transition.svg)
 
-Three states—Idaho, Vermont, and Washington—fell below the pairwise crossover
-in 2012, but only Vermont did so in each subsequent release. This does not
-indicate monotonic state decarbonization; Idaho and Washington moved above the
-threshold as their annual generation mix changed. More importantly,
-two-phase immersion remained the lowest modeled GHG option in all 459
-state-year cases. The result separates a sensitive pairwise ordering
+Three states fell below the pairwise crossover in 2012, compared with between
+one and three states in every analyzed release and only Vermont in 2023. This
+does not indicate monotonic state decarbonization because annual state
+generation mixes changed in both directions. More importantly, two-phase
+immersion remained the lowest modeled GHG option in all 459 controlled
+electricity-factor scenarios. The scenario count is coverage of the tested
+factor space, not statistical replication. The result separates a sensitive pairwise ordering
 (cold plate versus one-phase) from the more robust first-ranked architecture
 under the released assumptions.
 
 At the national generation-weighted factor, the embodied share of the
-air-cooled result increased from 6.7% in 2012 to 9.6% in 2023; the two-phase
-share increased from 6.8% to 9.7%. The change is modest nationally because
+air-cooled result increased from 9.7% in 2012 to 13.8% in 2023; the two-phase
+share increased from 9.8% to 13.9%. The change is modest nationally because
 the U.S. factor remains well above the low-carbon state range, but it
 establishes the direction of travel: decarbonization reduces the absolute
 operational benefit available from cooling and increases the leverage of
@@ -646,27 +637,30 @@ server lifetime, manufacturing, and replacement.
 
 ### 4.4. Break-even analysis converts close rankings into measurement requirements
 
-Across the 2023 state factors, cold plate would need a median 1.58% reduction
+Across the 2023 state factors, cold plate would need a median 1.38% reduction
 in its released use-phase contribution to equal one-phase immersion. The
-required change ranged from a 1.83% reduction on the most carbon-intensive
-grid to a 2.61% increase in Vermont, where cold plate was already lower.
-Consequently, a comparative experiment or field model with combined
-uncertainty greater than approximately 1-2% cannot resolve the pairwise
-ordering for most states without stronger evidence.
+required change ranged from a 1.76% reduction on the most carbon-intensive
+grid to a 6.01% increase in Vermont, where cold plate was already lower. These
+deterministic thresholds specify the performance separation that an experiment
+must test. They do not establish the uncertainty needed to resolve the ranking;
+that requires joint propagation of measurement, foreground, electricity,
+lifetime, correlation and model-form uncertainty.
 
 ![Figure 5. Use-phase break-even stress tests across 2023 state electricity intensities. The blue curve is the cold-plate use-phase change required to equal one-phase immersion; negative values require improvement. The orange curve is the two-phase use-phase increase tolerated before losing first rank. Embodied terms are held fixed. The analysis defines required discrimination and robustness within the released model, not expected field performance.](figures/figure7_performance_robustness.svg)
 
 Two-phase immersion exhibited a wider margin. Its released use-phase term
-could increase by 5.39-13.31% across the state range before another
-architecture became lower, with a median tolerance of 5.99%. Scaling the
+could increase by 5.57-17.87% across the state range before another
+architecture became lower, with a median tolerance of 6.46%. Scaling the
 Microsoft compute, storage, and networking contributions by 0.38-2.06,
 corresponding to the minimum-to-maximum annualized Boavizta factors relative
 to their median, did not change the first-ranked technology in any of the 51
-states. The median winner margin increased slightly from 5.13% at the minimum
-server scale to 5.69% at the maximum because the released two-phase case has
+states. The median winner margin increased slightly from 5.17% at the minimum
+server scale to 5.82% at the maximum because the released two-phase case has
 favorable server-related contributions. This is a robustness result for the
-published foreground structure, not evidence that any particular server can
-be substituted into an immersion system.
+published foreground structure. Because compute, storage and networking were
+scaled together, it is not an architecture-specific server substitution and
+does not capture server count, throughput, configuration, lifetime or separate
+product-class effects.
 
 ### 4.5. Decarbonization transfers attention from operation to hardware
 
@@ -690,7 +684,7 @@ electricity decarbonizes.
 The released pedigree assessment alone assigns the weakest average score to
 networking equipment (3.6/5), followed by storage servers (2.8/5). Weakness
 alone, however, would prioritize a small contributor. Multiplying weakness by
-mean GHG contribution changed the order (Figure 4). Use phase ranked first
+mean GHG contribution changed the order (Figure 6). Use phase ranked first
 because its 90.3% mean contribution outweighed a relatively good 1.4/5
 pedigree score. Storage, networking and compute-server evidence formed the
 next tier with nearly equal priority indices (0.0127-0.0129).
@@ -709,7 +703,7 @@ priority index is not a complete environmental, health and safety ranking.
 
 The 48 usable Boavizta server records yielded manufacturing GHG values from
 465 to 2,503 kg CO2e per server, with a median of 1,215 kg CO2e and an
-interquartile range of 1,146-1,337 kg CO2e (Figure 5). Annualized by the
+interquartile range of 1,146-1,337 kg CO2e (Figure 7). Annualized by the
 declared four-year lifetime, the median was 304 kg CO2e server−1 yr−1. The
 approximately 5.4-fold full range is large relative to many reported cooling
 savings. Because manufacturer PCFs differ in method and configuration, this
@@ -718,7 +712,7 @@ range is an evidence envelope rather than a product ranking.
 ![Figure 7. Distribution of manufacturing GHG for 48 Boavizta `Datacenter/Server` records having total product GHG and manufacturing share. Dashed lines show the 25th percentile, median and 75th percentile. Heterogeneous manufacturer methods and product configurations preclude a product ranking.](figures/figure4_server_epd_distribution.svg)
 
 The selected ÖKOBAUDAT records identified large construction procurement
-levers (Figure 6). High-scrap electric-arc-furnace galvanized steel had 59.9%
+levers (Figure 8). High-scrap electric-arc-furnace galvanized steel had 59.9%
 lower A1-A3 GHG, 47.9% lower nonrenewable primary energy and 52.0% lower
 freshwater use than the selected low-scrap blast-furnace profile. CEM III
 cement had 49.8% lower GHG, 12.1% lower nonrenewable primary energy and 23.5%
@@ -727,7 +721,7 @@ calculated without architecture-specific material quantities.
 
 ![Figure 8. Selected ÖKOBAUDAT 2024-II A1-A3 GHG factors for baseline and alternative steel and cement routes. The figure identifies unit-process procurement leverage; it does not quantify a data-center reduction because foreground quantities are unavailable.](figures/figure5_material_levers.svg)
 
-### 4.8. Temporal and measurement pathways remain validation cases
+### 4.8. Temporal and measurement pathways remain demonstrations
 
 The Fayetteville TMY and assumed temperature-PUE curves produced annual mean
 PUE values of 1.0907, 1.0529, 1.0406 and 1.0352 for air, cold plate,
@@ -738,58 +732,23 @@ point uncertainty. Their role is to specify exactly how reviewed laboratory
 data will enter the lifecycle calculation. The resulting climate and surface
 figures are retained as Supplementary Figures rather than core evidence.
 
-### 4.9. Capability and evidence matrix
+### 4.9. Software implementation and verification
 
-Table 1 summarizes the implemented functions and the evidence required for
-their defensible use. The distinguishing contribution is the continuity from
-data registration through physics-informed temporal integration to an explicit
-claim gate. Numerical outputs remain available for inspection even when the
-audit blocks a comparative conclusion.
+The public package implements the governed input schema, static and temporal
+calculations, bounded performance-surface interpolation, replacement,
+screening uncertainty, openLCA/Brightway exchange and a comparative-claim
+audit. The command-line, Python and local graphical interfaces call the same
+calculation path and emit a human-readable report plus machine-readable
+results. Detailed input-output fields, installation commands, interface
+screens, capability matrices and release checks are provided in the repository
+and Supplementary Information rather than repeated in the main article.
 
-**Table 1. OpenDC-LCA capability and evidence matrix.**
-
-| Capability | Input | Method | Output | Evidence requirement | Status |
-|---|---|---|---|---|---|
-| Source registration | Provider, ID, version, geography, unit, boundary, license | Schema validation and checksum manifest | Traceable record | Complete metadata and redistribution review | Implemented |
-| Static lifecycle screening | Energy, PUE, grid factors, equipment, fluids, water | Annual energy balance and lifecycle annualization | Absolute and normalized impacts | Compatible unit and boundary | Implemented |
-| Temporal operation | Hourly weather, workload, grid and cooling response | Hourly alignment and integration | PUE, energy, water, operational GHG | Full coverage and accounting basis | Implemented |
-| Performance surface | Load-temperature grid, uncertainty, source IDs | Bounded bilinear interpolation | Hourly cooling response | Reviewed measurements; no extrapolation | Implemented |
-| Inventory exchange | openLCA JSON-LD processes or OpenDC-LCA scenario | Exchange-preserving import/export and Brightway mapping | Foreground process network | Flow, provider, unit, system-model and LCIA compatibility review | Implemented |
-| Reliability | Weibull/Arrhenius parameters, maintenance and downtime | Renewal equation and lifecycle annualization | Expected failures, replacements, downtime and impacts | Empirical failure model and uncertainty | Implemented |
-| Uncertainty and sensitivity | Distributions, seed and perturbations | Monte Carlo and elasticity | Intervals and ranked drivers | Distribution and correlation review | Screening |
-| Scientific claim gate | Scenario, sources, evidence status and intent | Automated blockers and warnings | Reviewable findings | Independent critical review for public claims | Implemented |
-| Access | JSON or CSV | Shared engine through CLI, API and local GUI | JSON, tables, figures and reports | Same model version across interfaces | Implemented |
-
-### 4.10. Practitioner workflow and release verification
-
-The v1.1.0 practitioner path reduces the minimum viable screening study to the
-input-output contract in Table 2. It is available through four command-line
-operations (`capabilities`, `new-study`, `prepare-study`, and
-`practitioner-report`), corresponding Python API calls, and the guided local
-interface. Both practitioner interfaces first create the full governed
-scenario and then call the same analysis and audit functions used by the
-advanced workflow. Thus, ease of entry does not bypass provenance, unit,
-boundary, or evidence checks.
-
-**Table 2. Compact practitioner input-output contract in OpenDC-LCA v1.1.0.**
-
-| Stage | User-supplied information | Machine action | Principal output |
-|---|---|---|---|
-| Define facility | Study name, cooling architecture, geography, reference year, IT capacity, capacity factor, PUE, lifetime and onsite water | Validate physical ranges and compute annual IT and facility electricity | Transparent operating basis |
-| Add electricity | Location-based GHG, primary-energy and blue-water factors with compatible accounting basis | Apply factors to annual facility electricity | Annual and per-IT-MWh operational impacts |
-| Add equipment, if known | Quantity, service life, production and end-of-life impacts | Annualize production and replacement over the study period | Operational-plus-equipment totals and contribution shares |
-| Register evidence | Source ID, title, citation, license, quality, uncertainty, review and confidentiality status | Preserve metadata in the governed scenario and run the scientific audit | Traceable evidence level, warnings and blockers |
-| Export decision record | No additional input | Serialize the same calculation and audit result for people and software | `PRACTITIONER_REPORT.md`, `practitioner-results.json`, model version and scenario SHA-256 digest |
-
-The public release was checked at three levels. First, 40 automated tests cover
-the calculation engine, provenance and claim gate, performance maps,
-uncertainty, reports, interoperability, reliability, API, GUI endpoints, and
-the end-to-end practitioner commands. Second, the wheel was installed in a
-clean Python 3.12 environment and the practitioner workflow was executed from
-template creation through report generation. Third, the tagged GitHub release
-contains both wheel and source-distribution artifacts produced by the release
-workflow. These checks establish installation and software consistency; they
-do not constitute ISO critical review or validate user-supplied factors.
+Forty-two automated tests exercise the calculation engine, provenance rules,
+performance maps, interoperability, reliability and practitioner workflow.
+The distribution was also installed in a clean Python environment and run from
+template creation through report generation. These checks establish software
+consistency; they do not constitute ISO critical review, empirical performance
+validation or validation of user-supplied factors.
 
 ## 5. Discussion
 
@@ -797,7 +756,7 @@ do not constitute ISO critical review or validate user-supplied factors.
 
 The geographic screening exposes a decision boundary that is hidden by a
 single national-average scenario. Cold plate and one-phase immersion cross at
-60.8 kg CO2e MWh−1: a small difference in their non-use-phase terms reverses
+96.7 kg CO2e MWh−1: a small difference in their non-use-phase terms reverses
 the ordering once grid emissions are sufficiently low. The practical
 take-home message is not that Vermont should select cold plates. The affine
 transfer holds the released foreground model fixed and changes only the
@@ -807,7 +766,7 @@ and crossover conditions. The same principle applies to climate, workload,
 water stress and equipment lifetime.
 
 Two-phase immersion did not cross another architecture in the tested state
-range or in any of the 459 historical state-year cases. It also retained first
+range or in any of the 459 electricity-factor scenarios. It also retained first
 rank when server-related contributions were scaled across the empirical
 Boavizta envelope. That result is stronger within the released model but is
 not universal.
@@ -818,14 +777,14 @@ both the observed no-crossover range and the untested assumptions that could
 create one.
 
 The break-even analysis adds an energy-engineering interpretation. The median
-1.6% cold-plate use-phase improvement required to equal one-phase immersion is
-comparable to uncertainty that can arise from load, pump and fan power,
-heat-rejection control, weather, and facility-boundary choices. A close
-lifecycle ranking is therefore also an experimental-resolution problem. By
-contrast, the approximately 6% median degradation that two-phase could
-tolerate before losing first rank is a larger but still testable performance
-margin. Neither value substitutes for measurement; each specifies how
-accurate and representative the measurements must be.
+1.38% cold-plate use-phase improvement required to equal one-phase immersion
+is small relative to plausible changes in load, pump and fan power,
+heat-rejection control, weather and facility-boundary choices. A close
+lifecycle ranking is therefore also an experimental-discrimination problem.
+By contrast, the 6.46% median degradation that two-phase could tolerate before
+losing first rank is a larger but still testable performance margin. Neither
+threshold is an uncertainty interval or substitutes for joint uncertainty
+propagation and measurement.
 
 ### 5.2. Decarbonization changes the research question
 
@@ -840,7 +799,7 @@ impact are therefore not competing narratives but successive constraints along
 a decarbonization pathway.
 
 The historical panel adds a planning implication. Grid decarbonization lowered
-the absolute two-phase-versus-air benefit from 10.89 to 7.58 kg CO2e per
+the absolute two-phase-versus-air benefit from 7.49 to 5.26 kg CO2e per
 Vcore-year between the 2012 and 2023 generation-weighted conditions even
 though the relative saving remained nearly constant. Percentage reductions
 alone can therefore overstate the future system value of an efficiency
@@ -906,11 +865,11 @@ successful exchange and impact calculation are three distinct stages.
 ### 5.5. Limitations and decision-grade next steps
 
 The state analysis is a screening re-basis between two released endpoints, not
-a state-specific process LCA. The nine-year extension contains 459 released
-state-year observations but still uses annual location-based eGRID factors and
-omits hourly or marginal emissions, procurement contracts and transmission
-effects.
-The exact reconstruction verifies released arithmetic, not licensed ecoinvent
+a state-specific process LCA. The nine-year extension evaluates one fixed
+foreground model at 459 state-year total-output factors. These factors describe
+production, not electricity consumption, and omit imports, exports, hourly or
+marginal emissions, procurement contracts and transmission effects.
+The exact reconciliation audits released arithmetic, not licensed ecoinvent
 or LCA for Experts inventories, confidential bills of materials or measured
 PUE. The Boavizta sample mixes manufacturers and methods; the ÖKOBAUDAT factors
 are German product-stage proxies without data-center quantities. The USGS file
@@ -958,15 +917,15 @@ gate and, for public assertions, independent critical review.
 ## 6. Conclusions
 
 OpenDC-LCA converts heterogeneous cooling, grid, server, construction and data-
-quality evidence into conditional, auditable lifecycle comparisons. It exactly
-reconstructed 24 released Microsoft/Nature totals and then exposed a result
+quality evidence into conditional, auditable lifecycle comparisons. It
+reconciled the arithmetic of 24 released Microsoft/Nature totals and then exposed a result
 that a single reference scenario cannot show: cold plate and one-phase
-immersion cross near 60.8 kg CO2e MWh−1 within the observed U.S. state range.
+immersion cross near 96.7 kg CO2e MWh−1 within the observed U.S. state range.
 Across nine eGRID releases, the generation-weighted factor declined 32.8% and
-the absolute modeled two-phase-versus-air benefit declined 30.4%, while
-two-phase retained first rank in all 459 state-year cases. Pairwise
-cold-plate/one-phase ranking was sensitive to a median 1.6% use-phase change,
-whereas two-phase tolerated a median 6.0% degradation before losing first
+the absolute modeled two-phase-versus-air benefit declined 29.8%, while
+two-phase retained first rank in all 459 controlled electricity-factor
+scenarios. Pairwise cold-plate/one-phase ranking was sensitive to a median
+1.38% use-phase change, whereas two-phase tolerated a median 6.46% degradation before losing first
 rank. Its first rank also persisted across a 0.38-2.06-fold server-inventory
 stress range.
 Across that range, the embodied share rose from about 4% to 57-58%, shifting
@@ -1087,11 +1046,14 @@ be confirmed before submission.
 23. Isler-Kaya, G., Colpan, C. O. & Kizilkan, O. Life cycle assessment of a
     data center cooling system. *Energy and Buildings* **295**, 113006 (2023).
     https://doi.org/10.1016/j.enbuild.2023.113006
-24. Wenzel, H. et al. Comparative life cycle assessment of wet cooling towers.
-    *Journal of Industrial Ecology* **27** (2023).
+24. Wenzel, P. M. & Radgen, P. Extending effectiveness to efficiency:
+    Comparing energy and environmental assessment methods for a wet cooling
+    tower. *Journal of Industrial Ecology* **27**, 693-706 (2023).
     https://doi.org/10.1111/jiec.13396
-25. Cleaner grid or smarter cooling? A life cycle perspective on data center
-    cooling strategies. *Cleaner Engineering and Technology* (2025).
+25. Zhang, M., Carbajales-Dale, M., Ma, X., Guo, L. & Fan, C. Cleaner grid or
+    smarter cooling? Environmental impact trade-offs of a data center using
+    the life cycle assessment method. *Cleaner Energy Systems* **12**, 100223
+    (2025).
     https://doi.org/10.1016/j.cles.2025.100223
 26. Boyd, S. B., Horvath, A. & Dornfeld, D. Life-cycle assessment of
     computational logic produced from 1995 through 2010.
@@ -1108,11 +1070,14 @@ be confirmed before submission.
 29. Boulay, A.-M. et al. Analysis of water use impact assessment methods.
     *Journal of Industrial Ecology* **25** (2021).
     https://doi.org/10.1111/jiec.13173
-30. Life-cycle environmental assessment of progressive chiller systems for
-    data centers. *Building Simulation* (2024).
+30. Zhang, Y., Li, H. & Wang, S. Energy performance analysis of multi-chiller
+    cooling systems for data centers concerning progressive loading throughout
+    the lifecycle under typical climates. *Building Simulation* **17**,
+    1693-1708 (2024).
     https://doi.org/10.1007/s12273-024-1167-9
-31. Hourly performance and environmental assessment of data-center cooling in
-    hot-arid climates. *Applied Thermal Engineering* (2025).
+31. Karimi, L. et al. Energy and water dynamics in data center cooling:
+    Insights from a modeling study in hot-arid climates. *Applied Thermal
+    Engineering* **276**, 126802 (2025).
     https://doi.org/10.1016/j.applthermaleng.2025.126802
 32. Mutel, C. Brightway: an open source framework for life cycle assessment.
     *Journal of Open Source Software* **2**, 236 (2017).
