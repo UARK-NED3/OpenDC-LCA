@@ -44,6 +44,15 @@ def audit(scenario: Scenario) -> list[Finding]:
                 "NO_EXTERNAL_CITATION",
                 f"Data source '{source.id}' is not externally supported.",
             ))
+        if any(
+            "replace with" in value.lower()
+            for value in (source.id, source.title, source.citation)
+        ):
+            findings.append(Finding(
+                "warning",
+                "SOURCE_PLACEHOLDER_NOT_REPLACED",
+                f"Data source '{source.id}' still contains template placeholder text.",
+            ))
         if source.review_status == "unreviewed":
             findings.append(Finding(
                 "warning",
@@ -117,6 +126,24 @@ def audit(scenario: Scenario) -> list[Finding]:
             "Reliability-driven replacements are expected values from independent "
             "component renewal models. Redundancy, common-cause failures, repair "
             "queues, workload migration, and time-varying damage are not modeled.",
+        ))
+
+    if not scenario.components:
+        findings.append(Finding(
+            "warning",
+            "EQUIPMENT_INVENTORY_OMITTED",
+            "No equipment inventory is included. Results represent operational "
+            "electricity and on-site water only, plus any declared fluid.",
+        ))
+    if (
+        "immersion" in scenario.cooling_architecture.lower()
+        and scenario.fluid is None
+    ):
+        findings.append(Finding(
+            "warning",
+            "IMMERSION_FLUID_OMITTED",
+            "The immersion scenario has no fluid inventory, loss rate, direct "
+            "GWP, or end-of-life treatment.",
         ))
 
     has_credit = any(

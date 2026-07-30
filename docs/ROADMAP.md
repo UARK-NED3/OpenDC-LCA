@@ -17,6 +17,13 @@
 - Enforced benchmark manifest, independent-review record, and DOI-ready
   release-package workflow.
 
+## Practitioner preview
+
+- Guided facility, electricity, water, equipment, and evidence inputs.
+- Compact-to-governed scenario preparation.
+- Plain-language evidence classification, limitations, and next-data guidance.
+- Reproducible practitioner Markdown and JSON reports.
+
 ## Delivered in v0.4-v0.5
 
 - Independent arithmetic reconstruction of all 24 released Microsoft/Nature

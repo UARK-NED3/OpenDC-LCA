@@ -8,6 +8,10 @@ opendc-lca gui
 
 It opens `http://127.0.0.1:8765/` and provides:
 
+- a guided study builder for facility, PUE, electricity, water, aggregate
+  equipment, and source inputs;
+- plain-language evidence status and next-data requirements;
+- governed scenario JSON download for reproducibility and advanced editing;
 - scenario JSON loading, validation, analysis, and audit;
 - normalized GHG, primary-energy, and water KPIs;
 - visible scientific-quality findings;
@@ -33,3 +37,12 @@ use `--allow-remote` with confidential data.
 The GUI always returns audit findings with scenario results. A successful
 calculation is not proof of functional equivalence, data quality, critical
 review, or authorization for a public comparative claim.
+
+## Guided study
+
+The guided tab creates a non-comparative, location-based annual screening and
+treats unreviewed inputs as screening evidence. Leaving aggregate equipment
+unchecked produces an operational-only result and an explicit audit warning.
+Immersion scenarios without a fluid record also receive a warning. Use the
+downloaded full scenario with the advanced schema to add multiple components,
+fluids, reliability, detailed uncertainty, or reviewed evidence.

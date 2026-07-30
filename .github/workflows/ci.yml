@@ -32,6 +32,12 @@ jobs:
       - run: opendc-lca openlca-export examples/direct-to-chip.json /tmp/opendc-foreground.zip
       - run: opendc-lca openlca-inspect /tmp/opendc-foreground.zip
       - run: opendc-lca brightway-export /tmp/opendc-foreground.zip /tmp/opendc-brightway.json --database opendc-test
+      - name: Smoke-test practitioner workflow
+        run: |
+          opendc-lca new-study /tmp/practitioner-input.json
+          opendc-lca prepare-study /tmp/practitioner-input.json /tmp/practitioner-scenario.json
+          opendc-lca practitioner-report /tmp/practitioner-scenario.json --output-dir /tmp/practitioner-results
+          test -f /tmp/practitioner-results/PRACTITIONER_REPORT.md
       - name: Smoke-test local GUI
         run: |
           opendc-lca gui --no-browser --port 8765 &

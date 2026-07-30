@@ -42,8 +42,23 @@ The long-term goal is an open benchmark and model interface that can combine:
 
 Requires Python 3.10 or newer.
 
+For a practitioner screening, create a compact input and a plain-language
+report:
+
 ```bash
 python -m pip install -e .
+opendc-lca new-study my-input.json
+# Edit my-input.json with site, cooling, grid, water, and source information.
+opendc-lca prepare-study my-input.json my-scenario.json
+opendc-lca practitioner-report my-scenario.json --output-dir my-results
+opendc-lca capabilities
+```
+
+Alternatively, launch `opendc-lca gui` and use the **Guided study** tab. See
+the [practitioner guide](docs/PRACTITIONER_GUIDE.md) and complete
+[input/output reference](docs/INPUT_OUTPUT_REFERENCE.md).
+
+```bash
 opendc-lca validate examples/air-cooled.json
 opendc-lca run examples/air-cooled.json
 opendc-lca compare examples/air-cooled.json \

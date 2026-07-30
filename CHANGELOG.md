@@ -3,6 +3,16 @@
 All notable changes are documented here. The project follows semantic
 versioning after the first stable release.
 
+## Unreleased
+
+- Added a compact practitioner input profile and commands to create, prepare,
+  analyze, and report a screening study.
+- Added a guided GUI workflow for facility, PUE, electricity, water, and source
+  inputs with evidence classification and next-data guidance.
+- Added explicit practitioner capability, input, output, and interpretation
+  documentation.
+- Added audit warnings for omitted equipment inventories and immersion fluids.
+
 ## 1.1.0 — 2026-07-30
 
 ### Added

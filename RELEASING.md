@@ -59,6 +59,10 @@ surfaces governed by semantic versioning.
    opendc-lca validate examples/air-cooled.json
    opendc-lca audit examples/air-cooled.json
    opendc-lca gui --no-browser
+   opendc-lca new-study practitioner-input.json
+   opendc-lca prepare-study practitioner-input.json practitioner-scenario.json
+   opendc-lca practitioner-report practitioner-scenario.json \
+     --output-dir practitioner-results
    ```
 
 4. Build and inspect both distributions:

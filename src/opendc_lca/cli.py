@@ -28,6 +28,12 @@ from .interoperability import (
     read_openlca_jsonld,
     write_brightway_json,
 )
+from .practitioner import (
+    CAPABILITIES,
+    practitioner_input_template,
+    prepare_practitioner_scenario,
+    write_practitioner_report,
+)
 
 
 def _print_table(results: list[Result]) -> None:
@@ -111,12 +117,59 @@ def _parser() -> argparse.ArgumentParser:
     child.add_argument("manifest")
     child.add_argument("output")
     child.add_argument("--review")
+    child = subparsers.add_parser(
+        "new-study",
+        help="write a compact practitioner input template",
+    )
+    child.add_argument("output")
+    child = subparsers.add_parser(
+        "prepare-study",
+        help="expand practitioner inputs to a validated scenario",
+    )
+    child.add_argument("input")
+    child.add_argument("output")
+    child = subparsers.add_parser(
+        "practitioner-report",
+        help="generate a plain-language single-scenario screening report",
+    )
+    child.add_argument("scenario")
+    child.add_argument("--output-dir", required=True)
+    subparsers.add_parser(
+        "capabilities",
+        help="show practitioner capabilities, required inputs, and outputs",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     try:
+        if args.command == "capabilities":
+            print(json.dumps(CAPABILITIES, indent=2))
+            return 0
+        if args.command == "new-study":
+            with open(args.output, "x", encoding="utf-8") as handle:
+                json.dump(practitioner_input_template(), handle, indent=2)
+                handle.write("\n")
+            print(args.output)
+            return 0
+        if args.command == "prepare-study":
+            with open(args.input, encoding="utf-8") as handle:
+                prepared = prepare_practitioner_scenario(json.load(handle))
+            with open(args.output, "x", encoding="utf-8") as handle:
+                json.dump(prepared, handle, indent=2)
+                handle.write("\n")
+            print(args.output)
+            return 0
+        if args.command == "practitioner-report":
+            with open(args.scenario, encoding="utf-8") as handle:
+                scenario_data = json.load(handle)
+            for name, path in write_practitioner_report(
+                scenario_data,
+                args.output_dir,
+            ).items():
+                print(f"{name}: {path}")
+            return 0
         if args.command == "openlca-inspect":
             processes = read_openlca_jsonld(
                 args.source, process_ids=args.process_id

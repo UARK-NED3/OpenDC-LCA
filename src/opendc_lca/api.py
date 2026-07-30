@@ -8,6 +8,12 @@ from .audit import audit
 from .engine import analyze
 from .io import load_scenario_data
 from .performance import load_performance_map_text, summarize_performance
+from .practitioner import (
+    CAPABILITIES,
+    interpret_practitioner_scenario,
+    practitioner_input_template,
+    prepare_practitioner_scenario,
+)
 
 
 def validate_scenario(data: object) -> dict[str, Any]:
@@ -49,3 +55,23 @@ def summarize_performance_csv(text: str) -> dict[str, Any]:
             "environmental claim; review provenance and evidence status."
         ),
     }
+
+
+def practitioner_capabilities() -> dict[str, Any]:
+    """Return the practitioner-facing capability and input/output contract."""
+    return CAPABILITIES
+
+
+def new_practitioner_study() -> dict[str, Any]:
+    """Return the compact editable practitioner input template."""
+    return practitioner_input_template()
+
+
+def prepare_practitioner_study(data: object) -> dict[str, Any]:
+    """Convert compact practitioner inputs to a governed scenario."""
+    return prepare_practitioner_scenario(data)
+
+
+def analyze_practitioner_study(data: object) -> dict[str, Any]:
+    """Return plain-language results from a governed scenario."""
+    return interpret_practitioner_scenario(data)

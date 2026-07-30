@@ -19,11 +19,16 @@ from .performance import (
 )
 from .uncertainty import MonteCarloResult, ParameterDistribution, monte_carlo
 from .api import (
+    analyze_practitioner_study,
     analyze_scenario,
     audit_scenario,
+    new_practitioner_study,
+    practitioner_capabilities,
+    prepare_practitioner_study,
     summarize_performance_csv,
     validate_scenario,
 )
+from .practitioner import write_practitioner_report
 from .benchmark import (
     package_benchmark_release,
     validate_benchmark_manifest,
@@ -52,7 +57,9 @@ __all__ = [
     "load_performance_map", "summarize_performance",
     "MonteCarloResult", "ParameterDistribution", "monte_carlo",
     "analyze_scenario", "audit_scenario", "summarize_performance_csv",
-    "validate_scenario",
+    "validate_scenario", "practitioner_capabilities",
+    "new_practitioner_study", "prepare_practitioner_study",
+    "analyze_practitioner_study", "write_practitioner_report",
     "InventoryExchange", "InventoryProcess", "read_openlca_jsonld",
     "export_scenario_openlca_jsonld", "to_brightway_data",
     "write_brightway_json", "install_brightway_database",

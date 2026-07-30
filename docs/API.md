@@ -5,10 +5,15 @@ notebooks, services, and the local GUI.
 
 ```python
 from opendc_lca import (
+    analyze_practitioner_study,
     analyze_scenario,
     audit_scenario,
+    new_practitioner_study,
+    practitioner_capabilities,
+    prepare_practitioner_study,
     summarize_performance_csv,
     validate_scenario,
+    write_practitioner_report,
 )
 ```
 
@@ -20,6 +25,20 @@ from opendc_lca import (
   audit, and `comparative_claim_blocked` status.
 - `audit_scenario(data)` returns audit findings without running the impact
   calculation.
+
+## Practitioner workflow
+
+- `practitioner_capabilities()` returns intended uses, required inputs, outputs,
+  and exclusions.
+- `new_practitioner_study()` returns the compact editable input profile.
+- `prepare_practitioner_study(data)` expands compact input to the governed
+  scenario schema.
+- `analyze_practitioner_study(data)` returns evidence classification, key
+  outputs, contributions, audit findings and next-data requirements.
+- `write_practitioner_report(data, output_dir)` writes Markdown and JSON.
+
+These functions do not weaken full scenario validation or comparative-claim
+gates.
 
 ## Performance maps
 
