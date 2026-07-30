@@ -24,4 +24,4 @@ __all__ = [
     "load_performance_map", "summarize_performance",
     "MonteCarloResult", "ParameterDistribution", "monte_carlo",
 ]
-__version__ = "0.3.0"
+__version__ = "0.5.0"

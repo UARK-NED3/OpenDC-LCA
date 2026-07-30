@@ -24,6 +24,13 @@ artifacts. A maintainer should complete this checklist from a clean checkout.
      --output-dir results/v0.3-experimental
    ```
 
+   For version 0.5 and later, regenerate the public-data and paper packages:
+
+   ```bash
+   python scripts/refresh_public_data.py
+   python scripts/run_research_analysis.py
+   ```
+
 3. Run unit tests and the complete command-line smoke test:
 
    ```bash

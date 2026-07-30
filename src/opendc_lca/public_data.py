@@ -249,6 +249,50 @@ def _column_number(cell_reference: str) -> int:
     return result
 
 
+def read_xlsx_rows(
+    xlsx_path: str | Path, sheet_name: str
+) -> list[list[object | None]]:
+    """Read cached values from a simple XLSX worksheet using the stdlib.
+
+    This intentionally does not evaluate formulas. It is suitable for public
+    source-data workbooks that contain cached numeric results.
+    """
+    namespace = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
+    with ZipFile(xlsx_path) as archive:
+        shared = _xlsx_shared_strings(archive)
+        root = ET.fromstring(archive.read(_xlsx_sheet_path(archive, sheet_name)))
+    parsed: list[dict[int, object]] = []
+    maximum_column = 0
+    for row in root.findall(f".//{{{namespace}}}row"):
+        values: dict[int, object] = {}
+        for cell in row.findall(f"{{{namespace}}}c"):
+            column = _column_number(cell.attrib["r"])
+            maximum_column = max(maximum_column, column)
+            cell_type = cell.attrib.get("t")
+            if cell_type == "inlineStr":
+                texts = cell.findall(f".//{{{namespace}}}t")
+                values[column] = "".join(item.text or "" for item in texts)
+                continue
+            value_node = cell.find(f"{{{namespace}}}v")
+            if value_node is None:
+                continue
+            raw = value_node.text or ""
+            if cell_type == "s":
+                values[column] = shared[int(raw)]
+            elif cell_type == "str":
+                values[column] = raw
+            else:
+                try:
+                    values[column] = float(raw)
+                except ValueError:
+                    values[column] = raw
+        parsed.append(values)
+    return [
+        [row.get(column) for column in range(1, maximum_column + 1)]
+        for row in parsed
+    ]
+
+
 def load_egrid_state_factor(
     xlsx_path: str | Path, state_abbreviation: str
 ) -> EgridStateFactor:

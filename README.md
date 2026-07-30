@@ -5,8 +5,8 @@ Open, physics-informed life-cycle analysis for data-center cooling.
 OpenDC-LCA connects measured or simulated cooling performance with transparent
 life-cycle inventories. The first release is a small, dependency-free reference
 model for comparing air cooling, direct-to-chip liquid cooling, and immersion
-cooling on a common annual basis. Version 0.3 adds laboratory performance-map
-reduction and seeded Monte Carlo uncertainty propagation.
+cooling on a common annual basis. Version 0.5 adds a Microsoft/Nature public
+result reproduction audit and an hourly climate-aware research preview.
 
 > [!IMPORTANT]
 > The cooling-technology examples remain illustrative. A separate
@@ -95,6 +95,23 @@ Its raw third-party inputs are not redistributed. See the
 [data-source registry](data/SOURCES.md) and regenerate the committed derived
 records with `python scripts/refresh_public_data.py`.
 
+## v0.4-v0.5 research results
+
+The [paper results package](paper/RESULTS_PACKAGE.md) consolidates equations,
+machine-readable tables, editable figures, and a review workbook. Version 0.4
+independently reconstructs all 24 totals in the released Microsoft/Nature
+Figure 4 source data from their component contributions. Version 0.5 applies
+transparent hourly PUE hypotheses to the Fayetteville TMY and Arkansas eGRID
+factor.
+
+The reproduction audit is validated. The hourly technology comparison remains
+hypothesis-generating until the PUE curves are replaced by measured NED³
+performance maps.
+
+```bash
+python scripts/run_research_analysis.py
+```
+
 ## Model boundary
 
 The Phase 1 model includes:
@@ -129,6 +146,9 @@ reliability. These are tracked in the [research roadmap](docs/ROADMAP.md).
 - `tests/`: deterministic reference tests
 - `results/representative-screening/`: reproducible example report and figures
 - `results/v0.3-experimental/`: performance and uncertainty demonstration
+- `results/v0.4-microsoft-reproduction/`: released-result arithmetic audit
+- `results/v0.5-hourly-preview/`: climate-aware hypothesis demonstration
+- `paper/`: manuscript-ready tables, figures, workbook, and results narrative
 - `CHANGELOG.md`: release-level scientific and software changes
 
 ## Scientific principles

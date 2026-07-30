@@ -1,5 +1,20 @@
 # Research and software roadmap
 
+## Delivered in v0.4-v0.5
+
+- Independent arithmetic reconstruction of all 24 released Microsoft/Nature
+  Figure 4 totals.
+- Hourly TMY ingestion and temperature-dependent PUE research-preview model.
+- Paper-ready tables, figures, equations, workbook, citations, and review notes.
+
+## Next evidence gate
+
+- Replace illustrative PUE curves with NED³ measurements for an air-cooled
+  reference and at least one liquid-cooling architecture.
+- Add load, humidity or wet-bulb conditions, coolant-loop measurements, and
+  uncertainty.
+- Add a compute-service functional unit compatible with the Microsoft study.
+
 ## Phase 1 — transparent screening model
 
 - [x] Versioned scenario schema

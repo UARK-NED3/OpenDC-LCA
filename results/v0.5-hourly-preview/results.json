@@ -1,0 +1,147 @@
+{
+  "status": "hypothesis-generating research preview; PUE curves are transparent assumptions pending NED3 measurements",
+  "egrid": {
+    "data_year": 2023,
+    "state": "Arkansas",
+    "state_abbreviation": "AR",
+    "co2e_kg_per_mwh": 452.8805904,
+    "source_field": "ST23!STC2ERTA",
+    "co2e_kg_per_kwh": 0.4528805904
+  },
+  "annual": [
+    {
+      "technology": "Air-cooled",
+      "mean_pue": 1.0907321250000002,
+      "minimum_pue": 1.08,
+      "maximum_pue": 1.1300000000000001,
+      "facility_mwh_per_it_mwh": 1.0907321250000002,
+      "operational_kgco2e_per_it_mwh": 493.9714087382467,
+      "reduction_vs_air_pct": 0.0
+    },
+    {
+      "technology": "Cold plate",
+      "mean_pue": 1.0528977992009132,
+      "minimum_pue": 1.05,
+      "maximum_pue": 1.0725,
+      "facility_mwh_per_it_mwh": 1.0528977992009132,
+      "operational_kgco2e_per_it_mwh": 476.83697693297023,
+      "reduction_vs_air_pct": 3.4687092212569604
+    },
+    {
+      "technology": "One-phase",
+      "mean_pue": 1.040616401826484,
+      "minimum_pue": 1.04,
+      "maximum_pue": 1.05,
+      "facility_mwh_per_it_mwh": 1.040616401826484,
+      "operational_kgco2e_per_it_mwh": 471.27497043910176,
+      "reduction_vs_air_pct": 4.594686635228252
+    },
+    {
+      "technology": "Two-phase",
+      "mean_pue": 1.035190110502283,
+      "minimum_pue": 1.035,
+      "maximum_pue": 1.0406,
+      "facility_mwh_per_it_mwh": 1.035190110502283,
+      "operational_kgco2e_per_it_mwh": 468.81750842051514,
+      "reduction_vs_air_pct": 5.092177375606067
+    }
+  ],
+  "monthly": [
+    {
+      "month": 1,
+      "mean_temperature_c": 3.547567204301075,
+      "Air-cooled_mean_pue": 1.0825327822580646,
+      "Cold plate_mean_pue": 1.0505022876344086,
+      "One-phase_mean_pue": 1.0401534650537634,
+      "Two-phase_mean_pue": 1.0351534650537633
+    },
+    {
+      "month": 2,
+      "mean_temperature_c": 3.8685714285714283,
+      "Air-cooled_mean_pue": 1.0821923586309525,
+      "Cold plate_mean_pue": 1.0503582470238095,
+      "One-phase_mean_pue": 1.0400845491071429,
+      "Two-phase_mean_pue": 1.0350845491071428
+    },
+    {
+      "month": 3,
+      "mean_temperature_c": 10.230215053763441,
+      "Air-cooled_mean_pue": 1.0822419422043013,
+      "Cold plate_mean_pue": 1.0501993548387099,
+      "One-phase_mean_pue": 1.0400220295698925,
+      "Two-phase_mean_pue": 1.0350220295698924
+    },
+    {
+      "month": 4,
+      "mean_temperature_c": 13.955819444444446,
+      "Air-cooled_mean_pue": 1.0860045833333334,
+      "Cold plate_mean_pue": 1.0509022083333333,
+      "One-phase_mean_pue": 1.0400293472222222,
+      "Two-phase_mean_pue": 1.0350043472222221
+    },
+    {
+      "month": 5,
+      "mean_temperature_c": 19.54293010752688,
+      "Air-cooled_mean_pue": 1.0927512096774195,
+      "Cold plate_mean_pue": 1.0529256048387097,
+      "One-phase_mean_pue": 1.040433306451613,
+      "Two-phase_mean_pue": 1.0350447311827957
+    },
+    {
+      "month": 6,
+      "mean_temperature_c": 24.209208333333336,
+      "Air-cooled_mean_pue": 1.103111388888889,
+      "Cold plate_mean_pue": 1.0572165208333335,
+      "One-phase_mean_pue": 1.0416757916666666,
+      "Two-phase_mean_pue": 1.0354593555555556
+    },
+    {
+      "month": 7,
+      "mean_temperature_c": 25.52706989247312,
+      "Air-cooled_mean_pue": 1.1063546370967743,
+      "Cold plate_mean_pue": 1.0586272983870968,
+      "One-phase_mean_pue": 1.042141747311828,
+      "Two-phase_mean_pue": 1.035657193548387
+    },
+    {
+      "month": 8,
+      "mean_temperature_c": 24.760833333333334,
+      "Air-cooled_mean_pue": 1.104450806451613,
+      "Cold plate_mean_pue": 1.0577896370967743,
+      "One-phase_mean_pue": 1.0419312903225806,
+      "Two-phase_mean_pue": 1.0356059677419354
+    },
+    {
+      "month": 9,
+      "mean_temperature_c": 21.259333333333334,
+      "Air-cooled_mean_pue": 1.0964156944444445,
+      "Cold plate_mean_pue": 1.0542520625,
+      "One-phase_mean_pue": 1.0406361527777777,
+      "Two-phase_mean_pue": 1.0350877777777778
+    },
+    {
+      "month": 10,
+      "mean_temperature_c": 14.917271505376345,
+      "Air-cooled_mean_pue": 1.0860204637096775,
+      "Cold plate_mean_pue": 1.0509983534946237,
+      "One-phase_mean_pue": 1.0400887096774194,
+      "Two-phase_mean_pue": 1.035
+    },
+    {
+      "month": 11,
+      "mean_temperature_c": 10.923666666666666,
+      "Air-cooled_mean_pue": 1.0837173194444445,
+      "Cold plate_mean_pue": 1.0503610944444444,
+      "One-phase_mean_pue": 1.0400097986111112,
+      "Two-phase_mean_pue": 1.035009798611111
+    },
+    {
+      "month": 12,
+      "mean_temperature_c": 4.910766129032258,
+      "Air-cooled_mean_pue": 1.0823697715053764,
+      "Cold plate_mean_pue": 1.0504319543010754,
+      "One-phase_mean_pue": 1.0401354704301076,
+      "Two-phase_mean_pue": 1.0351354704301075
+    }
+  ]
+}
