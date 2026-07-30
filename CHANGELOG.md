@@ -3,6 +3,31 @@
 All notable changes are documented here. The project follows semantic
 versioning after the first stable release.
 
+## 1.0.0 — 2026-07-29
+
+### Added
+
+- Stable JSON-compatible Python API for scenario validation, analysis, audit,
+  and performance-map summaries.
+- Zero-dependency local web GUI with scenario and performance-map workflows,
+  scientific audit display, KPI summaries, and JSON export.
+- Localhost-only default binding, explicit remote-binding opt-in, a 2 MB
+  request limit, no-store responses, and browser security headers.
+- v1.0 API, GUI, migration, support, and reproducibility documentation.
+
+### Changed
+
+- Package and calculation model versions advanced to 1.0.0.
+- The GUI and API use the same validation, calculation, provenance, and
+  comparative-claim safeguards as the command line.
+- Public API compatibility is governed by semantic versioning.
+
+### Stability contract
+
+- Existing v0.6 scenario and performance-map files remain valid.
+- Additive result fields may appear in 1.x; existing documented fields will not
+  be removed or redefined before 2.0.
+
 ## 0.6.0 — 2026-07-29
 
 ### Added

@@ -231,7 +231,7 @@ class EngineTests(unittest.TestCase):
             for key in ("impact_figure", "contribution_figure"):
                 ET.fromstring(artifacts[key].read_text(encoding="utf-8"))
             results = artifacts["results"].read_text(encoding="utf-8")
-            self.assertIn('"model_version": "0.3.0"', results)
+            self.assertIn('"model_version": "1.0.0"', results)
 
     def test_performance_map_derives_energy_weighted_inputs(self):
         root = Path(__file__).resolve().parents[1]

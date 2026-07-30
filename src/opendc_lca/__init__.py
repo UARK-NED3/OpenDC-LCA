@@ -18,6 +18,12 @@ from .performance import (
     summarize_performance,
 )
 from .uncertainty import MonteCarloResult, ParameterDistribution, monte_carlo
+from .api import (
+    analyze_scenario,
+    audit_scenario,
+    summarize_performance_csv,
+    validate_scenario,
+)
 
 __all__ = [
     "Scenario", "ValidationError", "analyze", "compare", "load_scenario",
@@ -31,5 +37,7 @@ __all__ = [
     "measurement_comparative_claim_allowed",
     "load_performance_map", "summarize_performance",
     "MonteCarloResult", "ParameterDistribution", "monte_carlo",
+    "analyze_scenario", "audit_scenario", "summarize_performance_csv",
+    "validate_scenario",
 ]
-__version__ = "0.6.0"
+__version__ = "1.0.0"

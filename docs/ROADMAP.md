@@ -1,5 +1,13 @@
 # Research and software roadmap
 
+## Stable software milestone: v1.0
+
+- Stable JSON-compatible Python API.
+- Command-line and local graphical workflows over one calculation engine.
+- Semantic-versioning compatibility contract, migration notes, and support
+  policy.
+- Release-ready tests, examples, research artifacts, and scientific safeguards.
+
 ## Delivered in v0.4-v0.5
 
 - Independent arithmetic reconstruction of all 24 released Microsoft/Nature

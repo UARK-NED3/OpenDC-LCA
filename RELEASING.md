@@ -5,6 +5,10 @@ artifacts. A maintainer should complete this checklist from a clean checkout.
 
 ## Release checklist
 
+Version 1.0 and later must treat the documented JSON-compatible Python API,
+scenario schema, performance-map schema, and CLI commands as compatibility
+surfaces governed by semantic versioning.
+
 1. Confirm that `pyproject.toml`, `src/opendc_lca/__init__.py`,
    `CITATION.cff`, and `CHANGELOG.md` use the same version.
 2. Regenerate the representative report:
@@ -38,6 +42,7 @@ artifacts. A maintainer should complete this checklist from a clean checkout.
    python -m unittest discover -s tests -v
    opendc-lca validate examples/air-cooled.json
    opendc-lca audit examples/air-cooled.json
+   opendc-lca gui --no-browser
    ```
 
 4. Build and inspect both distributions:
@@ -57,6 +62,10 @@ artifacts. A maintainer should complete this checklist from a clean checkout.
 8. Merge the reviewed release pull request and create an annotated `vX.Y.Z`
    tag. Pushing the tag runs the GitHub release workflow and attaches the wheel
    and source distribution.
+
+Before tagging 1.0, confirm `CHANGELOG.md`, `MIGRATING_TO_1_0.md`,
+`SECURITY.md`, `SUPPORT.md`, the stable API documentation, and GUI security
+guidance have received maintainer review.
 
 The workflow creates a GitHub release. Publishing to PyPI is intentionally a
 separate maintainer decision and requires configured trusted publishing.

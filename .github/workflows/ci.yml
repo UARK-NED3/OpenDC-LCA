@@ -28,6 +28,16 @@ jobs:
       - run: opendc-lca performance examples/performance-map-direct-to-chip.csv
       - run: opendc-lca monte-carlo examples/direct-to-chip.json examples/uncertainty-direct-to-chip.json --samples 100
       - run: opendc-lca experimental-report examples/direct-to-chip.json examples/performance-map-direct-to-chip.csv examples/uncertainty-direct-to-chip.json --output-dir /tmp/opendc-lca-experimental
+      - name: Smoke-test local GUI
+        run: |
+          opendc-lca gui --no-browser --port 8765 &
+          GUI_PID=$!
+          for i in 1 2 3 4 5; do
+            curl --fail --silent http://127.0.0.1:8765/ >/dev/null && break
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:8765/ | grep -q "OpenDC-LCA"
+          kill "$GUI_PID"
   package:
     runs-on: ubuntu-latest
     steps:
@@ -45,3 +55,4 @@ jobs:
           /tmp/opendc-lca-wheel/bin/opendc-lca examples --output-dir /tmp/examples
           /tmp/opendc-lca-wheel/bin/opendc-lca report /tmp/examples/air-cooled.json /tmp/examples/direct-to-chip.json /tmp/examples/single-phase-immersion.json --output-dir /tmp/report
           /tmp/opendc-lca-wheel/bin/opendc-lca experimental-report /tmp/examples/direct-to-chip.json /tmp/examples/performance-map-direct-to-chip.csv /tmp/examples/uncertainty-direct-to-chip.json --output-dir /tmp/experimental
+          /tmp/opendc-lca-wheel/bin/python -c "from opendc_lca import analyze_scenario, validate_scenario"

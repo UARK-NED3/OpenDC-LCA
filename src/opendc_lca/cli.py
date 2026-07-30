@@ -77,12 +77,26 @@ def _parser() -> argparse.ArgumentParser:
     child.add_argument("performance_map")
     child.add_argument("uncertainty")
     child.add_argument("--output-dir", required=True)
+    child = subparsers.add_parser("gui")
+    child.add_argument("--host", default="127.0.0.1")
+    child.add_argument("--port", type=int, default=8765)
+    child.add_argument("--no-browser", action="store_true")
+    child.add_argument("--allow-remote", action="store_true")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     try:
+        if args.command == "gui":
+            from .gui import serve_gui
+            serve_gui(
+                args.host,
+                args.port,
+                open_browser=not args.no_browser,
+                allow_remote=args.allow_remote,
+            )
+            return 0
         if args.command == "validate":
             scenario = load_scenario(args.scenario)
             print(f"Valid scenario: {scenario.name}")

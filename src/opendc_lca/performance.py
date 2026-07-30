@@ -5,6 +5,7 @@ from __future__ import annotations
 import csv
 from dataclasses import asdict, dataclass, replace
 import hashlib
+import io
 import json
 from pathlib import Path
 
@@ -134,73 +135,78 @@ class HourlyPerformanceResult:
         return asdict(self)
 
 
-def load_performance_map(path: str | Path) -> list[PerformancePoint]:
-    """Load and validate the common laboratory CSV format."""
-    with Path(path).open(newline="", encoding="utf-8-sig") as handle:
-        reader = csv.DictReader(handle)
-        missing = REQUIRED_COLUMNS - set(reader.fieldnames or ())
-        if missing:
+def _load_performance_reader(
+    reader: csv.DictReader,
+) -> list[PerformancePoint]:
+    missing = REQUIRED_COLUMNS - set(reader.fieldnames or ())
+    if missing:
+        raise ValidationError(
+            "Performance map is missing columns: " + ", ".join(sorted(missing))
+        )
+    points: list[PerformancePoint] = []
+    seen: set[str] = set()
+    for line_number, row in enumerate(reader, start=2):
+        test_id = str(row.get("test_id", "")).strip()
+        architecture = str(row.get("architecture", "")).strip()
+        source_id = str(row.get("source_id", "")).strip()
+        if not test_id or not architecture or not source_id:
             raise ValidationError(
-                "Performance map is missing columns: " + ", ".join(sorted(missing))
+                f"Line {line_number}: test_id, architecture, and source_id "
+                "are required"
             )
-        points: list[PerformancePoint] = []
-        seen: set[str] = set()
-        for line_number, row in enumerate(reader, start=2):
-            test_id = str(row.get("test_id", "")).strip()
-            architecture = str(row.get("architecture", "")).strip()
-            source_id = str(row.get("source_id", "")).strip()
-            if not test_id or not architecture or not source_id:
-                raise ValidationError(
-                    f"Line {line_number}: test_id, architecture, and source_id "
-                    "are required"
-                )
-            if test_id in seen:
-                raise ValidationError(f"Duplicate test_id: {test_id}")
-            seen.add(test_id)
-            uncertainty = _value(row, "measurement_uncertainty_percent")
-            if uncertainty > 100:
-                raise ValidationError(
-                    "measurement_uncertainty_percent cannot exceed 100"
-                )
-            points.append(PerformancePoint(
-                test_id=test_id,
-                architecture=architecture,
-                it_load_kw=_value(row, "it_load_kw", positive=True),
-                heat_removed_kw=_value(row, "heat_removed_kw"),
-                coolant_supply_c=_value(
-                    row, "coolant_supply_c", allow_negative=True
-                ),
-                coolant_return_c=_value(
-                    row, "coolant_return_c", allow_negative=True
-                ),
-                flow_kg_s=_value(row, "flow_kg_s"),
-                pressure_drop_kpa=_value(row, "pressure_drop_kpa"),
-                pump_power_kw=_value(row, "pump_power_kw"),
-                fan_power_kw=_value(row, "fan_power_kw"),
-                cdu_power_kw=_value(row, "cdu_power_kw"),
-                heat_rejection_power_kw=_value(row, "heat_rejection_power_kw"),
-                onsite_water_l_h=_value(row, "onsite_water_l_h"),
-                ambient_dry_bulb_c=_value(
-                    row, "ambient_dry_bulb_c", allow_negative=True
-                ),
-                ambient_wet_bulb_c=_value(
-                    row, "ambient_wet_bulb_c", allow_negative=True
-                ),
-                duration_hours=_value(row, "duration_hours", positive=True),
-                measurement_uncertainty_percent=uncertainty,
-                source_id=source_id,
-            ))
-            point = points[-1]
-            if point.ambient_wet_bulb_c > point.ambient_dry_bulb_c:
-                raise ValidationError(
-                    f"Line {line_number}: ambient wet-bulb temperature cannot "
-                    "exceed dry-bulb temperature"
-                )
-            if point.coolant_return_c < point.coolant_supply_c:
-                raise ValidationError(
-                    f"Line {line_number}: coolant return temperature cannot "
-                    "be below supply temperature for heat-removal tests"
-                )
+        if test_id in seen:
+            raise ValidationError(f"Duplicate test_id: {test_id}")
+        seen.add(test_id)
+        uncertainty = _value(row, "measurement_uncertainty_percent")
+        if uncertainty > 100:
+            raise ValidationError(
+                "measurement_uncertainty_percent cannot exceed 100"
+            )
+        points.append(PerformancePoint(
+            test_id=test_id,
+            architecture=architecture,
+            it_load_kw=_value(row, "it_load_kw", positive=True),
+            heat_removed_kw=_value(row, "heat_removed_kw"),
+            coolant_supply_c=_value(
+                row, "coolant_supply_c", allow_negative=True
+            ),
+            coolant_return_c=_value(
+                row, "coolant_return_c", allow_negative=True
+            ),
+            flow_kg_s=_value(row, "flow_kg_s"),
+            pressure_drop_kpa=_value(row, "pressure_drop_kpa"),
+            pump_power_kw=_value(row, "pump_power_kw"),
+            fan_power_kw=_value(row, "fan_power_kw"),
+            cdu_power_kw=_value(row, "cdu_power_kw"),
+            heat_rejection_power_kw=_value(row, "heat_rejection_power_kw"),
+            onsite_water_l_h=_value(row, "onsite_water_l_h"),
+            ambient_dry_bulb_c=_value(
+                row, "ambient_dry_bulb_c", allow_negative=True
+            ),
+            ambient_wet_bulb_c=_value(
+                row, "ambient_wet_bulb_c", allow_negative=True
+            ),
+            duration_hours=_value(row, "duration_hours", positive=True),
+            measurement_uncertainty_percent=uncertainty,
+            source_id=source_id,
+        ))
+        point = points[-1]
+        if point.ambient_wet_bulb_c > point.ambient_dry_bulb_c:
+            raise ValidationError(
+                f"Line {line_number}: ambient wet-bulb temperature cannot "
+                "exceed dry-bulb temperature"
+            )
+        if point.coolant_return_c < point.coolant_supply_c:
+            raise ValidationError(
+                f"Line {line_number}: coolant return temperature cannot "
+                "be below supply temperature for heat-removal tests"
+            )
+    return points
+
+
+def _validate_performance_points(
+    points: list[PerformancePoint],
+) -> list[PerformancePoint]:
     if not points:
         raise ValidationError("Performance map must contain at least one row")
     architectures = {point.architecture for point in points}
@@ -209,6 +215,21 @@ def load_performance_map(path: str | Path) -> list[PerformancePoint]:
             "A performance map must contain exactly one cooling architecture"
         )
     return points
+
+
+def load_performance_map(path: str | Path) -> list[PerformancePoint]:
+    """Load and validate the common laboratory CSV format."""
+    with Path(path).open(newline="", encoding="utf-8-sig") as handle:
+        return _validate_performance_points(
+            _load_performance_reader(csv.DictReader(handle))
+        )
+
+
+def load_performance_map_text(text: str) -> list[PerformancePoint]:
+    """Load a performance map from UTF-8 CSV text (for APIs and the GUI)."""
+    return _validate_performance_points(
+        _load_performance_reader(csv.DictReader(io.StringIO(text)))
+    )
 
 
 def summarize_performance(points: list[PerformancePoint]) -> PerformanceSummary:

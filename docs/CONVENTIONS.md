@@ -1,11 +1,11 @@
 # OpenDC-LCA conventions
 
-This document is normative for model version 0.3. Terms such as **must** and
+This document is normative for model version 1.0. Terms such as **must** and
 **should** indicate requirements and recommendations for publishable studies.
 
 ## Functional unit
 
-Version 0.3 supports `it_mwh`: one MWh of electricity delivered to IT equipment.
+Version 1.0 supports `it_mwh`: one MWh of electricity delivered to IT equipment.
 It may be used only when alternatives deliver equivalent computational service,
 utilization, reliability, and hardware life. If cooling changes any of these,
 authors must also report absolute results and explain why IT MWh remains a fair
@@ -98,7 +98,7 @@ in IT power or cooling power and apply that boundary consistently.
 
 ## Monte Carlo screening
 
-Version 0.3 supports uniform, triangular, normal, and lognormal distributions
+Version 1.0 supports uniform, triangular, normal, and lognormal distributions
 for selected continuous inputs. A random seed and sample count are mandatory
 for reproducibility. Inputs are sampled independently. This implementation does
 not represent correlations, systematic measurement bias, or model-form

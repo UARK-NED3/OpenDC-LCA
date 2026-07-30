@@ -5,9 +5,9 @@ Open, physics-informed life-cycle analysis for data-center cooling.
 OpenDC-LCA connects measured or simulated cooling performance with transparent
 life-cycle inventories. The first release is a small, dependency-free reference
 model for comparing air cooling, direct-to-chip liquid cooling, and immersion
-cooling on a common annual basis. Version 0.6 adds measurement-ready
-load-temperature surfaces, hourly workload integration, uncertainty bounds,
-and evidence-based comparative-claim controls.
+cooling on a common annual basis. Version 1.0 provides a stable Python API,
+command-line workflows, and a zero-dependency local GUI over the same validated
+calculation and scientific-audit engine.
 
 > [!IMPORTANT]
 > The cooling-technology examples remain illustrative. A separate
@@ -55,6 +55,16 @@ opendc-lca experimental-report examples/direct-to-chip.json \
   --output-dir results/my-experiment
 python -m unittest discover -s tests -v
 ```
+
+Launch the local graphical interface:
+
+```bash
+opendc-lca gui
+```
+
+The GUI accepts scenario JSON and performance-map CSV files, presents audit
+findings beside results, and exports machine-readable JSON. It binds to
+localhost by default and should not be exposed publicly.
 
 Outputs are annual totals and values normalized per delivered IT MWh. JSON output
 is available with `--json`. Installed wheels include the examples; copy them to
@@ -169,6 +179,9 @@ reliability. These are tracked in the [research roadmap](docs/ROADMAP.md).
 
 See [CONVENTIONS.md](docs/CONVENTIONS.md),
 [METHODOLOGY.md](docs/METHODOLOGY.md), and [DATA_PLAN.md](docs/DATA_PLAN.md).
+Application developers should use the stable [Python API](docs/API.md);
+interactive users can follow the [GUI guide](docs/GUI.md). Existing users
+should review the [1.0 migration notes](docs/MIGRATING_TO_1_0.md).
 The first open dataset must follow the
 [benchmark protocol](docs/BENCHMARK_PROTOCOL.md).
 Laboratory and uncertainty inputs follow
