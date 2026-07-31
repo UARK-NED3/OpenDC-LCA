@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import subprocess
 from pathlib import Path
 
 from docx import Document
@@ -32,15 +33,13 @@ EQUATION_DISPLAY = {
     "4": "I_k,eq = Σ_i q_i ceil(L_s/L_i) (I_k,i^prod + I_k,i^EOL) / L_s          (4)",
     "5": "m_prod,annual = m_0 / L_f + m_loss                                      (5)",
     "6": "I_k,fluid = m_prod,annual I_k^fluid;   GHG_direct = m_loss GWP_direct   (6)",
-    "7": "I_j,s = I_j,R + (I_j,G - I_j,R) (EF_s - EF_R) / (EF_G - EF_R)          (7)",
-    "8": "EF* = EF_R + (EF_G-EF_R)(I_b,R-I_a,R)/[(I_a,G-I_a,R)-(I_b,G-I_b,R)]   (8)",
-    "9": "P_c = S_c [(D_c - 1) / 4]                                              (9)",
-    "10": "Q_c(P,T) = (1-α)(1-β)Q_11 + α(1-β)Q_21 + (1-α)βQ_12 + αβQ_22         (10)",
-    "11": "PUE_h = 1 + Q_c,h / P_IT,h                                            (11)",
-    "12": "GHG_op = [Σ_h E_IT,h PUE_h EF_grid,h] / [Σ_h E_IT,h]                 (12)",
-    "13": "F(t) = 1 - exp[-(t / eta)^beta]                                      (13)",
-    "14": "M(t) = F(t) + integral[0,t] M(t-x) dF(x)                              (14)",
-    "15": "eta_op = eta_ref / exp[Ea/kB (1/T_ref - 1/T_op)]                      (15)",
+    "7": "z_s = (g_s - g_R) / (g_G - g_R)                                        (7)",
+    "8": "I_j,s = I_j,R + (I_j,G - I_j,R) z_s                                    (8)",
+    "9": "g* = g_R + (g_G-g_R)(I_b,R-I_a,R)/[(I_a,G-I_a,R)-(I_b,G-I_b,R)]        (9)",
+    "10": "g_y^AR5 = [2000 M_CO2 + 28 M_CH4 + 265 M_N2O] 0.45359237 / E_y       (10)",
+    "11": "delta_service = min_(j != 2P)(I_j / I_2P) - 1                         (11)",
+    "12": "R = 100 (1 - I_alternative / I_baseline)                              (12)",
+    "13": "P_c = S_c [(D_c - 1) / 4]                                             (13)",
 }
 
 
@@ -276,13 +275,40 @@ def add_figure(doc, alt_text, relative_svg):
     add_inline_runs(caption, alt_text, size=9)
 
 
+def convert_figures():
+    """Render exactly the SVG figures referenced by the main manuscript."""
+    FIGURE_PNG.mkdir(parents=True, exist_ok=True)
+    used = set(
+        re.findall(
+            r"\]\(figures/([^)]+\.svg)\)",
+            SOURCE.read_text(encoding="utf-8"),
+        )
+    )
+    for filename in used:
+        source = ROOT / "figures" / filename
+        target = FIGURE_PNG / f"{source.stem}.png"
+        subprocess.run(
+            [
+                "rsvg-convert",
+                "-w",
+                "2400",
+                "-o",
+                str(target),
+                str(source),
+            ],
+            check=True,
+        )
+
+
 def add_markdown_table(doc, rows):
     parsed = [[cell.strip() for cell in row.strip().strip("|").split("|")] for row in rows]
     parsed = [parsed[0]] + parsed[2:]
     cols = len(parsed[0])
     table = doc.add_table(rows=len(parsed), cols=cols)
     table.style = "Table Grid"
-    if cols == 6:
+    if cols == 5:
+        widths = [1300, 1150, 2300, 3000, 1610]
+    elif cols == 6:
         widths = [1450, 1750, 1650, 1650, 1850, 1010]
     else:
         widths = [9360 // cols] * cols
@@ -381,10 +407,13 @@ def parse_markdown(doc, text):
                 index += 1
             add_markdown_table(doc, table_rows)
             index -= 1
-        elif re.match(r"^\d+\.\s", stripped):
+        elif numbered := re.match(r"^(\d+)\.\s+(.*)", stripped):
             flush_paragraph()
-            p = doc.add_paragraph(style="List Number")
-            add_inline_runs(p, re.sub(r"^\d+\.\s+", "", stripped))
+            p = doc.add_paragraph()
+            p.paragraph_format.left_indent = Inches(0.26)
+            p.paragraph_format.first_line_indent = Inches(-0.2)
+            p.paragraph_format.space_after = Pt(3)
+            add_inline_runs(p, f"{numbered.group(1)}. {numbered.group(2)}")
         elif stripped.startswith("- "):
             flush_paragraph()
             p = doc.add_paragraph(style="List Bullet")
@@ -401,6 +430,7 @@ def parse_markdown(doc, text):
 
 
 def main():
+    convert_figures()
     doc = Document()
     configure_document(doc)
     parse_markdown(doc, SOURCE.read_text(encoding="utf-8"))

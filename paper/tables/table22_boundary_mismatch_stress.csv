@@ -1,0 +1,6 @@
+boundary_adder_kgco2e_per_mwh,states_dc_tested,cold_plate_below_one_phase_count,one_phase_below_cold_plate_count,two_phase_first_rank_count,air_first_rank_count,cold_plate_first_rank_count,one_phase_first_rank_count,median_first_to_second_margin_pct,interpretation
+0.0,51,1,50,51,0,0,0,5.502616740789978,Boundary-mismatch stress only; additive allowance is not an upstream inventory estimate or uncertainty distribution.
+25.0,51,1,50,51,0,0,0,5.482824590748714,Boundary-mismatch stress only; additive allowance is not an upstream inventory estimate or uncertainty distribution.
+50.0,51,1,50,51,0,0,0,5.457803576319575,Boundary-mismatch stress only; additive allowance is not an upstream inventory estimate or uncertainty distribution.
+75.0,51,0,51,51,0,0,0,5.435520351735068,Boundary-mismatch stress only; additive allowance is not an upstream inventory estimate or uncertainty distribution.
+100.0,51,0,51,51,0,0,0,5.415548873855003,Boundary-mismatch stress only; additive allowance is not an upstream inventory estimate or uncertainty distribution.

@@ -1,0 +1,3 @@
+cohort,n,minimum_adverse_two_phase_service_correction_pct,p25_adverse_two_phase_service_correction_pct,median_adverse_two_phase_service_correction_pct,p75_adverse_two_phase_service_correction_pct,maximum_adverse_two_phase_service_correction_pct,interpretation
+all state-years,459,4.701021260489613,5.330369498756015,5.436274489713266,5.556361028191226,6.198509573277855,Multiplicative increase in two-phase impact per equivalent useful computation required to equal the runner-up; not a measured performance penalty.
+2023 states/DC,51,5.235779426069254,5.3822491928674605,5.502616740789978,5.633979171678371,6.041969042939366,Multiplicative increase in two-phase impact per equivalent useful computation required to equal the runner-up; not a measured performance penalty.

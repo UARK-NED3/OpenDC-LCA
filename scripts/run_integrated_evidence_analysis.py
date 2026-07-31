@@ -31,13 +31,18 @@ COLORS = {
     "One-phase": "#009E73",
     "Two-phase": "#D55E00",
 }
+LB_TO_KG = 0.45359237
+AR5_GWP100_CH4 = 28.0
+AR5_GWP100_N2O = 265.0
 
 
 def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
     if not rows:
         raise ValueError(f"Cannot write empty table: {path}")
     with path.open("w", newline="", encoding="utf-8") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(
+            stream, fieldnames=list(rows[0]), lineterminator="\n"
+        )
         writer.writeheader()
         writer.writerows(rows)
 
@@ -91,36 +96,65 @@ def microsoft_ghg_components() -> dict[str, dict[str, dict[str, float]]]:
 
 
 def egrid_states() -> tuple[list[dict[str, object]], float]:
-    source = RAW / "egrid2023" / "egrid2023_data_metric_rev2.xlsx"
+    """Read eGRID 2023 and reconstruct one explicit AR5 GWP100 rate.
+
+    The non-metric provider workbook exposes CO2, CH4 and N2O totals. Rebuilding
+    the rate from those totals avoids mixing the provider's rounded metric
+    workbook with the historical non-metric series and records the
+    characterization basis used by the screening analysis.
+    """
+    source = RAW / "egrid2023" / "egrid2023_data_rev2.xlsx"
     rows = read_xlsx_rows(source, "ST23")
     codes = {str(value): index for index, value in enumerate(rows[1]) if value}
-    required = {"YEAR", "PSTATABB", "STNAME", "STNGENAN", "STC2ERTA"}
+    required = {
+        "YEAR",
+        "PSTATABB",
+        "STNGENAN",
+        "STCO2AN",
+        "STCH4AN",
+        "STN2OAN",
+        "STC2ERTA",
+    }
     if not required.issubset(codes):
-        # The state-name code is STNAME in the metric workbook but older
-        # provider releases may omit it; fall back to abbreviation.
-        required.remove("STNAME")
+        raise ValueError(f"Missing eGRID fields: {required-codes.keys()}")
     output = []
     for row in rows[2:]:
         try:
-            factor = float(row[codes["STC2ERTA"]])
             generation = float(row[codes["STNGENAN"]])
+            reported = float(row[codes["STC2ERTA"]]) * LB_TO_KG
+            co2_short_tons = float(row[codes["STCO2AN"]])
+            ch4_lb = float(row[codes["STCH4AN"]])
+            n2o_lb = float(row[codes["STN2OAN"]])
         except (TypeError, ValueError, IndexError):
             continue
         abbreviation = str(row[codes["PSTATABB"]])
-        if abbreviation in {"US", "PR"} or factor < 0 or generation <= 0:
+        harmonized = (
+            2000.0 * co2_short_tons
+            + AR5_GWP100_CH4 * ch4_lb
+            + AR5_GWP100_N2O * n2o_lb
+        ) / generation * LB_TO_KG
+        if (
+            abbreviation in {"US", "PR"}
+            or reported < 0
+            or harmonized < 0
+            or generation <= 0
+        ):
             continue
         output.append(
             {
                 "year": int(float(row[codes["YEAR"]])),
                 "state_abbreviation": abbreviation,
-                "state": (
-                    str(row[codes["STNAME"]])
-                    if "STNAME" in codes and row[codes["STNAME"]]
-                    else abbreviation
-                ),
+                "state": abbreviation,
                 "net_generation_mwh": generation,
-                "co2e_kg_per_mwh": factor,
-                "source_field": "eGRID2023 ST23!STC2ERTA",
+                "co2e_kg_per_mwh": harmonized,
+                "reported_co2e_kg_per_mwh": reported,
+                "co2_kg_per_mwh": (
+                    2000.0 * co2_short_tons / generation * LB_TO_KG
+                ),
+                "gwp_basis": "AR5 GWP100 (CH4=28; N2O=265), reconstructed",
+                "source_field": (
+                    "eGRID2023 ST23!STCO2AN, STCH4AN, STN2OAN and STNGENAN"
+                ),
             }
         )
     national = sum(
@@ -162,14 +196,14 @@ def state_rebased_results(
                 {
                     **state,
                     "technology": technology,
-                    "egrid_to_national_ratio": ratio,
+                    "electricity_intensity_position": ratio,
                     "use_phase_kgco2e_per_vcore_year": use,
                     "embodied_kgco2e_per_vcore_year": embodied,
                     "total_kgco2e_per_vcore_year": total,
                     "embodied_share_pct": 100 * embodied / total,
                     "method": (
-                        "Affine re-basing between Microsoft 100% renewable and "
-                        "grid endpoints using their released GaBi factors"
+                        "Numerical intensity-index transfer between Microsoft "
+                        "renewable and grid endpoints; eGRID and GaBi boundaries differ"
                     ),
                 }
             )
@@ -513,7 +547,7 @@ def figure_grid_crossover(
         '<text class="axis" x="490" y="485" text-anchor="middle">'
         "State total-output electricity intensity (kg CO₂e/MWh)</text>",
         '<text class="axis" transform="translate(22 350) rotate(-90)">'
-        "kg CO₂e per Vcore-year (screening re-base)</text>",
+        "kg CO₂e per Vcore-year (intensity-index screen)</text>",
     ]
     for index, technology in enumerate(TECHNOLOGIES):
         x = 80 + index * 205
@@ -679,8 +713,8 @@ def main() -> None:
                 "evidence_status": {
                     "microsoft_reconstruction": "released arithmetic consistency audit",
                     "state_rebase": (
-                        "controlled screening scenario; affine interpolation "
-                        "between released GaBi electricity endpoints"
+                        "controlled screening scenario; numerical intensity-index "
+                        "transfer between released GaBi endpoints using direct eGRID rates"
                     ),
                     "boavizta": "cross-product evidence synthesis",
                     "oekobaudat": "unit-process scenario; no facility BOM propagation",

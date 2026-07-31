@@ -26,6 +26,12 @@ versioning after the first stable release.
   renewal, temperature-acceleration, maintenance, and benchmark tests.
 - Validated benchmark manifest, independent-review record, citable release ZIP,
   and DOI handoff workflow.
+- AR5-harmonized 2012-2023 eGRID reconstruction from gas-specific emissions,
+  with provider-rate reconciliation and anchor-extrapolation diagnostics.
+- Boundary-mismatch, functional-unit, seeded joint assumption-stress, and
+  evidence-priority robustness analyses for the released cooling foreground.
+- Applied Energy manuscript, Supplementary Information, response-to-review
+  record, expanded evidence workbook, and archival release checklist.
 
 ### Changed
 

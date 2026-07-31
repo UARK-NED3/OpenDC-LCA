@@ -160,28 +160,27 @@ Its raw third-party inputs are not redistributed. See the
 [data-source registry](data/SOURCES.md) and regenerate the committed derived
 records with `python scripts/refresh_public_data.py`.
 
-## v0.4-v0.5 research results
+## Boundary-aware paper analysis
 
 The [paper results package](paper/RESULTS_PACKAGE.md) consolidates equations,
-machine-readable tables, editable figures, and a review workbook. Version 0.4
-independently reconstructs all 24 totals in the released Microsoft/Nature
-Figure 4 source data from their component contributions. Version 0.5 applies
-transparent hourly PUE hypotheses to the Fayetteville TMY and Arkansas eGRID
-factor.
-
-The reproduction audit is validated. The hourly technology comparison remains
-hypothesis-generating until the PUE curves are replaced by measured NED³
-performance maps.
+machine-readable tables, editable figures, and review artifacts. The analysis
+reconstructs all 24 released Microsoft/Nature totals, harmonizes nine eGRID
+releases to one AR5 GWP100 basis, counts transformations outside the released
+electricity anchors, and tests electricity-boundary, functional-unit, and joint
+assumption sensitivity. It separates robust national decarbonization from
+conditional cooling rankings.
 
 ```bash
 python scripts/run_research_analysis.py
 python scripts/run_v06_measurement_demo.py
+python scripts/run_integrated_evidence_analysis.py
+python scripts/run_applied_energy_analysis.py
 ```
 
-The v0.6 demonstration uses synthetic surfaces solely to exercise the complete
-measurement-to-LCA path. The engine refuses extrapolation beyond the measured
-grid and does not authorize comparative claims until at least two performance
-datasets have been reviewed.
+The TMY and synthetic performance-map demonstrations exercise the
+measurement-to-LCA path but remain illustrative. The engine refuses
+extrapolation beyond the measured grid and does not authorize comparative
+claims until the required performance datasets and review status are present.
 
 ## Model boundary
 

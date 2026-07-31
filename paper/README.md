@@ -3,8 +3,12 @@
 This directory is the stable handoff for manuscript development.
 
 - `MANUSCRIPT.md`: editable, source-controlled manuscript draft.
+- `SUPPLEMENTARY_INFORMATION.md`: detailed secondary analyses, illustrative
+  software cases, data roles, and reproduction notes.
 - `OpenDC-LCA_manuscript.docx`: formatted coauthor-review manuscript.
 - `OpenDC-LCA_manuscript.pdf`: rendered review copy.
+- `OpenDC-LCA_supplementary_information.pdf`: rendered supplementary review
+  copy.
 - `FIGURE_TABLE_PLAN.md`: prioritized main-text and supplementary figure/table
   portfolio with evidence labels.
 - `RESULTS_PACKAGE.md`: consolidated interpretation, equations, limitations,
@@ -13,7 +17,12 @@ This directory is the stable handoff for manuscript development.
   evidence still required before submission.
 - `tables/`: machine-readable CSV tables.
 - `figures/`: editable, publication-ready SVG figures.
-- `results-workbook.xlsx`: formula-driven review workbook.
+- `OpenDC-LCA_integrated_evidence.xlsx`: auditable workbook containing the
+  harmonized eGRID series, boundary and anchor diagnostics, joint stress
+  results, functional-unit sensitivity, public server records, material
+  levers, and evidence-priority tables.
+- `results-workbook.xlsx`: compact formula-driven example workbook retained
+  for the practitioner workflow.
 - `overleaf/`: compiling Elsevier `elsarticle` project for Applied Energy,
   including vector figures, highlights and a cover-letter draft.
 - `OpenDC-LCA_Applied_Energy_Overleaf.zip`: upload-ready Overleaf archive.
@@ -26,18 +35,12 @@ python paper/build_overleaf.py
 cd paper/overleaf && tectonic main.tex
 ```
 
-The v0.4 results audit arithmetic consistency against released Microsoft/Nature
-source data; it is not empirical or background-inventory validation. The v0.5
-hourly results remain a research preview. Version 0.6
-provides the file contract and hourly engine for replacing its assumptions with
-measured NED³ performance surfaces.
-
-The Applied Energy extension adds nine EPA eGRID releases, 459 controlled
-state-year electricity-factor scenarios, historical absolute-benefit and embodied-share trajectories,
-use-phase break-even requirements, and a Boavizta-informed server-inventory
-stress test. These are transparent screening transformations of released
-foreground results, not substitutes for measured cooling-performance surfaces
-or a state-specific process LCA.
+The Applied Energy extension now reconstructs all eGRID years to a common AR5
+GWP100 basis and adds anchor-extrapolation, electricity-boundary,
+functional-unit, joint assumption-stress, and evidence-priority diagnostics.
+These are transparent tests of the released foreground model, not substitutes
+for lifecycle-consistent electricity processes, measured cooling-performance
+surfaces, or architecture-specific bills of quantities.
 
 The manuscript is a scientific draft, not a submitted paper. Authorship,
 contributions, funding, competing interests, target-journal formatting, and the

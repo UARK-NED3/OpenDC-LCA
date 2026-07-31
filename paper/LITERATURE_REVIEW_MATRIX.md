@@ -1,57 +1,45 @@
-# Literature review and gap matrix
+# Literature review and contribution matrix
 
 ## Review question
 
-What prevents published data-center cooling LCAs from being independently
-updated, geographically transferred, coupled to measured thermal performance,
-and used to prioritize the next measurements or inventories?
+What prevents a published data-center cooling LCA from being independently
+updated, transferred across energy systems, coupled to measured thermal
+performance, and converted into an efficient evidence-acquisition program?
 
-## Synthesis
-
-| Literature stream | Established contribution | Persistent limitation | OpenDC-LCA response |
+| Literature stream | What is established | Remaining bottleneck | OpenDC-LCA contribution |
 |---|---|---|---|
-| Whole-data-center screening LCA | Whitehead et al. established that operational metrics alone can transfer burdens across life stages. | Models and background data are difficult to reconstruct; early studies predate current AI hardware. | Explicit system-boundary schemas, source registry, component contributions and claim gates. |
-| Hyperscale cooling LCA | Alissa et al. compared air, cold plate, one-phase and two-phase immersion per Vcore-year across GHG, primary energy and blue water. | Released normalized results are rich, but foreground bills of materials and licensed background processes remain unavailable; spatial and hourly variation are limited. | Reconstruct all released totals, retain their functional unit, then add transparent eGRID re-basing and evidence-status labels without claiming independent reproduction of proprietary inventories. |
-| Cooling-device product LCA | Isler-Kaya and Karaosmanoglu used manufacturer inventory and multi-impact manufacturing scenarios. | A device functional unit does not capture compute delivered, facility interaction or server-life effects. | Keep device, facility and compute-service units separate and require an explicit equivalence argument. |
-| National energy-water footprint | Siddik et al. quantified regional trade-offs between data-center energy, carbon and water. | Cooling architectures, embodied inventories and workload performance are not resolved at the same level. | Join region-specific factors to architecture contributions while preserving the screening status of the join. |
-| Water-footprint methods | Ristic et al. separated onsite and electricity-mediated water; AWARE adds scarcity characterization. | Water withdrawal, consumption and scarcity are frequently conflated; temporal and watershed resolution are often absent. | Separate onsite and supply-chain consumption, reject scarcity claims without characterization factors, and register watershed/time metadata. |
-| Cooling performance and thermoeconomics | Reviews and experimental studies establish PUE, heat-transfer and overclocking advantages under particular designs and conditions. | Annual-average or vendor values are not portable across load, weather and heat-rejection configurations. | A measured rectangular performance-surface contract, bounded interpolation and 8,760-hour integration. |
-| Electronics embodied impacts | Boyd et al. and manufacturer PCFs show that server manufacturing is material, especially on cleaner grids. | Semiconductor inventories are old, proprietary, product-specific and methodologically heterogeneous. | Preserve product-level EPD records, quantify cross-product dispersion and identify server inventories as a priority rather than treating one factor as universal. |
-| LCA software and databases | openLCA, Brightway, ecoinvent, Sphera, USLCI and GLAD provide calculation engines, formats or inventories. | General tools do not supply a data-center cooling ontology, functional-unit equivalence tests, performance-map coupling or an evidence claim gate. | A domain layer that exchanges JSON-LD/Brightway data while retaining cooling-specific engineering and review rules. |
-| Prospective and consequential assessment | Prospective electricity and water methods can represent future infrastructure conditions. | Scenario assumptions, technology learning and grid evolution can dominate results, and are rarely packaged with cooling models. | Versioned scenarios, declared temporal scope, sensitivity and reliability modules; prospective inventories remain a planned extension. |
+| Cooling technology reviews and experiments | Air, cold plate, single-phase, and two-phase systems have different heat-transfer, parasitic-power, control, and maturity envelopes [3-8]. | Results are design-, load-, coolant-, and weather-specific; useful computation is rarely linked to lifecycle inventory. | Bounded load-weather surface contract and explicit useful-computation equivalence requirement. |
+| Data-center energy and environmental metrics | PUE and operational electricity are important, but can shift burdens outside the facility metric [9]. | PUE is not a lifecycle functional unit and cannot represent server production, fluid, replacement, or reliability. | Separate practitioner IT-MWh screening from service-based lifecycle comparison. |
+| National energy-water footprint | Spatial electricity and water conditions change data-center burdens [10,11]. | Architecture foregrounds and useful-computation performance are not resolved at the same spatial scale. | Location scenarios remain screening transformations with preserved evidence class. |
+| Cooling-device and facility LCA | Product and facility studies quantify manufacturing and operation across multiple categories [12,13,16]. | Product, rack, facility, and compute-service functional units are not interchangeable. | Claim gate rejects silent functional-unit conversion and missing equivalence. |
+| Hyperscale cooling LCA | Alissa et al. provide a detailed Vcore-year comparison, normalized contributions, and pedigree assessment [14,15]. | Licensed backgrounds, complete BOMs, transferable performance mapping, and lifecycle electricity substitution are not fully public. | Arithmetic reconstruction plus conditional crossover, scope, and stress diagnostics without claiming proprietary reproduction. |
+| Electricity accounting | Lifecycle, location-, market-, and marginal electricity answer different questions; inconsistent accounting can double count attributes [19-21]. | Common kg CO2e/kWh units conceal system-boundary and climate-metric differences. | Common-basis eGRID history, explicit intensity index, extrapolation count, and boundary-mismatch stress. |
+| Dynamic/time-explicit LCA | Temporalis and bw_timex propagate temporal inventory and background change [22-26]. | Time resolution alone does not enforce cooling-domain functional equivalence or measured performance coverage. | Domain schema connects hourly cooling engineering to external LCA engines while preserving boundary and claim status. |
+| Uncertainty and variability | Monte Carlo and sensitivity methods can separate input, scenario, and model effects [27,28]. | Unsupported ranges are often presented as confidence; correlations and model form are underreported. | Declared stress envelopes labeled as sensitivity frequencies, plus a roadmap to empirical joint distributions. |
+| Pedigree and data quality | Pedigree matrices document reliability and representativeness [28,29]. | A weak datum may have little decision consequence; converting scores to uncertainty is model dependent. | Rank sensitivity of a transparent contribution/weakness index and explicit limit relative to value of information. |
+| Value of information | VoI can prioritize data according to expected decision benefit [30]. | Requires decision loss, empirical uncertainty, acquisition cost, and posterior updating. | Records the inputs needed to upgrade the current heuristic to formal VoI. |
+| General LCA software | openLCA and Brightway calculate process networks and exchange inventories [31,32]. | They do not encode cooling performance, useful-computation equivalence, or a domain claim gate. | An interoperable cooling foreground/evidence layer, not a replacement LCA engine. |
 
-## Gaps that motivate the paper
+## Testable paper claims
 
-1. **Reproducibility gap.** A published total cannot be updated unless source
-   identities, foreground quantities, background mappings, characterization
-   methods and calculation equations are retained together.
-2. **Transferability gap.** A U.S.-average result does not reveal whether
-   cooling choices retain the same order across grids, climates or water
-   contexts.
-3. **Functional-unit gap.** IT MWh, server-year, rack, facility area and
-   Vcore-year answer different questions and cannot be combined silently.
-4. **Performance-coupling gap.** Cooling LCAs usually use static PUE values,
-   whereas cooling energy and water vary with load, temperature, humidity,
-   controls and heat-rejection design.
-5. **Embodied-data gap.** Server, electronics, support-equipment and fluid
-   inventories are incomplete, old or proprietary precisely when grid
-   decarbonization makes them more influential.
-6. **Uncertainty-to-measurement gap.** Pedigree matrices identify weak data,
-   but published studies rarely combine weakness with contribution magnitude
-   to prioritize experiments and inventory development.
-7. **Water-context gap.** Consumption volumes without watershed- and
-   time-specific scarcity factors cannot support water-impact claims.
-8. **Interoperability gap.** General LCA engines calculate impacts, but do not
-   enforce the engineering equivalence, evidence status and claim conditions
-   specific to alternative cooling architectures.
+1. The released Microsoft/WSP normalized totals are arithmetically reusable.
+2. eGRID's changing GWP convention does not explain the 2012-2023 national
+   generation-rate decline.
+3. A nontrivial part of the state-year screen extrapolates beyond released
+   electricity anchors.
+4. The low-carbon cold-plate/single-phase reversal is sensitive to the
+   electricity-boundary mismatch.
+5. Deterministic first rank across grid factors is weaker than rank under joint
+   foreground and functional-unit stress.
+6. Useful-computation equivalence is a measurable first-order data need.
 
-## Paper thesis
+## Claims deliberately not made
 
-OpenDC-LCA is not proposed as another general LCA engine. It is an
-evidence-governed, data-center cooling research layer that makes heterogeneous
-released results, public factors, experimental performance surfaces and
-general-purpose LCA databases interoperable without erasing their incompatible
-units or evidentiary limits. Its scientific contribution is demonstrated by
-new deductions from released and public data: geographic re-ranking, the
-operational-to-embodied transition, contribution-weighted evidence priorities,
-server-footprint dispersion and construction-material leverage.
+- independent reproduction of licensed background inventories;
+- a universal cooling-technology winner;
+- state-specific lifecycle electricity results;
+- probability of technology superiority from triangular stress envelopes;
+- facility material reductions without bills of quantities;
+- watershed scarcity from boundary geometry;
+- empirical technology results from TMY/synthetic performance fixtures; or
+- ISO critical review from automated tests or coauthor review.

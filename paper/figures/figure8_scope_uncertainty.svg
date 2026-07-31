@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-label="Three diagnostics separate a conditional result from a robust claim">
+<style>text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:23px;font-weight:700}.axis{font-size:13px}.label{font-size:12px}.note{font-size:11px;fill:#52606d}</style>
+<rect width="100%" height="100%" fill="white"/>
+<text class="title" x="68" y="40">Three diagnostics separate a conditional result from a robust claim</text>
+<text class="label" x="65" y="76" style="font-weight:700">A  Anchor coverage</text>
+<text class="label" x="625" y="76" style="font-weight:700">B  Boundary-mismatch stress</text>
+<text class="label" x="65" y="405" style="font-weight:700">C  Joint assumption-stress ensemble</text>
+<text class="label" x="625" y="405" style="font-weight:700">D  Functional-unit sensitivity</text>
+<text class="axis" x="65" y="105">all state-years (n=459)</text>
+<rect x="65" y="115" width="329.7" height="32" fill="#009E73"/>
+<rect x="394.7" y="115" width="1.0" height="32" fill="#0072B2"/>
+<rect x="395.7" y="115" width="139.3" height="32" fill="#D55E00"/>
+<text class="note" x="65" y="169">322 interpolated · 1 below · 136 above</text>
+<text class="axis" x="65" y="205">2023 states/DC (n=51)</text>
+<rect x="65" y="215" width="387.1" height="32" fill="#009E73"/>
+<rect x="452.1" y="215" width="0.0" height="32" fill="#0072B2"/>
+<rect x="452.1" y="215" width="82.9" height="32" fill="#D55E00"/>
+<text class="note" x="65" y="269">42 interpolated · 0 below · 9 above</text>
+<rect x="65" y="305" width="16" height="12" fill="#009E73"/><text class="note" x="88" y="315">within anchors</text>
+<rect x="190" y="305" width="16" height="12" fill="#0072B2"/><text class="note" x="213" y="315">below</text>
+<rect x="270" y="305" width="16" height="12" fill="#D55E00"/><text class="note" x="293" y="315">above</text>
+<line x1="660" y1="310.0" x2="1125" y2="310.0" stroke="#E5E7EB"/>
+<text class="note" x="650" y="314.0" text-anchor="end">0</text>
+<line x1="660" y1="269.8" x2="1125" y2="269.8" stroke="#E5E7EB"/>
+<text class="note" x="650" y="273.8" text-anchor="end">10</text>
+<line x1="660" y1="229.6" x2="1125" y2="229.6" stroke="#E5E7EB"/>
+<text class="note" x="650" y="233.6" text-anchor="end">20</text>
+<line x1="660" y1="189.4" x2="1125" y2="189.4" stroke="#E5E7EB"/>
+<text class="note" x="650" y="193.4" text-anchor="end">30</text>
+<line x1="660" y1="149.2" x2="1125" y2="149.2" stroke="#E5E7EB"/>
+<text class="note" x="650" y="153.2" text-anchor="end">40</text>
+<line x1="660" y1="109.0" x2="1125" y2="109.0" stroke="#E5E7EB"/>
+<text class="note" x="650" y="113.0" text-anchor="end">50</text>
+<polyline points="660.0,306.0 776.2,306.0 892.5,306.0 1008.8,310.0 1125.0,310.0" fill="none" stroke="#0072B2" stroke-width="4"/>
+<polyline points="660.0,109.0 776.2,109.0 892.5,109.0 1008.8,105.0 1125.0,105.0" fill="none" stroke="#009E73" stroke-width="4"/>
+<text class="axis" x="892.5" y="345" text-anchor="middle">Added screening allowance (kg CO₂e/MWh)</text>
+<text class="note" x="660" y="370">Blue: CP lower than 1P · Green: 1P lower than CP · two-phase remains first in 51/51.</text>
+<text class="axis" x="160" y="479" text-anchor="end">Air-cooled</text>
+<rect x="185" y="455" width="95" height="38" rx="4" fill="#D55E00" opacity="0.120"/>
+<text class="label" x="232.5" y="480" text-anchor="middle">0.0%</text>
+<rect x="305" y="455" width="95" height="38" rx="4" fill="#D55E00" opacity="0.120"/>
+<text class="label" x="352.5" y="480" text-anchor="middle">0.0%</text>
+<rect x="425" y="455" width="95" height="38" rx="4" fill="#D55E00" opacity="0.123"/>
+<text class="label" x="472.5" y="480" text-anchor="middle">0.3%</text>
+<text class="axis" x="160" y="534" text-anchor="end">Cold plate</text>
+<rect x="185" y="510" width="95" height="38" rx="4" fill="#D55E00" opacity="0.121"/>
+<text class="label" x="232.5" y="535" text-anchor="middle">0.1%</text>
+<rect x="305" y="510" width="95" height="38" rx="4" fill="#D55E00" opacity="0.200"/>
+<text class="label" x="352.5" y="535" text-anchor="middle">9.0%</text>
+<rect x="425" y="510" width="95" height="38" rx="4" fill="#D55E00" opacity="0.286"/>
+<text class="label" x="472.5" y="535" text-anchor="middle">18.9%</text>
+<text class="axis" x="160" y="589" text-anchor="end">One-phase</text>
+<rect x="185" y="565" width="95" height="38" rx="4" fill="#D55E00" opacity="0.125"/>
+<text class="label" x="232.5" y="590" text-anchor="middle">0.6%</text>
+<rect x="305" y="565" width="95" height="38" rx="4" fill="#D55E00" opacity="0.252"/>
+<text class="label" x="352.5" y="590" text-anchor="middle">15.0%</text>
+<rect x="425" y="565" width="95" height="38" rx="4" fill="#D55E00" opacity="0.337"/>
+<text class="label" x="472.5" y="590" text-anchor="middle">24.6%</text>
+<text class="axis" x="160" y="644" text-anchor="end">Two-phase</text>
+<rect x="185" y="620" width="95" height="38" rx="4" fill="#D55E00" opacity="0.994"/>
+<text class="label" x="232.5" y="645" text-anchor="middle">99.3%</text>
+<rect x="305" y="620" width="95" height="38" rx="4" fill="#D55E00" opacity="0.789"/>
+<text class="label" x="352.5" y="645" text-anchor="middle">76.0%</text>
+<rect x="425" y="620" width="95" height="38" rx="4" fill="#D55E00" opacity="0.614"/>
+<text class="label" x="472.5" y="645" text-anchor="middle">56.2%</text>
+<text class="note" x="232.5" y="690" text-anchor="middle">narrow</text>
+<text class="note" x="352.5" y="690" text-anchor="middle">screening</text>
+<text class="note" x="472.5" y="690" text-anchor="middle">wide</text>
+<text class="note" x="65" y="720">Frequencies describe seeded triangular stress designs, not confidence.</text>
+<line x1="680" y1="500" x2="1100" y2="500" stroke="#CBD5E1" stroke-width="10"/>
+<circle cx="1044.0" cy="500" r="9" fill="#0072B2"/>
+<circle cx="1062.5" cy="500" r="11" fill="#D55E00"/>
+<circle cx="1100.0" cy="500" r="9" fill="#0072B2"/>
+<text class="note" x="680" y="534">min 5.2%</text>
+<text class="label" x="1062.5" y="478" text-anchor="middle">median 5.5%</text>
+<text class="note" x="1100" y="534" text-anchor="end">max 6.0%</text>
+<text class="axis" x="890" y="600" text-anchor="middle">Adverse correction to two-phase impact</text>
+<text class="axis" x="890" y="622" text-anchor="middle">per equivalent useful computation</text>
+<text class="note" x="625" y="666">A correction this small can erase first rank; measured</text>
+<text class="note" x="625" y="684">throughput, server count and lifetime are therefore decision data.</text>
+</svg>

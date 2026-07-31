@@ -15,6 +15,7 @@ import importlib.util
 import json
 import math
 from pathlib import Path
+import random
 import statistics
 import sys
 
@@ -51,23 +52,61 @@ FILES = {
     2020: ("egrid2020_data.xlsx", "ST20"),
     2021: ("egrid2021_data.xlsx", "ST21"),
     2022: ("egrid2022_data.xlsx", "ST22"),
+    2023: ("egrid2023_data_rev2.xlsx", "ST23"),
 }
+GWP_BASIS = {
+    2012: ("IPCC SAR GWP100", 21.0, 310.0),
+    2014: ("IPCC SAR GWP100", 21.0, 310.0),
+    2016: ("IPCC SAR GWP100", 21.0, 310.0),
+    2018: ("IPCC AR4 GWP100", 25.0, 298.0),
+    2019: ("IPCC AR4 GWP100", 25.0, 298.0),
+    2020: ("IPCC AR4 GWP100", 25.0, 298.0),
+    2021: ("IPCC AR4 GWP100", 25.0, 298.0),
+    2022: ("IPCC AR4 GWP100", 25.0, 298.0),
+    2023: ("IPCC AR5 GWP100", 28.0, 265.0),
+}
+AR5_GWP100_CH4 = 28.0
+AR5_GWP100_N2O = 265.0
+JOINT_STRESS_SEED = 20250730
+
+
+def egrid_source(year: int) -> Path:
+    if year == 2023:
+        return (
+            ROOT
+            / "private-data"
+            / "incoming"
+            / "egrid2023"
+            / FILES[year][0]
+        )
+    return HISTORICAL / FILES[year][0]
+
+
+def _harmonized_rate(
+    *,
+    generation_mwh: float,
+    co2_short_tons: float,
+    ch4_lb: float,
+    n2o_lb: float,
+) -> tuple[float, float]:
+    """Return AR5-GWP100 CO2e and CO2-only rates in kg/MWh."""
+    co2_lb = 2000.0 * co2_short_tons
+    co2e_lb = (
+        co2_lb
+        + AR5_GWP100_CH4 * ch4_lb
+        + AR5_GWP100_N2O * n2o_lb
+    )
+    return (
+        co2e_lb / generation_mwh * LB_TO_KG,
+        co2_lb / generation_mwh * LB_TO_KG,
+    )
 
 
 def official_national_egrid() -> list[dict[str, object]]:
-    """Read provider-published U.S. aggregate factors from each eGRID release."""
+    """Read and harmonize provider-published U.S. aggregate eGRID data."""
     output = []
-    for year in sorted((*FILES, 2023)):
-        if year == 2023:
-            path = (
-                ROOT
-                / "private-data"
-                / "incoming"
-                / "egrid2023"
-                / "egrid2023_data_metric_rev2.xlsx"
-            )
-        else:
-            path = HISTORICAL / FILES[year][0]
+    for year in sorted(FILES):
+        path = egrid_source(year)
         sheet = f"US{str(year)[-2:]}"
         rows = read_xlsx_rows(path, sheet)
         code_row = next(
@@ -77,18 +116,30 @@ def official_national_egrid() -> list[dict[str, object]]:
             str(value): index for index, value in enumerate(rows[code_row]) if value
         }
         values = rows[code_row + 1]
-        factor = float(values[codes["USC2ERTA"]])
-        if year < 2023:
-            factor *= LB_TO_KG
+        generation = float(values[codes["USNGENAN"]])
+        reported = float(values[codes["USC2ERTA"]]) * LB_TO_KG
+        harmonized, co2_only = _harmonized_rate(
+            generation_mwh=generation,
+            co2_short_tons=float(values[codes["USCO2AN"]]),
+            ch4_lb=float(values[codes["USCH4AN"]]),
+            n2o_lb=float(values[codes["USN2OAN"]]),
+        )
         output.append(
             {
                 "year": year,
-                "official_us_net_generation_mwh": float(
-                    values[codes["USNGENAN"]]
+                "official_us_net_generation_mwh": generation,
+                "reported_us_co2e_kg_per_mwh": reported,
+                "harmonized_ar5_us_co2e_kg_per_mwh": harmonized,
+                "co2_only_us_kg_per_mwh": co2_only,
+                "provider_gwp_basis": GWP_BASIS[year][0],
+                "harmonized_gwp_basis": (
+                    "IPCC AR5 GWP100; CH4=28 and N2O=265"
                 ),
-                "official_us_co2e_kg_per_mwh": factor,
                 "official_source_file": path.name,
-                "official_source_sheet_field": f"{sheet}!USC2ERTA",
+                "official_source_sheet_field": (
+                    f"{sheet}!USCO2AN, USCH4AN, USN2OAN, USNGENAN; "
+                    "reported comparison from USC2ERTA"
+                ),
             }
         )
     return output
@@ -113,23 +164,43 @@ def egrid_year(path: Path, sheet: str, expected_year: int) -> list[dict[str, obj
     code_row = next(
         index
         for index, row in enumerate(rows[:10])
-        if "PSTATABB" in row and "STNGENAN" in row and "STC2ERTA" in row
+        if "PSTATABB" in row
+        and "STNGENAN" in row
+        and "STC2ERTA" in row
     )
     codes = {
         str(value): index for index, value in enumerate(rows[code_row]) if value
     }
-    required = {"PSTATABB", "STNGENAN", "STC2ERTA"}
+    required = {
+        "PSTATABB",
+        "STNGENAN",
+        "STCO2AN",
+        "STCH4AN",
+        "STN2OAN",
+        "STC2ERTA",
+    }
     if not required.issubset(codes):
         raise ValueError(f"Missing eGRID fields in {path.name}: {required-codes.keys()}")
     output = []
     for row in rows[code_row + 1 :]:
         try:
-            factor = float(row[codes["STC2ERTA"]]) * LB_TO_KG
             generation = float(row[codes["STNGENAN"]])
+            reported = float(row[codes["STC2ERTA"]]) * LB_TO_KG
+            harmonized, co2_only = _harmonized_rate(
+                generation_mwh=generation,
+                co2_short_tons=float(row[codes["STCO2AN"]]),
+                ch4_lb=float(row[codes["STCH4AN"]]),
+                n2o_lb=float(row[codes["STN2OAN"]]),
+            )
         except (TypeError, ValueError, IndexError):
             continue
         state = str(row[codes["PSTATABB"]])
-        if state in {"US", "PR"} or generation <= 0 or factor < 0:
+        if (
+            state in {"US", "PR"}
+            or generation <= 0
+            or reported < 0
+            or harmonized < 0
+        ):
             continue
         output.append(
             {
@@ -140,9 +211,18 @@ def egrid_year(path: Path, sheet: str, expected_year: int) -> list[dict[str, obj
                 ),
                 "state_abbreviation": state,
                 "net_generation_mwh": generation,
-                "co2e_kg_per_mwh": factor,
+                "co2e_kg_per_mwh": harmonized,
+                "reported_co2e_kg_per_mwh": reported,
+                "co2_kg_per_mwh": co2_only,
+                "provider_gwp_basis": GWP_BASIS[expected_year][0],
+                "harmonized_gwp_basis": (
+                    "IPCC AR5 GWP100; CH4=28 and N2O=265"
+                ),
                 "source_file": path.name,
-                "source_field": f"{sheet}!STC2ERTA converted from lb/MWh",
+                "source_field": (
+                    f"{sheet}!STCO2AN, STCH4AN, STN2OAN, STNGENAN; "
+                    "reported comparison from STC2ERTA"
+                ),
             }
         )
     return output
@@ -151,19 +231,7 @@ def egrid_year(path: Path, sheet: str, expected_year: int) -> list[dict[str, obj
 def historical_egrid() -> list[dict[str, object]]:
     output: list[dict[str, object]] = []
     for year, (filename, sheet) in FILES.items():
-        output.extend(egrid_year(HISTORICAL / filename, sheet, year))
-    current, _ = integrated.egrid_states()
-    output.extend(
-        {
-            "year": row["year"],
-            "state_abbreviation": row["state_abbreviation"],
-            "net_generation_mwh": row["net_generation_mwh"],
-            "co2e_kg_per_mwh": row["co2e_kg_per_mwh"],
-            "source_file": "egrid2023_data_metric_rev2.xlsx",
-            "source_field": row["source_field"],
-        }
-        for row in current
-    )
+        output.extend(egrid_year(egrid_source(year), sheet, year))
     return sorted(
         output,
         key=lambda row: (int(row["year"]), str(row["state_abbreviation"])),
@@ -185,7 +253,10 @@ def generation_weighted_factors(
             for row in group
         ) / generation
         provider = official[year]
-        official_factor = float(provider["official_us_co2e_kg_per_mwh"])
+        official_factor = float(
+            provider["harmonized_ar5_us_co2e_kg_per_mwh"]
+        )
+        reported_factor = float(provider["reported_us_co2e_kg_per_mwh"])
         official_generation = float(provider["official_us_net_generation_mwh"])
         output.append(
             {
@@ -193,6 +264,15 @@ def generation_weighted_factors(
                 "states_included": len(group),
                 "net_generation_mwh": generation,
                 "generation_weighted_co2e_kg_per_mwh": official_factor,
+                "reported_generation_weighted_co2e_kg_per_mwh": reported_factor,
+                "reported_minus_harmonized_kgco2e_per_mwh": (
+                    reported_factor - official_factor
+                ),
+                "co2_only_generation_weighted_kg_per_mwh": provider[
+                    "co2_only_us_kg_per_mwh"
+                ],
+                "provider_gwp_basis": provider["provider_gwp_basis"],
+                "harmonized_gwp_basis": provider["harmonized_gwp_basis"],
                 "reconstructed_state_weighted_co2e_kg_per_mwh": (
                     reconstructed_factor
                 ),
@@ -481,6 +561,321 @@ def server_stress_test(
     return output
 
 
+def anchor_extrapolation_diagnostics(
+    rows: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    """Count interpolation and extrapolation relative to released anchors."""
+    output = []
+    cohorts = {
+        "all state-years": rows,
+        "2023 states/DC": [row for row in rows if int(row["year"]) == 2023],
+    }
+    for cohort, group in cohorts.items():
+        below = sum(
+            float(row["co2e_kg_per_mwh"])
+            < MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+            for row in group
+        )
+        above = sum(
+            float(row["co2e_kg_per_mwh"])
+            > MICROSOFT_GRID_GHG_KG_PER_MWH
+            for row in group
+        )
+        within = len(group) - below - above
+        output.append(
+            {
+                "cohort": cohort,
+                "n": len(group),
+                "within_released_anchors": within,
+                "below_renewable_anchor": below,
+                "above_grid_anchor": above,
+                "extrapolated_total": below + above,
+                "extrapolated_pct": 100 * (below + above) / len(group),
+                "renewable_anchor_kgco2e_per_mwh": (
+                    MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+                ),
+                "grid_anchor_kgco2e_per_mwh": MICROSOFT_GRID_GHG_KG_PER_MWH,
+                "interpretation": (
+                    "Counts positions of harmonized eGRID screening rates "
+                    "relative to the released GaBi electricity endpoints; "
+                    "the rates do not share a complete system boundary."
+                ),
+            }
+        )
+    return output
+
+
+def boundary_adder_stress(
+    states_2023: list[dict[str, object]],
+    components: dict[str, dict[str, dict[str, float]]],
+    reference_factor: float,
+) -> list[dict[str, object]]:
+    """Stress an unrepresented lifecycle electricity-boundary allowance.
+
+    The additive terms are deliberately not estimates. They show whether the
+    qualitative ranking depends on treating direct eGRID output rates as if
+    they had the same upstream boundary as the released GaBi anchors.
+    """
+    output = []
+    for adder in (0.0, 25.0, 50.0, 75.0, 100.0):
+        winners = {technology: 0 for technology in TECHNOLOGIES}
+        cp_below_one = 0
+        margins = []
+        for state in states_2023:
+            factor = float(state["co2e_kg_per_mwh"]) + adder
+            totals = {
+                technology: total_at_factor(
+                    components, technology, factor, reference_factor
+                )[0]
+                for technology in TECHNOLOGIES
+            }
+            order = sorted(totals, key=totals.get)
+            winners[order[0]] += 1
+            cp_below_one += totals["Cold plate"] < totals["One-phase"]
+            margins.append(100 * (totals[order[1]] / totals[order[0]] - 1))
+        output.append(
+            {
+                "boundary_adder_kgco2e_per_mwh": adder,
+                "states_dc_tested": len(states_2023),
+                "cold_plate_below_one_phase_count": cp_below_one,
+                "one_phase_below_cold_plate_count": (
+                    len(states_2023) - cp_below_one
+                ),
+                "two_phase_first_rank_count": winners["Two-phase"],
+                "air_first_rank_count": winners["Air-cooled"],
+                "cold_plate_first_rank_count": winners["Cold plate"],
+                "one_phase_first_rank_count": winners["One-phase"],
+                "median_first_to_second_margin_pct": statistics.median(margins),
+                "interpretation": (
+                    "Boundary-mismatch stress only; additive allowance is not "
+                    "an upstream inventory estimate or uncertainty distribution."
+                ),
+            }
+        )
+    return output
+
+
+def functional_unit_sensitivity(
+    rows: list[dict[str, object]],
+    components: dict[str, dict[str, dict[str, float]]],
+    reference_factor: float,
+) -> list[dict[str, object]]:
+    """Quantify the useful-computation correction that erases first rank."""
+    output = []
+    cohorts = {
+        "all state-years": rows,
+        "2023 states/DC": [row for row in rows if int(row["year"]) == 2023],
+    }
+    for cohort, group in cohorts.items():
+        penalties = []
+        for row in group:
+            factor = float(row["co2e_kg_per_mwh"])
+            totals = {
+                technology: total_at_factor(
+                    components, technology, factor, reference_factor
+                )[0]
+                for technology in TECHNOLOGIES
+            }
+            two_phase = totals["Two-phase"]
+            runner_up = min(
+                value
+                for technology, value in totals.items()
+                if technology != "Two-phase"
+            )
+            penalties.append(100 * (runner_up / two_phase - 1))
+        output.append(
+            {
+                "cohort": cohort,
+                "n": len(penalties),
+                "minimum_adverse_two_phase_service_correction_pct": min(penalties),
+                "p25_adverse_two_phase_service_correction_pct": integrated.percentile(
+                    penalties, 0.25
+                ),
+                "median_adverse_two_phase_service_correction_pct": (
+                    statistics.median(penalties)
+                ),
+                "p75_adverse_two_phase_service_correction_pct": integrated.percentile(
+                    penalties, 0.75
+                ),
+                "maximum_adverse_two_phase_service_correction_pct": max(penalties),
+                "interpretation": (
+                    "Multiplicative increase in two-phase impact per equivalent "
+                    "useful computation required to equal the runner-up; not a "
+                    "measured performance penalty."
+                ),
+            }
+        )
+    return output
+
+
+def joint_assumption_stress(
+    states_2023: list[dict[str, object]],
+    national_factors: list[dict[str, object]],
+    components: dict[str, dict[str, dict[str, float]]],
+    reference_factor: float,
+    *,
+    iterations: int = 20000,
+) -> list[dict[str, object]]:
+    """Run seeded joint assumption-stress ensembles.
+
+    The triangular draws are deliberately declared envelopes, not fitted
+    parameter distributions. Frequencies therefore measure sensitivity to a
+    specified perturbation design and must not be read as confidence levels.
+    """
+    national_2023 = next(
+        float(row["generation_weighted_co2e_kg_per_mwh"])
+        for row in national_factors
+        if int(row["year"]) == 2023
+    )
+    low_state = min(
+        states_2023, key=lambda row: float(row["co2e_kg_per_mwh"])
+    )
+    contexts = {
+        "2023 U.S. generation": national_2023,
+        f"2023 low-carbon state ({low_state['state_abbreviation']})": float(
+            low_state["co2e_kg_per_mwh"]
+        ),
+    }
+    envelopes = {
+        "narrow": {
+            "grid": 0.02,
+            "use": 0.02,
+            "embodied": 0.20,
+            "service": 0.02,
+        },
+        "screening": {
+            "grid": 0.05,
+            "use": 0.05,
+            "embodied": 0.50,
+            "service": 0.05,
+        },
+        "wide": {
+            "grid": 0.10,
+            "use": 0.10,
+            "embodied": 1.00,
+            "service": 0.10,
+        },
+    }
+    rng = random.Random(JOINT_STRESS_SEED)
+    output = []
+    for context, base_factor in contexts.items():
+        for envelope, widths in envelopes.items():
+            first = {technology: 0 for technology in TECHNOLOGIES}
+            cp_below_one = 0
+            margins = []
+            for _ in range(iterations):
+                grid_multiplier = rng.triangular(
+                    1 - widths["grid"], 1 + widths["grid"], 1
+                )
+                factor = max(0.0, base_factor * grid_multiplier)
+                totals = {}
+                for technology in TECHNOLOGIES:
+                    base_total, base_use, base_embodied = total_at_factor(
+                        components, technology, factor, reference_factor
+                    )
+                    del base_total
+                    use_multiplier = rng.triangular(
+                        1 - widths["use"], 1 + widths["use"], 1
+                    )
+                    embodied_multiplier = rng.triangular(
+                        max(0.0, 1 - widths["embodied"]),
+                        1 + widths["embodied"],
+                        1,
+                    )
+                    service_multiplier = rng.triangular(
+                        1 - widths["service"], 1 + widths["service"], 1
+                    )
+                    totals[technology] = (
+                        base_use * use_multiplier
+                        + base_embodied * embodied_multiplier
+                    ) * service_multiplier
+                order = sorted(totals, key=totals.get)
+                first[order[0]] += 1
+                cp_below_one += totals["Cold plate"] < totals["One-phase"]
+                margins.append(100 * (totals[order[1]] / totals[order[0]] - 1))
+            for technology in TECHNOLOGIES:
+                output.append(
+                    {
+                        "context": context,
+                        "base_factor_kgco2e_per_mwh": base_factor,
+                        "stress_envelope": envelope,
+                        "iterations": iterations,
+                        "grid_half_width_pct": 100 * widths["grid"],
+                        "use_phase_half_width_pct": 100 * widths["use"],
+                        "embodied_half_width_pct": 100 * widths["embodied"],
+                        "service_equivalence_half_width_pct": (
+                            100 * widths["service"]
+                        ),
+                        "technology": technology,
+                        "first_rank_frequency_pct": 100
+                        * first[technology]
+                        / iterations,
+                        "cold_plate_below_one_phase_frequency_pct": (
+                            100 * cp_below_one / iterations
+                        ),
+                        "median_first_to_second_margin_pct": statistics.median(
+                            margins
+                        ),
+                        "seed": JOINT_STRESS_SEED,
+                        "interpretation": (
+                            "Seeded triangular assumption-stress frequency; "
+                            "not a probability, confidence interval or fitted "
+                            "parameter uncertainty."
+                        ),
+                    }
+                )
+    return output
+
+
+def priority_index_sensitivity(
+    priority: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    """Test whether data-priority ranks survive alternative index weights."""
+    rank_lists = {str(row["component"]): [] for row in priority}
+    for share_exponent in (0.5, 1.0, 2.0):
+        for weakness_exponent in (0.5, 1.0, 2.0):
+            scored = []
+            for row in priority:
+                share = float(row["mean_grid_ghg_contribution_pct"]) / 100
+                weakness = float(row["normalized_data_weakness"])
+                scored.append(
+                    (
+                        share**share_exponent
+                        * weakness**weakness_exponent,
+                        str(row["component"]),
+                    )
+                )
+            for rank, (_, component) in enumerate(
+                sorted(scored, reverse=True), start=1
+            ):
+                rank_lists[component].append(rank)
+    output = []
+    for component, ranks in rank_lists.items():
+        output.append(
+            {
+                "component": component,
+                "weighting_specifications": len(ranks),
+                "ranked_first_count": sum(rank == 1 for rank in ranks),
+                "top_three_count": sum(rank <= 3 for rank in ranks),
+                "minimum_rank": min(ranks),
+                "median_rank": statistics.median(ranks),
+                "maximum_rank": max(ranks),
+                "interpretation": (
+                    "Ranks across P = contribution^a × weakness^b for "
+                    "a,b in {0.5,1,2}; diagnostic robustness, not value of information."
+                ),
+            }
+        )
+    return sorted(
+        output,
+        key=lambda row: (
+            -int(row["ranked_first_count"]),
+            float(row["median_rank"]),
+            int(row["minimum_rank"]),
+        ),
+    )
+
+
 def svg_header(title: str, width: int = 1100, height: int = 620) -> list[str]:
     return [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
@@ -587,12 +982,143 @@ def figure_performance_robustness(summary: list[dict[str, object]]) -> None:
     write_svg(FIGURES / "figure7_performance_robustness.svg", body)
 
 
+def figure_scope_and_uncertainty(
+    extrapolation: list[dict[str, object]],
+    boundary: list[dict[str, object]],
+    joint: list[dict[str, object]],
+    functional_unit: list[dict[str, object]],
+) -> None:
+    """Create a compact four-panel robustness diagnostic."""
+    body = svg_header(
+        "Three diagnostics separate a conditional result from a robust claim",
+        width=1200,
+        height=760,
+    )
+    body += [
+        '<text class="label" x="65" y="76" style="font-weight:700">A  Anchor coverage</text>',
+        '<text class="label" x="625" y="76" style="font-weight:700">B  Boundary-mismatch stress</text>',
+        '<text class="label" x="65" y="405" style="font-weight:700">C  Joint assumption-stress ensemble</text>',
+        '<text class="label" x="625" y="405" style="font-weight:700">D  Functional-unit sensitivity</text>',
+    ]
+
+    # Panel A: interpolation versus extrapolation.
+    for index, row in enumerate(extrapolation):
+        y = 115 + index * 100
+        n = int(row["n"])
+        within = int(row["within_released_anchors"])
+        below = int(row["below_renewable_anchor"])
+        above = int(row["above_grid_anchor"])
+        scale = 470 / n
+        body += [
+            f'<text class="axis" x="65" y="{y-10}">{row["cohort"]} (n={n})</text>',
+            f'<rect x="65" y="{y}" width="{within*scale:.1f}" height="32" fill="#009E73"/>',
+            f'<rect x="{65+within*scale:.1f}" y="{y}" width="{below*scale:.1f}" height="32" fill="#0072B2"/>',
+            f'<rect x="{65+(within+below)*scale:.1f}" y="{y}" width="{above*scale:.1f}" height="32" fill="#D55E00"/>',
+            f'<text class="note" x="65" y="{y+54}">{within} interpolated · {below} below · {above} above</text>',
+        ]
+    body += [
+        '<rect x="65" y="305" width="16" height="12" fill="#009E73"/><text class="note" x="88" y="315">within anchors</text>',
+        '<rect x="190" y="305" width="16" height="12" fill="#0072B2"/><text class="note" x="213" y="315">below</text>',
+        '<rect x="270" y="305" width="16" height="12" fill="#D55E00"/><text class="note" x="293" y="315">above</text>',
+    ]
+
+    # Panel B: CP/1P count under a transparent boundary allowance.
+    bx, by, bw, bh = 660, 105, 465, 205
+    for tick in (0, 10, 20, 30, 40, 50):
+        y = by + bh - tick / 51 * bh
+        body += [
+            f'<line x1="{bx}" y1="{y:.1f}" x2="{bx+bw}" y2="{y:.1f}" stroke="#E5E7EB"/>',
+            f'<text class="note" x="{bx-10}" y="{y+4:.1f}" text-anchor="end">{tick}</text>',
+        ]
+    cp_points = []
+    one_points = []
+    for row in boundary:
+        x = bx + float(row["boundary_adder_kgco2e_per_mwh"]) / 100 * bw
+        cp_y = by + bh - int(row["cold_plate_below_one_phase_count"]) / 51 * bh
+        one_y = by + bh - int(row["one_phase_below_cold_plate_count"]) / 51 * bh
+        cp_points.append(f"{x:.1f},{cp_y:.1f}")
+        one_points.append(f"{x:.1f},{one_y:.1f}")
+    body += [
+        f'<polyline points="{" ".join(cp_points)}" fill="none" stroke="#0072B2" stroke-width="4"/>',
+        f'<polyline points="{" ".join(one_points)}" fill="none" stroke="#009E73" stroke-width="4"/>',
+        f'<text class="axis" x="{bx+bw/2:.1f}" y="345" text-anchor="middle">Added screening allowance (kg CO₂e/MWh)</text>',
+        '<text class="note" x="660" y="370">Blue: CP lower than 1P · Green: 1P lower than CP · two-phase remains first in 51/51.</text>',
+    ]
+
+    # Panel C: U.S. 2023 first-rank frequencies by declared envelope.
+    us_rows = [
+        row
+        for row in joint
+        if str(row["context"]) == "2023 U.S. generation"
+    ]
+    envelopes = ("narrow", "screening", "wide")
+    technologies = ("Air-cooled", "Cold plate", "One-phase", "Two-phase")
+    for row_index, technology in enumerate(technologies):
+        y = 455 + row_index * 55
+        body.append(
+            f'<text class="axis" x="160" y="{y+24}" text-anchor="end">{technology}</text>'
+        )
+        for column, envelope in enumerate(envelopes):
+            value = next(
+                float(row["first_rank_frequency_pct"])
+                for row in us_rows
+                if row["stress_envelope"] == envelope
+                and row["technology"] == technology
+            )
+            x = 185 + column * 120
+            opacity = 0.12 + 0.88 * value / 100
+            body += [
+                f'<rect x="{x}" y="{y}" width="95" height="38" rx="4" fill="#D55E00" opacity="{opacity:.3f}"/>',
+                f'<text class="label" x="{x+47.5}" y="{y+25}" text-anchor="middle">{value:.1f}%</text>',
+            ]
+    for column, envelope in enumerate(envelopes):
+        body.append(
+            f'<text class="note" x="{232.5+column*120}" y="690" text-anchor="middle">{envelope}</text>'
+        )
+    body.append(
+        '<text class="note" x="65" y="720">Frequencies describe seeded triangular stress designs, not confidence.</text>'
+    )
+
+    # Panel D: scalar useful-computation correction thresholds.
+    fu_2023 = next(
+        row for row in functional_unit if row["cohort"] == "2023 states/DC"
+    )
+    median = float(
+        fu_2023["median_adverse_two_phase_service_correction_pct"]
+    )
+    minimum = float(
+        fu_2023["minimum_adverse_two_phase_service_correction_pct"]
+    )
+    maximum = float(
+        fu_2023["maximum_adverse_two_phase_service_correction_pct"]
+    )
+    fx, fy, fw = 680, 500, 420
+    body += [
+        f'<line x1="{fx}" y1="{fy}" x2="{fx+fw}" y2="{fy}" stroke="#CBD5E1" stroke-width="10"/>',
+        f'<circle cx="{fx+minimum/maximum*fw:.1f}" cy="{fy}" r="9" fill="#0072B2"/>',
+        f'<circle cx="{fx+median/maximum*fw:.1f}" cy="{fy}" r="11" fill="#D55E00"/>',
+        f'<circle cx="{fx+fw:.1f}" cy="{fy}" r="9" fill="#0072B2"/>',
+        f'<text class="note" x="{fx}" y="{fy+34}">min {minimum:.1f}%</text>',
+        f'<text class="label" x="{fx+median/maximum*fw:.1f}" y="{fy-22}" text-anchor="middle">median {median:.1f}%</text>',
+        f'<text class="note" x="{fx+fw}" y="{fy+34}" text-anchor="end">max {maximum:.1f}%</text>',
+        '<text class="axis" x="890" y="600" text-anchor="middle">Adverse correction to two-phase impact</text>',
+        '<text class="axis" x="890" y="622" text-anchor="middle">per equivalent useful computation</text>',
+        '<text class="note" x="625" y="666">A correction this small can erase first rank; measured</text>',
+        '<text class="note" x="625" y="684">throughput, server count and lifetime are therefore decision data.</text>',
+    ]
+    write_svg(FIGURES / "figure8_scope_uncertainty.svg", body)
+
+
 def main() -> None:
     for path in (TABLES, FIGURES, RESULTS):
         path.mkdir(parents=True, exist_ok=True)
     components = integrated.microsoft_ghg_components()
-    current_states, reference_factor = integrated.egrid_states()
     historical = historical_egrid()
+    current_states = [row for row in historical if int(row["year"]) == 2023]
+    reference_factor = sum(
+        float(row["co2e_kg_per_mwh"]) * float(row["net_generation_mwh"])
+        for row in current_states
+    ) / sum(float(row["net_generation_mwh"]) for row in current_states)
     factors = generation_weighted_factors(historical)
     detailed, summary = historical_technology_results(
         historical, components, reference_factor
@@ -611,6 +1137,19 @@ def main() -> None:
         )
     )
     comparison = method_comparison(components, crossover)
+    extrapolation = anchor_extrapolation_diagnostics(historical)
+    boundary = boundary_adder_stress(
+        current_states, components, reference_factor
+    )
+    functional_unit = functional_unit_sensitivity(
+        historical, components, reference_factor
+    )
+    joint = joint_assumption_stress(
+        current_states, factors, components, reference_factor
+    )
+    pedigree = integrated.pedigree_scores()
+    priority = integrated.data_priority(pedigree, components)
+    priority_sensitivity = priority_index_sensitivity(priority)
     outputs = {
         "table14_egrid_historical_state_factors.csv": historical,
         "table15_egrid_historical_national_factors.csv": factors,
@@ -619,12 +1158,20 @@ def main() -> None:
         "table18_national_decarbonization_results.csv": national,
         "table19_server_inventory_stress_test.csv": stress,
         "table20_method_comparison.csv": comparison,
+        "table21_anchor_extrapolation_diagnostic.csv": extrapolation,
+        "table22_boundary_mismatch_stress.csv": boundary,
+        "table23_joint_assumption_stress.csv": joint,
+        "table24_functional_unit_sensitivity.csv": functional_unit,
+        "table25_priority_index_sensitivity.csv": priority_sensitivity,
     }
     for name, rows in outputs.items():
         write_csv(TABLES / name, rows)
         write_csv(RESULTS / name, rows)
     figure_historical(historical, factors, crossover)
     figure_performance_robustness(summary)
+    figure_scope_and_uncertainty(
+        extrapolation, boundary, joint, functional_unit
+    )
     metadata = {
         "egrid_years": [row["year"] for row in factors],
         "state_year_observations": len(historical),
@@ -642,9 +1189,19 @@ def main() -> None:
         ),
         "cold_plate_one_phase_crossover_kgco2e_per_mwh": crossover,
         "evidence_status": {
-            "historical_transition": "EPA eGRID observations plus affine released-model re-basing",
+            "historical_transition": (
+                "AR5-harmonized direct eGRID generation rates used as a "
+                "numerical intensity index for the released foreground"
+            ),
             "performance_robustness": "deterministic break-even stress test",
             "server_inventory": "empirical multiplicative stress test; not probabilistic uncertainty",
+            "joint_assumption_stress": (
+                "seeded triangular perturbation envelopes; frequencies are "
+                "not probabilities or confidence levels"
+            ),
+            "boundary_mismatch": (
+                "transparent additive stress; not an upstream inventory estimate"
+            ),
         },
     }
     (RESULTS / "analysis-metadata.json").write_text(

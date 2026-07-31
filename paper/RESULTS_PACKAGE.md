@@ -1,128 +1,124 @@
-# Consolidated v0.4-v0.5 results package
+# Consolidated scientific results package
 
-## Applied Energy extension: grid transition and ranking robustness
+## Central result
 
-The expanded analysis uses EPA eGRID releases for 2012, 2014, 2016, and
-2018–2023. The resulting panel contains 459 controlled state-year scenarios.
-The provider-published U.S. total-output factor declined from 518.0 to 349.7 kg
-CO2e/MWh between 2012 and 2023. Holding the released Microsoft/WSP foreground
-model fixed, the modeled two-phase-versus-air benefit declined from 7.49 to
-5.28 kg CO2e per Vcore-year as the grid cleaned.
+The paper no longer treats deterministic rank across grid factors as proof of
+technology robustness. It separates four questions:
 
-The state-weighted reconstruction matches the provider U.S. aggregate through
-2018. Its 0.32-0.43% lower values from 2019 onward are explained by the
-50-state-plus-DC panel covering 99.55-99.58% of provider U.S. generation after
-Puerto Rico is excluded. National results therefore use the provider
-`USyy!USC2ERTA` aggregate.
+1. Can the released totals be reconstructed?
+2. Is the historical electricity trend comparable?
+3. Does the transformation remain inside the released evidence?
+4. Does the rank survive joint foreground and functional-unit stress?
 
-Two-phase immersion remained the lowest modeled GHG architecture in all 459
-electricity-factor scenarios and when server-related contributions were scaled from 0.38
-to 2.06 times the Boavizta median scenario. The closer cold-plate/one-phase
-comparison was sensitive: across 2023 state factors, a median 1.38% reduction
-in the cold-plate use-phase term would reverse the ordering. Two-phase could
-tolerate a median 6.46% use-phase increase before losing first rank.
+## Results suitable for the main paper
 
-These results are screening re-bases between released endpoints. They identify
-the measurement resolution required to test rankings; they do not replace
-architecture-specific field performance or a state-specific process LCA.
+### Released arithmetic
 
-![Historical grid transition](figures/figure6_historical_grid_transition.svg)
+- 24 of 24 normalized Microsoft/WSP totals reconcile at workbook precision.
+- The result validates reuse of the public contribution table, not licensed
+  background inventories, bills of quantities, or field performance.
 
-![Performance-ranking robustness](figures/figure7_performance_robustness.svg)
+### Common-basis eGRID history
 
-## Scope and evidentiary status
+- Harmonized U.S. factor: 517.731 kg CO2e/MWh in 2012 and
+  349.667 kg CO2e/MWh in 2023.
+- Decline: 32.462%.
+- Largest provider-versus-harmonized national difference:
+  0.248 kg CO2e/MWh (2012).
+- Interpretation: the long-run generation decarbonization result is robust to
+  eGRID's SAR/AR4/AR5 GWP changes.
 
-This package contains two deliberately separated contributions:
+### Anchor coverage and electricity-boundary sensitivity
 
-1. **v0.4 arithmetic-consistency audit:** an independent calculation from
-   the released Microsoft/Nature Figure 4 source data.
-2. **v0.5 hourly research preview (hypothesis-generating):** NOAA TMY weather,
-   EPA eGRID 2023, and transparent temperature-PUE curves. The curves are not
-   measurements and cannot support comparative environmental claims.
+- 322/459 state-years lie between the two released GaBi electricity anchors.
+- 1/459 lies below the renewable anchor.
+- 136/459 lie above the grid anchor.
+- Total extrapolation: 137/459, or 29.85%.
+- In 2023, 9/51 rates exceed the grid anchor.
+- Cold plate/single-phase crossover: 96.704 kg CO2e/MWh.
+- Vermont is the only unadjusted 2023 state below the crossover.
+- The Vermont reversal disappears with a 75 kg CO2e/MWh transparent
+  boundary allowance.
+- Two-phase remains deterministic first rank in all 51 states across the
+  0-100 kg CO2e/MWh boundary-allowance cases.
 
-## Reproduction result
+### Joint assumption stress
 
-All 24 Figure 4 totals (three impact metrics, two electricity scenarios, and
-four cooling architectures) were reconciled by summing the seven released
-component contributions. The maximum absolute disagreement was
-**1.42e-14 percentage points**, attributable to floating-point rounding.
+At 2023 U.S. generation:
 
-For the grid scenario, the reproduced GHG reductions relative to air cooling
-are **15.18%** for cold plate,
-**16.41%** for one-phase immersion, and
-**20.66%** for two-phase immersion.
+| Envelope | Two-phase first-rank frequency |
+|---|---:|
+| Narrow | 99.33% |
+| Screening | 75.97% |
+| Wide | 56.16% |
 
-![Reproduced Microsoft reductions](figures/figure1_microsoft_grid_reductions.svg)
+At the lowest-carbon 2023 state:
 
-This audits arithmetic consistency of the public component table. It does
-not independently reproduce proprietary LCA for Experts or ecoinvent
-background processes, confidential manufacturer data, or the Microsoft
-foreground bill of materials.
+| Envelope | Two-phase first-rank frequency |
+|---|---:|
+| Narrow | 63.19% |
+| Screening | 42.55% |
+| Wide | 33.90% |
 
-## Hourly research preview
+These are seeded triangular stress frequencies, not probabilities or
+confidence.
 
-The Fayetteville TMY was evaluated hour by hour using explicit piecewise-linear
-PUE hypotheses. With the EPA eGRID 2023 Arkansas factor of
-**452.881 kg CO2e/MWh**, the assumed curves produce
-operational-only reductions of **3.47%**,
-**4.59%**, and
-**5.09%** relative to the air-cooled curve.
+### Functional-unit sensitivity
 
-![Monthly climate and PUE](figures/figure2_monthly_climate_pue.svg)
+- Median adverse correction to two-phase impact per equivalent useful
+  computation required to erase first rank across 2023 states: 5.503%.
+- Range: 5.236-6.042%.
+- Interpretation: useful throughput, server count, throttling, availability,
+  and lifetime need approximately this order of resolution for the released
+  ranking.
 
-![Operational GHG preview](figures/figure3_hourly_operational_ghg.svg)
+### Decarbonization and absolute benefit
 
-These percentages are **not findings about the technologies**. They quantify
-the implications of stated PUE hypotheses and define the exact laboratory
-measurements needed to replace them.
+- Air-cooled screen: 36.230 to 25.613 kg CO2e/Vcore-year from the 2012 to 2023
+  national generation conditions.
+- Two-phase screen: 28.746 to 20.333 kg CO2e/Vcore-year.
+- Absolute two-phase-versus-air difference: 7.484 to 5.280 kg
+  CO2e/Vcore-year, a 29.45% contraction.
+- Air-cooled embodied share: 9.69% to 13.71%.
 
-## Equations
+## Secondary evidence
 
-For hour h, technology j, and dry-bulb temperature T_h:
+- Boavizta server manufacturing spans 465-2,503 kg CO2e/server; annualized
+  values span 116-626 kg CO2e/server-year.
+- The 0.38-2.06-fold common server-contribution stress does not alter the
+  deterministic two-phase first rank, but it is not an architecture-specific
+  server substitution.
+- Selected ÖKOBAUDAT high-scrap EAF steel has 59.9% lower A1-A3 GHG than the
+  matched BF route; selected CEM III has 49.8% lower GHG than CEM II/A.
+- Neither material lever can be propagated without an architecture bill of
+  quantities.
 
-`PUE[j,h] = PUE_base[j] + a_hot[j] max(T_h-T_hot[j],0)
-                         + a_cold[j] max(T_cold[j]-T_h,0)`
+## Data-priority robustness
 
-`GHG_operational[j] = sum_h(E_IT,h × PUE[j,h] × EF_grid) / sum_h(E_IT,h)`
+Across nine alternative contribution/weakness weighting specifications:
 
-The current preview assumes constant hourly IT energy, an annual location-based
-grid factor, and no humidity, load, water, reliability, or embodied-impact
-coupling.
+- use phase ranks first in 8 and top-three in 8;
+- networking ranks first once and top-three in 6;
+- storage is top-three in all 9;
+- compute is top-three in 4.
 
-## Paper-use guidance
+The index defines a transparent acquisition heuristic. It is not formal value
+of information.
 
-- Figure 1 and Tables 1-2 are reproducibility results.
-- Figures 2-3 and Tables 3-4 are a research protocol demonstration only.
-- Replace the assumed PUE parameters with measured performance maps before
-  submitting comparative conclusions.
-- Retain the source and limitation statements in any derivative manuscript.
+## Evidence that remains illustrative
 
-## Sources
+The Fayetteville TMY and synthetic load-temperature performance surfaces
+verify the hourly calculation and data contract. They do not support
+technology comparisons. The GLAD hydrogen, USLCI, and USGS files verify source
+registration and interoperability only.
 
-- Alissa et al., “Using life cycle assessment to drive innovation for
-  sustainable cool clouds,” *Nature* 641, 331-338 (2025),
-  https://doi.org/10.1038/s41586-025-08832-3
-- Released model archive: https://doi.org/10.5281/zenodo.14268168
-- EPA eGRID detailed data: https://www.epa.gov/egrid/detailed-data
-- NOAA Typical Meteorological Year:
-  https://www.ncei.noaa.gov/access/typical-meteorological-year/
+## Regeneration
 
-## v0.6 measurement-ready extension
+```bash
+python scripts/run_integrated_evidence_analysis.py
+python scripts/run_applied_energy_analysis.py
+pytest -q
+```
 
-Version 0.6 replaces the fixed temperature-PUE function interface with a
-complete measured load-by-temperature surface. It uses bilinear interpolation
-inside the measured grid, rejects extrapolation, aligns weather and workload
-hourly, and reports a screening interval based on declared measurement
-uncertainty.
-
-The included air-cooled and direct-to-chip surfaces are synthetic software
-fixtures. Their numerical difference is not a technology result, and the
-machine-readable output sets `comparative_claim_allowed` to `false`.
-
-![Synthetic hourly surface demonstration](figures/figure4_measurement_surface_demo.svg)
-
-![Synthetic surface contract](figures/figure5_synthetic_performance_surface.svg)
-
-Table 5 records the complete annual integration. The next manuscript-quality
-analysis should use the same interface with calibrated NED³ measurements and
-`reviewed` evidence status.
+The complete machine-readable outputs are in `paper/tables/` and
+`results/applied-energy/`.

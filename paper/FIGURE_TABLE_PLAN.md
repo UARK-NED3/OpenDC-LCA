@@ -1,83 +1,60 @@
-# Core figure and table plan
+# Figure and table plan for Applied Energy
 
-The main-text sequence moves from evidence architecture to a conditional
-technology result, then to the evidence needed to improve that result. Every
-caption retains the distinction among validated, screening and synthetic
-evidence.
+The revised portfolio gives the main paper one argument: what is reproducible,
+what is conditional, and which evidence would resolve the condition. Peripheral
+software demonstrations and proxy-data distributions are moved to
+Supplementary Information.
 
 ## Main-text figures
 
 1. **Evidence-to-decision architecture**
-   (`figure0_opendc_lca_workflow.svg`): provider-native evidence,
-   harmonization, calculation engines, claim gate and decision outputs.
-2. **Microsoft/Nature arithmetic consistency**
-   (`figure1_microsoft_grid_reductions.svg`): 24 released component totals
-   reconcile; licensed backgrounds remain outside the claim.
-3. **Grid-dependent crossover** (`figure2_grid_crossover.svg`): four
-   architectures across 51 EPA eGRID factors; the cold-plate/one-phase ranking
-   reverses within the observed range.
-4. **Contribution-weighted evidence priority**
-   (`figure3_data_priority.svg`): present measurements prioritize operation;
-   server evidence becomes the next tier.
-5. **Public server manufacturing-footprint envelope**
-   (`figure4_server_epd_distribution.svg`): 48 heterogeneous Boavizta records
-   span 5.4-fold.
-6. **Construction procurement levers** (`figure5_material_levers.svg`):
-   matched ÖKOBAUDAT steel and cement A1-A3 factors expose per-kilogram leverage
-   while preserving the need for facility quantities.
-7. **Historical grid transition** (`figure6_historical_grid_transition.svg`):
-   459 EPA eGRID state-year scenarios show the national trajectory and the
-   states entering or leaving the cold-plate/one-phase crossover regime.
-8. **Performance-ranking robustness** (`figure7_performance_robustness.svg`):
-   use-phase break-even changes translate lifecycle rank differences into
-   experimental discrimination requirements.
-
-## Supplementary figures
-
-- Fayetteville TMY and assumed monthly PUE:
-  `figure2_monthly_climate_pue.svg`.
-- Hourly operational-GHG screening:
-  `figure3_hourly_operational_ghg.svg`.
-- Measurement-to-annual-impact software demonstration:
-  `figure4_measurement_surface_demo.svg`.
-- Synthetic load-temperature surface contract:
-  `figure5_synthetic_performance_surface.svg`.
-- Representative lifecycle contribution, uncertainty, sensitivity and
-  reliability outputs under `results/`.
-
-These figures document implemented pathways, but their assumed or synthetic
-performance inputs preclude technology claims.
+   (`figure0_opendc_lca_workflow.svg`). Shows the numerical role of each
+   evidence class, harmonization spine, claim gate, and decision outputs.
+2. **Released-model arithmetic**
+   (`figure1_microsoft_grid_reductions.svg`). Shows the reconstructed
+   Microsoft/WSP reduction results while limiting the claim to released
+   arithmetic.
+3. **Historical electricity transition**
+   (`figure6_historical_grid_transition.svg`). Uses the harmonized AR5-GWP100
+   eGRID series and distinguishes state-generation scenarios from the provider
+   U.S. aggregate.
+4. **Scope and robustness diagnostic**
+   (`figure8_scope_uncertainty.svg`). Combines anchor extrapolation,
+   boundary-mismatch stress, joint assumption-stress frequency, and
+   functional-unit sensitivity.
+5. **Evidence priority**
+   (`figure3_data_priority.svg`). Shows the base contribution/pedigree index;
+   rank sensitivity is reported in a table and the caption states that the
+   metric is heuristic.
 
 ## Main-text tables
 
-1. Conventional-method comparison
-   (`table20_method_comparison.csv`).
-2. Microsoft/Nature arithmetic-consistency audit
-   (`table1_microsoft_reproduction_audit.csv`).
-3. eGRID state re-basing and crossover summary
-   (`table7_state_rank_summary.csv`, `table8_crossover_thresholds.csv`).
-4. Boavizta server footprint summary
-   (`table10_boavizta_server_summary.csv`).
-5. ÖKOBAUDAT material leverage
-   (`table11_material_decarbonization_levers.csv`).
-6. Contribution-weighted pedigree priority
-   (`table13_data_improvement_priority.csv`).
-7. Historical state factors, provider aggregate and reconstruction audit
-   (`table14_egrid_historical_state_factors.csv`,
-   `table15_egrid_historical_national_factors.csv`).
-8. Historical cooling results and ranking robustness
-   (`table16_historical_cooling_results.csv`,
-   `table17_historical_ranking_robustness.csv`,
-   `table18_national_decarbonization_results.csv`).
-9. Server-inventory stress test
-    (`table19_server_inventory_stress_test.csv`).
+1. **Dataset role and exclusion logic.** Makes clear how Microsoft/WSP,
+   eGRID, Boavizta, ÖKOBAUDAT, NOAA, USLCI, GLAD, and USGS enter the study.
+2. **Joint stress envelopes.** Declares all triangular half-widths and prevents
+   stress frequencies from being interpreted as fitted probabilities.
 
-## Supplementary tables and reusable evidence
+Machine-readable supporting tables:
 
-- Full 51-state scenario table (`table6_state_rebased_ghg.csv`).
-- Full 48-record server table (`table9_boavizta_server_records.csv`).
-- Released pedigree matrix (`table12_microsoft_pedigree_scores.csv`).
-- Hourly/TMY and measurement-surface validation tables (`table3`-`table5`).
-- Interoperability, reliability and scientific-claim-gate verification matrix.
-- `OpenDC-LCA_integrated_evidence.xlsx`, which exposes source fields,
-  transformations, caveats and chart-ready summaries.
+- `table15_egrid_historical_national_factors.csv`
+- `table21_anchor_extrapolation_diagnostic.csv`
+- `table22_boundary_mismatch_stress.csv`
+- `table23_joint_assumption_stress.csv`
+- `table24_functional_unit_sensitivity.csv`
+- `table25_priority_index_sensitivity.csv`
+
+## Supplementary figures
+
+1. Detailed 2023 crossover: `figure2_grid_crossover.svg`.
+2. Deterministic performance discrimination:
+   `figure7_performance_robustness.svg`.
+3. Boavizta server distribution: `figure4_server_epd_distribution.svg`.
+4. ÖKOBAUDAT material levers: `figure5_material_levers.svg`.
+5. Fayetteville TMY illustrative PUE:
+   `figure2_monthly_climate_pue.svg`.
+6. Synthetic performance-map contract:
+   `figure5_synthetic_performance_surface.svg`.
+
+The supplement labels the weather/performance cases as software fixtures and
+the Boavizta/ÖKOBAUDAT cases as secondary evidence that lacks
+architecture-specific quantities or functional equivalence.

@@ -56,12 +56,69 @@ def test_historical_national_series_uses_provider_us_aggregate():
     assert by_year[2012]["reconstruction_minus_official_pct"] == pytest.approx(
         0.0, abs=1e-10
     )
+    assert by_year[2012][
+        "generation_weighted_co2e_kg_per_mwh"
+    ] == pytest.approx(517.7312752800638)
+    assert by_year[2012][
+        "reported_minus_harmonized_kgco2e_per_mwh"
+    ] == pytest.approx(0.24790128623396868)
     assert by_year[2023]["generation_weighted_co2e_kg_per_mwh"] == pytest.approx(
-        349.6729824
+        349.6670732319829
     )
     assert by_year[2023][
         "reconstructed_state_weighted_co2e_kg_per_mwh"
-    ] == pytest.approx(348.19382629383307)
+    ] == pytest.approx(348.1879057792226)
     assert by_year[2023]["state_generation_coverage_of_official_pct"] == pytest.approx(
         99.58240814876572
     )
+
+
+def test_historical_series_has_expected_anchor_extrapolation():
+    diagnostics = applied_energy.anchor_extrapolation_diagnostics(
+        applied_energy.historical_egrid()
+    )
+    all_years = next(row for row in diagnostics if row["cohort"] == "all state-years")
+    current = next(row for row in diagnostics if row["cohort"] == "2023 states/DC")
+    assert (
+        all_years["within_released_anchors"],
+        all_years["below_renewable_anchor"],
+        all_years["above_grid_anchor"],
+    ) == (322, 1, 136)
+    assert (
+        current["within_released_anchors"],
+        current["below_renewable_anchor"],
+        current["above_grid_anchor"],
+    ) == (42, 0, 9)
+
+
+def test_boundary_stress_exposes_low_carbon_crossover_fragility():
+    historical = applied_energy.historical_egrid()
+    current = [row for row in historical if row["year"] == 2023]
+    components = applied_energy.integrated.microsoft_ghg_components()
+    reference = sum(
+        row["co2e_kg_per_mwh"] * row["net_generation_mwh"] for row in current
+    ) / sum(row["net_generation_mwh"] for row in current)
+    rows = applied_energy.boundary_adder_stress(current, components, reference)
+    assert rows[0]["cold_plate_below_one_phase_count"] == 1
+    assert next(
+        row for row in rows if row["boundary_adder_kgco2e_per_mwh"] == 75
+    )["cold_plate_below_one_phase_count"] == 0
+    assert all(row["two_phase_first_rank_count"] == 51 for row in rows)
+
+
+def test_functional_unit_sensitivity_is_quantified():
+    historical = applied_energy.historical_egrid()
+    components = applied_energy.integrated.microsoft_ghg_components()
+    current = [row for row in historical if row["year"] == 2023]
+    reference = sum(
+        row["co2e_kg_per_mwh"] * row["net_generation_mwh"] for row in current
+    ) / sum(row["net_generation_mwh"] for row in current)
+    rows = applied_energy.functional_unit_sensitivity(
+        historical, components, reference
+    )
+    current_summary = next(
+        row for row in rows if row["cohort"] == "2023 states/DC"
+    )
+    assert current_summary[
+        "median_adverse_two_phase_service_correction_pct"
+    ] == pytest.approx(5.502616740789978)

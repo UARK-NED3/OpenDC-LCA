@@ -4,27 +4,34 @@
 \begin{letter}{Editors\\Applied Energy}
 \opening{Dear Editors,}
 
-Please consider our manuscript, ``Grid decarbonization changes the lifecycle
-value and evidence requirements of data-center cooling,'' for
+Please consider our manuscript, ``OpenDC-LCA: boundary-aware evidence
+synthesis for data-center cooling under grid decarbonization,'' for
 publication as a research article in \emph{Applied Energy}.
 
 The study addresses an energy-system decision that is increasingly important
 for high-density computing: whether the lifecycle advantage of a cooling
 architecture transfers across electricity systems and through grid
-decarbonization. We independently reconstruct 24 released hyperscale
-data-center results and combine them with nine EPA eGRID releases comprising
-459 state-year observations. The analysis identifies a grid-dependent
-cold-plate/one-phase crossover, quantifies the experimental discrimination
-needed to resolve close rankings, and shows that absolute avoided emissions
-contract while embodied importance rises as electricity decarbonizes.
-Two-phase immersion remains lowest under all observed state-years and a broad
-server-inventory stress range, while the manuscript explicitly identifies the
-foreground assumptions that limit transferability.
+decarbonization. We reconstruct 24 released hyperscale data-center results and
+rebuild nine EPA eGRID releases to a common AR5 GWP100 basis. The analysis
+shows that the 32.46\% U.S. generation-rate decline is robust to historical
+eGRID characterization changes, while local cooling rankings are more
+conditional: 29.85\% of state-year screens extrapolate beyond released
+electricity anchors, and a transparent boundary allowance removes the sole
+2023 cold-plate/single-phase reversal.
+
+The revision also distinguishes deterministic ranking from joint robustness.
+Although two-phase immersion is first in every unperturbed state-year screen,
+its U.S. first-rank frequency falls from 99.3\% to 56.2\% across declared
+narrow-to-wide assumption-stress envelopes. A median 5.50\% adverse correction
+to impact per equivalent useful computation erases first rank. These
+frequencies are explicitly presented as sensitivity diagnostics, not
+probabilities.
 
 The methodological contribution is an open, versioned framework that connects
 cooling performance, hourly integration, reliability, lifecycle inventories,
-provenance, and comparative-claim checks. All code and redistributable derived
-results are publicly available. The work therefore bridges energy-system
+provenance, and comparative-claim checks. Code and redistributable derived
+results are publicly available; a DOI-bearing immutable archive is required
+before submission. The work therefore bridges energy-system
 modeling, data-center thermal management, lifecycle assessment, and practical
 decision support.
 

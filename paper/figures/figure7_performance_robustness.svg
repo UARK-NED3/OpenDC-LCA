@@ -4,16 +4,16 @@
 <text class="title" x="68" y="40">Small performance deviations can reverse close cooling rankings</text>
 <line x1="90.0" y1="90" x2="90.0" y2="440" stroke="#E5E7EB"/>
 <text class="axis" x="90.0" y="463" text-anchor="middle">0</text>
-<line x1="291.5" y1="90" x2="291.5" y2="440" stroke="#E5E7EB"/>
-<text class="axis" x="291.5" y="463" text-anchor="middle">200</text>
+<line x1="291.6" y1="90" x2="291.6" y2="440" stroke="#E5E7EB"/>
+<text class="axis" x="291.6" y="463" text-anchor="middle">200</text>
 <line x1="493.1" y1="90" x2="493.1" y2="440" stroke="#E5E7EB"/>
 <text class="axis" x="493.1" y="463" text-anchor="middle">400</text>
-<line x1="694.6" y1="90" x2="694.6" y2="440" stroke="#E5E7EB"/>
-<text class="axis" x="694.6" y="463" text-anchor="middle">600</text>
+<line x1="694.7" y1="90" x2="694.7" y2="440" stroke="#E5E7EB"/>
+<text class="axis" x="694.7" y="463" text-anchor="middle">600</text>
 <line x1="896.2" y1="90" x2="896.2" y2="440" stroke="#E5E7EB"/>
 <text class="axis" x="896.2" y="463" text-anchor="middle">800</text>
-<line x1="1097.7" y1="90" x2="1097.7" y2="440" stroke="#E5E7EB"/>
-<text class="axis" x="1097.7" y="463" text-anchor="middle">1000</text>
+<line x1="1097.8" y1="90" x2="1097.8" y2="440" stroke="#E5E7EB"/>
+<text class="axis" x="1097.8" y="463" text-anchor="middle">1000</text>
 <line x1="90" y1="440.0" x2="990" y2="440.0" stroke="#E5E7EB"/>
 <text class="axis" x="80" y="444.0" text-anchor="end">-4%</text>
 <line x1="90" y1="352.5" x2="990" y2="352.5" stroke="#E5E7EB"/>
