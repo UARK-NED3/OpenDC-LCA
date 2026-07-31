@@ -491,9 +491,9 @@
 <circle cx="531.4" cy="470.0" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="836.9" cy="470.0" r="4" fill="#9CA3AF" opacity="0.72"/>
 <circle cx="785.5" cy="470.0" r="4" fill="#9CA3AF" opacity="0.72"/>
-<polyline points="523.2,90.0 518.8,159.1 470.9,228.2 451.5,297.3 426.2,331.8 400.7,366.4 413.9,400.9 402.7,435.5 381.2,470.0" fill="none" stroke="#D55E00" stroke-width="4"/>
+<polyline points="523.2,90.0 518.8,159.1 470.9,228.2 451.5,297.3 427.3,331.8 402.1,366.4 415.1,400.9 403.9,435.5 382.5,470.0" fill="none" stroke="#D55E00" stroke-width="4"/>
 <line x1="170.9" y1="90" x2="170.9" y2="470" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 5"/>
 <text class="label" x="177.9" y="108">cold-plate/one-phase crossover: 96.7</text>
 <text class="axis" x="550" y="535" text-anchor="middle">State total-output electricity intensity (kg CO₂e/MWh)</text>
-<text class="note" x="90" y="578">Dots: state-year observations; orange line: generation-weighted U.S. factor; blue dots fall below the released-model crossover.</text>
+<text class="note" x="90" y="578">Dots: state-year scenarios; orange line: provider U.S. aggregate; blue dots fall below the released-model crossover.</text>
 </svg>

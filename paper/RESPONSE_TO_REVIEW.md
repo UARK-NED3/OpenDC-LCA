@@ -68,12 +68,16 @@ transmission and consumption-based attribution.
 
 ### 8. Historical comparability
 
-**Response:** Partly addressed. File, worksheet, field and unit-conversion
-lineage is preserved for every record, and the manuscript warns that EPA data
-and accounting revisions can affect cross-year comparisons. Before external
-submission, the reconstructed national series should be checked against each
-release's official national summary and any methodological discontinuities
-should be tabulated.
+**Response:** Addressed for numerical scope; methodological vigilance remains.
+File, worksheet, field and unit-conversion lineage is preserved for every
+record. The reconstructed state-weighted series was compared with each
+release's `USyy!USC2ERTA` aggregate. Agreement was within 0.00002% through
+2018. From 2019 onward the state reconstruction was 0.32-0.43% lower because
+the 50-state-plus-DC panel covered 99.55-99.58% of the generation in the
+provider U.S. scope after excluding Puerto Rico. The provider aggregate is now
+used for national results and the state reconstruction is retained as an
+explicit scope audit. The manuscript continues to warn that provider
+methodological revisions can affect cross-year interpretation.
 
 ### 9. Software material in the main paper
 
@@ -98,11 +102,13 @@ context and are not presented as a complete multi-impact historical analysis.
 
 ### 12. Comparison against conventional methods
 
-**Response:** Partly addressed. The literature review distinguishes PUE-only,
+**Response:** Addressed. The literature review distinguishes PUE-only,
 operational-only, static LCA and process-network tools from the present
-foreground/evidence layer. A compact quantitative comparison table showing
-which method detects crossover, embodied-share transition, evidence priority
-and temporal effects remains a useful pre-submission addition.
+foreground/evidence layer. New Table 1 applies four assessment scopes to the
+same released case and reports which scope recovers the architecture ranking,
+cold-plate/one-phase crossover, embodied-share transition and evidence
+priority. The machine-readable version is
+`paper/tables/table20_method_comparison.csv`.
 
 ## Presentation and reference corrections
 

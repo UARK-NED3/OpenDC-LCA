@@ -47,3 +47,21 @@ def test_crossover_uses_released_gabi_anchors():
     assert crossover["crossover_kgco2e_per_mwh"] == pytest.approx(
         96.70396924389829
     )
+
+
+def test_historical_national_series_uses_provider_us_aggregate():
+    historical = applied_energy.historical_egrid()
+    factors = applied_energy.generation_weighted_factors(historical)
+    by_year = {row["year"]: row for row in factors}
+    assert by_year[2012]["reconstruction_minus_official_pct"] == pytest.approx(
+        0.0, abs=1e-10
+    )
+    assert by_year[2023]["generation_weighted_co2e_kg_per_mwh"] == pytest.approx(
+        349.6729824
+    )
+    assert by_year[2023][
+        "reconstructed_state_weighted_co2e_kg_per_mwh"
+    ] == pytest.approx(348.19382629383307)
+    assert by_year[2023]["state_generation_coverage_of_official_pct"] == pytest.approx(
+        99.58240814876572
+    )

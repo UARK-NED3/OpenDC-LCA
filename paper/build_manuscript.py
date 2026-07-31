@@ -88,6 +88,13 @@ def set_repeat_table_header(row):
     tr_pr.append(tbl_header)
 
 
+def prevent_table_row_split(row):
+    tr_pr = row._tr.get_or_add_trPr()
+    cant_split = OxmlElement("w:cantSplit")
+    cant_split.set(qn("w:val"), "true")
+    tr_pr.append(cant_split)
+
+
 def set_fixed_table_geometry(table, widths_dxa):
     table.autofit = False
     tbl_pr = table._tbl.tblPr
@@ -295,6 +302,8 @@ def add_markdown_table(doc, rows):
                     run.font.color.rgb = RGBColor.from_string(WHITE)
                     run.bold = True
     set_repeat_table_header(table.rows[0])
+    for row in table.rows:
+        prevent_table_row_split(row)
     set_fixed_table_geometry(table, widths)
     after = doc.add_paragraph()
     after.paragraph_format.space_after = Pt(2)

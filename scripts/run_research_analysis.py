@@ -256,7 +256,7 @@ are **{grid_ghg['Cold plate']:.2f}%** for cold plate,
 
 ![Reproduced Microsoft reductions](figures/figure1_microsoft_grid_reductions.svg)
 
-This validates arithmetic consistency of the public component table. It does
+This audits arithmetic consistency of the public component table. It does
 not independently reproduce proprietary LCA for Experts or ecoinvent
 background processes, confidential manufacturer data, or the Microsoft
 foreground bill of materials.

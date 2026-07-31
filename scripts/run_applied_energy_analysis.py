@@ -54,12 +54,56 @@ FILES = {
 }
 
 
+def official_national_egrid() -> list[dict[str, object]]:
+    """Read provider-published U.S. aggregate factors from each eGRID release."""
+    output = []
+    for year in sorted((*FILES, 2023)):
+        if year == 2023:
+            path = (
+                ROOT
+                / "private-data"
+                / "incoming"
+                / "egrid2023"
+                / "egrid2023_data_metric_rev2.xlsx"
+            )
+        else:
+            path = HISTORICAL / FILES[year][0]
+        sheet = f"US{str(year)[-2:]}"
+        rows = read_xlsx_rows(path, sheet)
+        code_row = next(
+            index for index, row in enumerate(rows[:6]) if "USC2ERTA" in row
+        )
+        codes = {
+            str(value): index for index, value in enumerate(rows[code_row]) if value
+        }
+        values = rows[code_row + 1]
+        factor = float(values[codes["USC2ERTA"]])
+        if year < 2023:
+            factor *= LB_TO_KG
+        output.append(
+            {
+                "year": year,
+                "official_us_net_generation_mwh": float(
+                    values[codes["USNGENAN"]]
+                ),
+                "official_us_co2e_kg_per_mwh": factor,
+                "official_source_file": path.name,
+                "official_source_sheet_field": f"{sheet}!USC2ERTA",
+            }
+        )
+    return output
+
+
 def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
     if not rows:
         raise ValueError(f"Cannot write empty table: {path}")
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(
+            stream,
+            fieldnames=list(rows[0]),
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerows(rows)
 
@@ -132,19 +176,38 @@ def generation_weighted_factors(
     by_year: dict[int, list[dict[str, object]]] = {}
     for row in rows:
         by_year.setdefault(int(row["year"]), []).append(row)
+    official = {row["year"]: row for row in official_national_egrid()}
     output = []
     for year, group in sorted(by_year.items()):
         generation = sum(float(row["net_generation_mwh"]) for row in group)
-        factor = sum(
+        reconstructed_factor = sum(
             float(row["co2e_kg_per_mwh"]) * float(row["net_generation_mwh"])
             for row in group
         ) / generation
+        provider = official[year]
+        official_factor = float(provider["official_us_co2e_kg_per_mwh"])
+        official_generation = float(provider["official_us_net_generation_mwh"])
         output.append(
             {
                 "year": year,
                 "states_included": len(group),
                 "net_generation_mwh": generation,
-                "generation_weighted_co2e_kg_per_mwh": factor,
+                "generation_weighted_co2e_kg_per_mwh": official_factor,
+                "reconstructed_state_weighted_co2e_kg_per_mwh": (
+                    reconstructed_factor
+                ),
+                "reconstruction_minus_official_kgco2e_per_mwh": (
+                    reconstructed_factor - official_factor
+                ),
+                "reconstruction_minus_official_pct": 100
+                * (reconstructed_factor / official_factor - 1),
+                "state_generation_coverage_of_official_pct": 100
+                * generation
+                / official_generation,
+                "official_source_file": provider["official_source_file"],
+                "official_source_sheet_field": provider[
+                    "official_source_sheet_field"
+                ],
                 "minimum_state_kgco2e_per_mwh": min(
                     float(row["co2e_kg_per_mwh"]) for row in group
                 ),
@@ -157,6 +220,79 @@ def generation_weighted_factors(
             }
         )
     return output
+
+
+def method_comparison(
+    components: dict[str, dict[str, dict[str, float]]],
+    crossover: float,
+) -> list[dict[str, object]]:
+    grid_totals = {
+        technology: components["grid"][technology]["Total"]
+        for technology in TECHNOLOGIES
+    }
+    operational_totals = {
+        technology: components["grid"][technology]["Use Phase Impacts"]
+        for technology in TECHNOLOGIES
+    }
+    grid_order = sorted(grid_totals, key=grid_totals.get)
+    operational_order = sorted(operational_totals, key=operational_totals.get)
+    grid_gap = (
+        grid_totals["Cold plate"] - grid_totals["One-phase"]
+    )
+    return [
+        {
+            "approach": "PUE-only",
+            "case_result": "Not recoverable from normalized LCA totals alone",
+            "detects_cp_1p_crossover": "No",
+            "detects_embodied_share_transition": "No",
+            "detects_evidence_priority": "No",
+            "interpretation": (
+                "Requires architecture PUE at equivalent useful computation; "
+                "omits hardware, fluid, replacement and electricity impacts."
+            ),
+        },
+        {
+            "approach": "Operational-GHG-only",
+            "case_result": (
+                f"{operational_order[0]} lowest at the Microsoft grid endpoint"
+            ),
+            "detects_cp_1p_crossover": "No embodied crossover",
+            "detects_embodied_share_transition": "No",
+            "detects_evidence_priority": "No",
+            "interpretation": (
+                "Uses released use-phase terms but cannot expose a crossover "
+                "created by unequal non-use-phase contributions."
+            ),
+        },
+        {
+            "approach": "Static cradle-to-grave LCA at one grid",
+            "case_result": (
+                f"{grid_order[0]} lowest; cold plate minus one-phase = "
+                f"{grid_gap:.3f} kg CO2e/Vcore-year"
+            ),
+            "detects_cp_1p_crossover": "No; one electricity point",
+            "detects_embodied_share_transition": "No; one electricity point",
+            "detects_evidence_priority": "Contribution only",
+            "interpretation": (
+                "Includes released lifecycle terms but cannot establish "
+                "geographic or temporal transferability from one scenario."
+            ),
+        },
+        {
+            "approach": "OpenDC-LCA factor-swept evidence analysis",
+            "case_result": (
+                f"Cold-plate/one-phase crossover = {crossover:.1f} kg "
+                "CO2e/MWh; two-phase lowest in tested scenarios"
+            ),
+            "detects_cp_1p_crossover": "Yes",
+            "detects_embodied_share_transition": "Yes",
+            "detects_evidence_priority": "Yes; contribution x pedigree weakness",
+            "interpretation": (
+                "Adds bounded transformation, functional-unit separation, "
+                "provenance and claim limitations to the released foreground."
+            ),
+        },
+    ]
 
 
 def total_at_factor(
@@ -403,7 +539,7 @@ def figure_historical(
         f'<line x1="{cx:.1f}" y1="{top}" x2="{cx:.1f}" y2="{top+height}" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 5"/>',
         f'<text class="label" x="{cx+7:.1f}" y="{top+18}">cold-plate/one-phase crossover: {crossover:.1f}</text>',
         '<text class="axis" x="550" y="535" text-anchor="middle">State total-output electricity intensity (kg CO₂e/MWh)</text>',
-        '<text class="note" x="90" y="578">Dots: state-year observations; orange line: generation-weighted U.S. factor; blue dots fall below the released-model crossover.</text>',
+        '<text class="note" x="90" y="578">Dots: state-year scenarios; orange line: provider U.S. aggregate; blue dots fall below the released-model crossover.</text>',
     ]
     write_svg(FIGURES / "figure6_historical_grid_transition.svg", body)
 
@@ -466,17 +602,6 @@ def main() -> None:
     stress = server_stress_test(
         current_states, components, reference_factor, server_records
     )
-    outputs = {
-        "table14_egrid_historical_state_factors.csv": historical,
-        "table15_egrid_historical_national_factors.csv": factors,
-        "table16_historical_cooling_results.csv": detailed,
-        "table17_historical_ranking_robustness.csv": summary,
-        "table18_national_decarbonization_results.csv": national,
-        "table19_server_inventory_stress_test.csv": stress,
-    }
-    for name, rows in outputs.items():
-        write_csv(TABLES / name, rows)
-        write_csv(RESULTS / name, rows)
     crossover = float(
         next(
             row["crossover_kgco2e_per_mwh"]
@@ -485,12 +610,32 @@ def main() -> None:
             and row["technology_b"] == "One-phase"
         )
     )
+    comparison = method_comparison(components, crossover)
+    outputs = {
+        "table14_egrid_historical_state_factors.csv": historical,
+        "table15_egrid_historical_national_factors.csv": factors,
+        "table16_historical_cooling_results.csv": detailed,
+        "table17_historical_ranking_robustness.csv": summary,
+        "table18_national_decarbonization_results.csv": national,
+        "table19_server_inventory_stress_test.csv": stress,
+        "table20_method_comparison.csv": comparison,
+    }
+    for name, rows in outputs.items():
+        write_csv(TABLES / name, rows)
+        write_csv(RESULTS / name, rows)
     figure_historical(historical, factors, crossover)
     figure_performance_robustness(summary)
     metadata = {
         "egrid_years": [row["year"] for row in factors],
         "state_year_observations": len(historical),
-        "reference_factor_2023_kgco2e_per_mwh": reference_factor,
+        "egrid_2023_state_weighted_excluding_pr_kgco2e_per_mwh": (
+            reference_factor
+        ),
+        "egrid_2023_official_us_kgco2e_per_mwh": next(
+            row["generation_weighted_co2e_kg_per_mwh"]
+            for row in factors
+            if row["year"] == 2023
+        ),
         "microsoft_grid_endpoint_kgco2e_per_mwh": MICROSOFT_GRID_GHG_KG_PER_MWH,
         "microsoft_renewable_endpoint_kgco2e_per_mwh": (
             MICROSOFT_RENEWABLE_GHG_KG_PER_MWH

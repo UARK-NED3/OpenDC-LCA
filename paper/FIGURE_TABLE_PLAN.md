@@ -10,9 +10,9 @@ evidence.
 1. **Evidence-to-decision architecture**
    (`figure0_opendc_lca_workflow.svg`): provider-native evidence,
    harmonization, calculation engines, claim gate and decision outputs.
-2. **Microsoft/Nature arithmetic reconstruction**
-   (`figure1_microsoft_grid_reductions.svg`): 24 released component totals are
-   exactly reproducible; licensed backgrounds remain outside the claim.
+2. **Microsoft/Nature arithmetic consistency**
+   (`figure1_microsoft_grid_reductions.svg`): 24 released component totals
+   reconcile; licensed backgrounds remain outside the claim.
 3. **Grid-dependent crossover** (`figure2_grid_crossover.svg`): four
    architectures across 51 EPA eGRID factors; the cold-plate/one-phase ranking
    reverses within the observed range.
@@ -26,7 +26,7 @@ evidence.
    matched ÖKOBAUDAT steel and cement A1-A3 factors expose per-kilogram leverage
    while preserving the need for facility quantities.
 7. **Historical grid transition** (`figure6_historical_grid_transition.svg`):
-   459 EPA eGRID state-year observations show the national trajectory and the
+   459 EPA eGRID state-year scenarios show the national trajectory and the
    states entering or leaving the cold-plate/one-phase crossover regime.
 8. **Performance-ranking robustness** (`figure7_performance_robustness.svg`):
    use-phase break-even changes translate lifecycle rank differences into
@@ -50,26 +50,26 @@ performance inputs preclude technology claims.
 
 ## Main-text tables
 
-1. OpenDC-LCA capability and evidence matrix.
-2. Compact practitioner input-output contract (manuscript Table 2).
-3. Microsoft/Nature reconstruction audit
+1. Conventional-method comparison
+   (`table20_method_comparison.csv`).
+2. Microsoft/Nature arithmetic-consistency audit
    (`table1_microsoft_reproduction_audit.csv`).
-4. eGRID state re-basing and crossover summary
+3. eGRID state re-basing and crossover summary
    (`table7_state_rank_summary.csv`, `table8_crossover_thresholds.csv`).
-5. Boavizta server footprint summary
+4. Boavizta server footprint summary
    (`table10_boavizta_server_summary.csv`).
-6. ÖKOBAUDAT material leverage
+5. ÖKOBAUDAT material leverage
    (`table11_material_decarbonization_levers.csv`).
-7. Contribution-weighted pedigree priority
+6. Contribution-weighted pedigree priority
    (`table13_data_improvement_priority.csv`).
-8. Historical state factors and national trajectory
+7. Historical state factors, provider aggregate and reconstruction audit
    (`table14_egrid_historical_state_factors.csv`,
    `table15_egrid_historical_national_factors.csv`).
-9. Historical cooling results and ranking robustness
+8. Historical cooling results and ranking robustness
    (`table16_historical_cooling_results.csv`,
    `table17_historical_ranking_robustness.csv`,
    `table18_national_decarbonization_results.csv`).
-10. Server-inventory stress test
+9. Server-inventory stress test
     (`table19_server_inventory_stress_test.csv`).
 
 ## Supplementary tables and reusable evidence

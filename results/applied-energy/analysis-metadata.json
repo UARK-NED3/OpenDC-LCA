@@ -11,7 +11,8 @@
     2023
   ],
   "state_year_observations": 459,
-  "reference_factor_2023_kgco2e_per_mwh": 348.19382629383307,
+  "egrid_2023_state_weighted_excluding_pr_kgco2e_per_mwh": 348.19382629383307,
+  "egrid_2023_official_us_kgco2e_per_mwh": 349.6729824,
   "microsoft_grid_endpoint_kgco2e_per_mwh": 524.893385656191,
   "microsoft_renewable_endpoint_kgco2e_per_mwh": 6.13302490385571,
   "cold_plate_one_phase_crossover_kgco2e_per_mwh": 96.70396924389829,

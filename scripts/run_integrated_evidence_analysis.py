@@ -509,7 +509,7 @@ def figure_grid_crossover(
         f'x2="{left+national_factor/xmax*width:.1f}" y2="{top+height}" '
         'stroke="#111827" stroke-dasharray="2 4"/>',
         f'<text class="note" x="{left+national_factor/xmax*width+5:.1f}" '
-        f'y="{top+height-8}">eGRID 2023 generation-weighted U.S.</text>',
+        f'y="{top+height-8}">eGRID 2023 weighted 50-state + DC factor</text>',
         '<text class="axis" x="490" y="485" text-anchor="middle">'
         "State total-output electricity intensity (kg CO₂e/MWh)</text>",
         '<text class="axis" transform="translate(22 350) rotate(-90)">'

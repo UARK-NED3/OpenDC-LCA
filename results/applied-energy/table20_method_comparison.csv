@@ -1,0 +1,5 @@
+approach,case_result,detects_cp_1p_crossover,detects_embodied_share_transition,detects_evidence_priority,interpretation
+PUE-only,Not recoverable from normalized LCA totals alone,No,No,No,"Requires architecture PUE at equivalent useful computation; omits hardware, fluid, replacement and electricity impacts."
+Operational-GHG-only,Two-phase lowest at the Microsoft grid endpoint,No embodied crossover,No,No,Uses released use-phase terms but cannot expose a crossover created by unequal non-use-phase contributions.
+Static cradle-to-grave LCA at one grid,Two-phase lowest; cold plate minus one-phase = 0.452 kg CO2e/Vcore-year,No; one electricity point,No; one electricity point,Contribution only,Includes released lifecycle terms but cannot establish geographic or temporal transferability from one scenario.
+OpenDC-LCA factor-swept evidence analysis,Cold-plate/one-phase crossover = 96.7 kg CO2e/MWh; two-phase lowest in tested scenarios,Yes,Yes,Yes; contribution x pedigree weakness,"Adds bounded transformation, functional-unit separation, provenance and claim limitations to the released foreground."

@@ -24,9 +24,9 @@ processes and a published pedigree matrix. Holding the released foreground
 model fixed, the cold-plate/one-phase-immersion crossover occurred at 96.7 kg
 CO2e MWh−1; Vermont was the only 2023 state below it. Across 459 controlled
 state-year electricity-factor scenarios, two-phase immersion retained the
-lowest modeled greenhouse-gas total. The generation-weighted U.S. factor fell
-32.8% from 2012 to 2023, reducing the modeled absolute two-phase-versus-air
-benefit from 7.49 to 5.26 kg CO2e Vcore−1 yr−1 while increasing the air-cooled
+lowest modeled greenhouse-gas total. The EPA U.S. aggregate factor fell
+32.5% from 2012 to 2023, reducing the modeled absolute two-phase-versus-air
+benefit from 7.49 to 5.28 kg CO2e Vcore−1 yr−1 while increasing the air-cooled
 embodied share from 9.7% to 13.8%. A deterministic break-even test found that
 a median 1.38% reduction in the cold-plate use-phase term would equal
 one-phase immersion across 2023 states; this is a performance-discrimination
@@ -314,8 +314,10 @@ r^*=
 To evaluate temporal sensitivity, the same transformation was applied to
 EPA state total-output factors for 2012, 2014, 2016, and 2018-2023. Factors
 reported in pounds CO2e MWh−1 before the metric workbook were converted using
-0.45359237 kg lb−1. A generation-weighted U.S. factor was recalculated for
-each release from state generation and emission rates. We then recorded the
+0.45359237 kg lb−1. The provider-published U.S. aggregate factor was taken
+from each release's `USyy!USC2ERTA` field. As a scope audit, a second national
+factor was reconstructed from the included state factors and generation. We
+then recorded the
 lowest-GHG architecture, percentage margin to the second-ranked architecture,
 embodied share, and regret of each alternative for every state-year. The 459
 rows are controlled evaluations of one fixed foreground model at observed
@@ -485,7 +487,7 @@ the complete virtual-core model.
 The metric eGRID 2023 workbook supplied state net generation (`STNGENAN`) and
 state annual CO2-equivalent total-output emission rate (`STC2ERTA`) [5]. The
 analysis included 50 states and the District of Columbia. The
-generation-weighted mean was 348.194 kg CO2e MWh−1 and the observed state
+state-generation-weighted mean was 348.194 kg CO2e MWh−1 and the observed state
 range was 23.696-893.079 kg CO2e MWh−1. These are annual, location-based
 factors; they are not marginal, hourly or market-based. The factors were used
 only in the affine re-basing of Eq. (7).
@@ -498,7 +500,8 @@ worksheet field, original unit conversion, generation, and factor are retained
 for every observation. Cross-year comparisons can be affected by EPA source
 updates and power-sector accounting revisions in addition to physical grid
 change, so the panel is interpreted as a sequence of released annual
-conditions. Because the state total-output rate represents generation within
+conditions. The `USyy` worksheet in each release supplied the official U.S.
+aggregate factor used for the national trajectory. Because the state total-output rate represents generation within
 the state, it should not be interpreted as the consumption mix of a data center
 located there.
 
@@ -604,18 +607,18 @@ foreground assumptions.
 
 ### 4.3. Historical decarbonization lowers absolute savings but raises embodied importance
 
-The generation-weighted U.S. total-output factor declined from 518.0 kg CO2e
-MWh−1 in 2012 to 348.2 kg CO2e MWh−1 in 2023, a 32.8% reduction, although the
-trajectory was not monotonic: it increased from 371.5 in 2020 to 387.3 in
+The EPA U.S. total-output factor declined from 518.0 kg CO2e
+MWh−1 in 2012 to 349.7 kg CO2e MWh−1 in 2023, a 32.5% reduction, although the
+trajectory was not monotonic: it increased from 373.1 in 2020 to 388.7 in
 2021 before declining again. Applying the same released foreground model
-reduced the national air-cooled result from 36.25 to 25.52 kg CO2e
-Vcore−1 yr−1 and the two-phase result from 28.76 to 20.26 kg CO2e
+reduced the national air-cooled result from 36.25 to 25.61 kg CO2e
+Vcore−1 yr−1 and the two-phase result from 28.76 to 20.33 kg CO2e
 Vcore−1 yr−1. The absolute benefit of two-phase relative to air therefore
-contracted from 7.49 to 5.26 kg CO2e Vcore−1 yr−1, while its percentage
+contracted from 7.49 to 5.28 kg CO2e Vcore−1 yr−1, while its percentage
 benefit remained near 20.6% because both use-phase terms scale with the same
 electricity-system trajectory.
 
-![Figure 4. Historical EPA eGRID state total-output intensities for nine releases between 2012 and 2023. Each dot is a state-year electricity-factor scenario; the orange line is the generation-weighted U.S. factor. Blue points fall below the 96.7 kg CO2e MWh−1 cold-plate/one-phase crossover derived from the released Microsoft/WSP foreground model. The panel describes released annual generation conditions, not consumption, a forecast, marginal emissions or independent LCAs.](figures/figure6_historical_grid_transition.svg)
+![Figure 4. Historical EPA eGRID state total-output intensities for nine releases between 2012 and 2023. Each dot is a state-year electricity-factor scenario; the orange line is the provider-published U.S. aggregate. Blue points fall below the 96.7 kg CO2e MWh−1 cold-plate/one-phase crossover derived from the released Microsoft/WSP foreground model. The panel describes released annual generation conditions, not consumption, a forecast, marginal emissions or independent LCAs.](figures/figure6_historical_grid_transition.svg)
 
 Three states fell below the pairwise crossover in 2012, compared with between
 one and three states in every analyzed release and only Vermont in 2023. This
@@ -627,7 +630,15 @@ factor space, not statistical replication. The result separates a sensitive pair
 (cold plate versus one-phase) from the more robust first-ranked architecture
 under the released assumptions.
 
-At the national generation-weighted factor, the embodied share of the
+The state-based reconstruction matched the provider U.S. aggregate to within
+0.00002% from 2012 through 2018. From 2019 through 2023 it was 0.32-0.43%
+lower and covered 99.55-99.58% of official U.S. generation because the
+50-state-plus-DC panel excluded Puerto Rico while the `USyy` aggregate included
+the full provider scope. The official aggregate is therefore used for the
+national trajectory; the state-only reconstruction is retained as a scope
+audit rather than treated as an error.
+
+At the national aggregate factor, the embodied share of the
 air-cooled result increased from 9.7% in 2012 to 13.8% in 2023; the two-phase
 share increased from 9.8% to 13.9%. The change is modest nationally because
 the U.S. factor remains well above the low-carbon state range, but it
@@ -732,7 +743,36 @@ point uncertainty. Their role is to specify exactly how reviewed laboratory
 data will enter the lifecycle calculation. The resulting climate and surface
 figures are retained as Supplementary Figures rather than core evidence.
 
-### 4.9. Software implementation and verification
+### 4.9. Comparison with conventional assessment scopes
+
+Table 1 applies four increasingly complete assessment scopes to the same
+released case. PUE alone cannot be recovered from normalized lifecycle totals
+and, even when measured, does not represent hardware or functional-performance
+differences. An operational-GHG comparison identifies two-phase as the lowest
+use-phase case at the Microsoft grid endpoint but cannot expose the
+cold-plate/one-phase crossover because that boundary depends on unequal
+non-use-phase contributions. A static cradle-to-grave result adds those
+contributions and shows cold plate 0.452 kg CO2e Vcore−1 yr−1 above one-phase
+at the Microsoft grid endpoint, but one grid point does not reveal where that
+ordering reverses. The factor-swept evidence analysis exposes the 96.7 kg CO2e
+MWh−1 boundary, the increasing embodied share, and the evidence needed to
+interpret both.
+
+**Table 1. Results and information lost under progressively broader assessment scopes.**
+
+| Assessment scope | Result recovered from the released case | Crossover | Embodied transition | Evidence priority |
+|---|---|---|---|---|
+| PUE only | Not recoverable from normalized LCA totals; requires measured PUE at equivalent useful computation | No | No | No |
+| Operational GHG only | Two-phase has the lowest released use-phase term at the Microsoft grid endpoint | No embodied crossover | No | No |
+| Static cradle-to-grave LCA at one grid | Two-phase lowest; cold plate minus one-phase = 0.452 kg CO2e Vcore−1 yr−1 | Not from one point | Not from one point | Contribution only |
+| OpenDC-LCA factor-swept evidence analysis | Cold-plate/one-phase crossover = 96.7 kg CO2e MWh−1; two-phase lowest in tested scenarios | Yes | Yes | Contribution x pedigree weakness |
+
+The comparison is not an argument against PUE or general LCA engines. It shows
+which additional question becomes answerable when functional-unit controls,
+bounded scenario transformations, provenance and evidence quality are layered
+onto the same lifecycle foreground.
+
+### 4.10. Software implementation and verification
 
 The public package implements the governed input schema, static and temporal
 calculations, bounded performance-surface interpolation, replacement,
@@ -743,7 +783,7 @@ results. Detailed input-output fields, installation commands, interface
 screens, capability matrices and release checks are provided in the repository
 and Supplementary Information rather than repeated in the main article.
 
-Forty-two automated tests exercise the calculation engine, provenance rules,
+Forty-three automated tests exercise the calculation engine, provenance rules,
 performance maps, interoperability, reliability and practitioner workflow.
 The distribution was also installed in a clean Python environment and run from
 template creation through report generation. These checks establish software
@@ -799,7 +839,7 @@ impact are therefore not competing narratives but successive constraints along
 a decarbonization pathway.
 
 The historical panel adds a planning implication. Grid decarbonization lowered
-the absolute two-phase-versus-air benefit from 7.49 to 5.26 kg CO2e per
+the absolute two-phase-versus-air benefit from 7.49 to 5.28 kg CO2e per
 Vcore-year between the 2012 and 2023 generation-weighted conditions even
 though the relative saving remained nearly constant. Percentage reductions
 alone can therefore overstate the future system value of an efficiency
@@ -921,8 +961,8 @@ quality evidence into conditional, auditable lifecycle comparisons. It
 reconciled the arithmetic of 24 released Microsoft/Nature totals and then exposed a result
 that a single reference scenario cannot show: cold plate and one-phase
 immersion cross near 96.7 kg CO2e MWh−1 within the observed U.S. state range.
-Across nine eGRID releases, the generation-weighted factor declined 32.8% and
-the absolute modeled two-phase-versus-air benefit declined 29.8%, while
+Across nine eGRID releases, the provider U.S. factor declined 32.5% and
+the absolute modeled two-phase-versus-air benefit declined 29.5%, while
 two-phase retained first rank in all 459 controlled electricity-factor
 scenarios. Pairwise cold-plate/one-phase ranking was sensitive to a median
 1.38% use-phase change, whereas two-phase tolerated a median 6.46% degradation before losing first

@@ -3,14 +3,20 @@
 ## Applied Energy extension: grid transition and ranking robustness
 
 The expanded analysis uses EPA eGRID releases for 2012, 2014, 2016, and
-2018–2023. The resulting panel contains 459 state-year observations. The
-generation-weighted U.S. total-output factor declined from 518.0 to 348.2 kg
+2018–2023. The resulting panel contains 459 controlled state-year scenarios.
+The provider-published U.S. total-output factor declined from 518.0 to 349.7 kg
 CO2e/MWh between 2012 and 2023. Holding the released Microsoft/WSP foreground
 model fixed, the modeled two-phase-versus-air benefit declined from 7.49 to
-5.26 kg CO2e per Vcore-year as the grid cleaned.
+5.28 kg CO2e per Vcore-year as the grid cleaned.
+
+The state-weighted reconstruction matches the provider U.S. aggregate through
+2018. Its 0.32-0.43% lower values from 2019 onward are explained by the
+50-state-plus-DC panel covering 99.55-99.58% of provider U.S. generation after
+Puerto Rico is excluded. National results therefore use the provider
+`USyy!USC2ERTA` aggregate.
 
 Two-phase immersion remained the lowest modeled GHG architecture in all 459
-state-year cases and when server-related contributions were scaled from 0.38
+electricity-factor scenarios and when server-related contributions were scaled from 0.38
 to 2.06 times the Boavizta median scenario. The closer cold-plate/one-phase
 comparison was sensitive: across 2023 state factors, a median 1.38% reduction
 in the cold-plate use-phase term would reverse the ordering. Two-phase could
@@ -28,7 +34,7 @@ architecture-specific field performance or a state-specific process LCA.
 
 This package contains two deliberately separated contributions:
 
-1. **v0.4 reproduction audit (validated):** an independent calculation from
+1. **v0.4 arithmetic-consistency audit:** an independent calculation from
    the released Microsoft/Nature Figure 4 source data.
 2. **v0.5 hourly research preview (hypothesis-generating):** NOAA TMY weather,
    EPA eGRID 2023, and transparent temperature-PUE curves. The curves are not
@@ -37,7 +43,7 @@ This package contains two deliberately separated contributions:
 ## Reproduction result
 
 All 24 Figure 4 totals (three impact metrics, two electricity scenarios, and
-four cooling architectures) were reconstructed by summing the seven released
+four cooling architectures) were reconciled by summing the seven released
 component contributions. The maximum absolute disagreement was
 **1.42e-14 percentage points**, attributable to floating-point rounding.
 
@@ -48,7 +54,7 @@ are **15.18%** for cold plate,
 
 ![Reproduced Microsoft reductions](figures/figure1_microsoft_grid_reductions.svg)
 
-This validates arithmetic consistency of the public component table. It does
+This audits arithmetic consistency of the public component table. It does
 not independently reproduce proprietary LCA for Experts or ecoinvent
 background processes, confidential manufacturer data, or the Microsoft
 foreground bill of materials.

@@ -76,13 +76,32 @@ def escape(text: str) -> str:
 
 def table_latex(rows: list[list[str]], caption: str) -> str:
     columns = len(rows[0])
-    spec = "l" + "X" * (columns - 1)
+    if columns == 5:
+        ragged = r">{\raggedright\arraybackslash}"
+        spec = (
+            ragged
+            + r"p{0.16\textwidth}"
+            + ragged
+            + "X"
+            + ragged
+            + r"p{0.12\textwidth}"
+            + ragged
+            + r"p{0.12\textwidth}"
+            + ragged
+            + r"p{0.14\textwidth}"
+        )
+        font_size = r"\scriptsize"
+        tab_space = "2pt"
+    else:
+        spec = "l" + "X" * (columns - 1)
+        font_size = r"\small"
+        tab_space = "3pt"
     output = [
         r"\begin{table*}[htbp]",
         r"\centering",
         r"\caption{" + protect_inline(caption) + "}",
-        r"\small",
-        r"\setlength{\tabcolsep}{3pt}",
+        font_size,
+        rf"\setlength{{\tabcolsep}}{{{tab_space}}}",
         r"\begin{tabularx}{\textwidth}{" + spec + "}",
         r"\toprule",
         " & ".join(protect_inline(value) for value in rows[0]) + r" \\",
@@ -201,7 +220,7 @@ def build() -> None:
         if stripped.startswith("### "):
             flush_paragraph()
             close_list()
-            if stripped.startswith(("### 4.9.", "### 4.10.")):
+            if stripped.startswith("### 4.10."):
                 index += 1
                 while index < len(lines) and not lines[index].strip().startswith("## "):
                     index += 1
@@ -297,6 +316,7 @@ def build() -> None:
     (OUT / "main.tex").write_text("\n".join(output), encoding="utf-8")
     shutil.copy2(ROOT / "tables" / "table15_egrid_historical_national_factors.csv", OUT)
     shutil.copy2(ROOT / "tables" / "table19_server_inventory_stress_test.csv", OUT)
+    shutil.copy2(ROOT / "tables" / "table20_method_comparison.csv", OUT)
 
 
 if __name__ == "__main__":
