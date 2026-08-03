@@ -18,6 +18,60 @@
     "sha256": "bd2140919d0e0a3fd4ef41e69de7bf88fe0dbfac1240207a8f9cb6efbcf99590"
   },
   {
+    "source_group": "egrid-historical",
+    "local_path": "private-data/incoming/egrid-historical/eGRID2012_Data.xlsx",
+    "bytes": 10669022,
+    "sha256": "20327ebad2c35e82cf7371067d416e80061d21342177e3b648cdb272ee43d0d1"
+  },
+  {
+    "source_group": "egrid-historical",
+    "local_path": "private-data/incoming/egrid-historical/eGRID2014_Data_v2.xlsx",
+    "bytes": 13684787,
+    "sha256": "4a70a27207904c72cb26532f2b2cd5c55de231ddad3302e9287648ba41f39af8"
+  },
+  {
+    "source_group": "egrid-historical",
+    "local_path": "private-data/incoming/egrid-historical/egrid2016_data.xlsx",
+    "bytes": 10230529,
+    "sha256": "21b8f7df0327eac3ff76d0240c92a328850d18a6ac5ba1469164374ba661f88f"
+  },
+  {
+    "source_group": "egrid-historical",
+    "local_path": "private-data/incoming/egrid-historical/egrid2018_data.xlsx",
+    "bytes": 10748522,
+    "sha256": "74369b758c76b31ace8e48e89a6c7beb68d40bbd868aa10e378059939f6717ad"
+  },
+  {
+    "source_group": "egrid-historical",
+    "local_path": "private-data/incoming/egrid-historical/egrid2019_data.xlsx",
+    "bytes": 11574903,
+    "sha256": "7a20c0a5b7f71f2465728a4f4f0b0a19833b4318f020931e39d7b1fd9939bcb8"
+  },
+  {
+    "source_group": "egrid-historical",
+    "local_path": "private-data/incoming/egrid-historical/egrid2020_data.xlsx",
+    "bytes": 11879492,
+    "sha256": "d3bc01d8dd554e164cdf0fba4fa88e2523c7e233d26eb3be5446da8deb31dfce"
+  },
+  {
+    "source_group": "egrid-historical",
+    "local_path": "private-data/incoming/egrid-historical/egrid2021_data.xlsx",
+    "bytes": 14097047,
+    "sha256": "0bab3376509c79168ba19dff111e8a5ca7724043229af47af5cb5b6f71465644"
+  },
+  {
+    "source_group": "egrid-historical",
+    "local_path": "private-data/incoming/egrid-historical/egrid2022_data.xlsx",
+    "bytes": 15602850,
+    "sha256": "c73fdc561aa402d0f6ed3cc35e5d961bee6af6e003c9c035b40f757f8480b76b"
+  },
+  {
+    "source_group": "egrid-historical",
+    "local_path": "private-data/incoming/egrid-historical/egrid_1996_2016.zip",
+    "bytes": 157286946,
+    "sha256": "14503dcdf10c3d61a819a82be358e1c118991a6cf7f1901be291990104b74857"
+  },
+  {
     "source_group": "egrid2023",
     "local_path": "private-data/incoming/egrid2023/egrid.txt",
     "bytes": 7499,

@@ -13,6 +13,13 @@ SHA-256 checksum. Raw files with uncertain redistribution rights remain under
 `private-data/` and are excluded from Git. Derived, non-provider tables are
 written to both `paper/tables/` and a results directory.
 
+The checksum ledger contains 40 provider files in 10 source groups, including
+all nine historical eGRID downloads. The applied-energy metadata separately
+records the 11 files that enter its numerical results, their byte counts and
+SHA-256 hashes, the analysis-script hash, the base seed, and iterations per
+design. This narrower execution manifest prevents a complete download catalog
+from being mistaken for the actual computational dependency set.
+
 The manuscript analysis uses the following provider fields:
 
 - Microsoft/WSP: normalized GHG, primary-energy, and blue-water contribution
@@ -44,6 +51,7 @@ do not enter a reported LCIA total.
 | `table23_joint_assumption_stress.csv` | Seeded stress frequencies | Not probability or confidence |
 | `table24_functional_unit_sensitivity.csv` | Impact-per-service break-even correction | Measurement-resolution target |
 | `table25_priority_index_sensitivity.csv` | Rank stability across index weights | Heuristic diagnostic |
+| `table26_stress_structure_sensitivity.csv` | Assumption-block and dependence designs | Triangular-marginal sensitivity; not empirical probability |
 
 ## S3. Released primary-energy and blue-water results
 
@@ -129,6 +137,19 @@ Formal value of information would additionally require:
 - a decision threshold and stakeholder utility; and
 - posterior updating after data acquisition.
 
+The main-text block decomposition complements this heuristic. Under the
+declared U.S. wide envelope, embodied-only variation reduced the two-phase
+first-rank frequency to 63.36%, compared with 79.52% for use only, 73.90% for
+service only, and 100% for grid only. These frequencies rank leverage only
+within the declared stress widths; they do not estimate empirical variance.
+
+`table27_stress_convergence.csv` records nested 5,000-, 20,000-, and
+80,000-draw runs. For the U.S. narrow, screening, and wide envelopes, the
+20,000-draw estimates differed from the 80,000-draw estimates by 0.058, 0.056,
+and 0.110 percentage points, respectively. The largest difference across both
+locations was 0.709 percentage points. The table reports numerical Monte Carlo
+standard errors but does not interpret them as empirical uncertainty.
+
 ## S10. Reliability and replacement
 
 The package supports discrete replacement, linearized replacement, Weibull
@@ -164,14 +185,18 @@ future inputs, not silently substituted into the current cooling results.
 From the repository root:
 
 ```bash
-python -m pip install -e ".[dev,gui]"
+python -m pip install -e .
+python scripts/build_source_manifest.py --check
 python scripts/run_integrated_evidence_analysis.py
 python scripts/run_applied_energy_analysis.py
-pytest -q
+python -m unittest discover -s tests -v
 python paper/build_manuscript.py
 python paper/build_overleaf.py
 ```
 
-The scripts use fixed output paths, newline-stable CSV writing, and a seeded
-joint stress analysis. The raw-provider file manifest and derived tables
-should be archived with the exact Git commit used for submission.
+The scripts use fixed output paths, newline-stable CSV writing, and stable
+scenario-specific seeds. A clone without `private-data/` runs the public
+package tests and explicitly skips eight paper-reconstruction tests. Rebuilding
+the paper requires the locally held provider files whose hashes appear in the
+manifest. The manifest, derived tables, analysis metadata, and exact Git commit
+should be archived together for submission.

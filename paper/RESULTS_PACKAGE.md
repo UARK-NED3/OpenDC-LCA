@@ -37,8 +37,9 @@ technology robustness. It separates four questions:
 - In 2023, 9/51 rates exceed the grid anchor.
 - Cold plate/single-phase crossover: 96.704 kg CO2e/MWh.
 - Vermont is the only unadjusted 2023 state below the crossover.
-- The Vermont reversal disappears with a 75 kg CO2e/MWh transparent
-  boundary allowance.
+- Exact additive clearance for the Vermont crossover: 73.009 kg CO2e/MWh.
+- The 75 kg CO2e/MWh grid point is the first declared 25-unit stress step above
+  that threshold; it is not an upstream estimate.
 - Two-phase remains deterministic first rank in all 51 states across the
   0-100 kg CO2e/MWh boundary-allowance cases.
 
@@ -48,20 +49,42 @@ At 2023 U.S. generation:
 
 | Envelope | Two-phase first-rank frequency |
 |---|---:|
-| Narrow | 99.33% |
-| Screening | 75.97% |
-| Wide | 56.16% |
+| Narrow | 99.19% |
+| Screening | 76.17% |
+| Wide | 55.05% |
 
 At the lowest-carbon 2023 state:
 
 | Envelope | Two-phase first-rank frequency |
 |---|---:|
-| Narrow | 63.19% |
-| Screening | 42.55% |
-| Wide | 33.90% |
+| Narrow | 63.03% |
+| Screening | 42.72% |
+| Wide | 32.43% |
 
 These are seeded triangular stress frequencies, not probabilities or
 confidence.
+
+### Assumption-block and dependence sensitivity
+
+At 2023 U.S. generation under the wide envelope, two-phase first-rank
+frequency was 100% for grid-only variation, 79.52% for use-only variation,
+63.36% for embodied-only variation, 73.90% for service-only variation, and
+55.05% with all four blocks active when technology-specific errors were
+independent. In the all-block case, the frequency increased to 64.50% at a
+declared latent correlation of 0.5 and 100% under fully common-mode errors.
+
+The result identifies embodied foreground data and error dependence as the
+largest unresolved levers within the declared design. The copula correlations
+are not fitted and the frequencies are not probabilities.
+
+### Numerical convergence
+
+Nested 5,000-, 20,000-, and 80,000-draw runs show that the three U.S.
+20,000-draw frequencies differ from the 80,000-draw results by no more than
+0.110 percentage points. Across both locations, the maximum difference is
+0.709 percentage points. This verifies numerical integration precision within
+the declared stress designs; it does not validate the stress marginals or
+dependence assumptions.
 
 ### Functional-unit sensitivity
 
@@ -117,7 +140,7 @@ registration and interoperability only.
 ```bash
 python scripts/run_integrated_evidence_analysis.py
 python scripts/run_applied_energy_analysis.py
-pytest -q
+python -m unittest discover -s tests -v
 ```
 
 The complete machine-readable outputs are in `paper/tables/` and

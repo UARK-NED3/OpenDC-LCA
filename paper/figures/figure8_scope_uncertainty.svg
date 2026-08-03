@@ -45,24 +45,24 @@
 <text class="axis" x="160" y="534" text-anchor="end">Cold plate</text>
 <rect x="185" y="510" width="95" height="38" rx="4" fill="#D55E00" opacity="0.121"/>
 <text class="label" x="232.5" y="535" text-anchor="middle">0.1%</text>
-<rect x="305" y="510" width="95" height="38" rx="4" fill="#D55E00" opacity="0.200"/>
-<text class="label" x="352.5" y="535" text-anchor="middle">9.0%</text>
-<rect x="425" y="510" width="95" height="38" rx="4" fill="#D55E00" opacity="0.286"/>
-<text class="label" x="472.5" y="535" text-anchor="middle">18.9%</text>
+<rect x="305" y="510" width="95" height="38" rx="4" fill="#D55E00" opacity="0.201"/>
+<text class="label" x="352.5" y="535" text-anchor="middle">9.2%</text>
+<rect x="425" y="510" width="95" height="38" rx="4" fill="#D55E00" opacity="0.288"/>
+<text class="label" x="472.5" y="535" text-anchor="middle">19.1%</text>
 <text class="axis" x="160" y="589" text-anchor="end">One-phase</text>
-<rect x="185" y="565" width="95" height="38" rx="4" fill="#D55E00" opacity="0.125"/>
-<text class="label" x="232.5" y="590" text-anchor="middle">0.6%</text>
-<rect x="305" y="565" width="95" height="38" rx="4" fill="#D55E00" opacity="0.252"/>
-<text class="label" x="352.5" y="590" text-anchor="middle">15.0%</text>
-<rect x="425" y="565" width="95" height="38" rx="4" fill="#D55E00" opacity="0.337"/>
-<text class="label" x="472.5" y="590" text-anchor="middle">24.6%</text>
+<rect x="185" y="565" width="95" height="38" rx="4" fill="#D55E00" opacity="0.126"/>
+<text class="label" x="232.5" y="590" text-anchor="middle">0.7%</text>
+<rect x="305" y="565" width="95" height="38" rx="4" fill="#D55E00" opacity="0.249"/>
+<text class="label" x="352.5" y="590" text-anchor="middle">14.6%</text>
+<rect x="425" y="565" width="95" height="38" rx="4" fill="#D55E00" opacity="0.344"/>
+<text class="label" x="472.5" y="590" text-anchor="middle">25.5%</text>
 <text class="axis" x="160" y="644" text-anchor="end">Two-phase</text>
-<rect x="185" y="620" width="95" height="38" rx="4" fill="#D55E00" opacity="0.994"/>
-<text class="label" x="232.5" y="645" text-anchor="middle">99.3%</text>
-<rect x="305" y="620" width="95" height="38" rx="4" fill="#D55E00" opacity="0.789"/>
-<text class="label" x="352.5" y="645" text-anchor="middle">76.0%</text>
-<rect x="425" y="620" width="95" height="38" rx="4" fill="#D55E00" opacity="0.614"/>
-<text class="label" x="472.5" y="645" text-anchor="middle">56.2%</text>
+<rect x="185" y="620" width="95" height="38" rx="4" fill="#D55E00" opacity="0.993"/>
+<text class="label" x="232.5" y="645" text-anchor="middle">99.2%</text>
+<rect x="305" y="620" width="95" height="38" rx="4" fill="#D55E00" opacity="0.790"/>
+<text class="label" x="352.5" y="645" text-anchor="middle">76.2%</text>
+<rect x="425" y="620" width="95" height="38" rx="4" fill="#D55E00" opacity="0.604"/>
+<text class="label" x="472.5" y="645" text-anchor="middle">55.0%</text>
 <text class="note" x="232.5" y="690" text-anchor="middle">narrow</text>
 <text class="note" x="352.5" y="690" text-anchor="middle">screening</text>
 <text class="note" x="472.5" y="690" text-anchor="middle">wide</text>

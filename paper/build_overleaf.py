@@ -86,25 +86,70 @@ def escape(text: str) -> str:
 
 def table_latex(rows: list[list[str]], caption: str) -> str:
     columns = len(rows[0])
-    if columns == 5:
+
+    def cell(value: str) -> str:
+        return (
+            protect_inline(value)
+            .replace("/", r"/\allowbreak{}")
+            .replace("-", r"-\allowbreak{}")
+        )
+
+    if columns == 4 and rows[0][0] != "Envelope":
         ragged = r">{\raggedright\arraybackslash}"
         spec = (
             ragged
-            + r"p{0.12\linewidth}"
+            + r"p{0.18\textwidth}"
             + ragged
+            + r"p{0.23\textwidth}"
+            + ragged
+            + r"p{0.34\textwidth}"
+            + ragged
+            + r"p{0.16\textwidth}"
+        )
+        header = " & ".join(cell(value) for value in rows[0]) + r" \\"
+        output = [
+            r"{\footnotesize",
+            r"\setlength{\tabcolsep}{3pt}",
+            r"\begin{longtable}{" + spec + "}",
+            r"\caption{" + protect_inline(caption) + r"}\\",
+            r"\toprule",
+            header,
+            r"\midrule",
+            r"\endfirsthead",
+            r"\caption[]{" + protect_inline(caption) + r" (continued)}\\",
+            r"\toprule",
+            header,
+            r"\midrule",
+            r"\endhead",
+            r"\midrule",
+            r"\multicolumn{4}{r}{Continued on next page}\\",
+            r"\endfoot",
+            r"\bottomrule",
+            r"\endlastfoot",
+        ]
+        for row in rows[2:]:
+            output.append(" & ".join(cell(value) for value in row) + r" \\")
+            output.append(r"\addlinespace[2pt]")
+        output += [r"\end{longtable}", r"}", ""]
+        return "\n".join(output)
+
+    if columns == 4:
+        ragged = r">{\raggedright\arraybackslash}"
+        spec = (
+            ragged
             + r"p{0.15\linewidth}"
             + ragged
-            + r"p{0.22\linewidth}"
+            + r"p{0.39\linewidth}"
             + ragged
-            + r"p{0.28\linewidth}"
+            + r"p{0.18\linewidth}"
             + ragged
-            + r"p{0.13\linewidth}"
+            + r"p{0.18\linewidth}"
         )
-        font_size = r"\scriptsize"
+        font_size = r"\small"
         tab_space = "3pt"
-        table_begin = [r"\begin{landscape}", r"\begin{table}[p]"]
-        table_end = [r"\end{table}", r"\end{landscape}"]
-        width = r"\linewidth"
+        table_begin = [r"\begin{table}[!htbp]"]
+        table_end = [r"\end{table}"]
+        width = r"\textwidth"
     else:
         spec = "l" + "X" * (columns - 1)
         font_size = r"\small"
@@ -119,12 +164,12 @@ def table_latex(rows: list[list[str]], caption: str) -> str:
         rf"\setlength{{\tabcolsep}}{{{tab_space}}}",
         r"\begin{tabularx}{" + width + "}{" + spec + "}",
         r"\toprule",
-        " & ".join(protect_inline(value) for value in rows[0]) + r" \\",
+        " & ".join(cell(value) for value in rows[0]) + r" \\",
         r"\midrule",
     ]
     for row in rows[2:]:
         output.append(
-            " & ".join(protect_inline(value) for value in row) + r" \\"
+            " & ".join(cell(value) for value in row) + r" \\"
         )
     output += [r"\bottomrule", r"\end{tabularx}"] + table_end + [""]
     return "\n".join(output)
@@ -207,7 +252,6 @@ def build() -> None:
         r"\begin{frontmatter}",
         r"\title{" + protect_inline(title) + "}",
         r"\author[uark]{Han Hu\corref{cor1}}",
-        r"\ead{Corresponding author email to be confirmed}",
         r"\author[uark]{Darin W. Nutter}",
         r"\address[uark]{Department of Mechanical Engineering, University of Arkansas, Fayetteville, Arkansas, USA}",
         r"\cortext[cor1]{Corresponding author}",
@@ -299,12 +343,12 @@ def build() -> None:
                 caption, name = match.groups()
                 caption = re.sub(r"^Figure \d+\.\s*", "", caption)
                 output += [
-                    r"\begin{figure*}[htbp]",
+                    r"\begin{figure}[!htbp]",
                     r"\centering",
-                    rf"\includegraphics[width=0.96\textwidth]{{figures/{name}.pdf}}",
+                    rf"\includegraphics[width=0.98\linewidth]{{figures/{name}.pdf}}",
                     r"\caption{" + protect_inline(caption) + "}",
                     r"\label{fig:" + name.replace("_", "-") + "}",
-                    r"\end{figure*}",
+                    r"\end{figure}",
                     "",
                 ]
             index += 1
@@ -377,6 +421,7 @@ def build() -> None:
         output.append(rf"\bibitem{{ref{number}}} " + protect_inline(reference))
     output += [r"\end{thebibliography}", r"\end{document}", ""]
     (OUT / "main.tex").write_text("\n".join(output), encoding="utf-8")
+    shutil.copy2(ROOT / "SUBMISSION_ACTIONS.md", OUT)
     for name in (
         "table15_egrid_historical_national_factors.csv",
         "table19_server_inventory_stress_test.csv",
@@ -386,6 +431,8 @@ def build() -> None:
         "table23_joint_assumption_stress.csv",
         "table24_functional_unit_sensitivity.csv",
         "table25_priority_index_sensitivity.csv",
+        "table26_stress_structure_sensitivity.csv",
+        "table27_stress_convergence.csv",
     ):
         shutil.copy2(ROOT / "tables" / name, OUT)
 

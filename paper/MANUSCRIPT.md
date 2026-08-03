@@ -5,36 +5,34 @@
 Department of Mechanical Engineering, University of Arkansas, Fayetteville,
 Arkansas, USA
 
-*Draft for coauthor review. Authorship, order, contributions, target journal,
-and corresponding-author information must be confirmed before submission.*
+*Pre-submission draft for coauthor review.*
 
 ## Abstract
 
-Cooling life-cycle assessments (LCAs) are reported as technology
-rankings even though electricity accounting, useful-computation equivalence,
-system boundaries, and foreground data vary among studies. We present
-OpenDC-LCA, an open-source evidence layer connecting data-center cooling
-engineering to LCA tools while retaining source identity, functional
-unit, transformation limits, and claim status. We reconciled all 24 normalized
-totals released with a Microsoft/WSP hyperscale cooling study, reconstructed
-nine U.S. EPA eGRID years to a common AR5 GWP100 basis, and evaluated anchor
-coverage, boundary mismatch, functional-unit sensitivity, and joint
-assumption stress. The harmonized U.S. generation rate declined 32.46%, from
-517.73 kg CO2e/MWh in 2012 to 349.67 kg CO2e/MWh in 2023; changing historical
-GWP bases altered any annual national rate by at most 0.248 kg CO2e/MWh. In
-contrast, 137 of 459 state-year rates lay outside the two released electricity
-anchors. The cold-plate/single-phase-immersion crossover occurred at 96.7 kg
-CO2e/MWh, but the sole 2023 state below it disappeared when a transparent
-75 kg CO2e/MWh upstream-boundary allowance was applied. Two-phase immersion
-ranked first in every deterministic state-year screen, yet its U.S. first-rank
-frequency fell from 99.3% to 56.2% across narrow-to-wide declared stress
-envelopes. A median 5.50% adverse correction to its impact per equivalent
-useful computation erased first rank. These frequencies are sensitivity
-diagnostics, not probabilities. The results show that the national
-decarbonization trend is robust, whereas local cooling rankings depend on
-boundary and service-equivalence evidence. OpenDC-LCA converts those
-dependencies into explicit data-acquisition priorities rather than hiding them
-inside a universal league table.
+Life-cycle assessments (LCAs) of data-center cooling often report rankings
+despite differences in electricity accounting, useful-computation equivalence,
+boundaries, and foreground data. OpenDC-LCA links cooling engineering and LCA
+tools. We reconciled 24 released totals from a Microsoft/WSP study,
+reconstructed nine U.S. EPA eGRID years on a common
+AR5 GWP100 basis, and tested anchor coverage, boundary mismatch,
+functional-unit equivalence, assumption blocks, dependence, and numerical
+convergence. The harmonized U.S. generation rate declined 32.46%, from 517.73
+kg CO2e/MWh in 2012 to 349.67 kg CO2e/MWh in 2023; GWP-basis harmonization
+changed any annual national rate by at most 0.248 kg CO2e/MWh. Yet 137 of 459
+state-year rates lay outside the released electricity anchors. The
+cold-plate/single-phase
+crossover was 96.7 kg CO2e/MWh. The only 2023 state below it lost that ordering
+after an exact 73.01 kg CO2e/MWh additive boundary test. Two-phase immersion
+ranked first in every deterministic state-year screen, but its U.S. first-rank
+frequency fell from 99.19% to 55.05% across narrow-to-wide all-block
+zero-correlation stress designs. In the wide design it rose from 55.05% with
+independent architecture errors to 100% with common-mode errors; embodied
+variation caused the largest one-block rank loss. A median 5.50% adverse
+useful-computation correction also erased first rank. These frequencies
+describe stress designs, not probabilities. The national decarbonization trend
+is stable, whereas cooling rankings depend on boundary, foreground, dependence,
+and service-equivalence evidence. OpenDC-LCA converts those dependencies into
+traceable data requirements rather than a universal league table.
 
 **Keywords:** data center; life-cycle assessment; immersion cooling; grid
 decarbonization; uncertainty; functional unit; open-source software
@@ -71,7 +69,7 @@ loss, replacement, water scarcity, or useful computation. Cooling selection is
 therefore an energy-system decision with lifecycle consequences, not a
 single-metric efficiency contest.
 
-### 1.2. What existing data-center LCAs establish
+### 1.2. What existing data-center LCAs show
 
 Early environmental assessments showed that operating electricity dominates
 many data-center footprints and that PUE alone can transfer burdens outside
@@ -83,7 +81,7 @@ Wenzel and Radgen compared energy, material-flow, exergy, and lifecycle
 assessment methods for a wet cooling tower, illustrating that method choice
 changes the question answered [13].
 
-Alissa et al. published the most comprehensive public hyperscale comparison of
+Alissa et al. published the most detailed public hyperscale comparison of
 air, cold-plate, single-phase immersion, and two-phase immersion [14]. Their
 cradle-to-grave model included buildings, support equipment, servers, racks or
 tanks, cables, cooling fluids, use-phase electricity and water, replacement,
@@ -98,7 +96,7 @@ electricity to workload performance.
 Recent LCA work confirms that electricity decarbonization and cooling
 efficiency are complementary but can shift impacts among categories [16].
 Manufacturer and ICT studies also show wide dispersion in embodied server
-impacts [17,18]. Together, these studies establish the need for lifecycle
+impacts [17,18]. Together, these studies show the need for lifecycle
 assessment while exposing a transferability problem: a static result at one
 grid, one performance assumption, and one database system cannot be treated as
 a universal cooling ranking.
@@ -146,10 +144,17 @@ electronics-cooling laboratories. A parameter may have poor pedigree but
 negligible decision leverage; a seemingly precise PUE difference may be
 decisive if two lifecycle alternatives are nearly tied.
 
+The review standard also depends on the claim. ISO 14040 and ISO 14044 define
+the LCA framework and requirements, whereas ISO 14071:2024 specifies critical
+review processes and reviewer competencies, with particular relevance to
+comparative assertions intended for public disclosure [31,32]. Code tests,
+data checks, and coauthor review can strengthen traceability, but none is a
+substitute for an independent critical review.
+
 ### 1.5. Research gap and contribution
 
 General engines such as openLCA and Brightway calculate process networks,
-exchange inventories, and apply LCIA methods [31,32]. They do not determine
+exchange inventories, and apply LCIA methods [33,34]. They do not determine
 whether cooling alternatives deliver equivalent computation, whether a
 performance map covers the operating domain, whether a grid substitution
 preserves the original electricity boundary, or whether secondary screening
@@ -205,7 +210,7 @@ decision-grade evidence.
 ![Figure 1. OpenDC-LCA evidence-to-decision architecture. Inputs are assigned a numerical role before calculation. The harmonization spine makes functional equivalence, method alignment, extrapolation, uncertainty, and claim status explicit. Outputs combine the numerical result with its evidence class and next-data requirement.](figures/figure0_opendc_lca_workflow.svg)
 
 OpenDC-LCA is implemented in Python 3.10 or later and distributed under the
-MIT License [33]. Version 1.1.0 provides a command-line interface, Python API,
+MIT License [35]. Version 1.1.0 provides a command-line interface, Python API,
 local browser GUI, scenario and performance-map schemas, reliability and
 replacement models, openLCA JSON-LD and Brightway mappings, evidence audits,
 and human- and machine-readable reports. All interfaces call the same
@@ -238,15 +243,15 @@ a dataset compatible with the case model.
 
 **Table 1. Numerical role and boundary assigned to downloaded evidence.**
 
-| Source | Records used | Numerical role in this paper | Why not used more broadly | Evidence class |
-|---|---:|---|---|---|
-| Microsoft/WSP Nature archive [14,15] | 24 normalized totals; component tables; 2 electricity anchors; pedigree records | Arithmetic reconstruction, foreground contribution model, crossover and stress analysis | Licensed background inventories and complete bills of quantities are not public | Released/reconstructed |
-| EPA eGRID 2012-2023 [34,35] | 459 state/DC-year rows; 9 U.S. aggregates | Harmonized generation-rate scenarios and historical trend | Direct generation rates are not consumption-based lifecycle electricity inventories | Screening transformation |
-| Boavizta [36] | 48 server PCF records | Empirical scale for server-manufacturing stress and dispersion | Heterogeneous products, configurations, PCRs, lifetimes, and functional performance | Secondary cross-product evidence |
-| ÖKOBAUDAT 2024-II [37] | 6 selected A1-A3 processes | Matched steel and cement procurement levers | German generic factors cannot be propagated without an architecture-specific bill of quantities | Secondary process evidence |
-| NOAA TMY [38] | 8,760 hourly weather rows for Fayetteville example | Software and performance-map integration test | No measured architecture-specific cooling surface is available | Illustrative only |
-| USLCI, seven GLAD hydrogen archives [39,40] | Registered/exchange-tested inventories | Interoperability and future backup-power/equipment mapping | Provider linking, common product system, allocation, and LCIA method are unresolved | Registered/unlinked |
-| USGS watershed boundary [41] | HU12 geometry | Spatial data contract test | Geometry is not withdrawal, consumption, or water-scarcity characterization | Registered/unlinked |
+| Source and evidence used | Numerical role in this paper | Boundary or transfer limit | Claim class |
+|---|---|---|---|
+| Microsoft/WSP archive: 24 totals, component tables, 2 electricity anchors, pedigree records [14,15] | Arithmetic reconstruction, foreground contribution model, crossover and stress analyses | Licensed background inventories and complete bills of quantities are not public | Released/reconstructed |
+| EPA eGRID: 459 state/DC-year rows and 9 U.S. aggregates [36,37] | Common-basis generation-rate scenarios and historical trend | Direct generation rates are not consumption-based lifecycle electricity inventories | Screening transformation |
+| Boavizta: 48 server PCF records [38] | Server-manufacturing dispersion and common-scaling stress | Products, configurations, PCRs, lifetimes, and performance are heterogeneous | Secondary cross-product evidence |
+| ÖKOBAUDAT: 6 selected A1-A3 processes [39] | Matched steel- and cement-route procurement levers | German generic factors require architecture-specific bills of quantities | Secondary process evidence |
+| NOAA TMY: 8,760 Fayetteville weather rows [40] | Performance-map and hourly-integration software test | No measured four-architecture cooling surface is available | Illustrative only |
+| USLCI and 7 GLAD hydrogen archives [41,42] | Exchange and interoperability tests | Product-system links, allocation, providers, and LCIA methods are unresolved | Registered/unlinked |
+| USGS watershed boundary: HU12 geometry [43] | Spatial data contract test | Geometry is not withdrawal, consumption, or water-scarcity characterization | Registered/unlinked |
 
 Provider-native raw files remain outside the public repository when
 redistribution permission is unclear. Derived tables retain filenames,
@@ -360,7 +365,7 @@ g^*=g_R+(g_G-g_R)
 ### 2.6. Common-basis eGRID reconstruction
 
 EPA changed the GWP values used by eGRID: releases before 2018 used IPCC SAR,
-2018-2022 used AR4, and 2023 used AR5 without climate-carbon feedback [34,35].
+2018-2022 used AR4, and 2023 used AR5 without climate-carbon feedback [36,37].
 To remove this avoidable discontinuity, every state and U.S. factor was
 reconstructed from net generation and gas-specific annual emissions:
 
@@ -395,7 +400,9 @@ cannot be estimated from the released files, we did not assign a best value.
 Instead, we added transparent allowances of 0, 25, 50, 75, and 100 kg
 CO2e/MWh to every 2023 eGRID rate and recomputed architecture order. This is a
 boundary-mismatch stress, not an uncertainty distribution or estimate of
-upstream emissions.
+upstream emissions. We also calculated the exact additive value that moves the
+lowest 2023 state rate to the cold-plate/single-phase crossover,
+(g^*-min(g_s)).
 
 Functional-unit sensitivity was evaluated separately. At each state-year, the
 minimum multiplicative increase in two-phase impact per equivalent useful
@@ -411,27 +418,40 @@ This correction represents an unresolved combination of useful throughput,
 server count, quality of service, lifetime, and replacement. It is not a
 measured two-phase penalty.
 
-### 2.8. Joint assumption-stress ensembles
+### 2.8. Assumption-block and dependence stress designs
 
 Deterministic break-even values do not propagate interacting assumptions. We
-therefore ran seeded, 20,000-iteration triangular stress ensembles for the
-2023 U.S. generation factor and the lowest-carbon 2023 state. A shared grid
-multiplier was drawn for each iteration. Technology-specific multipliers were
-then drawn for use phase, embodied contribution, and impact per equivalent
-service. Three declared envelopes were used (Table 2).
+therefore ran seeded, 20,000-iteration triangular stress designs for the 2023
+U.S. generation factor and the lowest-carbon 2023 state. The headline design
+used one shared grid multiplier and independent technology-specific
+multipliers for use phase, embodied contribution, and impact per equivalent
+service. It is the all-block, zero-correlation member of the dependence
+analysis described below. Three declared envelopes were used (Table 2).
 
 **Table 2. Declared half-widths for joint assumption-stress ensembles.**
 
-| Envelope | Grid rate | Use phase | Embodied | Service equivalence | Interpretation |
-|---|---:|---:|---:|---:|---|
-| Narrow | ±2% | ±2% | ±20% | ±2% | Numerical stability near released values |
-| Screening | ±5% | ±5% | ±50% | ±5% | Plausible engineering/model stress without fitted distributions |
-| Wide | ±10% | ±10% | ±100% | ±10% | Deliberately severe robustness test |
+| Envelope | Grid, use, and service half-width | Embodied half-width | Purpose |
+|---|---:|---:|---|
+| Narrow | ±2% | ±20% | Numerical stability near released values |
+| Screening | ±5% | ±50% | Intermediate declared stress; not a fitted range |
+| Wide | ±10% | ±100% | Deliberately severe robustness test |
 
-The triangular mode was 1.0 and the random seed was 20250730. The resulting
-rank frequencies describe the declared perturbation design. They are not
-posterior probabilities, confidence levels, or a substitute for empirical
-uncertainty distributions and correlations.
+The triangular mode was 1.0 and the base seed was 20250730. A stable hash of
+the context, envelope, active block, and dependence case generated a separate
+seed for every design, so output does not depend on loop order. We then repeated
+the stress with grid only, use phase only, embodied contribution only, service
+equivalence only, and all four blocks active. Technology-specific multipliers
+were coupled with a Gaussian copula at declared latent correlations of 0, 0.5,
+and 1 while retaining the same triangular marginals. These correlations are
+not measurements. Rank frequencies describe the declared designs; they are
+not posterior probabilities, confidence levels, or a substitute for empirical
+uncertainty distributions.
+
+Numerical convergence was checked with nested 5,000-, 20,000-, and
+80,000-draw runs using the same scenario seeds. The binomial Monte Carlo
+standard error is reported only as integration precision within each declared
+design. It is not a confidence interval for cooling performance or a remedy
+for unsupported input distributions.
 
 ### 2.9. Server, construction, and data-priority analyses
 
@@ -487,9 +507,9 @@ The audit checks source identity, duplicate identifiers, physical values,
 functional unit, boundary, uncertainty disclosure, evidence class, and intent
 to make a comparative assertion. Synthetic results cannot pass a public-claim
 gate. A public comparison additionally requires consistent boundaries,
-quantified uncertainty, and critical review consistent with ISO 14040 and
-14044 [42]. Automated checks assist but do not constitute ISO conformity or
-independent review.
+quantified uncertainty, and critical review consistent with ISO 14040, ISO
+14044, and ISO 14071 [31,32]. Automated checks assist but do not constitute ISO
+conformity or independent review.
 
 ## 3. Results
 
@@ -499,8 +519,8 @@ All 24 released combinations of architecture, electricity scenario, and
 impact metric reconciled to the sum of the published contributions at workbook
 precision. Under the released U.S. grid case, two-phase immersion reduced GHG
 20.66%, primary energy 20.00%, and blue water 46.78% relative to air cooling.
-The arithmetic result establishes that the public normalized table is
-internally reusable. It does not establish that the original inventories,
+The arithmetic result shows that the public normalized table is internally
+reusable. It does not verify that the original inventories,
 quantities, or performance assumptions are independently valid.
 
 ![Figure 2. Relative reductions versus air cooling obtained by summing the released Microsoft/WSP normalized contributions. All 24 totals were reconciled at workbook precision. This figure reproduces released arithmetic; it does not validate proprietary inventories or field performance.](figures/figure1_microsoft_grid_reductions.svg)
@@ -547,23 +567,26 @@ grid anchor.
 
 The boundary allowance revealed a sharper limitation. The Vermont
 cold-plate/single-phase result persisted with 25 and 50 kg CO2e/MWh added to
-the direct generation rate, but disappeared at 75 and 100 kg CO2e/MWh.
+the direct generation rate, but disappeared at 75 and 100 kg CO2e/MWh. The
+analytical clearance was 96.704-23.695 = 73.009 kg CO2e/MWh; 75 kg CO2e/MWh is
+therefore only the first point in the declared 25-unit grid above the exact
+threshold, not an estimate of upstream emissions.
 Two-phase remained first in 51/51 states across all five allowance levels.
 This does not estimate the missing upstream inventory. It shows that the
 headline “one state below the crossover” is conditional on treating
 methodologically different electricity results as a common numerical index.
 
-### 3.4. Joint stress weakens a deterministic first rank
+### 3.4. Foreground variation and dependence weaken a deterministic first rank
 
-Figure 4 consolidates the extrapolation, boundary, joint-stress, and
-functional-unit diagnostics. Under the 2023 U.S. generation context,
-two-phase first-rank frequency was 99.33% in the narrow envelope, 75.97% in
-the screening envelope, and 56.16% in the wide envelope. Cold plate and
-single-phase gained 18.86% and 24.63%, respectively, in the wide envelope;
-air cooling gained 0.35%.
+Figure 4 consolidates the extrapolation, boundary, zero-correlation all-block
+stress, and functional-unit diagnostics. Under the 2023 U.S. generation
+context, two-phase first-rank frequency was 99.19% in the narrow envelope,
+76.17% in the screening envelope, and 55.05% in the wide envelope. Cold plate,
+single-phase, and air cooling had wide-envelope first-rank frequencies of
+19.15%, 25.47%, and 0.34%, respectively.
 
 Sensitivity was greater at the lowest-carbon state. Two-phase first-rank
-frequency was 63.19%, 42.55%, and 33.90% in the narrow, screening, and wide
+frequency was 63.03%, 42.72%, and 32.43% in the narrow, screening, and wide
 envelopes. Even a narrow perturbation matters when use-phase burdens contract
 and the alternatives are close. These values are not technology-success
 probabilities. They quantify how frequently a ranking survives a specified
@@ -578,6 +601,36 @@ small enough that server count, throughput, throttling, reliability, and
 lifetime must be measured rather than assumed for a decision-grade claim.
 
 ![Figure 4. Robustness diagnostics. (A) Anchor interpolation and extrapolation counts. (B) Cold-plate/single-phase order under a transparent electricity-boundary allowance. (C) U.S. first-rank frequencies under declared joint stress envelopes. (D) two-phase impact-per-service correction required to erase first rank. Stress frequencies are not confidence levels.](figures/figure8_scope_uncertainty.svg)
+
+The block-and-dependence analysis explains why those frequencies change
+(Figure 5). Grid-rate variation alone never displaced two-phase in any tested
+U.S. design. In the screening envelope with independent technology-specific
+errors, two-phase retained first rank in 98.29% of use-only, 86.75% of
+embodied-only, and 96.00% of service-only draws; with all blocks active the
+frequency was 76.17%. The wide-envelope counterparts were 79.52%, 63.36%,
+73.90%, and 55.05%. Embodied variation was therefore the largest one-block
+source of rank loss under the declared marginal widths.
+
+Dependence was equally important. In the wide all-block design, the U.S.
+two-phase first-rank frequency increased from 55.05% at zero latent correlation
+to 64.50% at 0.5 and 100% when technology-specific errors were fully
+common-mode. The last case does not prove robustness; it shows that common
+errors preserve relative ordering while independent architecture errors erode
+it. A rank frequency without a defensible correlation model is therefore
+under-specified even when every marginal range is disclosed.
+
+The nested convergence check separated Monte Carlo noise from model-form
+sensitivity. For the three U.S. envelopes, the 20,000-draw frequencies differed
+from the 80,000-draw results by 0.06, 0.06, and 0.11 percentage points; the
+80,000-draw numerical standard errors were 0.031, 0.151, and 0.176 percentage
+points. Across both locations and all envelopes, the largest 20,000-to-80,000
+difference was 0.709 percentage points, for the low-carbon wide case. These
+differences are small relative to the 44.14-percentage-point change between the
+U.S. narrow and wide designs and the 44.95-percentage-point change between
+zero-correlation and common-mode U.S. wide designs. Sampling noise therefore
+does not explain the central sensitivity result.
+
+![Figure 5. Assumption-block and dependence diagnostic for the 2023 U.S. generation context. Cells report two-phase first-rank frequency under declared screening and wide triangular marginals. Grid-only variation is shared. Technology-specific use, embodied, and service multipliers use a Gaussian copula with declared latent correlation. These are sensitivity designs, not empirical probabilities.](figures/figure9_stress_structure.svg)
 
 ### 3.5. Server and construction data reveal leverage but not architecture totals
 
@@ -614,16 +667,17 @@ information. A formal acquisition decision requires empirical parameter
 distributions, correlations, measurement cost, and the loss associated with a
 wrong architecture choice [30].
 
-![Figure 5. Contribution-weighted pedigree diagnostic from the released Microsoft/WSP model. Use phase leads under the base index, but rank robustness is evaluated separately because the index is heuristic.](figures/figure3_data_priority.svg)
-
 ### 3.7. Software consistency and practitioner outputs
 
-The current test suite contains 46 passing tests covering calculation,
+With the local evidence archive present, all 49 tests pass. They cover calculation,
 interoperability, reliability, public-data parsing, practitioner workflow,
 research analysis, GUI/API parity, endpoint reproduction, eGRID
 harmonization, extrapolation counts, boundary stress, and functional-unit
-sensitivity. The package was also installed in a clean environment and run
-from template creation through report generation.
+sensitivity, stress-design determinism, and provenance-integrity checks. In a
+clone-only clean environment, 41 tests pass and 8 paper-reconstruction tests
+are skipped explicitly because they require locally held provider files; no
+dummy data replace those files. The clean install also completed example export,
+scenario analysis, and practitioner-report generation.
 
 A practitioner supplies IT capacity, utilization, PUE, facility lifetime,
 onsite water, location- and market-based electricity factors, optional
@@ -667,11 +721,12 @@ The boundary mismatch is qualitatively different. eGRID total-output rates
 omit upstream fuel supply, infrastructure, imports and transmission, while the
 GaBi anchors are lifecycle results. The two also use GWP100 and GTP100,
 respectively. No algebra can make them equivalent without a linked inventory
-and common LCIA method. The 75 kg CO2e/MWh stress is valuable precisely
-because it does not pretend to know the missing value: it shows that the local
-crossover claim is fragile to a plausible scale of unrepresented lifecycle
-burden, whereas the deterministic two-phase first rank is less sensitive
-within this single dimension.
+and common LCIA method. The exact 73.009 kg CO2e/MWh clearance and the declared
+25-unit stress grid are useful because they do not pretend to know the missing
+value. They show how large an additive boundary term must be to remove the
+local crossover while leaving its actual physical magnitude unresolved. The
+deterministic two-phase first rank is less sensitive within this single
+dimension.
 
 For a decision-grade extension, the correct next step is to replace the
 intensity index with consumption-based, lifecycle electricity processes
@@ -679,15 +734,25 @@ calculated under the same LCIA method as the foreground. Location- and
 market-based cases should be modeled consistently throughout the product
 system to avoid renewable double counting [19,20].
 
-### 4.3. Joint uncertainty changes the epistemic status of the result
+### 4.3. Dependence changes the epistemic status of the stress result
 
 One-at-a-time break-even analysis is easy to interpret but can overstate
-robustness when inputs co-vary. The joint stress result does not provide
-probability because the envelopes are not fitted. It does establish an
-important negative finding: deterministic survival across 459 grid factors
-does not imply survival under interacting foreground and functional-unit
-assumptions. The grid panel explores one dimension repeatedly; it is not 459
-replicates of the cooling technologies.
+robustness when inputs co-vary. The stress designs do not provide probability
+because neither the envelopes nor the copula correlations are fitted. They do
+yield two negative findings. First, deterministic survival across 459 grid
+factors does not imply survival under foreground and functional-unit changes;
+the grid panel explores one dimension repeatedly, not 459 replicates of the
+cooling technologies. Second, a first-rank frequency is not identified by its
+marginal ranges alone: the wide all-block value changed from 55.05% to 100%
+when only the dependence design changed from independent to common-mode.
+
+The block decomposition also changes the measurement priority. Under the
+declared U.S. screening and wide designs, embodied-only variation displaced
+two-phase more often than use-only, service-only, or grid-only variation. That
+result does not assign real-world variance to embodied inventories. It shows
+that architecture-specific quantities, server configurations, service lives,
+and material inventories deserve the same experimental attention as cooling
+electricity once operational burdens contract.
 
 This distinction should guide future experiments. Measured distributions are
 needed for load-dependent fan, pump, coolant-distribution, and heat-rejection
@@ -697,7 +762,7 @@ temperature may reduce compressor energy while changing chip leakage,
 performance, and reliability; higher density may reduce building burden per
 Vcore while increasing local pumping or repair complexity. Empirical joint
 distributions would convert the present stress frequency into a defensible
-probability of rank and enable expected-value-of-information analysis.
+probability of rank and support expected-value-of-information analysis.
 
 ### 4.4. Useful computation is the decisive experimental bridge
 
@@ -786,7 +851,10 @@ The analysis remains secondary. It does not recreate proprietary background
 inventories, confidential bills of quantities, the full virtual-core model,
 or measured hyperscale operation. Equation (8) uses a numerical index across
 different electricity boundaries and climate metrics. The additive boundary
-allowance and triangular stress envelopes are diagnostics, not estimates.
+allowance, triangular marginals, and Gaussian-copula dependence cases are
+diagnostics, not estimates. The convergence check limits numerical sampling
+error within those designs; it does not reduce epistemic uncertainty in the
+ranges, dependence structure, or foreground model.
 State total-output rates represent generation rather than consumption and
 omit imports, contracts, transmission, hourly dispatch, and marginal effects.
 
@@ -807,21 +875,26 @@ than obscured by additional proxy scenarios.
 
 ## 5. Conclusions
 
-OpenDC-LCA reframes data-center cooling LCA as an evidence-bounded decision
+OpenDC-LCA treats data-center cooling LCA as an evidence-bounded decision
 problem. It reconciled 24 released Microsoft/WSP totals, reconstructed nine
 eGRID releases to a common AR5 GWP100 basis, and quantified extrapolation,
-electricity-boundary, functional-unit, and joint assumption sensitivity.
+electricity-boundary, functional-unit, assumption-block, and dependence
+sensitivity.
 
-Three findings are consequential. First, the U.S. generation-rate decline of
+Four findings follow. First, the U.S. generation-rate decline of
 32.46% from 2012 to 2023 is robust to historical eGRID GWP changes; the
 largest common-basis correction was only 0.248 kg CO2e/MWh. Second, local
 cooling rankings are less robust: 29.85% of state-year rates fall outside the
-released anchors, and the sole 2023 cold-plate/single-phase reversal vanishes
-under a 75 kg CO2e/MWh boundary allowance. Third, deterministic first rank is
-not uncertainty robustness. Two-phase ranked first in all 459 unperturbed
-screens, but its U.S. first-rank frequency fell from 99.33% to 56.16% across
-declared narrow-to-wide stress envelopes, and a median 5.50% adverse
-useful-computation correction erased first rank.
+released anchors, and the sole 2023 cold-plate/single-phase reversal has an
+exact 73.009 kg CO2e/MWh additive boundary clearance. Third, deterministic
+first rank is not stress robustness. Two-phase ranked first in all 459
+unperturbed screens, but its U.S. first-rank frequency fell from 99.19% to
+55.05% across zero-correlation all-block narrow-to-wide designs, and a median
+5.50% adverse useful-computation correction erased first rank. Fourth, the
+stress frequency itself depends on structure: in the wide U.S. all-block
+design it ranged from 55.05% under independent architecture errors to 100%
+under fully common-mode errors, while grid-only variation never displaced
+two-phase.
 
 The practical implication is straightforward: publish cooling comparisons
 with their functional unit, electricity boundary, anchor coverage,
@@ -839,31 +912,14 @@ OpenDC-LCA version 1.1.0 source code, examples, documentation, tests, derived
 tables, and manuscript figures are available at
 https://github.com/UARK-NED3/OpenDC-LCA. Installable wheel and source archives
 are available from
-https://github.com/UARK-NED3/OpenDC-LCA/releases/tag/v1.1.0. A DOI-bearing,
-immutable archive containing the accepted code commit, derived tables,
-figures, configuration, and reproducibility manifest will be minted before
-submission. Provider-native raw files remain local when redistribution
-permission has not been established. The Microsoft/Nature archive is available
+https://github.com/UARK-NED3/OpenDC-LCA/releases/tag/v1.1.0. No DOI-bearing
+archive has yet been minted. The repository commit, analysis metadata, and
+provider-file checksum manifest identify the current reproducibility state;
+an immutable archival deposit remains a pre-submission action. Provider-native
+raw files remain local when redistribution permission has not been established.
+The Microsoft/Nature archive is available
 from Zenodo [15]; eGRID and NOAA data are available from their public portals
-[34,35,38].
-
-## Author contributions
-
-**Draft taxonomy for confirmation:** Han Hu: conceptualization, methodology,
-software supervision, thermal-management analysis, writing, and
-visualization. Darin W. Nutter: LCA methodology, validation strategy, critical
-review, and manuscript revision. Contributions must be confirmed before
-submission.
-
-## Competing interests
-
-The authors must complete and approve the journal-specific competing-interest
-statement before submission.
-
-## Acknowledgments
-
-Funding, facility, student-contributor, and data-provider acknowledgments must
-be confirmed before submission.
+[36,37,40].
 
 ## References
 
@@ -979,31 +1035,39 @@ be confirmed before submission.
     uncertain emissions in green manufacturing of electronic tablets.
     *Journal of Cleaner Production* **197**, 1540-1545 (2018).
     https://doi.org/10.1016/j.jclepro.2018.06.113
-31. GreenDelta. openLCA: open source life cycle assessment software.
+31. International Organization for Standardization. ISO 14040:2006,
+   Environmental management - Life cycle assessment - Principles and
+   framework; and ISO 14044:2006, Environmental management - Life cycle
+   assessment - Requirements and guidelines.
+   https://www.iso.org/committee/54854/x/catalogue/;
+   https://www.iso.org/standard/38498.html
+32. International Organization for Standardization. ISO 14071:2024,
+   Environmental management - Life cycle assessment - Critical review
+   processes and reviewer competencies (2024).
+   https://www.iso.org/standard/82464.html
+33. GreenDelta. openLCA: open source life cycle assessment software.
    https://www.openlca.org/
-32. Mutel, C. Brightway: an open source framework for life cycle assessment.
+34. Mutel, C. Brightway: an open source framework for life cycle assessment.
     *Journal of Open Source Software* **2**, 236 (2017).
     https://doi.org/10.21105/joss.00236
-33. UARK-NED3. OpenDC-LCA version 1.1.0.
+35. UARK-NED3. OpenDC-LCA version 1.1.0.
    https://github.com/UARK-NED3/OpenDC-LCA
-34. U.S. Environmental Protection Agency. Emissions & Generation Resource
+36. U.S. Environmental Protection Agency. Emissions & Generation Resource
    Integrated Database (eGRID), detailed data.
    https://www.epa.gov/egrid/detailed-data
-35. U.S. Environmental Protection Agency. Frequent questions about eGRID:
+37. U.S. Environmental Protection Agency. Frequent questions about eGRID:
    global warming potentials and methodology changes.
    https://www.epa.gov/egrid/frequent-questions-about-egrid
-36. Boavizta. BoaviztAPI data repository.
+38. Boavizta. BoaviztAPI data repository.
     https://github.com/Boavizta/boaviztapi
-37. Bundesinstitut für Bau-, Stadt- und Raumforschung. ÖKOBAUDAT 2024-II.
+39. Bundesinstitut für Bau-, Stadt- und Raumforschung. ÖKOBAUDAT 2024-II.
     https://www.oekobaudat.de/
-38. National Centers for Environmental Information. Typical Meteorological
+40. National Centers for Environmental Information. Typical Meteorological
    Year data. https://www.ncei.noaa.gov/access/typical-meteorological-year/
-39. National Renewable Energy Laboratory. U.S. Life Cycle Inventory Database,
+41. National Renewable Energy Laboratory. U.S. Life Cycle Inventory Database,
    version 1.2026-06.0. Federal LCA Commons.
    https://www.lcacommons.gov/
-40. United Nations Environment Programme. Global LCA Data Access network.
+42. United Nations Environment Programme. Global LCA Data Access network.
     https://www.globallcadataaccess.org/
-41. U.S. Geological Survey. Watershed Boundary Dataset.
+43. U.S. Geological Survey. Watershed Boundary Dataset.
     https://www.usgs.gov/national-hydrography/watershed-boundary-dataset
-42. International Organization for Standardization. ISO 14040:2006 and ISO
-   14044:2006, Environmental management - Life cycle assessment.

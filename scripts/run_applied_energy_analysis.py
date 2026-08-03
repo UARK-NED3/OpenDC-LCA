@@ -11,6 +11,7 @@ scenarios; it is not interpreted as a probability distribution.
 from __future__ import annotations
 
 import csv
+import hashlib
 import importlib.util
 import json
 import math
@@ -23,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from opendc_lca.public_data import read_xlsx_rows  # noqa: E402
+from opendc_lca.provenance import sha256_file  # noqa: E402
 
 SPEC = importlib.util.spec_from_file_location(
     "integrated", ROOT / "scripts" / "run_integrated_evidence_analysis.py"
@@ -379,7 +381,6 @@ def total_at_factor(
     components: dict[str, dict[str, dict[str, float]]],
     technology: str,
     factor: float,
-    reference_factor: float,
     *,
     server_scale: float = 1.0,
     use_scale: float = 1.0,
@@ -413,7 +414,6 @@ def total_at_factor(
 def historical_technology_results(
     egrid: list[dict[str, object]],
     components: dict[str, dict[str, dict[str, float]]],
-    reference_factor: float,
 ) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
     detailed = []
     summary = []
@@ -422,9 +422,7 @@ def historical_technology_results(
         totals = {}
         details = {}
         for technology in TECHNOLOGIES:
-            total, use, embodied = total_at_factor(
-                components, technology, factor, reference_factor
-            )
+            total, use, embodied = total_at_factor(components, technology, factor)
             totals[technology] = total
             details[technology] = (use, embodied)
         best = min(totals, key=totals.get)
@@ -478,15 +476,12 @@ def historical_technology_results(
 def annual_national_results(
     factors: list[dict[str, object]],
     components: dict[str, dict[str, dict[str, float]]],
-    reference_factor: float,
 ) -> list[dict[str, object]]:
     output = []
     for row in factors:
         factor = float(row["generation_weighted_co2e_kg_per_mwh"])
         totals = {
-            technology: total_at_factor(
-                components, technology, factor, reference_factor
-            )
+            technology: total_at_factor(components, technology, factor)
             for technology in TECHNOLOGIES
         }
         best = min(totals, key=lambda technology: totals[technology][0])
@@ -510,7 +505,6 @@ def annual_national_results(
 def server_stress_test(
     state_rows_2023: list[dict[str, object]],
     components: dict[str, dict[str, dict[str, float]]],
-    reference_factor: float,
     server_records: list[dict[str, object]],
 ) -> list[dict[str, object]]:
     values = [
@@ -536,7 +530,6 @@ def server_stress_test(
                     components,
                     technology,
                     factor,
-                    reference_factor,
                     server_scale=scale,
                 )[0]
                 for technology in TECHNOLOGIES
@@ -608,7 +601,6 @@ def anchor_extrapolation_diagnostics(
 def boundary_adder_stress(
     states_2023: list[dict[str, object]],
     components: dict[str, dict[str, dict[str, float]]],
-    reference_factor: float,
 ) -> list[dict[str, object]]:
     """Stress an unrepresented lifecycle electricity-boundary allowance.
 
@@ -616,6 +608,14 @@ def boundary_adder_stress(
     qualitative ranking depends on treating direct eGRID output rates as if
     they had the same upstream boundary as the released GaBi anchors.
     """
+    crossover = next(
+        float(row["crossover_kgco2e_per_mwh"])
+        for row in integrated.crossover_rows(components)
+        if row["technology_a"] == "Cold plate"
+        and row["technology_b"] == "One-phase"
+    )
+    minimum_factor = min(float(row["co2e_kg_per_mwh"]) for row in states_2023)
+    exact_clearance = max(0.0, crossover - minimum_factor)
     output = []
     for adder in (0.0, 25.0, 50.0, 75.0, 100.0):
         winners = {technology: 0 for technology in TECHNOLOGIES}
@@ -624,9 +624,7 @@ def boundary_adder_stress(
         for state in states_2023:
             factor = float(state["co2e_kg_per_mwh"]) + adder
             totals = {
-                technology: total_at_factor(
-                    components, technology, factor, reference_factor
-                )[0]
+                technology: total_at_factor(components, technology, factor)[0]
                 for technology in TECHNOLOGIES
             }
             order = sorted(totals, key=totals.get)
@@ -646,6 +644,9 @@ def boundary_adder_stress(
                 "cold_plate_first_rank_count": winners["Cold plate"],
                 "one_phase_first_rank_count": winners["One-phase"],
                 "median_first_to_second_margin_pct": statistics.median(margins),
+                "exact_adder_to_remove_all_cp_advantage_kgco2e_per_mwh": (
+                    exact_clearance
+                ),
                 "interpretation": (
                     "Boundary-mismatch stress only; additive allowance is not "
                     "an upstream inventory estimate or uncertainty distribution."
@@ -658,7 +659,6 @@ def boundary_adder_stress(
 def functional_unit_sensitivity(
     rows: list[dict[str, object]],
     components: dict[str, dict[str, dict[str, float]]],
-    reference_factor: float,
 ) -> list[dict[str, object]]:
     """Quantify the useful-computation correction that erases first rank."""
     output = []
@@ -671,9 +671,7 @@ def functional_unit_sensitivity(
         for row in group:
             factor = float(row["co2e_kg_per_mwh"])
             totals = {
-                technology: total_at_factor(
-                    components, technology, factor, reference_factor
-                )[0]
+                technology: total_at_factor(components, technology, factor)[0]
                 for technology in TECHNOLOGIES
             }
             two_phase = totals["Two-phase"]
@@ -708,20 +706,10 @@ def functional_unit_sensitivity(
     return output
 
 
-def joint_assumption_stress(
+def _stress_contexts(
     states_2023: list[dict[str, object]],
     national_factors: list[dict[str, object]],
-    components: dict[str, dict[str, dict[str, float]]],
-    reference_factor: float,
-    *,
-    iterations: int = 20000,
-) -> list[dict[str, object]]:
-    """Run seeded joint assumption-stress ensembles.
-
-    The triangular draws are deliberately declared envelopes, not fitted
-    parameter distributions. Frequencies therefore measure sensitivity to a
-    specified perturbation design and must not be read as confidence levels.
-    """
+) -> dict[str, float]:
     national_2023 = next(
         float(row["generation_weighted_co2e_kg_per_mwh"])
         for row in national_factors
@@ -730,13 +718,16 @@ def joint_assumption_stress(
     low_state = min(
         states_2023, key=lambda row: float(row["co2e_kg_per_mwh"])
     )
-    contexts = {
+    return {
         "2023 U.S. generation": national_2023,
         f"2023 low-carbon state ({low_state['state_abbreviation']})": float(
             low_state["co2e_kg_per_mwh"]
         ),
     }
-    envelopes = {
+
+
+def _stress_envelopes() -> dict[str, dict[str, float]]:
+    return {
         "narrow": {
             "grid": 0.02,
             "use": 0.02,
@@ -756,10 +747,72 @@ def joint_assumption_stress(
             "service": 0.10,
         },
     }
-    rng = random.Random(JOINT_STRESS_SEED)
+
+
+def _scenario_seed(*parts: object) -> int:
+    """Derive an order-invariant seed for one declared stress design."""
+    material = "|".join(str(part) for part in parts).encode("utf-8")
+    return int.from_bytes(hashlib.sha256(material).digest()[:8], "big")
+
+
+def _symmetric_triangular_inverse(u: float, half_width: float) -> float:
+    """Inverse CDF for a symmetric triangular multiplier centered at one."""
+    if half_width == 0:
+        return 1.0
+    if u < 0.5:
+        return 1 - half_width + math.sqrt(2 * u * half_width**2)
+    return 1 + half_width - math.sqrt(2 * (1 - u) * half_width**2)
+
+
+def _correlated_triangular_multipliers(
+    rng: random.Random,
+    half_width: float,
+    correlation: float,
+) -> dict[str, float]:
+    """Draw exact triangular marginals with a Gaussian-copula dependence."""
+    if not 0 <= correlation <= 1:
+        raise ValueError("correlation must be between zero and one")
+    common = rng.gauss(0, 1)
+    output = {}
+    for technology in TECHNOLOGIES:
+        z_value = (
+            math.sqrt(correlation) * common
+            + math.sqrt(1 - correlation) * rng.gauss(0, 1)
+        )
+        u_value = 0.5 * (1 + math.erf(z_value / math.sqrt(2)))
+        output[technology] = _symmetric_triangular_inverse(
+            u_value, half_width
+        )
+    return output
+
+
+def joint_assumption_stress(
+    states_2023: list[dict[str, object]],
+    national_factors: list[dict[str, object]],
+    components: dict[str, dict[str, dict[str, float]]],
+    *,
+    iterations: int = 20000,
+) -> list[dict[str, object]]:
+    """Run the independent-marginal all-block stress used in the main screen.
+
+    This is the all-block, zero-correlation member of
+    :func:`stress_structure_sensitivity`. Keeping the same random design and
+    scenario seed makes the headline and decomposition tables exactly
+    reconcilable.
+    """
+    contexts = _stress_contexts(states_2023, national_factors)
+    envelopes = _stress_envelopes()
     output = []
     for context, base_factor in contexts.items():
         for envelope, widths in envelopes.items():
+            scenario_seed = _scenario_seed(
+                JOINT_STRESS_SEED,
+                context,
+                envelope,
+                "all four blocks",
+                0.0,
+            )
+            rng = random.Random(scenario_seed)
             first = {technology: 0 for technology in TECHNOLOGIES}
             cp_below_one = 0
             margins = []
@@ -768,27 +821,23 @@ def joint_assumption_stress(
                     1 - widths["grid"], 1 + widths["grid"], 1
                 )
                 factor = max(0.0, base_factor * grid_multiplier)
+                multipliers = {
+                    category: _correlated_triangular_multipliers(
+                        rng, widths[category], 0.0
+                    )
+                    for category in ("use", "embodied", "service")
+                }
                 totals = {}
                 for technology in TECHNOLOGIES:
                     base_total, base_use, base_embodied = total_at_factor(
-                        components, technology, factor, reference_factor
+                        components, technology, factor
                     )
                     del base_total
-                    use_multiplier = rng.triangular(
-                        1 - widths["use"], 1 + widths["use"], 1
-                    )
-                    embodied_multiplier = rng.triangular(
-                        max(0.0, 1 - widths["embodied"]),
-                        1 + widths["embodied"],
-                        1,
-                    )
-                    service_multiplier = rng.triangular(
-                        1 - widths["service"], 1 + widths["service"], 1
-                    )
                     totals[technology] = (
-                        base_use * use_multiplier
-                        + base_embodied * embodied_multiplier
-                    ) * service_multiplier
+                        base_use * multipliers["use"][technology]
+                        + base_embodied
+                        * multipliers["embodied"][technology]
+                    ) * multipliers["service"][technology]
                 order = sorted(totals, key=totals.get)
                 first[order[0]] += 1
                 cp_below_one += totals["Cold plate"] < totals["One-phase"]
@@ -816,7 +865,8 @@ def joint_assumption_stress(
                         "median_first_to_second_margin_pct": statistics.median(
                             margins
                         ),
-                        "seed": JOINT_STRESS_SEED,
+                        "base_seed": JOINT_STRESS_SEED,
+                        "scenario_seed_hex": f"{scenario_seed:016x}",
                         "interpretation": (
                             "Seeded triangular assumption-stress frequency; "
                             "not a probability, confidence interval or fitted "
@@ -824,6 +874,184 @@ def joint_assumption_stress(
                         ),
                     }
                 )
+    return output
+
+
+def stress_structure_sensitivity(
+    states_2023: list[dict[str, object]],
+    national_factors: list[dict[str, object]],
+    components: dict[str, dict[str, dict[str, float]]],
+    *,
+    iterations: int = 20000,
+) -> list[dict[str, object]]:
+    """Decompose rank fragility by assumption block and dependence structure.
+
+    All marginals retain the declared symmetric triangular envelopes. The
+    technology-specific draws use a Gaussian copula with latent correlations
+    of 0, 0.5, or 1. These are design diagnostics, not fitted correlations.
+    """
+    contexts = _stress_contexts(states_2023, national_factors)
+    envelopes = _stress_envelopes()
+    blocks = {
+        "grid only": {"grid"},
+        "use phase only": {"use"},
+        "embodied only": {"embodied"},
+        "service equivalence only": {"service"},
+        "all four blocks": {"grid", "use", "embodied", "service"},
+    }
+    output = []
+    for context, base_factor in contexts.items():
+        for envelope, widths in envelopes.items():
+            for block_name, active in blocks.items():
+                for correlation in (0.0, 0.5, 1.0):
+                    scenario_seed = _scenario_seed(
+                        JOINT_STRESS_SEED,
+                        context,
+                        envelope,
+                        block_name,
+                        correlation,
+                    )
+                    rng = random.Random(scenario_seed)
+                    first = {technology: 0 for technology in TECHNOLOGIES}
+                    cp_below_one = 0
+                    margins = []
+                    for _ in range(iterations):
+                        grid_multiplier = (
+                            rng.triangular(
+                                1 - widths["grid"],
+                                1 + widths["grid"],
+                                1,
+                            )
+                            if "grid" in active
+                            else 1.0
+                        )
+                        factor = max(0.0, base_factor * grid_multiplier)
+                        multipliers = {}
+                        for category in ("use", "embodied", "service"):
+                            multipliers[category] = (
+                                _correlated_triangular_multipliers(
+                                    rng, widths[category], correlation
+                                )
+                                if category in active
+                                else {
+                                    technology: 1.0
+                                    for technology in TECHNOLOGIES
+                                }
+                            )
+                        totals = {}
+                        for technology in TECHNOLOGIES:
+                            _, base_use, base_embodied = total_at_factor(
+                                components, technology, factor
+                            )
+                            totals[technology] = (
+                                base_use * multipliers["use"][technology]
+                                + base_embodied
+                                * multipliers["embodied"][technology]
+                            ) * multipliers["service"][technology]
+                        order = sorted(totals, key=totals.get)
+                        first[order[0]] += 1
+                        cp_below_one += (
+                            totals["Cold plate"] < totals["One-phase"]
+                        )
+                        margins.append(
+                            100 * (totals[order[1]] / totals[order[0]] - 1)
+                        )
+                    for technology in TECHNOLOGIES:
+                        output.append(
+                            {
+                                "context": context,
+                                "base_factor_kgco2e_per_mwh": base_factor,
+                                "stress_envelope": envelope,
+                                "active_assumption_blocks": block_name,
+                                "latent_technology_correlation": correlation,
+                                "iterations": iterations,
+                                "technology": technology,
+                                "first_rank_frequency_pct": (
+                                    100 * first[technology] / iterations
+                                ),
+                                "cold_plate_below_one_phase_frequency_pct": (
+                                    100 * cp_below_one / iterations
+                                ),
+                                "median_first_to_second_margin_pct": (
+                                    statistics.median(margins)
+                                ),
+                                "base_seed": JOINT_STRESS_SEED,
+                                "scenario_seed_hex": f"{scenario_seed:016x}",
+                                "interpretation": (
+                                    "Declared triangular-marginal stress with "
+                                    "Gaussian-copula dependence; the latent "
+                                    "correlation and frequencies are not fitted "
+                                    "uncertainty or confidence."
+                                ),
+                            }
+                        )
+    return output
+
+
+def stress_convergence_diagnostic(
+    states_2023: list[dict[str, object]],
+    national_factors: list[dict[str, object]],
+    components: dict[str, dict[str, dict[str, float]]],
+    *,
+    sample_sizes: tuple[int, ...] = (5000, 20000, 80000),
+) -> list[dict[str, object]]:
+    """Check numerical convergence of headline rank-frequency estimates.
+
+    Each larger run reuses the same deterministic scenario seed, so the draws
+    are nested. The reported standard error describes Monte Carlo integration
+    precision within the declared stress design; it is not epistemic
+    uncertainty in the cooling comparison.
+    """
+    if not sample_sizes or any(size <= 0 for size in sample_sizes):
+        raise ValueError("sample_sizes must contain positive integers")
+    ordered_sizes = tuple(sorted(set(sample_sizes)))
+    by_size: dict[int, list[dict[str, object]]] = {}
+    for size in ordered_sizes:
+        by_size[size] = [
+            row
+            for row in joint_assumption_stress(
+                states_2023,
+                national_factors,
+                components,
+                iterations=size,
+            )
+            if row["technology"] == "Two-phase"
+        ]
+    largest = {
+        (str(row["context"]), str(row["stress_envelope"])): float(
+            row["first_rank_frequency_pct"]
+        )
+        for row in by_size[ordered_sizes[-1]]
+    }
+    output = []
+    for size in ordered_sizes:
+        for row in by_size[size]:
+            frequency = float(row["first_rank_frequency_pct"])
+            probability = frequency / 100
+            key = (str(row["context"]), str(row["stress_envelope"]))
+            output.append(
+                {
+                    "context": row["context"],
+                    "stress_envelope": row["stress_envelope"],
+                    "iterations": size,
+                    "two_phase_first_rank_frequency_pct": frequency,
+                    "monte_carlo_standard_error_pct_points": (
+                        100
+                        * math.sqrt(
+                            probability * (1 - probability) / size
+                        )
+                    ),
+                    "difference_from_largest_run_pct_points": (
+                        frequency - largest[key]
+                    ),
+                    "scenario_seed_hex": row["scenario_seed_hex"],
+                    "interpretation": (
+                        "Nested-seed numerical convergence within a declared "
+                        "stress design; not empirical uncertainty or a "
+                        "confidence interval for technology performance."
+                    ),
+                }
+            )
     return output
 
 
@@ -1109,6 +1337,69 @@ def figure_scope_and_uncertainty(
     write_svg(FIGURES / "figure8_scope_uncertainty.svg", body)
 
 
+def figure_stress_structure(rows: list[dict[str, object]]) -> None:
+    """Show how rank frequencies depend on active blocks and dependence."""
+    body = svg_header(
+        "Rank fragility is driven by foreground structure, not grid-rate noise",
+        width=1200,
+        height=720,
+    )
+    blocks = (
+        "grid only",
+        "use phase only",
+        "embodied only",
+        "service equivalence only",
+        "all four blocks",
+    )
+    correlations = (0.0, 0.5, 1.0)
+    for panel, envelope in enumerate(("screening", "wide")):
+        x0 = 230 + panel * 500
+        body.append(
+            f'<text class="label" x="{x0+150}" y="82" text-anchor="middle" '
+            f'style="font-weight:700">{envelope.capitalize()} envelope</text>'
+        )
+        for column, correlation in enumerate(correlations):
+            body.append(
+                f'<text class="axis" x="{x0+column*130+55}" y="118" '
+                f'text-anchor="middle">latent r={correlation:.1f}</text>'
+            )
+        for row_index, block in enumerate(blocks):
+            y = 145 + row_index * 82
+            if panel == 0:
+                body.append(
+                    f'<text class="axis" x="205" y="{y+28}" '
+                    f'text-anchor="end">{block}</text>'
+                )
+            for column, correlation in enumerate(correlations):
+                value = next(
+                    float(row["first_rank_frequency_pct"])
+                    for row in rows
+                    if row["context"] == "2023 U.S. generation"
+                    and row["stress_envelope"] == envelope
+                    and row["active_assumption_blocks"] == block
+                    and float(row["latent_technology_correlation"])
+                    == correlation
+                    and row["technology"] == "Two-phase"
+                )
+                x = x0 + column * 130
+                red = int(232 - 1.2 * value)
+                green = int(244 - 0.8 * value)
+                blue = int(248 - 0.15 * value)
+                body += [
+                    f'<rect x="{x}" y="{y}" width="110" height="55" rx="5" '
+                    f'fill="rgb({red},{green},{blue})" stroke="#CBD5E1"/>',
+                    f'<text class="label" x="{x+55}" y="{y+33}" '
+                    f'text-anchor="middle">{value:.1f}%</text>',
+                ]
+    body += [
+        '<text class="axis" x="600" y="600" text-anchor="middle">Two-phase first-rank frequency in declared stress designs</text>',
+        '<text class="note" x="95" y="642">Each cell uses 20,000 seeded draws with the same triangular marginals.</text>',
+        '<text class="note" x="95" y="666">The latent Gaussian-copula correlation changes dependence among technology-specific multipliers; it is not an empirical estimate.</text>',
+        '<text class="note" x="95" y="690">Grid-only perturbation is shared across technologies. Common-mode foreground errors preserve more of the released ordering than independent errors.</text>',
+    ]
+    write_svg(FIGURES / "figure9_stress_structure.svg", body)
+
+
 def main() -> None:
     for path in (TABLES, FIGURES, RESULTS):
         path.mkdir(parents=True, exist_ok=True)
@@ -1120,32 +1411,28 @@ def main() -> None:
         for row in current_states
     ) / sum(float(row["net_generation_mwh"]) for row in current_states)
     factors = generation_weighted_factors(historical)
-    detailed, summary = historical_technology_results(
-        historical, components, reference_factor
-    )
-    national = annual_national_results(factors, components, reference_factor)
+    detailed, summary = historical_technology_results(historical, components)
+    national = annual_national_results(factors, components)
     server_records, _ = integrated.boavizta_server_summary()
-    stress = server_stress_test(
-        current_states, components, reference_factor, server_records
-    )
+    stress = server_stress_test(current_states, components, server_records)
     crossover = float(
         next(
             row["crossover_kgco2e_per_mwh"]
-            for row in integrated.crossover_rows(components, reference_factor)
+            for row in integrated.crossover_rows(components)
             if row["technology_a"] == "Cold plate"
             and row["technology_b"] == "One-phase"
         )
     )
     comparison = method_comparison(components, crossover)
     extrapolation = anchor_extrapolation_diagnostics(historical)
-    boundary = boundary_adder_stress(
-        current_states, components, reference_factor
+    boundary = boundary_adder_stress(current_states, components)
+    functional_unit = functional_unit_sensitivity(historical, components)
+    joint = joint_assumption_stress(current_states, factors, components)
+    stress_structure = stress_structure_sensitivity(
+        current_states, factors, components
     )
-    functional_unit = functional_unit_sensitivity(
-        historical, components, reference_factor
-    )
-    joint = joint_assumption_stress(
-        current_states, factors, components, reference_factor
+    stress_convergence = stress_convergence_diagnostic(
+        current_states, factors, components
     )
     pedigree = integrated.pedigree_scores()
     priority = integrated.data_priority(pedigree, components)
@@ -1163,6 +1450,8 @@ def main() -> None:
         "table23_joint_assumption_stress.csv": joint,
         "table24_functional_unit_sensitivity.csv": functional_unit,
         "table25_priority_index_sensitivity.csv": priority_sensitivity,
+        "table26_stress_structure_sensitivity.csv": stress_structure,
+        "table27_stress_convergence.csv": stress_convergence,
     }
     for name, rows in outputs.items():
         write_csv(TABLES / name, rows)
@@ -1171,6 +1460,16 @@ def main() -> None:
     figure_performance_robustness(summary)
     figure_scope_and_uncertainty(
         extrapolation, boundary, joint, functional_unit
+    )
+    figure_stress_structure(stress_structure)
+    analysis_inputs = sorted(
+        {
+            *(egrid_source(year) for year in FILES),
+            integrated.RAW
+            / "microsoft-zenodo"
+            / "LCA_Tool_w_Raw_&_Normalized_PlusUncertainty&Details.xlsx",
+            integrated.RAW / "boavizta" / "boavizta-data-us.csv",
+        }
     )
     metadata = {
         "egrid_years": [row["year"] for row in factors],
@@ -1188,6 +1487,25 @@ def main() -> None:
             MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
         ),
         "cold_plate_one_phase_crossover_kgco2e_per_mwh": crossover,
+        "exact_2023_boundary_adder_to_remove_cp_advantage_kgco2e_per_mwh": (
+            boundary[0][
+                "exact_adder_to_remove_all_cp_advantage_kgco2e_per_mwh"
+            ]
+        ),
+        "analysis_inputs": [
+            {
+                "local_path": path.relative_to(ROOT).as_posix(),
+                "bytes": path.stat().st_size,
+                "sha256": sha256_file(path),
+            }
+            for path in analysis_inputs
+        ],
+        "analysis_code": {
+            "local_path": Path(__file__).relative_to(ROOT).as_posix(),
+            "sha256": sha256_file(Path(__file__)),
+            "joint_stress_base_seed": JOINT_STRESS_SEED,
+            "iterations_per_design": 20000,
+        },
         "evidence_status": {
             "historical_transition": (
                 "AR5-harmonized direct eGRID generation rates used as a "
@@ -1198,6 +1516,14 @@ def main() -> None:
             "joint_assumption_stress": (
                 "seeded triangular perturbation envelopes; frequencies are "
                 "not probabilities or confidence levels"
+            ),
+            "stress_structure_sensitivity": (
+                "triangular-marginal block and Gaussian-copula dependence "
+                "diagnostic; no empirical correlation or probability"
+            ),
+            "stress_convergence": (
+                "nested 5,000, 20,000, and 80,000 draw numerical check; "
+                "Monte Carlo precision is not epistemic uncertainty"
             ),
             "boundary_mismatch": (
                 "transparent additive stress; not an upstream inventory estimate"

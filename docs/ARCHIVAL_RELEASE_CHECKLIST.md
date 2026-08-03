@@ -77,7 +77,7 @@ immutable version DOI, public metadata, file checksums, and long-term access.
 
 Only after the archive is public:
 
-- replace “will be minted before submission” with the version DOI;
+- insert the version DOI in the data-and-code statement;
 - cite the archival record as a dataset/software reference;
 - identify the exact Git commit and package version;
 - state which data are included, excluded, or available from providers; and

@@ -21,7 +21,7 @@ comparative assertion.
 evidence-to-decision schematic with a single calculation spine and four
 evidence classes. The stale 61 kg CO2e/MWh value was removed; the current
 figure reports the corrected 96.7 kg CO2e/MWh crossover, 29.8% anchor
-extrapolation, and the 99%-to-56% stress-frequency range. Text was shortened
+extrapolation, and the 99%-to-55% stress-frequency range. Text was shortened
 and enlarged for manuscript-scale rendering.
 
 ### 2. Equation 7 mixed GaBi lifecycle anchors with direct eGRID rates
@@ -69,9 +69,9 @@ terms. Narrow, screening, and wide triangular envelopes are declared in the
 methods. They are not fitted distributions, so the manuscript calls the
 outputs stress frequencies rather than probabilities or confidence.
 
-For 2023 U.S. generation, two-phase first-rank frequency is 99.33%, 75.97%,
-and 56.16% across the three envelopes. At the lowest-carbon state it is
-63.19%, 42.55%, and 33.90%. These results replace the previous implication
+For 2023 U.S. generation, two-phase first-rank frequency is 99.19%, 76.17%,
+and 55.05% across the three envelopes. At the lowest-carbon state it is
+63.03%, 42.72%, and 32.43%. These results replace the previous implication
 that deterministic first rank across 459 grid factors established broad
 robustness.
 
@@ -156,9 +156,38 @@ Karaosmanoglu, *Energy and Buildings* 288, 113006 (2023).
 **Response:** Partly addressed. The data/code statement no longer implies that
 a GitHub tag is equivalent to a submission archive. It states that a
 DOI-bearing immutable archive of the accepted commit, derived tables, figures,
-configuration, and reproducibility manifest will be minted before submission.
-The repository now contains an archival-release checklist. Minting the DOI is
-an external release action and has not been falsely claimed as complete.
+configuration, and reproducibility manifest remains a pre-submission action.
+The repository now contains an archival-release checklist, a complete
+provider-file checksum ledger, and analysis metadata for the exact
+computational inputs. No DOI has been claimed.
+
+### 13. The headline and decomposition stress tests used nonidentical random designs
+
+**Response:** Corrected in the second review cycle. The headline joint stress
+is now exactly the all-block, zero-correlation member of the block/dependence
+analysis. Both tables use the same Gaussian-copula triangular-marginal design
+and the same hash-derived scenario seed. A regression test requires exact
+agreement between the headline frequency and the corresponding decomposition
+row. This removes the earlier Monte Carlo discrepancy between 55.25% and
+55.05% in the U.S. wide case.
+
+### 14. Raw-data provenance did not cover every paper input
+
+**Response:** Corrected. `source-file-manifest.json` now records path, byte
+count, and SHA-256 for all 40 locally held provider files in ten source groups,
+including every historical eGRID workbook. The analysis metadata separately
+records the 11 files used numerically. Tests require every computational input
+and checksum to match the provider-file ledger.
+
+### 15. Monte Carlo integration error was not separated from epistemic uncertainty
+
+**Response:** Added a nested-seed convergence analysis at 5,000, 20,000, and
+80,000 draws. The U.S. 20,000-draw frequencies differ from the 80,000-draw
+values by at most 0.110 percentage points; the maximum across both locations
+is 0.709 percentage points. The manuscript reports numerical Monte Carlo
+standard errors only as integration precision and explicitly separates them
+from uncertainty in stress ranges, correlations, boundaries, and foreground
+data.
 
 ## Additional revisions
 
@@ -171,9 +200,12 @@ an external release action and has not been falsely claimed as complete.
 - The conclusion now reports anchor coverage, boundary sensitivity, joint
   stress, and functional-unit thresholds instead of only deterministic rank.
 - All generated CSV files use stable LF line endings.
-- Four regression tests were added for common-basis eGRID values,
-  extrapolation counts, boundary sensitivity, and functional-unit sensitivity.
-  The complete suite now contains 46 passing tests.
+- Regression tests cover common-basis eGRID values, extrapolation counts,
+  boundary sensitivity, functional-unit sensitivity, stress-design
+  reconciliation, and manifest-to-analysis checksum matching. The complete
+  local suite now contains 49 passing tests. A clean clone without the
+  non-redistributed provider files passes 41 tests and explicitly skips eight
+  raw-evidence reconstruction tests.
 
 ## Evidence still required before submission
 

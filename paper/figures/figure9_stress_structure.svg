@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-label="Rank fragility is driven by foreground structure, not grid-rate noise">
+<style>text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:23px;font-weight:700}.axis{font-size:13px}.label{font-size:12px}.note{font-size:11px;fill:#52606d}</style>
+<rect width="100%" height="100%" fill="white"/>
+<text class="title" x="68" y="40">Rank fragility is driven by foreground structure, not grid-rate noise</text>
+<text class="label" x="380" y="82" text-anchor="middle" style="font-weight:700">Screening envelope</text>
+<text class="axis" x="285" y="118" text-anchor="middle">latent r=0.0</text>
+<text class="axis" x="415" y="118" text-anchor="middle">latent r=0.5</text>
+<text class="axis" x="545" y="118" text-anchor="middle">latent r=1.0</text>
+<text class="axis" x="205" y="173" text-anchor="end">grid only</text>
+<rect x="230" y="145" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="285" y="178" text-anchor="middle">100.0%</text>
+<rect x="360" y="145" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="415" y="178" text-anchor="middle">100.0%</text>
+<rect x="490" y="145" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="545" y="178" text-anchor="middle">100.0%</text>
+<text class="axis" x="205" y="255" text-anchor="end">use phase only</text>
+<rect x="230" y="227" width="110" height="55" rx="5" fill="rgb(114,165,233)" stroke="#CBD5E1"/>
+<text class="label" x="285" y="260" text-anchor="middle">98.3%</text>
+<rect x="360" y="227" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="415" y="260" text-anchor="middle">99.9%</text>
+<rect x="490" y="227" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="545" y="260" text-anchor="middle">100.0%</text>
+<text class="axis" x="205" y="337" text-anchor="end">embodied only</text>
+<rect x="230" y="309" width="110" height="55" rx="5" fill="rgb(127,174,234)" stroke="#CBD5E1"/>
+<text class="label" x="285" y="342" text-anchor="middle">86.8%</text>
+<rect x="360" y="309" width="110" height="55" rx="5" fill="rgb(116,167,233)" stroke="#CBD5E1"/>
+<text class="label" x="415" y="342" text-anchor="middle">96.2%</text>
+<rect x="490" y="309" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="545" y="342" text-anchor="middle">100.0%</text>
+<text class="axis" x="205" y="419" text-anchor="end">service equivalence only</text>
+<rect x="230" y="391" width="110" height="55" rx="5" fill="rgb(116,167,233)" stroke="#CBD5E1"/>
+<text class="label" x="285" y="424" text-anchor="middle">96.0%</text>
+<rect x="360" y="391" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="415" y="424" text-anchor="middle">99.5%</text>
+<rect x="490" y="391" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="545" y="424" text-anchor="middle">100.0%</text>
+<text class="axis" x="205" y="501" text-anchor="end">all four blocks</text>
+<rect x="230" y="473" width="110" height="55" rx="5" fill="rgb(140,183,236)" stroke="#CBD5E1"/>
+<text class="label" x="285" y="506" text-anchor="middle">76.2%</text>
+<rect x="360" y="473" width="110" height="55" rx="5" fill="rgb(126,173,234)" stroke="#CBD5E1"/>
+<text class="label" x="415" y="506" text-anchor="middle">87.8%</text>
+<rect x="490" y="473" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="545" y="506" text-anchor="middle">100.0%</text>
+<text class="label" x="880" y="82" text-anchor="middle" style="font-weight:700">Wide envelope</text>
+<text class="axis" x="785" y="118" text-anchor="middle">latent r=0.0</text>
+<text class="axis" x="915" y="118" text-anchor="middle">latent r=0.5</text>
+<text class="axis" x="1045" y="118" text-anchor="middle">latent r=1.0</text>
+<rect x="730" y="145" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="785" y="178" text-anchor="middle">100.0%</text>
+<rect x="860" y="145" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="915" y="178" text-anchor="middle">100.0%</text>
+<rect x="990" y="145" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="1045" y="178" text-anchor="middle">100.0%</text>
+<rect x="730" y="227" width="110" height="55" rx="5" fill="rgb(136,180,236)" stroke="#CBD5E1"/>
+<text class="label" x="785" y="260" text-anchor="middle">79.5%</text>
+<rect x="860" y="227" width="110" height="55" rx="5" fill="rgb(122,170,234)" stroke="#CBD5E1"/>
+<text class="label" x="915" y="260" text-anchor="middle">91.3%</text>
+<rect x="990" y="227" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="1045" y="260" text-anchor="middle">100.0%</text>
+<rect x="730" y="309" width="110" height="55" rx="5" fill="rgb(155,193,238)" stroke="#CBD5E1"/>
+<text class="label" x="785" y="342" text-anchor="middle">63.4%</text>
+<rect x="860" y="309" width="110" height="55" rx="5" fill="rgb(141,183,236)" stroke="#CBD5E1"/>
+<text class="label" x="915" y="342" text-anchor="middle">75.6%</text>
+<rect x="990" y="309" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="1045" y="342" text-anchor="middle">100.0%</text>
+<rect x="730" y="391" width="110" height="55" rx="5" fill="rgb(143,184,236)" stroke="#CBD5E1"/>
+<text class="label" x="785" y="424" text-anchor="middle">73.9%</text>
+<rect x="860" y="391" width="110" height="55" rx="5" fill="rgb(128,174,235)" stroke="#CBD5E1"/>
+<text class="label" x="915" y="424" text-anchor="middle">86.5%</text>
+<rect x="990" y="391" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="1045" y="424" text-anchor="middle">100.0%</text>
+<rect x="730" y="473" width="110" height="55" rx="5" fill="rgb(165,199,239)" stroke="#CBD5E1"/>
+<text class="label" x="785" y="506" text-anchor="middle">55.0%</text>
+<rect x="860" y="473" width="110" height="55" rx="5" fill="rgb(154,192,238)" stroke="#CBD5E1"/>
+<text class="label" x="915" y="506" text-anchor="middle">64.5%</text>
+<rect x="990" y="473" width="110" height="55" rx="5" fill="rgb(112,164,233)" stroke="#CBD5E1"/>
+<text class="label" x="1045" y="506" text-anchor="middle">100.0%</text>
+<text class="axis" x="600" y="600" text-anchor="middle">Two-phase first-rank frequency in declared stress designs</text>
+<text class="note" x="95" y="642">Each cell uses 20,000 seeded draws with the same triangular marginals.</text>
+<text class="note" x="95" y="666">The latent Gaussian-copula correlation changes dependence among technology-specific multipliers; it is not an empirical estimate.</text>
+<text class="note" x="95" y="690">Grid-only perturbation is shared across technologies. Common-mode foreground errors preserve more of the released ordering than independent errors.</text>
+</svg>

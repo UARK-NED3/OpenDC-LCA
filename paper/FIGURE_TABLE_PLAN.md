@@ -22,10 +22,10 @@ Supplementary Information.
    (`figure8_scope_uncertainty.svg`). Combines anchor extrapolation,
    boundary-mismatch stress, joint assumption-stress frequency, and
    functional-unit sensitivity.
-5. **Evidence priority**
-   (`figure3_data_priority.svg`). Shows the base contribution/pedigree index;
-   rank sensitivity is reported in a table and the caption states that the
-   metric is heuristic.
+5. **Assumption-block and dependence diagnostic**
+   (`figure9_stress_structure.svg`). Separates grid, use-phase, embodied, and
+   service-equivalence stress and tests zero, intermediate, and common-mode
+   latent dependence without interpreting the frequencies as probabilities.
 
 ## Main-text tables
 
@@ -42,6 +42,8 @@ Machine-readable supporting tables:
 - `table23_joint_assumption_stress.csv`
 - `table24_functional_unit_sensitivity.csv`
 - `table25_priority_index_sensitivity.csv`
+- `table26_stress_structure_sensitivity.csv`
+- `table27_stress_convergence.csv`
 
 ## Supplementary figures
 
@@ -54,6 +56,8 @@ Machine-readable supporting tables:
    `figure2_monthly_climate_pue.svg`.
 6. Synthetic performance-map contract:
    `figure5_synthetic_performance_surface.svg`.
+7. Evidence-priority heuristic: `figure3_data_priority.svg`; its alternative
+   weighting ranks are reported in `table25_priority_index_sensitivity.csv`.
 
 The supplement labels the weather/performance cases as software fixtures and
 the Boavizta/ÖKOBAUDAT cases as secondary evidence that lacks

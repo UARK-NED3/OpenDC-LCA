@@ -167,7 +167,6 @@ def egrid_states() -> tuple[list[dict[str, object]], float]:
 def state_rebased_results(
     components: dict[str, dict[str, dict[str, float]]],
     states: list[dict[str, object]],
-    national_factor: float,
 ) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
     rows = []
     summary = []
@@ -228,7 +227,6 @@ def state_rebased_results(
 
 def crossover_rows(
     components: dict[str, dict[str, dict[str, float]]],
-    national_factor: float,
 ) -> list[dict[str, object]]:
     rows = []
     for left, right in (
@@ -666,10 +664,8 @@ def main() -> None:
         directory.mkdir(parents=True, exist_ok=True)
     components = microsoft_ghg_components()
     states, national_factor = egrid_states()
-    state_rows, state_summary = state_rebased_results(
-        components, states, national_factor
-    )
-    crossovers = crossover_rows(components, national_factor)
+    state_rows, state_summary = state_rebased_results(components, states)
+    crossovers = crossover_rows(components)
     observed_min = min(float(row["co2e_kg_per_mwh"]) for row in states)
     observed_max = max(float(row["co2e_kg_per_mwh"]) for row in states)
     for row in crossovers:

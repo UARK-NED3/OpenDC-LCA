@@ -170,11 +170,20 @@ electricity anchors, and tests electricity-boundary, functional-unit, and joint
 assumption sensitivity. It separates robust national decarbonization from
 conditional cooling rankings.
 
+The paper workflow also decomposes rank sensitivity by grid, use phase,
+embodied inventory, and service equivalence, and tests how declared dependence
+among technology-specific errors changes the result. Rebuilds require the
+locally held provider files listed by checksum in
+`data/derived/source-file-manifest.json`; clone-only package tests do not
+fabricate replacements for those files.
+
 ```bash
 python scripts/run_research_analysis.py
 python scripts/run_v06_measurement_demo.py
 python scripts/run_integrated_evidence_analysis.py
 python scripts/run_applied_energy_analysis.py
+python scripts/build_source_manifest.py --check
+python -m unittest discover -s tests -v
 ```
 
 The TMY and synthetic performance-map demonstrations exercise the

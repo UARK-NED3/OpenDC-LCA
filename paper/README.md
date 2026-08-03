@@ -15,22 +15,28 @@ This directory is the stable handoff for manuscript development.
   and paper-use guidance.
 - `RESPONSE_TO_REVIEW.md`: point-by-point record of completed revisions and
   evidence still required before submission.
+- `SUBMISSION_ACTIONS.md`: author approvals and external actions intentionally
+  kept outside the manuscript.
 - `tables/`: machine-readable CSV tables.
 - `figures/`: editable, publication-ready SVG figures.
 - `OpenDC-LCA_integrated_evidence.xlsx`: auditable workbook containing the
-  harmonized eGRID series, boundary and anchor diagnostics, joint stress
-  results, functional-unit sensitivity, public server records, material
+  harmonized eGRID series, boundary and anchor diagnostics, joint stress and
+  numerical-convergence results, functional-unit sensitivity, public server records, material
   levers, and evidence-priority tables.
 - `results-workbook.xlsx`: compact formula-driven example workbook retained
   for the practitioner workflow.
 - `overleaf/`: compiling Elsevier `elsarticle` project for Applied Energy,
   including vector figures, highlights and a cover-letter draft.
-- `OpenDC-LCA_Applied_Energy_Overleaf.zip`: upload-ready Overleaf archive.
+- `OpenDC-LCA_Applied_Energy_Overleaf.zip`: reproducible Overleaf working
+  archive; author metadata, declarations, DOI deposit, and external critical
+  review remain pre-submission actions.
 
 Regenerate the Applied Energy analysis and submission files with:
 
 ```bash
 python scripts/run_applied_energy_analysis.py
+python scripts/build_source_manifest.py --check
+python -m unittest discover -s tests -v
 python paper/build_overleaf.py
 cd paper/overleaf && tectonic main.tex
 ```

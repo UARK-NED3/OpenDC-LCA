@@ -16,11 +16,77 @@
   "microsoft_grid_endpoint_kgco2e_per_mwh": 524.893385656191,
   "microsoft_renewable_endpoint_kgco2e_per_mwh": 6.13302490385571,
   "cold_plate_one_phase_crossover_kgco2e_per_mwh": 96.70396924389829,
+  "exact_2023_boundary_adder_to_remove_cp_advantage_kgco2e_per_mwh": 73.00859459089514,
+  "analysis_inputs": [
+    {
+      "local_path": "private-data/incoming/boavizta/boavizta-data-us.csv",
+      "bytes": 375704,
+      "sha256": "eaeb19cc36308c8759deeea496d270d9d6ed0e46c3f113099844c3f9bf6cca9c"
+    },
+    {
+      "local_path": "private-data/incoming/egrid-historical/eGRID2012_Data.xlsx",
+      "bytes": 10669022,
+      "sha256": "20327ebad2c35e82cf7371067d416e80061d21342177e3b648cdb272ee43d0d1"
+    },
+    {
+      "local_path": "private-data/incoming/egrid-historical/eGRID2014_Data_v2.xlsx",
+      "bytes": 13684787,
+      "sha256": "4a70a27207904c72cb26532f2b2cd5c55de231ddad3302e9287648ba41f39af8"
+    },
+    {
+      "local_path": "private-data/incoming/egrid-historical/egrid2016_data.xlsx",
+      "bytes": 10230529,
+      "sha256": "21b8f7df0327eac3ff76d0240c92a328850d18a6ac5ba1469164374ba661f88f"
+    },
+    {
+      "local_path": "private-data/incoming/egrid-historical/egrid2018_data.xlsx",
+      "bytes": 10748522,
+      "sha256": "74369b758c76b31ace8e48e89a6c7beb68d40bbd868aa10e378059939f6717ad"
+    },
+    {
+      "local_path": "private-data/incoming/egrid-historical/egrid2019_data.xlsx",
+      "bytes": 11574903,
+      "sha256": "7a20c0a5b7f71f2465728a4f4f0b0a19833b4318f020931e39d7b1fd9939bcb8"
+    },
+    {
+      "local_path": "private-data/incoming/egrid-historical/egrid2020_data.xlsx",
+      "bytes": 11879492,
+      "sha256": "d3bc01d8dd554e164cdf0fba4fa88e2523c7e233d26eb3be5446da8deb31dfce"
+    },
+    {
+      "local_path": "private-data/incoming/egrid-historical/egrid2021_data.xlsx",
+      "bytes": 14097047,
+      "sha256": "0bab3376509c79168ba19dff111e8a5ca7724043229af47af5cb5b6f71465644"
+    },
+    {
+      "local_path": "private-data/incoming/egrid-historical/egrid2022_data.xlsx",
+      "bytes": 15602850,
+      "sha256": "c73fdc561aa402d0f6ed3cc35e5d961bee6af6e003c9c035b40f757f8480b76b"
+    },
+    {
+      "local_path": "private-data/incoming/egrid2023/egrid2023_data_rev2.xlsx",
+      "bytes": 21213301,
+      "sha256": "895cd81dd8662406189ad8adf5a2578dcb362cdb5cff7cca81b10ee6bd2447c6"
+    },
+    {
+      "local_path": "private-data/incoming/microsoft-zenodo/LCA_Tool_w_Raw_&_Normalized_PlusUncertainty&Details.xlsx",
+      "bytes": 62791,
+      "sha256": "f980d8216c32bdd0a6ee26cd10f739d7bb5ee8501505d6e1b4ca5fedb4b73ae6"
+    }
+  ],
+  "analysis_code": {
+    "local_path": "scripts/run_applied_energy_analysis.py",
+    "sha256": "94abc578e8bafeed26a48a954d71709823eac08f48cabfc4deddaa7ecbb0333c",
+    "joint_stress_base_seed": 20250730,
+    "iterations_per_design": 20000
+  },
   "evidence_status": {
     "historical_transition": "AR5-harmonized direct eGRID generation rates used as a numerical intensity index for the released foreground",
     "performance_robustness": "deterministic break-even stress test",
     "server_inventory": "empirical multiplicative stress test; not probabilistic uncertainty",
     "joint_assumption_stress": "seeded triangular perturbation envelopes; frequencies are not probabilities or confidence levels",
+    "stress_structure_sensitivity": "triangular-marginal block and Gaussian-copula dependence diagnostic; no empirical correlation or probability",
+    "stress_convergence": "nested 5,000, 20,000, and 80,000 draw numerical check; Monte Carlo precision is not epistemic uncertainty",
     "boundary_mismatch": "transparent additive stress; not an upstream inventory estimate"
   }
 }

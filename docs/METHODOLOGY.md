@@ -1,4 +1,4 @@
-# Phase 1 methodology
+# Current screening methodology
 
 ## Goal
 
@@ -24,13 +24,13 @@ Included:
 - production and end of life for cooling equipment;
 - coolant initial charge, annual replenishment, end of life, and direct loss.
 
-Excluded in Phase 1:
+Excluded unless supplied explicitly:
 
 - servers and building elements common to all alternatives;
 - temporal operation and grid marginal effects;
 - water scarcity characterization;
 - transport and maintenance unless embedded in supplied factors;
-- reliability and replacement effects;
+- dependent failures, redundancy, repair queues, and maintenance logistics;
 - heat-reuse credits.
 
 Researchers should include common systems when cooling changes their mass,
@@ -77,7 +77,7 @@ GHG_operational [kg CO2e / IT MWh]
   = EF_grid [kg CO2e / facility MWh] × PUE
 ```
 
-The v0.3 public-data example uses EPA eGRID 2023 state field `STC2ERTA`.
+The public-data example uses EPA eGRID 2023 state field `STC2ERTA`.
 This is a total-output annual factor. It must not be interpreted as an hourly,
 marginal, or market-based factor. NOAA TMY weather is reported separately as
 climate context until an hourly cooling-performance model is connected.

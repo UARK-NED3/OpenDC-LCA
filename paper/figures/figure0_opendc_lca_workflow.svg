@@ -100,7 +100,7 @@
   <text x="860" y="511" class="cardtitle">Robustness and next evidence</text>
   <text x="860" y="551" class="number">29.8%</text>
   <text x="956" y="545" class="body">outside released anchors</text>
-  <text x="860" y="581" class="number">99→56%</text>
+  <text x="860" y="581" class="number">99→55%</text>
   <text x="970" y="575" class="body">2P first-rank stress frequency</text>
   <text x="860" y="612" class="small">Output: crossover + stress envelope + acquisition plan</text>
 
