@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820" role="img" aria-label="Partial linked at-user electricity screening factors">
+<style>text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:23px;font-weight:700}.axis{font-size:13px}.label{font-size:12px}.note{font-size:11px;fill:#52606d}</style>
+<rect width="100%" height="100%" fill="white"/>
+<text class="title" x="68" y="40">Partial linked at-user electricity screening factors</text>
+<line x1="250.0" y1="85" x2="250.0" y2="688" stroke="#E5E7EB"/>
+<text class="note" x="250.0" y="718" text-anchor="middle">0</text>
+<line x1="382.3" y1="85" x2="382.3" y2="688" stroke="#E5E7EB"/>
+<text class="note" x="382.3" y="718" text-anchor="middle">100</text>
+<line x1="514.5" y1="85" x2="514.5" y2="688" stroke="#E5E7EB"/>
+<text class="note" x="514.5" y="718" text-anchor="middle">200</text>
+<line x1="646.8" y1="85" x2="646.8" y2="688" stroke="#E5E7EB"/>
+<text class="note" x="646.8" y="718" text-anchor="middle">300</text>
+<line x1="779.0" y1="85" x2="779.0" y2="688" stroke="#E5E7EB"/>
+<text class="note" x="779.0" y="718" text-anchor="middle">400</text>
+<line x1="911.3" y1="85" x2="911.3" y2="688" stroke="#E5E7EB"/>
+<text class="note" x="911.3" y="718" text-anchor="middle">500</text>
+<line x1="1043.5" y1="85" x2="1043.5" y2="688" stroke="#E5E7EB"/>
+<text class="note" x="1043.5" y="718" text-anchor="middle">600</text>
+<text class="axis" x="235" y="128" text-anchor="end">NYISO</text>
+<rect x="250" y="105" width="268.9" height="30" fill="#0072B2"/>
+<rect x="518.9" y="105" width="47.0" height="30" fill="#D55E00"/>
+<text class="note" x="574.0" y="126">238.9</text>
+<text class="axis" x="235" y="181" text-anchor="end">CAISO</text>
+<rect x="250" y="158" width="317.0" height="30" fill="#0072B2"/>
+<rect x="567.0" y="158" width="65.0" height="30" fill="#D55E00"/>
+<text class="note" x="640.0" y="179">288.8</text>
+<text class="axis" x="235" y="234" text-anchor="end">ISO-NE</text>
+<rect x="250" y="211" width="349.7" height="30" fill="#0072B2"/>
+<rect x="599.7" y="211" width="49.0" height="30" fill="#D55E00"/>
+<text class="note" x="656.7" y="232">301.5</text>
+<text class="axis" x="235" y="287" text-anchor="end">Northwest</text>
+<rect x="250" y="264" width="444.9" height="30" fill="#0072B2"/>
+<rect x="694.9" y="264" width="55.3" height="30" fill="#D55E00"/>
+<text class="note" x="758.2" y="285">378.2</text>
+<text class="axis" x="235" y="340" text-anchor="end">ERCOT</text>
+<rect x="250" y="317" width="465.9" height="30" fill="#0072B2"/>
+<rect x="715.9" y="317" width="66.0" height="30" fill="#D55E00"/>
+<text class="note" x="789.9" y="338">402.2</text>
+<text class="axis" x="235" y="393" text-anchor="end">PJM</text>
+<rect x="250" y="370" width="451.5" height="30" fill="#0072B2"/>
+<rect x="701.5" y="370" width="80.6" height="30" fill="#D55E00"/>
+<text class="note" x="790.1" y="391">402.3</text>
+<text class="axis" x="235" y="446" text-anchor="end">US</text>
+<rect x="250" y="423" width="489.2" height="30" fill="#0072B2"/>
+<rect x="739.2" y="423" width="70.2" height="30" fill="#D55E00"/>
+<text class="note" x="817.4" y="444">422.9</text>
+<text class="axis" x="235" y="499" text-anchor="end">Southeast</text>
+<rect x="250" y="476" width="481.9" height="30" fill="#0072B2"/>
+<rect x="731.9" y="476" width="81.2" height="30" fill="#D55E00"/>
+<text class="note" x="821.1" y="497">425.8</text>
+<text class="axis" x="235" y="552" text-anchor="end">SPP</text>
+<rect x="250" y="529" width="547.8" height="30" fill="#0072B2"/>
+<rect x="797.8" y="529" width="52.0" height="30" fill="#D55E00"/>
+<text class="note" x="857.8" y="550">453.5</text>
+<text class="axis" x="235" y="605" text-anchor="end">Southwest</text>
+<rect x="250" y="582" width="571.7" height="30" fill="#0072B2"/>
+<rect x="821.7" y="582" width="64.2" height="30" fill="#D55E00"/>
+<text class="note" x="893.8" y="603">480.8</text>
+<text class="axis" x="235" y="658" text-anchor="end">MISO</text>
+<rect x="250" y="635" width="661.0" height="30" fill="#0072B2"/>
+<rect x="911.0" y="635" width="75.9" height="30" fill="#D55E00"/>
+<text class="note" x="994.8" y="656">557.1</text>
+<line x1="377.9" y1="80" x2="377.9" y2="688" stroke="#009E73" stroke-width="3" stroke-dasharray="8 5"/>
+<text class="note" x="382.9" y="73">numerical CP/1P crossover 96.7</text>
+<line x1="944.2" y1="80" x2="944.2" y2="688" stroke="#7C3AED" stroke-width="3" stroke-dasharray="3 5"/>
+<text class="note" x="939.2" y="55" text-anchor="end">released high numerical anchor 524.9</text>
+<rect x="250" y="735" width="18" height="14" fill="#0072B2"/><text class="note" x="278" y="747">generation processes</text>
+<rect x="450" y="735" width="18" height="14" fill="#D55E00"/><text class="note" x="478" y="747">upstream and infrastructure</text>
+<text class="axis" x="660" y="790" text-anchor="middle">IPCC AR5 GWP100 (kg CO₂e/MWh delivered at user)</text>
+<text class="note" x="250" y="772">Federal LCA Commons U.S. Electricity Baseline 2023; consumption mixes. Cooling ranks remain numerical screens.</text>
+</svg>

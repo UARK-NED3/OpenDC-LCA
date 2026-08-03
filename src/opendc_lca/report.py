@@ -251,6 +251,14 @@ facility life plus annual replacement of losses:
 $$m_{{fluid,annual}} =
 \\frac{{m_{{initial}}}}{{L_{{facility}}}} + m_{{initial}}f_{{loss}}$$
 
+Losses are treated as direct releases and replaced to maintain a constant
+operating charge. The remaining initial charge is treated at facility end of
+life; released mass is not counted again in end-of-life treatment:
+
+$$I_{{fluid}} = m_{{fluid,annual}}I_{{production}} +
+\\frac{{m_{{initial}}}}{{L_{{facility}}}}I_{{EOL}}, \\qquad
+GHG_{{direct}} = m_{{initial}}f_{{loss}}GWP_{{direct}}$$
+
 ## Results
 
 {_results_table(results)}
@@ -464,7 +472,7 @@ def generate_experimental_report(
 
 ## Performance-map reduction
 
-For observation $i$ with duration $t_i$, the measured aggregate PUE is:
+For observation $i$ with duration $t_i$, the measured cooling-only partial PUE is:
 
 $$PUE = 1 + \\frac{{\\sum_i P_{{cooling,i}}t_i}}
 {{\\sum_i P_{{IT,i}}t_i}}$$
@@ -472,7 +480,7 @@ $$PUE = 1 + \\frac{{\\sum_i P_{{cooling,i}}t_i}}
 The {summary.point_count} points represent {summary.total_duration_hours:.1f} h
 and produce:
 
-- measured PUE: **{summary.measured_pue:.4f}**
+- measured cooling-only partial PUE: **{summary.measured_pue:.4f}**
 - on-site water: **{summary.onsite_water_l_per_kwh_it:.4f} L/kWh IT**
 - cooling COP: **{summary.cooling_cop:.3f}**
 

@@ -47,6 +47,22 @@
             "not_required", "planned", "internal", "independent",
             "independent_panel"
           ]
+        },
+        "boundary_definition": {
+          "type": "object",
+          "required": ["included_processes", "excluded_processes", "rationale"],
+          "additionalProperties": false,
+          "properties": {
+            "included_processes": {
+              "type": "array",
+              "items": {"type": "string", "minLength": 1}
+            },
+            "excluded_processes": {
+              "type": "array",
+              "items": {"type": "string", "minLength": 1}
+            },
+            "rationale": {"type": "string", "minLength": 1}
+          }
         }
       }
     },
@@ -87,6 +103,12 @@
         },
         "additionalProperties": false
       }
+    },
+    "input_source_map": {
+      "type": "object",
+      "description": "Field-level mapping from scenario input paths to declared data-source IDs.",
+      "propertyNames": {"minLength": 1},
+      "additionalProperties": {"type": "string", "minLength": 1}
     },
     "data_sources": {
       "type": "array",

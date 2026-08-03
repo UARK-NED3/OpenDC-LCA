@@ -1,7 +1,7 @@
 """OpenDC-LCA public API."""
 
 from .engine import analyze, compare, sensitivity
-from .audit import audit
+from .audit import audit, audit_comparison
 from .report import generate_experimental_report, generate_report
 from .io import load_scenario
 from .models import Scenario, ValidationError
@@ -14,6 +14,7 @@ from .performance import (
     integrate_hourly_performance,
     interpolate_performance,
     measurement_comparative_claim_allowed,
+    measurement_declared_metadata_gate_passed,
     load_performance_map,
     summarize_performance,
 )
@@ -47,13 +48,14 @@ from .interoperability import (
 __all__ = [
     "Scenario", "ValidationError", "analyze", "compare", "load_scenario",
     "sensitivity",
-    "audit",
+    "audit", "audit_comparison",
     "generate_report",
     "generate_experimental_report",
     "PerformancePoint", "PerformanceSummary", "InterpolatedPerformance",
     "HourlyPerformanceResult", "apply_performance", "interpolate_performance",
     "integrate_hourly_performance",
     "measurement_comparative_claim_allowed",
+    "measurement_declared_metadata_gate_passed",
     "load_performance_map", "summarize_performance",
     "MonteCarloResult", "ParameterDistribution", "monte_carlo",
     "analyze_scenario", "audit_scenario", "summarize_performance_csv",

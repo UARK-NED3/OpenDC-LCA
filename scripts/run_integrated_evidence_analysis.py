@@ -267,19 +267,54 @@ def crossover_rows(
     return rows
 
 
-def boavizta_server_summary() -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+def _boavizta_server_data() -> tuple[
+    list[dict[str, object]], list[dict[str, object]]
+]:
+    """Return included server records and an explicit candidate-flow audit."""
     source = RAW / "boavizta" / "boavizta-data-us.csv"
     records = []
+    audit = []
     with source.open(encoding="utf-8-sig", newline="") as stream:
-        for row in csv.DictReader(stream):
+        for source_row, row in enumerate(csv.DictReader(stream), start=2):
             if row["category"] != "Datacenter" or row["subcategory"] != "Server":
                 continue
-            try:
-                total = float(row["gwp_total"])
-                manufacturing_ratio = float(row["gwp_manufacturing_ratio"])
-                lifetime = float(row["lifetime"])
-            except (TypeError, ValueError):
+            missing = []
+            parsed: dict[str, float] = {}
+            for field in ("gwp_total", "gwp_manufacturing_ratio", "lifetime"):
+                try:
+                    parsed[field] = float(row[field])
+                except (TypeError, ValueError):
+                    missing.append(field)
+            reason = "included"
+            if missing:
+                reason = "missing required numeric field(s): " + ", ".join(missing)
+            elif parsed["gwp_total"] < 0:
+                reason = "negative total GWP"
+            elif not 0 <= parsed["gwp_manufacturing_ratio"] <= 1:
+                reason = "manufacturing share outside [0, 1]"
+            elif parsed["lifetime"] <= 0:
+                reason = "nonpositive lifetime"
+            audit.append(
+                {
+                    "source_row": source_row,
+                    "manufacturer": row["manufacturer"],
+                    "product": row["name"],
+                    "inclusion_status": (
+                        "included" if reason == "included" else "excluded"
+                    ),
+                    "reason": reason,
+                    "gwp_total_raw": row["gwp_total"],
+                    "gwp_manufacturing_ratio_raw": row[
+                        "gwp_manufacturing_ratio"
+                    ],
+                    "lifetime_raw": row["lifetime"],
+                }
+            )
+            if reason != "included":
                 continue
+            total = parsed["gwp_total"]
+            manufacturing_ratio = parsed["gwp_manufacturing_ratio"]
+            lifetime = parsed["lifetime"]
             manufacturing = total * manufacturing_ratio
             records.append(
                 {
@@ -295,6 +330,17 @@ def boavizta_server_summary() -> tuple[list[dict[str, object]], list[dict[str, o
                     "source_dataset": "Boavizta boavizta-data-us.csv",
                 }
             )
+    return records, audit
+
+
+def boavizta_server_inclusion_audit() -> list[dict[str, object]]:
+    """Document every Datacenter/Server candidate and its inclusion reason."""
+    _, audit = _boavizta_server_data()
+    return audit
+
+
+def boavizta_server_summary() -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    records, _ = _boavizta_server_data()
     values = [float(row["manufacturing_gwp_kgco2e"]) for row in records]
     annualized = [
         float(row["annualized_manufacturing_kgco2e_per_year"]) for row in records
@@ -675,6 +721,7 @@ def main() -> None:
             <= observed_max
         )
     server_rows, server_summary = boavizta_server_summary()
+    server_inclusion = boavizta_server_inclusion_audit()
     materials = material_levers()
     pedigree = pedigree_scores()
     priority = data_priority(pedigree, components)
@@ -685,6 +732,7 @@ def main() -> None:
         "table8_crossover_thresholds.csv": crossovers,
         "table9_boavizta_server_records.csv": server_rows,
         "table10_boavizta_server_summary.csv": server_summary,
+        "table34_boavizta_server_inclusion.csv": server_inclusion,
         "table11_material_decarbonization_levers.csv": materials,
         "table12_microsoft_pedigree_scores.csv": pedigree,
         "table13_data_improvement_priority.csv": priority,

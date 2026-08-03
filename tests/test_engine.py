@@ -1,15 +1,18 @@
 import unittest
 import tempfile
 import xml.etree.ElementTree as ET
+import json
+import math
 from pathlib import Path
 
 from opendc_lca.engine import analyze, compare, sensitivity
 from opendc_lca.models import Scenario, ValidationError
-from opendc_lca.audit import audit
+from opendc_lca.audit import audit, audit_comparison
 from opendc_lca.examples import install_examples
 from opendc_lca.io import load_scenario
 from opendc_lca.report import generate_experimental_report, generate_report
 from opendc_lca.performance import (
+    _value,
     apply_performance,
     load_performance_map,
     summarize_performance,
@@ -102,7 +105,7 @@ class EngineTests(unittest.TestCase):
                 "blue_water_l": 0,
             },
             "end_of_life_per_kg": {
-                "ghg_kgco2e": 0,
+                "ghg_kgco2e": 3,
                 "primary_energy_mj": 0,
                 "blue_water_l": 0,
             },
@@ -112,6 +115,30 @@ class EngineTests(unittest.TestCase):
             result.contributions["direct_fluid_emissions"].ghg_kgco2e, 10
         )
         self.assertAlmostEqual(
+            result.contributions["fluid_lifecycle"].ghg_kgco2e, 52
+        )
+
+    def test_fluid_top_up_mass_balance_conserves_charge(self):
+        data = scenario_data()
+        data["fluid"] = {
+            "name": "test fluid",
+            "initial_charge_kg": 100,
+            "annual_loss_fraction": 0.02,
+            "direct_gwp_kgco2e_per_kg": 0,
+            "production_per_kg": {
+                "ghg_kgco2e": 1,
+                "primary_energy_mj": 0,
+                "blue_water_l": 0,
+            },
+            "end_of_life_per_kg": {
+                "ghg_kgco2e": 1,
+                "primary_energy_mj": 0,
+                "blue_water_l": 0,
+            },
+        }
+        result = analyze(Scenario.from_dict(data))
+        # Purchases: 100/10 + 2 = 12 kg/y. EOL treatment: 100/10 = 10 kg/y.
+        self.assertAlmostEqual(
             result.contributions["fluid_lifecycle"].ghg_kgco2e, 22
         )
 
@@ -120,6 +147,17 @@ class EngineTests(unittest.TestCase):
         data["pue"] = 0.9
         with self.assertRaises(ValidationError):
             Scenario.from_dict(data)
+
+    def test_nonfinite_scenario_and_performance_values_are_rejected(self):
+        for value in (math.nan, math.inf, -math.inf):
+            data = scenario_data()
+            data["pue"] = value
+            with self.subTest(source="scenario", value=value):
+                with self.assertRaises(ValidationError):
+                    Scenario.from_dict(data)
+            with self.subTest(source="performance", value=value):
+                with self.assertRaises(ValidationError):
+                    _value({"it_load_kw": str(value)}, "it_load_kw", positive=True)
 
     def test_end_of_life_recovery_credit_is_allowed(self):
         data = scenario_data()
@@ -175,11 +213,117 @@ class EngineTests(unittest.TestCase):
                 "notes": "Reviewed measurement uncertainty.",
             },
         })
+        data["input_source_map"] = {
+            "it_capacity_kw": "test",
+            "capacity_factor": "test",
+            "pue": "test",
+            "facility_lifetime_years": "test",
+            "onsite_water_l_per_kwh_it": "test",
+            "grid": "test",
+            "component:cooler": "test",
+        }
         blockers = [
             finding for finding in audit(Scenario.from_dict(data))
             if finding.severity == "blocker"
         ]
         self.assertEqual(blockers, [])
+
+    def test_comparison_blocks_incompatible_methods_and_boundaries(self):
+        first_data = scenario_data()
+        second_data = scenario_data()
+        second_data["name"] = "incompatible"
+        second_data["study"]["system_boundary"] = "facility_cradle_to_grave"
+        second_data["study"]["ghg_method"] = "IPCC AR6 GWP100"
+        scenarios = [
+            Scenario.from_dict(first_data),
+            Scenario.from_dict(second_data),
+        ]
+        codes = {finding.code for finding in audit_comparison(scenarios)}
+        self.assertIn("INCOMPATIBLE_SYSTEM_BOUNDARY", codes)
+        self.assertIn("INCOMPATIBLE_GHG_METHOD", codes)
+        with self.assertRaises(ValidationError):
+            compare(scenarios)
+
+    def test_comparative_claim_requires_field_level_lineage(self):
+        data = scenario_data()
+        data["study"].update({
+            "comparative_assertion": True,
+            "ghg_method": "IPCC AR6 GWP100",
+            "primary_energy_method": "Cumulative energy demand v1.11",
+            "water_method": "AWARE 1.2c",
+            "critical_review_status": "independent_panel",
+        })
+        data["data_sources"][0].update({
+            "source_type": "manufacturer measurement",
+            "quality": "decision-grade",
+            "citation": "doi:10.0000/example",
+            "review_status": "independently_reviewed",
+            "uncertainty": {
+                "distribution": "lognormal",
+                "parameters": {"geometric_sd": 1.1},
+                "notes": "Reviewed measurement uncertainty.",
+            },
+        })
+        codes = {finding.code for finding in audit(Scenario.from_dict(data))}
+        self.assertIn("COMPARISON_REQUIRES_FIELD_LEVEL_LINEAGE", codes)
+
+    def test_input_source_map_rejects_unknown_source_id(self):
+        data = scenario_data()
+        data["input_source_map"] = {"grid": "missing"}
+        with self.assertRaises(ValidationError):
+            Scenario.from_dict(data)
+
+    def test_result_preserves_field_lineage_and_source_record_digests(self):
+        data = scenario_data()
+        data["input_source_map"] = {"grid": "test", "pue": "test"}
+        result = analyze(Scenario.from_dict(data))
+        self.assertEqual(
+            result.study_manifest["input_source_map"],
+            {"grid": "test", "pue": "test"},
+        )
+        digest = result.study_manifest["data_source_record_sha256"]["test"]
+        self.assertEqual(len(digest), 64)
+
+    def test_custom_comparison_requires_matching_boundary_definition(self):
+        first = scenario_data()
+        second = scenario_data()
+        second["name"] = "second"
+        for data in (first, second):
+            data["study"]["system_boundary"] = "custom"
+            data["study"]["boundary_definition"] = {
+                "included_processes": ["cooling equipment", "electricity"],
+                "excluded_processes": ["IT hardware"],
+                "rationale": "Test boundary",
+            }
+        scenarios = [Scenario.from_dict(first), Scenario.from_dict(second)]
+        self.assertNotIn(
+            "INCOMPATIBLE_CUSTOM_BOUNDARY_DEFINITION",
+            {finding.code for finding in audit_comparison(scenarios)},
+        )
+        second["study"]["boundary_definition"]["excluded_processes"] = [
+            "building shell"
+        ]
+        codes = {
+            finding.code
+            for finding in audit_comparison(
+                [Scenario.from_dict(first), Scenario.from_dict(second)]
+            )
+        }
+        self.assertIn("INCOMPATIBLE_CUSTOM_BOUNDARY_DEFINITION", codes)
+
+    def test_comparative_custom_boundary_cannot_be_undefined(self):
+        data = scenario_data()
+        data["study"]["system_boundary"] = "custom"
+        data["study"]["comparative_assertion"] = True
+        with self.assertRaises(ValidationError):
+            Scenario.from_dict(data)
+
+    def test_schema_declares_input_source_map(self):
+        root = Path(__file__).resolve().parents[1]
+        schema = json.loads(
+            (root / "schemas" / "scenario.schema.json").read_text(encoding="utf-8")
+        )
+        self.assertIn("input_source_map", schema["properties"])
 
     def test_duplicate_source_ids_are_rejected(self):
         data = scenario_data()

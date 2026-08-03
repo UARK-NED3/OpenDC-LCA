@@ -3,8 +3,12 @@
 from __future__ import annotations
 
 import re
+import shutil
 import subprocess
+import tempfile
+import time
 from pathlib import Path
+import xml.etree.ElementTree as ET
 
 from docx import Document
 from docx.enum.section import WD_SECTION
@@ -32,7 +36,7 @@ EQUATION_DISPLAY = {
     "3": "I_k,op = EF_k PUE                                                       (3)",
     "4": "I_k,eq = Σ_i q_i ceil(L_s/L_i) (I_k,i^prod + I_k,i^EOL) / L_s          (4)",
     "5": "m_prod,annual = m_0 / L_f + m_loss                                      (5)",
-    "6": "I_k,fluid = m_prod,annual I_k^fluid;   GHG_direct = m_loss GWP_direct   (6)",
+    "6": "I_k,fluid = m_prod,annual I_k^prod + (m_0/L_f) I_k^EOL;  GHG_direct = m_loss GWP_direct   (6)",
     "7": "z_s = (g_s - g_R) / (g_G - g_R)                                        (7)",
     "8": "I_j,s = I_j,R + (I_j,G - I_j,R) z_s                                    (8)",
     "9": "g* = g_R + (g_G-g_R)(I_b,R-I_a,R)/[(I_a,G-I_a,R)-(I_b,G-I_b,R)]        (9)",
@@ -287,17 +291,71 @@ def convert_figures():
     for filename in used:
         source = ROOT / "figures" / filename
         target = FIGURE_PNG / f"{source.stem}.png"
+        if shutil.which("rsvg-convert"):
+            subprocess.run(
+                [
+                    "rsvg-convert",
+                    "-w",
+                    "2400",
+                    "-o",
+                    str(target),
+                    str(source),
+                ],
+                check=True,
+            )
+        else:
+            render_svg_with_browser(source, target, width=2400)
+
+
+def render_svg_with_browser(source: Path, target: Path, *, width: int) -> None:
+    """Rasterize an SVG with an installed Chromium browser."""
+    browser = next(
+        (
+            candidate
+            for candidate in (
+                Path(r"C:\Program Files\Google\Chrome\Application\chrome.exe"),
+                Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"),
+                Path(r"C:\Program Files\Microsoft\Edge\Application\msedge.exe"),
+            )
+            if candidate.is_file()
+        ),
+        None,
+    )
+    if browser is None:
+        raise RuntimeError("Figure conversion requires rsvg-convert or Chromium")
+    root = ET.parse(source).getroot()
+    view_box = root.attrib.get("viewBox", "").split()
+    if len(view_box) == 4:
+        source_width, source_height = float(view_box[2]), float(view_box[3])
+    else:
+        source_width = float(root.attrib["width"])
+        source_height = float(root.attrib["height"])
+    scale = width / source_width
+    css_width = round(source_width)
+    css_height = round(source_height)
+    with tempfile.TemporaryDirectory(prefix="opendc-svg-") as temporary:
         subprocess.run(
             [
-                "rsvg-convert",
-                "-w",
-                "2400",
-                "-o",
-                str(target),
-                str(source),
+                str(browser),
+                "--headless=new",
+                "--disable-gpu",
+                "--hide-scrollbars",
+                "--no-first-run",
+                f"--force-device-scale-factor={scale}",
+                f"--user-data-dir={Path(temporary) / 'profile'}",
+                f"--window-size={css_width},{css_height}",
+                f"--screenshot={target}",
+                source.resolve().as_uri(),
             ],
             check=True,
+            timeout=60,
         )
+        for _ in range(300):
+            if target.is_file() and target.stat().st_size:
+                break
+            time.sleep(0.1)
+        else:
+            raise RuntimeError(f"Browser did not render {source.name}")
 
 
 def add_markdown_table(doc, rows):

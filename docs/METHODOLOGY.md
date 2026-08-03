@@ -51,9 +51,13 @@ Equipment impacts are annualized independently:
 `I_equipment = Σ quantity × (I_production + I_EOL) / service_life`
 
 Annual coolant production includes the amortized initial charge and replacement
-of losses. Direct fluid emissions are reported separately:
+of losses. Losses are treated as direct releases and replaced to hold the
+operating charge constant. The full remaining charge is treated at facility
+end of life; lost mass is not counted again as end-of-life-treated mass:
 
 `m_production = initial_charge / facility_life + annual_loss`
+
+`I_fluid = m_production I_production + (initial_charge / facility_life) I_EOL`
 
 `GHG_direct = annual_loss × direct_GWP`
 

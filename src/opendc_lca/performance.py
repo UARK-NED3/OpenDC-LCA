@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass, replace
 import hashlib
 import io
 import json
+import math
 from pathlib import Path
 
 from .models import Scenario, ValidationError
@@ -44,6 +45,8 @@ def _value(
         value = float(row[name])
     except (KeyError, TypeError, ValueError) as exc:
         raise ValidationError(f"{name} must be numeric") from exc
+    if not math.isfinite(value):
+        raise ValidationError(f"{name} must be finite")
     if (value < 0 and not allow_negative) or (positive and value <= 0):
         qualifier = "greater than zero" if positive else "non-negative"
         raise ValidationError(f"{name} must be {qualifier}")
@@ -268,7 +271,7 @@ def summarize_performance(points: list[PerformancePoint]) -> PerformanceSummary:
 def apply_performance(
     scenario: Scenario, summary: PerformanceSummary
 ) -> Scenario:
-    """Return a scenario using measured aggregate PUE and water intensity."""
+    """Return a scenario using measured cooling-only partial PUE and water."""
     if scenario.cooling_architecture != summary.architecture:
         raise ValueError(
             "Scenario and performance-map cooling architectures do not match"
@@ -429,10 +432,17 @@ def integrate_hourly_performance(
     )
 
 
-def measurement_comparative_claim_allowed(
+def measurement_declared_metadata_gate_passed(
     results: list[HourlyPerformanceResult],
 ) -> bool:
-    """Allow comparison only when at least two performance maps are reviewed."""
+    """Check only the declared review label for two or more maps."""
     return len(results) >= 2 and all(
         result.evidence_status == "reviewed" for result in results
     )
+
+
+def measurement_comparative_claim_allowed(
+    results: list[HourlyPerformanceResult],
+) -> bool:
+    """Legacy alias for the declared metadata gate; not claim authorization."""
+    return measurement_declared_metadata_gate_passed(results)

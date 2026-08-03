@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from dataclasses import replace
+import hashlib
+import json
 import math
 
-from .models import Impacts, ReliabilityModel, Scenario
+from .audit import audit_comparison
+from .models import Impacts, ReliabilityModel, Scenario, ValidationError
 
 HOURS_PER_YEAR = 8760.0
 MODEL_VERSION = "1.1.0"
@@ -237,9 +240,12 @@ def analyze(scenario: Scenario) -> Result:
             / scenario.facility_lifetime_years
             + annual_loss_kg
         )
+        # Top-up convention: annual losses are replaced so the charge remains
+        # at its declared initial mass. Purchases therefore equal the
+        # annualized initial charge plus top-ups; outputs equal direct losses
+        # plus the full remaining charge treated at facility end of life.
         annual_eol_kg = (
             scenario.fluid.initial_charge_kg
-            * (1 - scenario.fluid.annual_loss_fraction)
             / scenario.facility_lifetime_years
         )
         fluid = (
@@ -278,6 +284,7 @@ def analyze(scenario: Scenario) -> Result:
         study_manifest={
             "functional_unit": scenario.study.functional_unit,
             "system_boundary": scenario.study.system_boundary,
+            "boundary_definition": scenario.study.boundary_definition,
             "electricity_accounting": scenario.study.electricity_accounting,
             "water_metric": scenario.study.water_metric,
             "allocation_method": scenario.study.allocation_method,
@@ -289,15 +296,34 @@ def analyze(scenario: Scenario) -> Result:
             "replacement_model": scenario.study.replacement_model,
             "critical_review_status": scenario.study.critical_review_status,
             "data_source_ids": [source.id for source in scenario.data_sources],
+            "input_source_map": dict(sorted(scenario.input_source_map.items())),
+            "data_source_record_sha256": {
+                source.id: hashlib.sha256(
+                    json.dumps(
+                        asdict(source), sort_keys=True, separators=(",", ":")
+                    ).encode("utf-8")
+                ).hexdigest()
+                for source in scenario.data_sources
+            },
         },
         reliability=tuple(reliability_results),
     )
 
 
 def compare(scenarios: list[Scenario]) -> list[Result]:
-    """Analyze scenarios in input order."""
+    """Analyze metadata-compatible scenarios in input order."""
     if len(scenarios) < 2:
         raise ValueError("Comparison requires at least two scenarios")
+    blockers = [
+        finding
+        for finding in audit_comparison(scenarios)
+        if finding.severity == "blocker"
+    ]
+    if blockers:
+        raise ValidationError(
+            "Comparison blocked by automated metadata checks: "
+            + " | ".join(f"{finding.code}: {finding.message}" for finding in blockers)
+        )
     return [analyze(scenario) for scenario in scenarios]
 
 

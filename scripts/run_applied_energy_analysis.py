@@ -15,10 +15,14 @@ import hashlib
 import importlib.util
 import json
 import math
+import platform
 from pathlib import Path
 import random
 import statistics
+import subprocess
 import sys
+import zipfile
+import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -43,6 +47,13 @@ LB_TO_KG = 0.45359237
 MICROSOFT_GRID_GHG_KG_PER_MWH = integrated.MICROSOFT_GRID_GHG_KG_PER_MWH
 MICROSOFT_RENEWABLE_GHG_KG_PER_MWH = (
     integrated.MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+)
+MICROSOFT_DETAILED_WORKBOOK = (
+    ROOT
+    / "private-data"
+    / "incoming"
+    / "microsoft-zenodo"
+    / "LCA Tool with Detailed Equations.xlsx"
 )
 
 FILES = {
@@ -70,6 +81,21 @@ GWP_BASIS = {
 AR5_GWP100_CH4 = 28.0
 AR5_GWP100_N2O = 265.0
 JOINT_STRESS_SEED = 20250730
+ELECTRICITY_BASELINE_ZIP = (
+    ROOT
+    / "private-data"
+    / "incoming"
+    / "us-electricity-baseline"
+    / "US_electricity_baseline_2023_jsonld.zip"
+)
+IPCC_GWP_ZIP = (
+    ROOT
+    / "private-data"
+    / "incoming"
+    / "us-electricity-baseline"
+    / "IPCC_GWP_jsonld.zip"
+)
+IPCC_AR5_100_CATEGORY_ID = "7d05b807-2caa-3cd9-b55c-399d3b820cbc"
 
 
 def egrid_source(year: int) -> Path:
@@ -159,6 +185,674 @@ def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
         )
         writer.writeheader()
         writer.writerows(rows)
+
+
+def _zip_json_records(
+    archive: zipfile.ZipFile, folder: str
+) -> dict[str, dict[str, object]]:
+    """Load an openLCA JSON-LD record folder by UUID."""
+    records: dict[str, dict[str, object]] = {}
+    prefix = f"{folder}/"
+    for name in archive.namelist():
+        if not name.startswith(prefix) or not name.endswith(".json"):
+            continue
+        record = json.loads(archive.read(name))
+        records[str(record["@id"])] = record
+    return records
+
+
+def _unit_conversion_factors(
+    archives: tuple[zipfile.ZipFile, ...],
+) -> dict[str, float]:
+    """Return openLCA unit conversion factors to each property reference unit."""
+    factors: dict[str, float] = {}
+    for archive in archives:
+        for group in _zip_json_records(archive, "unit_groups").values():
+            for unit in group.get("units", []):
+                factors[str(unit["@id"])] = float(unit["conversionFactor"])
+    return factors
+
+
+def _process_reference_exchange(process: dict[str, object]) -> dict[str, object]:
+    references = [
+        exchange
+        for exchange in process.get("exchanges", [])
+        if exchange.get("isQuantitativeReference")
+    ]
+    if len(references) != 1:
+        raise ValueError(
+            f"Expected one quantitative reference in process {process.get('@id')}"
+        )
+    return references[0]
+
+
+def _exchange_in_reference_units(
+    exchange: dict[str, object], unit_factors: dict[str, float]
+) -> float:
+    unit = exchange.get("unit", {})
+    unit_id = str(unit.get("@id", ""))
+    if unit_id not in unit_factors:
+        raise ValueError(f"Missing conversion factor for unit {unit_id!r}")
+    return float(exchange.get("amount", 0.0)) * unit_factors[unit_id]
+
+
+def _solve_openlca_product_system(
+    product_system: dict[str, object],
+    processes: dict[str, dict[str, object]],
+    unit_factors: dict[str, float],
+    impact_factors: dict[str, tuple[float, str]],
+    *,
+    tolerance: float = 1e-12,
+    maximum_iterations: int = 10000,
+) -> dict[str, object]:
+    """Solve one linked openLCA product system without external LCA software.
+
+    Activities are expressed as multiples of each process quantitative
+    reference exchange. Product-system links define the technosphere matrix.
+    Elementary exchanges are then characterized with the selected LCIA
+    factors. Unlinked product or waste inputs remain cutoffs and are counted.
+    """
+    process_ids = [str(record["@id"]) for record in product_system["processes"]]
+    subset = {process_id: processes[process_id] for process_id in process_ids}
+    link_by_exchange = {
+        (
+            str(link["process"]["@id"]),
+            int(link["exchange"]["internalId"]),
+        ): str(link["provider"]["@id"])
+        for link in product_system.get("processLinks", [])
+    }
+    reference_amounts = {
+        process_id: _exchange_in_reference_units(
+            _process_reference_exchange(process), unit_factors
+        )
+        for process_id, process in subset.items()
+    }
+    coefficients: list[tuple[str, str, float]] = []
+    unlinked_inputs = 0
+    unlinked_records: list[tuple[str, dict[str, object]]] = []
+    for consumer_id, process in subset.items():
+        for exchange in process.get("exchanges", []):
+            if not exchange.get("isInput"):
+                continue
+            flow_type = str(exchange.get("flow", {}).get("flowType", ""))
+            if flow_type not in {"PRODUCT_FLOW", "WASTE_FLOW"}:
+                continue
+            key = (consumer_id, int(exchange["internalId"]))
+            provider_id = link_by_exchange.get(key)
+            if provider_id is None:
+                unlinked_inputs += 1
+                unlinked_records.append((consumer_id, exchange))
+                continue
+            provider_reference = reference_amounts[provider_id]
+            requirement = _exchange_in_reference_units(exchange, unit_factors)
+            coefficients.append(
+                (provider_id, consumer_id, requirement / provider_reference)
+            )
+
+    reference_process_id = str(product_system["refProcess"]["@id"])
+    target_unit_id = str(product_system["targetUnit"]["@id"])
+    demand = {
+        process_id: 0.0 for process_id in process_ids
+    }
+    demand[reference_process_id] = (
+        float(product_system["targetAmount"])
+        * unit_factors[target_unit_id]
+        / reference_amounts[reference_process_id]
+    )
+    activities = demand.copy()
+    residual = math.inf
+    iterations = 0
+    for iterations in range(1, maximum_iterations + 1):
+        updated = demand.copy()
+        for provider_id, consumer_id, coefficient in coefficients:
+            updated[provider_id] += coefficient * activities[consumer_id]
+        residual = max(
+            abs(updated[process_id] - activities[process_id])
+            for process_id in process_ids
+        )
+        activities = updated
+        if residual <= tolerance:
+            break
+    else:
+        raise RuntimeError(
+            f"Product-system solver did not converge for {product_system['name']}"
+        )
+
+    characterized_by_process: dict[str, float] = {}
+    for process_id, process in subset.items():
+        characterized = 0.0
+        for exchange in process.get("exchanges", []):
+            flow_id = str(exchange.get("flow", {}).get("@id", ""))
+            factor_record = impact_factors.get(flow_id)
+            if factor_record is None:
+                continue
+            factor, factor_unit_id = factor_record
+            amount = _exchange_in_reference_units(exchange, unit_factors)
+            amount_in_factor_units = amount / unit_factors[factor_unit_id]
+            direction = -1.0 if exchange.get("isInput") else 1.0
+            characterized += direction * amount_in_factor_units * factor
+        characterized_by_process[process_id] = characterized * activities[process_id]
+
+    total = sum(characterized_by_process.values())
+    direct_generation = sum(
+        value
+        for process_id, value in characterized_by_process.items()
+        if str(subset[process_id].get("name", "")).startswith("Electricity - ")
+    )
+    cutoff_totals: dict[tuple[str, str, str], dict[str, object]] = {}
+    for consumer_id, exchange in unlinked_records:
+        flow = exchange["flow"]
+        key = (
+            str(flow["@id"]),
+            str(flow.get("name", "")),
+            str(flow.get("refUnit", "")),
+        )
+        record = cutoff_totals.setdefault(
+            key,
+            {
+                "flow_id": key[0],
+                "flow_name": key[1],
+                "reference_unit": key[2],
+                "exchange_count": 0,
+                "process_count": set(),
+                "activity_weighted_amount": 0.0,
+            },
+        )
+        record["exchange_count"] = int(record["exchange_count"]) + 1
+        record["process_count"].add(consumer_id)
+        record["activity_weighted_amount"] = float(
+            record["activity_weighted_amount"]
+        ) + _exchange_in_reference_units(exchange, unit_factors) * activities[
+            consumer_id
+        ]
+    cutoff_summary = []
+    for record in cutoff_totals.values():
+        cutoff_summary.append(
+            {
+                **record,
+                "process_count": len(record["process_count"]),
+            }
+        )
+    return {
+        "total": total,
+        "direct_generation": direct_generation,
+        "upstream_and_infrastructure": total - direct_generation,
+        "process_count": len(process_ids),
+        "link_count": len(coefficients),
+        "unlinked_technosphere_inputs": unlinked_inputs,
+        "solver_iterations": iterations,
+        "solver_residual": residual,
+        "cutoff_summary": sorted(
+            cutoff_summary,
+            key=lambda row: (
+                str(row["reference_unit"]),
+                -abs(float(row["activity_weighted_amount"])),
+                str(row["flow_name"]),
+            ),
+        ),
+    }
+
+
+def lifecycle_electricity_factors(
+    components: dict[str, dict[str, dict[str, float]]],
+    *,
+    residual: bool = False,
+) -> list[dict[str, object]]:
+    """Calculate 2023 consumption-based U.S. electricity GWP factors.
+
+    The source is the official Federal LCA Commons U.S. Electricity Baseline
+    2023. Residual mixes are excluded; the retained systems comprise balancing
+    authorities, FERC market regions, and the national consumption mix.
+    """
+    with zipfile.ZipFile(ELECTRICITY_BASELINE_ZIP) as inventory_archive, zipfile.ZipFile(
+        IPCC_GWP_ZIP
+    ) as method_archive:
+        processes = _zip_json_records(inventory_archive, "processes")
+        product_systems = _zip_json_records(
+            inventory_archive, "product_systems"
+        )
+        unit_factors = _unit_conversion_factors(
+            (inventory_archive, method_archive)
+        )
+        categories = _zip_json_records(method_archive, "lcia_categories")
+        category = categories[IPCC_AR5_100_CATEGORY_ID]
+        if category.get("name") != "AR5-100":
+            raise ValueError("Unexpected LCIA category identity for AR5-100")
+        impact_factors = {
+            str(record["flow"]["@id"]): (
+                float(record["value"]),
+                str(record["unit"]["@id"]),
+            )
+            for record in category["impactFactors"]
+        }
+
+        retained = [
+            record
+            for record in product_systems.values()
+            if str(record.get("name", "")).startswith(
+                "Electricity; at user; residual consumption mix - "
+                if residual
+                else "Electricity; at user; consumption mix - "
+            )
+            and (
+                residual
+                or "residual" not in str(record.get("name", "")).lower()
+            )
+        ]
+        output: list[dict[str, object]] = []
+        crossover = next(
+            float(row["crossover_kgco2e_per_mwh"])
+            for row in integrated.crossover_rows(components)
+            if row["technology_a"] == "Cold plate"
+            and row["technology_b"] == "One-phase"
+        )
+        for product_system in retained:
+            name = str(product_system["name"])
+            region_level = name.rsplit(" - ", 1)[-1]
+            region_name = name.removeprefix(
+                (
+                    "Electricity; at user; residual consumption mix - "
+                    if residual
+                    else "Electricity; at user; consumption mix - "
+                )
+            ).rsplit(" - ", 1)[0]
+            solved = _solve_openlca_product_system(
+                product_system,
+                processes,
+                unit_factors,
+                impact_factors,
+            )
+            factor = float(solved["total"])
+            totals = {
+                technology: total_at_factor(
+                    components, technology, factor
+                )[0]
+                for technology in TECHNOLOGIES
+            }
+            order = sorted(totals, key=totals.get)
+            output.append(
+                {
+                    "region_level": region_level,
+                    "electricity_mix_type": (
+                        "residual consumption mix"
+                        if residual
+                        else "consumption mix"
+                    ),
+                    "region_name": region_name,
+                    "region_code": product_system["refProcess"].get(
+                        "location", ""
+                    ),
+                    "reference_year": 2023,
+                    "product_system_id": product_system["@id"],
+                    "product_system_version": product_system.get("version", ""),
+                    "lifecycle_ar5_gwp100_kgco2e_per_mwh": factor,
+                    "direct_generation_ar5_gwp100_kgco2e_per_mwh": solved[
+                        "direct_generation"
+                    ],
+                    "upstream_infrastructure_ar5_gwp100_kgco2e_per_mwh": solved[
+                        "upstream_and_infrastructure"
+                    ],
+                    "upstream_infrastructure_share_pct": (
+                        100
+                        * float(solved["upstream_and_infrastructure"])
+                        / factor
+                        if factor
+                        else 0.0
+                    ),
+                    "process_count": solved["process_count"],
+                    "link_count": solved["link_count"],
+                    "unlinked_technosphere_inputs": solved[
+                        "unlinked_technosphere_inputs"
+                    ],
+                    "solver_iterations": solved["solver_iterations"],
+                    "solver_residual": solved["solver_residual"],
+                    "below_cp_one_phase_numerical_crossover": factor < crossover,
+                    "above_released_high_numerical_anchor": (
+                        factor > MICROSOFT_GRID_GHG_KG_PER_MWH
+                    ),
+                    "index_screening_lowest_technology": order[0],
+                    "index_screening_second_technology": order[1],
+                    "index_screening_margin_pct": 100
+                    * (totals[order[1]] / totals[order[0]] - 1),
+                    "interpretation": (
+                        "Federal LCA Commons "
+                        + ("residual " if residual else "")
+                        + "consumption-mix lifecycle factor; "
+                        "cooling ordering remains a numerical transferability "
+                        "screen because the released cooling endpoints have an "
+                        "unresolved LCIA-method identity."
+                    ),
+                }
+            )
+    return sorted(
+        output,
+        key=lambda row: (
+            {"BA": 0, "FERC": 1, "US": 2}.get(str(row["region_level"]), 3),
+            str(row["region_name"]),
+        ),
+    )
+
+
+def national_lifecycle_cutoff_summary() -> list[dict[str, object]]:
+    """List unlinked technosphere inputs in the national product system."""
+    with zipfile.ZipFile(ELECTRICITY_BASELINE_ZIP) as inventory_archive, zipfile.ZipFile(
+        IPCC_GWP_ZIP
+    ) as method_archive:
+        processes = _zip_json_records(inventory_archive, "processes")
+        product_system = next(
+            record
+            for record in _zip_json_records(
+                inventory_archive, "product_systems"
+            ).values()
+            if record.get("name")
+            == "Electricity; at user; consumption mix - US - US"
+        )
+        unit_factors = _unit_conversion_factors(
+            (inventory_archive, method_archive)
+        )
+        category = _zip_json_records(
+            method_archive, "lcia_categories"
+        )[IPCC_AR5_100_CATEGORY_ID]
+        impact_factors = {
+            str(record["flow"]["@id"]): (
+                float(record["value"]),
+                str(record["unit"]["@id"]),
+            )
+            for record in category["impactFactors"]
+        }
+        solved = _solve_openlca_product_system(
+            product_system,
+            processes,
+            unit_factors,
+            impact_factors,
+        )
+    return [
+        {
+            **record,
+            "product_system": product_system["name"],
+            "cutoff_treatment": (
+                "Unlinked technosphere input assigned zero upstream burden "
+                "by the linked product-system calculation."
+            ),
+            "decision_status": (
+                "Magnitude not bounded; lifecycle factor is a partial linked-"
+                "system screen until providers are linked or cutoffs bounded."
+            ),
+        }
+        for record in solved["cutoff_summary"]
+    ]
+
+
+def _worst_case_rank_gap(
+    components: dict[str, dict[str, dict[str, float]]],
+    winner: str,
+    competitor: str,
+    factor: float,
+    half_width: float,
+    active_blocks: frozenset[str],
+) -> float:
+    """Return the largest winner-minus-competitor score over a bound box."""
+    grid_width = half_width if "grid" in active_blocks else 0.0
+    use_width = half_width if "use" in active_blocks else 0.0
+    embodied_width = half_width if "embodied" in active_blocks else 0.0
+    service_width = half_width if "service" in active_blocks else 0.0
+    gaps = []
+    for grid_multiplier in (1 - grid_width, 1 + grid_width):
+        perturbed_factor = max(0.0, factor * grid_multiplier)
+        _, winner_use, winner_embodied = total_at_factor(
+            components, winner, perturbed_factor
+        )
+        _, competitor_use, competitor_embodied = total_at_factor(
+            components, competitor, perturbed_factor
+        )
+        adverse_winner = (
+            winner_use * (1 + use_width)
+            + winner_embodied * (1 + embodied_width)
+        ) * (1 + service_width)
+        favorable_competitor = (
+            competitor_use * (1 - use_width)
+            + competitor_embodied * (1 - embodied_width)
+        ) * (1 - service_width)
+        gaps.append(adverse_winner - favorable_competitor)
+    return max(gaps)
+
+
+def standardized_rank_robustness(
+    lifecycle_rows: list[dict[str, object]],
+    components: dict[str, dict[str, dict[str, float]]],
+) -> list[dict[str, object]]:
+    """Compute exact equal-width, set-bounded first-rank certificates.
+
+    The bounds are deterministic uncertainty sets, not distributions. The grid
+    multiplier is common to all technologies; foreground use, embodied, and
+    service-equivalence multipliers may vary independently by technology.
+    """
+    block_sets = {
+        "grid only": frozenset({"grid"}),
+        "use phase only": frozenset({"use"}),
+        "embodied only": frozenset({"embodied"}),
+        "service equivalence only": frozenset({"service"}),
+        "all four equal-width": frozenset(
+            {"grid", "use", "embodied", "service"}
+        ),
+    }
+    output: list[dict[str, object]] = []
+    for context in lifecycle_rows:
+        factor = float(context["lifecycle_ar5_gwp100_kgco2e_per_mwh"])
+        nominal = {
+            technology: total_at_factor(components, technology, factor)[0]
+            for technology in TECHNOLOGIES
+        }
+        winner = min(nominal, key=nominal.get)
+        for block_label, blocks in block_sets.items():
+            best_threshold: float | None = None
+            critical_competitor = ""
+            for competitor in TECHNOLOGIES:
+                if competitor == winner:
+                    continue
+                upper = 0.999999
+                if (
+                    _worst_case_rank_gap(
+                        components,
+                        winner,
+                        competitor,
+                        factor,
+                        upper,
+                        blocks,
+                    )
+                    < 0
+                ):
+                    threshold = None
+                else:
+                    lower = 0.0
+                    for _ in range(80):
+                        midpoint = (lower + upper) / 2
+                        if (
+                            _worst_case_rank_gap(
+                                components,
+                                winner,
+                                competitor,
+                                factor,
+                                midpoint,
+                                blocks,
+                            )
+                            >= 0
+                        ):
+                            upper = midpoint
+                        else:
+                            lower = midpoint
+                    threshold = upper
+                if threshold is not None and (
+                    best_threshold is None or threshold < best_threshold
+                ):
+                    best_threshold = threshold
+                    critical_competitor = competitor
+            output.append(
+                {
+                    "region_level": context["region_level"],
+                    "region_name": context["region_name"],
+                    "region_code": context["region_code"],
+                    "lifecycle_ar5_gwp100_kgco2e_per_mwh": factor,
+                    "nominal_index_screening_winner": winner,
+                    "active_assumption_blocks": block_label,
+                    "critical_competitor": critical_competitor or "none below 100%",
+                    "critical_equal_half_width_pct": (
+                        100 * best_threshold
+                        if best_threshold is not None
+                        else ""
+                    ),
+                    "robust_through_99_9999_pct": best_threshold is None,
+                    "bound_structure": (
+                        "Shared nonnegative grid multiplier; independent "
+                        "technology-specific use, embodied, and service "
+                        "multipliers; equal relative half-width for active blocks."
+                    ),
+                    "interpretation": (
+                        "Deterministic set-bounded numerical certificate, not "
+                        "a probability, confidence interval, or physical validation."
+                    ),
+                }
+            )
+    return output
+
+
+def released_endpoint_method_audit() -> list[dict[str, object]]:
+    """Audit the LCIA-method identity of the two released electricity anchors."""
+    conventional = read_xlsx_rows(
+        MICROSOFT_DETAILED_WORKBOOK, "Use-Phase Conv. Energy Results"
+    )
+    renewable = read_xlsx_rows(
+        MICROSOFT_DETAILED_WORKBOOK, "Use-Phase Renew. Energy Resuts"
+    )
+    # read_xlsx_rows omits the blank first worksheet row: Excel F26 and F29
+    # therefore map to zero-based indices [24][5] and [27][5].
+    formulas = {
+        "conventional electricity": (
+            "Comparative results 0% RE",
+            "D118",
+        ),
+        "100% renewable electricity": (
+            "Comparative results 100% RE",
+            "D122",
+        ),
+    }
+    records = []
+    for endpoint, rows in (
+        ("conventional electricity", conventional),
+        ("100% renewable electricity", renewable),
+    ):
+        formula_sheet, formula_cell = formulas[endpoint]
+        formula = _xlsx_cell_formula(
+            MICROSOFT_DETAILED_WORKBOOK, formula_sheet, formula_cell
+        )
+        records.append(
+            {
+                "endpoint": endpoint,
+                "published_article_reported_method": "IPCC AR5 GWP100",
+                "numeric_workbook_cell": (
+                    "Use-Phase Conv. Energy Results!F26"
+                    if endpoint == "conventional electricity"
+                    else "Use-Phase Renew. Energy Resuts!F26"
+                ),
+                "numeric_workbook_label": rows[24][4],
+                "numeric_workbook_value_kgco2e_per_mwh": rows[24][5],
+                "gwp100_workbook_cell": (
+                    "Use-Phase Conv. Energy Results!F29"
+                    if endpoint == "conventional electricity"
+                    else "Use-Phase Renew. Energy Resuts!F29"
+                ),
+                "gwp100_workbook_label": rows[27][4],
+                "gwp100_workbook_value": rows[27][5],
+                "formula_evidence_cell": f"{formula_sheet}!{formula_cell}",
+                "formula_evidence": formula,
+                "formula_evidence_interpretation": (
+                    "The comparative use-phase formula references the blank "
+                    "F29 GWP100 cell in the corresponding source worksheet."
+                ),
+                "audit_status": "unresolved public-archive method identity",
+                "allowed_use": (
+                    "label-free numerical endpoint reconstruction and response "
+                    "coefficient; not a common-method comparative LCA"
+                ),
+            }
+        )
+    return records
+
+
+def _xlsx_cell_formula(path: Path, sheet_name: str, cell: str) -> str:
+    """Read one worksheet formula directly from an XLSX XML part."""
+    spreadsheet_ns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
+    relationship_ns = (
+        "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+    )
+    package_ns = "http://schemas.openxmlformats.org/package/2006/relationships"
+    with zipfile.ZipFile(path) as archive:
+        workbook = ET.fromstring(archive.read("xl/workbook.xml"))
+        relationships = ET.fromstring(
+            archive.read("xl/_rels/workbook.xml.rels")
+        )
+        targets = {
+            record.attrib["Id"]: record.attrib["Target"]
+            for record in relationships.findall(f"{{{package_ns}}}Relationship")
+        }
+        sheet = next(
+            record
+            for record in workbook.findall(
+                f".//{{{spreadsheet_ns}}}sheet"
+            )
+            if record.attrib["name"] == sheet_name
+        )
+        relationship_id = sheet.attrib[f"{{{relationship_ns}}}id"]
+        target = targets[relationship_id].lstrip("/")
+        if not target.startswith("xl/"):
+            target = "xl/" + target
+        worksheet = ET.fromstring(archive.read(target))
+        formula_cell = next(
+            record
+            for record in worksheet.findall(f".//{{{spreadsheet_ns}}}c")
+            if record.attrib.get("r") == cell
+        )
+        formula_node = formula_cell.find(f"{{{spreadsheet_ns}}}f")
+        if formula_node is None or not formula_node.text:
+            raise ValueError(f"No formula in {sheet_name}!{cell}")
+        return formula_node.text
+
+
+def implied_electricity_response_coefficients(
+    components: dict[str, dict[str, dict[str, float]]],
+    national_lifecycle_factor: float,
+) -> list[dict[str, object]]:
+    """Derive electricity-response slopes from the two released endpoints."""
+    factor_difference = (
+        MICROSOFT_GRID_GHG_KG_PER_MWH
+        - MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+    )
+    output = []
+    for technology in TECHNOLOGIES:
+        grid_use = components["grid"][technology]["Use Phase Impacts"]
+        renewable_use = components["renewable"][technology][
+            "Use Phase Impacts"
+        ]
+        response = (grid_use - renewable_use) / factor_difference
+        intercept = renewable_use - response * MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
+        output.append(
+            {
+                "technology": technology,
+                "released_grid_use_phase_kgco2e_per_vcore_year": grid_use,
+                "released_renewable_use_phase_kgco2e_per_vcore_year": renewable_use,
+                "implied_electricity_response_mwh_per_vcore_year": response,
+                "implied_zero_intensity_intercept_kgco2e_per_vcore_year": intercept,
+                "national_lifecycle_use_phase_screen_kgco2e_per_vcore_year": (
+                    intercept + response * national_lifecycle_factor
+                ),
+                "interpretation": (
+                    "Slope of the two released numerical endpoints. It has "
+                    "energy units but is not an independently measured energy "
+                    "demand or a common-method lifecycle result."
+                ),
+            }
+        )
+    return output
 
 
 def egrid_year(path: Path, sheet: str, expected_year: int) -> list[dict[str, object]]:
@@ -1400,6 +2094,141 @@ def figure_stress_structure(rows: list[dict[str, object]]) -> None:
     write_svg(FIGURES / "figure9_stress_structure.svg", body)
 
 
+def figure_lifecycle_electricity(
+    rows: list[dict[str, object]], crossover: float
+) -> None:
+    """Plot lifecycle electricity factors for FERC regions and the U.S."""
+    selected = sorted(
+        [row for row in rows if row["region_level"] in {"FERC", "US"}],
+        key=lambda row: float(row["lifecycle_ar5_gwp100_kgco2e_per_mwh"]),
+    )
+    body = svg_header(
+        "Partial linked at-user electricity screening factors",
+        width=1200,
+        height=820,
+    )
+    x0, y0, chart_width, row_height = 250, 105, 820, 53
+    maximum = 620.0
+    for tick in range(0, 601, 100):
+        x = x0 + chart_width * tick / maximum
+        body += [
+            f'<line x1="{x:.1f}" y1="{y0-20}" x2="{x:.1f}" y2="{y0+len(selected)*row_height}" stroke="#E5E7EB"/>',
+            f'<text class="note" x="{x:.1f}" y="{y0+len(selected)*row_height+30}" text-anchor="middle">{tick}</text>',
+        ]
+    for index, row in enumerate(selected):
+        y = y0 + index * row_height
+        direct = float(row["direct_generation_ar5_gwp100_kgco2e_per_mwh"])
+        upstream = float(
+            row["upstream_infrastructure_ar5_gwp100_kgco2e_per_mwh"]
+        )
+        direct_width = chart_width * direct / maximum
+        upstream_width = chart_width * upstream / maximum
+        body += [
+            f'<text class="axis" x="{x0-15}" y="{y+23}" text-anchor="end">{row["region_name"]}</text>',
+            f'<rect x="{x0}" y="{y}" width="{direct_width:.1f}" height="30" fill="#0072B2"/>',
+            f'<rect x="{x0+direct_width:.1f}" y="{y}" width="{upstream_width:.1f}" height="30" fill="#D55E00"/>',
+            f'<text class="note" x="{x0+direct_width+upstream_width+8:.1f}" y="{y+21}">{direct+upstream:.1f}</text>',
+        ]
+    crossover_x = x0 + chart_width * crossover / maximum
+    anchor_x = x0 + chart_width * MICROSOFT_GRID_GHG_KG_PER_MWH / maximum
+    body += [
+        f'<line x1="{crossover_x:.1f}" y1="{y0-25}" x2="{crossover_x:.1f}" y2="{y0+len(selected)*row_height}" stroke="#009E73" stroke-width="3" stroke-dasharray="8 5"/>',
+        f'<text class="note" x="{crossover_x+5:.1f}" y="{y0-32}">numerical CP/1P crossover {crossover:.1f}</text>',
+        f'<line x1="{anchor_x:.1f}" y1="{y0-25}" x2="{anchor_x:.1f}" y2="{y0+len(selected)*row_height}" stroke="#7C3AED" stroke-width="3" stroke-dasharray="3 5"/>',
+        f'<text class="note" x="{anchor_x-5:.1f}" y="{y0-50}" text-anchor="end">released high numerical anchor {MICROSOFT_GRID_GHG_KG_PER_MWH:.1f}</text>',
+        '<rect x="250" y="735" width="18" height="14" fill="#0072B2"/><text class="note" x="278" y="747">generation processes</text>',
+        '<rect x="450" y="735" width="18" height="14" fill="#D55E00"/><text class="note" x="478" y="747">upstream and infrastructure</text>',
+        '<text class="axis" x="660" y="790" text-anchor="middle">IPCC AR5 GWP100 (kg CO₂e/MWh delivered at user)</text>',
+        '<text class="note" x="250" y="772">Federal LCA Commons U.S. Electricity Baseline 2023; consumption mixes. Cooling ranks remain numerical screens.</text>',
+    ]
+    write_svg(FIGURES / "figure10_lifecycle_electricity.svg", body)
+
+
+def figure_standardized_robustness(rows: list[dict[str, object]]) -> None:
+    """Plot equal-width deterministic first-rank robustness certificates."""
+    body = svg_header(
+        "Equal-width bounds identify service and use-phase assumptions as limiting",
+        width=1200,
+        height=720,
+    )
+    body += [
+        '<text class="label" x="70" y="82" style="font-weight:700">A  National lifecycle context</text>',
+        '<text class="label" x="650" y="82" style="font-weight:700">B  All 71 lifecycle electricity contexts</text>',
+    ]
+    national = [row for row in rows if row["region_level"] == "US"]
+    labels = (
+        "grid only",
+        "use phase only",
+        "embodied only",
+        "service equivalence only",
+        "all four equal-width",
+    )
+    x0, y0, width = 210, 120, 350
+    maximum = 25.0
+    for tick in (0, 5, 10, 15, 20, 25):
+        x = x0 + width * tick / maximum
+        body += [
+            f'<line x1="{x:.1f}" y1="{y0-15}" x2="{x:.1f}" y2="555" stroke="#E5E7EB"/>',
+            f'<text class="note" x="{x:.1f}" y="580" text-anchor="middle">{tick}%</text>',
+        ]
+    for index, label in enumerate(labels):
+        row = next(r for r in national if r["active_assumption_blocks"] == label)
+        y = y0 + index * 82
+        body.append(
+            f'<text class="axis" x="{x0-15}" y="{y+27}" text-anchor="end">{label}</text>'
+        )
+        value = row["critical_equal_half_width_pct"]
+        if value == "":
+            bar_width = width
+            value_label = ">99.999%"
+        else:
+            numeric = float(value)
+            bar_width = width * min(numeric, maximum) / maximum
+            value_label = f"{numeric:.2f}%"
+        color = "#D55E00" if label in {"use phase only", "service equivalence only", "all four equal-width"} else "#0072B2"
+        body += [
+            f'<rect x="{x0}" y="{y}" width="{bar_width:.1f}" height="38" rx="4" fill="{color}"/>',
+            f'<text class="note" x="{x0+bar_width+8:.1f}" y="{y+25}">{value_label}</text>',
+        ]
+
+    all_block = [
+        row for row in rows if row["active_assumption_blocks"] == "all four equal-width"
+    ]
+    sx, sy, sw, sh = 680, 125, 430, 410
+    for tick in (0, 200, 400, 600, 800, 1000):
+        x = sx + sw * tick / 1000
+        body += [
+            f'<line x1="{x:.1f}" y1="{sy}" x2="{x:.1f}" y2="{sy+sh}" stroke="#E5E7EB"/>',
+            f'<text class="note" x="{x:.1f}" y="{sy+sh+28}" text-anchor="middle">{tick}</text>',
+        ]
+    for tick in (1.0, 1.2, 1.4, 1.6):
+        y = sy + sh - (tick - 1.0) / 0.6 * sh
+        body += [
+            f'<line x1="{sx}" y1="{y:.1f}" x2="{sx+sw}" y2="{y:.1f}" stroke="#E5E7EB"/>',
+            f'<text class="note" x="{sx-10}" y="{y+4:.1f}" text-anchor="end">{tick:.1f}%</text>',
+        ]
+    level_colors = {"BA": "#0072B2", "FERC": "#D55E00", "US": "#009E73"}
+    for row in all_block:
+        factor = float(row["lifecycle_ar5_gwp100_kgco2e_per_mwh"])
+        threshold = float(row["critical_equal_half_width_pct"])
+        x = sx + sw * factor / 1000
+        y = sy + sh - (threshold - 1.0) / 0.6 * sh
+        radius = 7 if row["region_level"] == "US" else 4
+        body.append(
+            f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{radius}" fill="{level_colors[str(row["region_level"])]}" opacity="0.82"/>'
+        )
+    body += [
+        '<text class="axis" x="895" y="600" text-anchor="middle">Lifecycle electricity factor (kg CO₂e/MWh)</text>',
+        '<text class="axis" x="635" y="330" text-anchor="middle" transform="rotate(-90 635 330)">critical equal half-width</text>',
+        '<circle cx="730" cy="630" r="5" fill="#0072B2"/><text class="note" x="743" y="634">BA</text>',
+        '<circle cx="805" cy="630" r="5" fill="#D55E00"/><text class="note" x="818" y="634">FERC</text>',
+        '<circle cx="895" cy="630" r="6" fill="#009E73"/><text class="note" x="910" y="634">U.S.</text>',
+        '<text class="note" x="70" y="660">Bounds are deterministic sets, not probability distributions. Lower thresholds indicate less rank robustness.</text>',
+        '<text class="note" x="70" y="686">The grid multiplier is shared; foreground multipliers may differ by technology. No certificate is physical validation.</text>',
+    ]
+    write_svg(FIGURES / "figure11_standardized_robustness.svg", body)
+
+
 def main() -> None:
     for path in (TABLES, FIGURES, RESULTS):
         path.mkdir(parents=True, exist_ok=True)
@@ -1437,6 +2266,25 @@ def main() -> None:
     pedigree = integrated.pedigree_scores()
     priority = integrated.data_priority(pedigree, components)
     priority_sensitivity = priority_index_sensitivity(priority)
+    lifecycle_electricity = lifecycle_electricity_factors(components)
+    residual_electricity = lifecycle_electricity_factors(
+        components, residual=True
+    )
+    standardized_robustness = standardized_rank_robustness(
+        lifecycle_electricity, components
+    )
+    national_lifecycle_factor = float(
+        next(
+            row["lifecycle_ar5_gwp100_kgco2e_per_mwh"]
+            for row in lifecycle_electricity
+            if row["region_level"] == "US"
+        )
+    )
+    endpoint_method_audit = released_endpoint_method_audit()
+    electricity_response = implied_electricity_response_coefficients(
+        components, national_lifecycle_factor
+    )
+    lifecycle_cutoffs = national_lifecycle_cutoff_summary()
     outputs = {
         "table14_egrid_historical_state_factors.csv": historical,
         "table15_egrid_historical_national_factors.csv": factors,
@@ -1452,6 +2300,12 @@ def main() -> None:
         "table25_priority_index_sensitivity.csv": priority_sensitivity,
         "table26_stress_structure_sensitivity.csv": stress_structure,
         "table27_stress_convergence.csv": stress_convergence,
+        "table28_lifecycle_electricity_factors.csv": lifecycle_electricity,
+        "table29_standardized_rank_robustness.csv": standardized_robustness,
+        "table30_released_endpoint_method_audit.csv": endpoint_method_audit,
+        "table31_implied_electricity_response.csv": electricity_response,
+        "table32_national_lifecycle_cutoffs.csv": lifecycle_cutoffs,
+        "table33_residual_electricity_factors.csv": residual_electricity,
     }
     for name, rows in outputs.items():
         write_csv(TABLES / name, rows)
@@ -1462,13 +2316,55 @@ def main() -> None:
         extrapolation, boundary, joint, functional_unit
     )
     figure_stress_structure(stress_structure)
+    figure_lifecycle_electricity(lifecycle_electricity, crossover)
+    figure_standardized_robustness(standardized_robustness)
+    analysis_code_paths = [
+        Path(__file__),
+        ROOT / "scripts" / "run_integrated_evidence_analysis.py",
+        ROOT / "src" / "opendc_lca" / "public_data.py",
+        ROOT / "src" / "opendc_lca" / "provenance.py",
+    ]
+    analysis_output_paths = [
+        *(RESULTS / name for name in outputs),
+        *(TABLES / name for name in outputs),
+        *(FIGURES / f"figure{number}_{stem}.svg" for number, stem in (
+            (6, "historical_grid_transition"),
+            (7, "performance_robustness"),
+            (8, "scope_uncertainty"),
+            (9, "stress_structure"),
+            (10, "lifecycle_electricity"),
+            (11, "standardized_robustness"),
+        )),
+    ]
+    git_command = [
+        "git",
+        "-c",
+        f"safe.directory={ROOT.as_posix()}",
+        "-C",
+        str(ROOT),
+    ]
+    git_commit = subprocess.run(
+        [*git_command, "rev-parse", "HEAD"],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    git_status = subprocess.run(
+        [*git_command, "status", "--porcelain=v1"],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout
     analysis_inputs = sorted(
         {
             *(egrid_source(year) for year in FILES),
             integrated.RAW
             / "microsoft-zenodo"
             / "LCA_Tool_w_Raw_&_Normalized_PlusUncertainty&Details.xlsx",
+            MICROSOFT_DETAILED_WORKBOOK,
             integrated.RAW / "boavizta" / "boavizta-data-us.csv",
+            ELECTRICITY_BASELINE_ZIP,
+            IPCC_GWP_ZIP,
         }
     )
     metadata = {
@@ -1487,6 +2383,24 @@ def main() -> None:
             MICROSOFT_RENEWABLE_GHG_KG_PER_MWH
         ),
         "cold_plate_one_phase_crossover_kgco2e_per_mwh": crossover,
+        "federal_lca_commons_2023_us_lifecycle_ar5_gwp100_kgco2e_per_mwh": (
+            national_lifecycle_factor
+        ),
+        "federal_lca_commons_nonresidual_product_systems": len(
+            lifecycle_electricity
+        ),
+        "federal_lca_commons_residual_product_systems": len(
+            residual_electricity
+        ),
+        "federal_lca_commons_2023_us_residual_ar5_gwp100_kgco2e_per_mwh": next(
+            row["lifecycle_ar5_gwp100_kgco2e_per_mwh"]
+            for row in residual_electricity
+            if row["region_level"] == "US"
+        ),
+        "federal_lca_commons_product_systems_below_numerical_crossover": sum(
+            bool(row["below_cp_one_phase_numerical_crossover"])
+            for row in lifecycle_electricity
+        ),
         "exact_2023_boundary_adder_to_remove_cp_advantage_kgco2e_per_mwh": (
             boundary[0][
                 "exact_adder_to_remove_all_cp_advantage_kgco2e_per_mwh"
@@ -1500,9 +2414,31 @@ def main() -> None:
             }
             for path in analysis_inputs
         ],
-        "analysis_code": {
-            "local_path": Path(__file__).relative_to(ROOT).as_posix(),
-            "sha256": sha256_file(Path(__file__)),
+        "execution_manifest": {
+            "python_version": platform.python_version(),
+            "python_implementation": platform.python_implementation(),
+            "platform": platform.platform(),
+            "git_commit": git_commit,
+            "git_dirty": bool(git_status),
+            "git_status_sha256": hashlib.sha256(
+                git_status.encode("utf-8")
+            ).hexdigest(),
+            "code": [
+                {
+                    "local_path": path.relative_to(ROOT).as_posix(),
+                    "bytes": path.stat().st_size,
+                    "sha256": sha256_file(path),
+                }
+                for path in analysis_code_paths
+            ],
+            "outputs": [
+                {
+                    "local_path": path.relative_to(ROOT).as_posix(),
+                    "bytes": path.stat().st_size,
+                    "sha256": sha256_file(path),
+                }
+                for path in analysis_output_paths
+            ],
             "joint_stress_base_seed": JOINT_STRESS_SEED,
             "iterations_per_design": 20000,
         },
@@ -1527,6 +2463,21 @@ def main() -> None:
             ),
             "boundary_mismatch": (
                 "transparent additive stress; not an upstream inventory estimate"
+            ),
+            "lifecycle_electricity": (
+                "Federal LCA Commons 2023 consumption-mix product systems "
+                "calculated with the repository's IPCC AR5-100 method; "
+                "unlinked technosphere inputs are reported as cutoffs"
+            ),
+            "standardized_rank_robustness": (
+                "exact equal-relative-width deterministic uncertainty sets; "
+                "not probability or physical validation"
+            ),
+            "released_endpoint_method_identity": (
+                "published article reports AR5 GWP100; archived detailed "
+                "workbook provides numeric endpoints in GTP100 cells while "
+                "GWP100 cells are blank, and comparative use-phase formulas "
+                "reference the blank F29 cells"
             ),
         },
     }

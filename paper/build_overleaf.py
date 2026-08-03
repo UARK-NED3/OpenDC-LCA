@@ -6,7 +6,10 @@ from __future__ import annotations
 import re
 import shutil
 import subprocess
+import tempfile
+import time
 from pathlib import Path
+import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / "MANUSCRIPT.md"
@@ -226,10 +229,72 @@ def convert_figures() -> None:
     for filename in used:
         source = ROOT / "figures" / filename
         target = FIGURES / f"{source.stem}.pdf"
+        if shutil.which("rsvg-convert"):
+            subprocess.run(
+                ["rsvg-convert", "-f", "pdf", "-o", str(target), str(source)],
+                check=True,
+            )
+        else:
+            with tempfile.TemporaryDirectory(prefix="opendc-svg-") as temporary:
+                png = Path(temporary) / f"{source.stem}.png"
+                render_svg_with_browser(source, png, width=2400)
+                from PIL import Image
+
+                with Image.open(png) as rendered:
+                    rendered.convert("RGB").save(
+                        target, "PDF", resolution=300.0
+                    )
+
+
+def render_svg_with_browser(source: Path, target: Path, *, width: int) -> None:
+    """Rasterize an SVG with an installed Chromium browser."""
+    browser = next(
+        (
+            candidate
+            for candidate in (
+                Path(r"C:\Program Files\Google\Chrome\Application\chrome.exe"),
+                Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"),
+                Path(r"C:\Program Files\Microsoft\Edge\Application\msedge.exe"),
+            )
+            if candidate.is_file()
+        ),
+        None,
+    )
+    if browser is None:
+        raise RuntimeError("Figure conversion requires rsvg-convert or Chromium")
+    root = ET.parse(source).getroot()
+    view_box = root.attrib.get("viewBox", "").split()
+    if len(view_box) == 4:
+        source_width, source_height = float(view_box[2]), float(view_box[3])
+    else:
+        source_width = float(root.attrib["width"])
+        source_height = float(root.attrib["height"])
+    scale = width / source_width
+    css_width = round(source_width)
+    css_height = round(source_height)
+    with tempfile.TemporaryDirectory(prefix="opendc-browser-") as temporary:
         subprocess.run(
-            ["rsvg-convert", "-f", "pdf", "-o", str(target), str(source)],
+            [
+                str(browser),
+                "--headless=new",
+                "--disable-gpu",
+                "--hide-scrollbars",
+                "--no-first-run",
+                f"--force-device-scale-factor={scale}",
+                f"--user-data-dir={Path(temporary) / 'profile'}",
+                f"--window-size={css_width},{css_height}",
+                f"--screenshot={target}",
+                source.resolve().as_uri(),
+            ],
             check=True,
+            timeout=60,
         )
+        for _ in range(300):
+            if target.is_file() and target.stat().st_size:
+                break
+            time.sleep(0.1)
+        else:
+            raise RuntimeError(f"Browser did not render {source.name}")
 
 
 def build() -> None:
@@ -433,6 +498,13 @@ def build() -> None:
         "table25_priority_index_sensitivity.csv",
         "table26_stress_structure_sensitivity.csv",
         "table27_stress_convergence.csv",
+        "table28_lifecycle_electricity_factors.csv",
+        "table29_standardized_rank_robustness.csv",
+        "table30_released_endpoint_method_audit.csv",
+        "table31_implied_electricity_response.csv",
+        "table32_national_lifecycle_cutoffs.csv",
+        "table33_residual_electricity_factors.csv",
+        "table34_boavizta_server_inclusion.csv",
     ):
         shutil.copy2(ROOT / "tables" / name, OUT)
 

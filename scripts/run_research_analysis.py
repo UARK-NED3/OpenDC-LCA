@@ -309,15 +309,17 @@ coupling.
 - NOAA Typical Meteorological Year:
   https://www.ncei.noaa.gov/access/typical-meteorological-year/
 """
-    (PAPER / "RESULTS_PACKAGE.md").write_text(report)
+    (PAPER / "RESULTS_PACKAGE_V04_V05.md").write_text(
+        report, encoding="utf-8"
+    )
     (V04 / "REPORT.md").write_text(
         "# v0.4 Microsoft/Nature reproduction\n\n"
-        "See [`paper/RESULTS_PACKAGE.md`](../../paper/RESULTS_PACKAGE.md). "
+        "See [`paper/RESULTS_PACKAGE_V04_V05.md`](../../paper/RESULTS_PACKAGE_V04_V05.md). "
         f"All 24 totals reconcile; maximum error: {max_error:.2e}.\n"
     )
     (V05 / "REPORT.md").write_text(
         "# v0.5 hourly research preview\n\n"
-        "See [`paper/RESULTS_PACKAGE.md`](../../paper/RESULTS_PACKAGE.md). "
+        "See [`paper/RESULTS_PACKAGE_V04_V05.md`](../../paper/RESULTS_PACKAGE_V04_V05.md). "
         "This is a hypothesis-generating protocol demonstration pending "
         "measured NED3 performance maps.\n"
     )

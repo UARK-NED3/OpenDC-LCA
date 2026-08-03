@@ -228,6 +228,18 @@
     "sha256": "16aeb21b79141f1122e5f2959fd845656f0ec6fd3bfab1ec8f33498c107d3217"
   },
   {
+    "source_group": "us-electricity-baseline",
+    "local_path": "private-data/incoming/us-electricity-baseline/IPCC_GWP_jsonld.zip",
+    "bytes": 3182535,
+    "sha256": "9b4532e0994c8e844fa6d9e4dbc8fe14ec856d4ce6715a9bcdba37b6c771f9a4"
+  },
+  {
+    "source_group": "us-electricity-baseline",
+    "local_path": "private-data/incoming/us-electricity-baseline/US_electricity_baseline_2023_jsonld.zip",
+    "bytes": 25538072,
+    "sha256": "e8d9e99a1f3f4cd3ba961e6ce264851338f6b232d8edabf70a1427c62a1b7d20"
+  },
+  {
     "source_group": "usgs-wbd-hu12",
     "local_path": "private-data/incoming/usgs-wbd-hu12/102020_wbd_hu12.gdb.zip",
     "bytes": 749735424,

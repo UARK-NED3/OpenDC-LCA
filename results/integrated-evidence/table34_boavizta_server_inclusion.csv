@@ -1,0 +1,56 @@
+source_row,manufacturer,product,inclusion_status,reason,gwp_total_raw,gwp_manufacturing_ratio_raw,lifetime_raw
+421,Dell,PowerEdge C4130,included,included,12700,0.0950,4
+422,Dell,PowerEdge C4140,included,included,6800,0.1830,4
+423,Dell,PowerEdge C6420,included,included,6510,0.1850,4
+424,Dell,PowerEdge FC430,included,included,5680,0.2770,4
+425,Dell,PowerEdge FC630,included,included,6570,0.2450,4
+426,Dell,PowerEdge FC640,included,included,7460,0.2170,4
+427,Dell,PowerEdge FC830,included,included,8970,0.1890,4
+428,Dell,PowerEdge M630,included,included,6180,0.2530,4
+429,Dell,PowerEdge M640,included,included,7000,0.2370,4
+430,Dell,PowerEdge M830,included,included,9150,0.1850,4
+431,Dell,PowerEdge R230,included,included,5380,0.2120,4
+432,Dell,PowerEdge R240,included,included,5260,0.2220,4
+433,Dell,PowerEdge R330,included,included,5510,0.2080,4
+434,Dell,PowerEdge R340,included,included,5230,0.2200,4
+435,Dell,PowerEdge R430,included,included,8150,0.1430,4
+436,Dell,PowerEdge R440,included,included,7360,0.1570,4
+437,Dell,PowerEdge R540,included,included,8230,0.1500,4
+438,Dell,PowerEdge R630,included,included,7260,0.1740,4
+439,Dell,PowerEdge R640,included,included,7730,0.1660,4
+440,Dell,PowerEdge R6415,included,included,6840,0.1740,4
+441,Dell,PowerEdge R6515,included,included,8160,0.08,4
+442,Dell,PowerEdge R6525,included,included,12700,0.06,4
+443,Dell,PowerEdge R730,included,included,7490,0.1630,4
+444,Dell,PowerEdge R730XD,included,included,8970,0.1450,4
+445,Dell,PowerEdge R740,included,included,8640,0.1520,4
+446,Dell,PowerEdge R740XD,included,included,9180,0.1440,4
+447,Dell,PowerEdge R7415,included,included,8090,0.1520,4
+448,Dell,PowerEdge R7425,included,included,11600,0.1130,4
+449,Dell,PowerEdge R7515,included,included,8990,0.09,4
+450,Dell,PowerEdge R830,included,included,12600,0.1380,4
+451,Dell,PowerEdge R840,included,included,15600,0.0980,4
+452,Dell,PowerEdge R930,included,included,13300,0.1340,4
+453,Dell,PowerEdge R940,included,included,14100,0.0980,4
+454,Dell,PowerEdge R940xa,included,included,13200,0.06,4
+455,Dell,PowerEdge T130,included,included,4260,0.2690,4
+456,Dell,PowerEdge T140,included,included,4480,0.2580,4
+457,Dell,PowerEdge T330,included,included,4800,0.2390,4
+458,Dell,PowerEdge T340,included,included,4780,0.2370,4
+459,Dell,PowerEdge T430,included,included,8520,0.1420,4
+460,Dell,PowerEdge T440,included,included,7810,0.1530,4
+461,Dell,PowerEdge T630,included,included,8560,0.1460,4
+462,Dell,PowerEdge T640,included,included,8000,0.1640,4
+764,HP,ProLiant DL345 Gen10 Plus server4,included,included,8370.0,0.299,4
+765,HP,ProLiant DL365 Gen10 Plus server4,included,included,7980.0,0.085,4
+766,HP,ProLiant DL380 Gen10 server4,included,included,4780.0,0.104,4
+767,HP,ProLiant DL385 Gen10 server4,included,included,5360.0,0.128,4
+768,HP,ProLiant DL580 Gen10 server4,included,included,15800.0,0.037,4
+769,HP,ProLiant MicroServer Gen10 Plus4,included,included,2500.0,0.186,4
+1099,Lenovo,ThinkSystem SE350,excluded,missing required numeric field(s): gwp_manufacturing_ratio,3664,,3
+1100,Lenovo,ThinkSystem SR250,excluded,missing required numeric field(s): gwp_manufacturing_ratio,2410,,3
+1101,Lenovo,ThinkSystem SR635,excluded,missing required numeric field(s): gwp_manufacturing_ratio,6267,,3
+1102,Lenovo,ThinkSystem SR645,excluded,missing required numeric field(s): gwp_manufacturing_ratio,13036,,3
+1103,Lenovo,ThinkSystem SR655,excluded,missing required numeric field(s): gwp_manufacturing_ratio,10058,,3
+1104,Lenovo,ThinkSystem SR665,excluded,missing required numeric field(s): gwp_manufacturing_ratio,13737,,3
+1105,Lenovo,ThinkSystem SR850P,excluded,missing required numeric field(s): gwp_manufacturing_ratio,25144.2,,3

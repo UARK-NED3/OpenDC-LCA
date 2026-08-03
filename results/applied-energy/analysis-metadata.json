@@ -16,6 +16,11 @@
   "microsoft_grid_endpoint_kgco2e_per_mwh": 524.893385656191,
   "microsoft_renewable_endpoint_kgco2e_per_mwh": 6.13302490385571,
   "cold_plate_one_phase_crossover_kgco2e_per_mwh": 96.70396924389829,
+  "federal_lca_commons_2023_us_lifecycle_ar5_gwp100_kgco2e_per_mwh": 422.93128473601405,
+  "federal_lca_commons_nonresidual_product_systems": 71,
+  "federal_lca_commons_residual_product_systems": 71,
+  "federal_lca_commons_2023_us_residual_ar5_gwp100_kgco2e_per_mwh": 455.3502769224227,
+  "federal_lca_commons_product_systems_below_numerical_crossover": 10,
   "exact_2023_boundary_adder_to_remove_cp_advantage_kgco2e_per_mwh": 73.00859459089514,
   "analysis_inputs": [
     {
@@ -69,14 +74,287 @@
       "sha256": "895cd81dd8662406189ad8adf5a2578dcb362cdb5cff7cca81b10ee6bd2447c6"
     },
     {
+      "local_path": "private-data/incoming/microsoft-zenodo/LCA Tool with Detailed Equations.xlsx",
+      "bytes": 311068,
+      "sha256": "957b4b774318e181d0563d17ad8e92aff16398e6e147998083f27a0b99c81a6f"
+    },
+    {
       "local_path": "private-data/incoming/microsoft-zenodo/LCA_Tool_w_Raw_&_Normalized_PlusUncertainty&Details.xlsx",
       "bytes": 62791,
       "sha256": "f980d8216c32bdd0a6ee26cd10f739d7bb5ee8501505d6e1b4ca5fedb4b73ae6"
+    },
+    {
+      "local_path": "private-data/incoming/us-electricity-baseline/IPCC_GWP_jsonld.zip",
+      "bytes": 3182535,
+      "sha256": "9b4532e0994c8e844fa6d9e4dbc8fe14ec856d4ce6715a9bcdba37b6c771f9a4"
+    },
+    {
+      "local_path": "private-data/incoming/us-electricity-baseline/US_electricity_baseline_2023_jsonld.zip",
+      "bytes": 25538072,
+      "sha256": "e8d9e99a1f3f4cd3ba961e6ce264851338f6b232d8edabf70a1427c62a1b7d20"
     }
   ],
-  "analysis_code": {
-    "local_path": "scripts/run_applied_energy_analysis.py",
-    "sha256": "94abc578e8bafeed26a48a954d71709823eac08f48cabfc4deddaa7ecbb0333c",
+  "execution_manifest": {
+    "python_version": "3.12.3",
+    "python_implementation": "CPython",
+    "platform": "Windows-11-10.0.26100-SP0",
+    "git_commit": "c9b94928d23a1ae15996caf96795ef77415ed1f8",
+    "git_dirty": true,
+    "git_status_sha256": "4dccf98070c49335c4be5313831bbc064dbfb8a6174b619956e3e6311168b665",
+    "code": [
+      {
+        "local_path": "scripts/run_applied_energy_analysis.py",
+        "bytes": 104649,
+        "sha256": "3d504c2b022cc287b8c425f047d10313f863911d97a6d9c93cbe73952fa19686"
+      },
+      {
+        "local_path": "scripts/run_integrated_evidence_analysis.py",
+        "bytes": 31505,
+        "sha256": "a96e1744a5834a05ebdd6c7d2f06ad801faf3fdb68020bf23fbf2c6597c22ec6"
+      },
+      {
+        "local_path": "src/opendc_lca/public_data.py",
+        "bytes": 12651,
+        "sha256": "f4d45b9a5e51d5cc7971823a4ab01619f69049db52904852832f80e4476e822a"
+      },
+      {
+        "local_path": "src/opendc_lca/provenance.py",
+        "bytes": 3424,
+        "sha256": "bae5ef27279ddaaf0e25a80c37a57125fe3d678e7910291438798fa86a5b229c"
+      }
+    ],
+    "outputs": [
+      {
+        "local_path": "results/applied-energy/table14_egrid_historical_state_factors.csv",
+        "bytes": 103784,
+        "sha256": "ccc0838a978e0069f6c4f9f4d9a2112a23a1769326ed600e17beee57812c52b2"
+      },
+      {
+        "local_path": "results/applied-energy/table15_egrid_historical_national_factors.csv",
+        "bytes": 3917,
+        "sha256": "eb177c72e380defd319e4efcc2043855e8a7fbe66430ea3b85b276f110ccf858"
+      },
+      {
+        "local_path": "results/applied-energy/table16_historical_cooling_results.csv",
+        "bytes": 596618,
+        "sha256": "478aa0b495d7f7b1dcac8c0901f55851b8f6fc229712b3398d8243b3ba5e86f7"
+      },
+      {
+        "local_path": "results/applied-energy/table17_historical_ranking_robustness.csv",
+        "bytes": 164669,
+        "sha256": "7286e108076522ab9cb1dbab7c6ed56b4bad0649e8d2b0efe5a05a2345ccb8d6"
+      },
+      {
+        "local_path": "results/applied-energy/table18_national_decarbonization_results.csv",
+        "bytes": 18156,
+        "sha256": "55771a4cdf051ac40c81a849b45a2c7891ec0f203a817a4bf1e2a5a63af9b45b"
+      },
+      {
+        "local_path": "results/applied-energy/table19_server_inventory_stress_test.csv",
+        "bytes": 3528,
+        "sha256": "e1fd142c122ab19c3a0abfa07688150dcab795b13f54e5d6d20cb91fd7b4d0fa"
+      },
+      {
+        "local_path": "results/applied-energy/table20_method_comparison.csv",
+        "bytes": 1104,
+        "sha256": "c745252a51bbb7c34f8d13188e352f8a3e0fac5d9eca4b1678945e74327f0d51"
+      },
+      {
+        "local_path": "results/applied-energy/table21_anchor_extrapolation_diagnostic.csv",
+        "bytes": 665,
+        "sha256": "073373e6730c3cbbf0919c242eec97295905513df231d5df5af4d6c0124b3cf6"
+      },
+      {
+        "local_path": "results/applied-energy/table22_boundary_mismatch_stress.csv",
+        "bytes": 1194,
+        "sha256": "da19656ca72d59bc04ee5a2a575457210dd3ae1067a5dd682af35a9e4d8dd8cf"
+      },
+      {
+        "local_path": "results/applied-energy/table23_joint_assumption_stress.csv",
+        "bytes": 6625,
+        "sha256": "f07db57d34f9cd49dc174d875d5a037d202740b56c336a9d5cf7fb97a1b1317c"
+      },
+      {
+        "local_path": "results/applied-energy/table24_functional_unit_sensitivity.csv",
+        "bytes": 773,
+        "sha256": "3c0f685324ad0204fd019e302bd55edc59ae6ba4c8b31bdc066a5f7618f62c96"
+      },
+      {
+        "local_path": "results/applied-energy/table25_priority_index_sensitivity.csv",
+        "bytes": 1412,
+        "sha256": "63ca0a7f7d329bb3d1f2cb614bd9b224573f0051b94652791773c1cc15ae58fd"
+      },
+      {
+        "local_path": "results/applied-energy/table26_stress_structure_sensitivity.csv",
+        "bytes": 105062,
+        "sha256": "91072e3c0ca47aa578526ff5a83b2695de64376b781e81635e06ede79707648d"
+      },
+      {
+        "local_path": "results/applied-energy/table27_stress_convergence.csv",
+        "bytes": 4520,
+        "sha256": "50e03ff6594b2733d8bf287c4e0a911e86644f23bb5e3b7c52f628acb3774326"
+      },
+      {
+        "local_path": "results/applied-energy/table28_lifecycle_electricity_factors.csv",
+        "bytes": 31607,
+        "sha256": "cf2977700c81d7d50495ae7435628d1a8ac0828abe744e8f2f4ba9a36fd6b903"
+      },
+      {
+        "local_path": "results/applied-energy/table29_standardized_rank_robustness.csv",
+        "bytes": 136625,
+        "sha256": "1ef07b9087bf5a14621432509b85e572eb3f18145ff3dd037e8e242dc1ddc308"
+      },
+      {
+        "local_path": "results/applied-energy/table30_released_endpoint_method_audit.csv",
+        "bytes": 1580,
+        "sha256": "73f758daec3d8d5846fd81d23072d02adbd36b6f342ba7e26030804610d2503c"
+      },
+      {
+        "local_path": "results/applied-energy/table31_implied_electricity_response.csv",
+        "bytes": 1335,
+        "sha256": "3dddce23f8eb09e86559bbe8910a5ec0b5d633e38967227fc7f41e85228d97a0"
+      },
+      {
+        "local_path": "results/applied-energy/table32_national_lifecycle_cutoffs.csv",
+        "bytes": 4725,
+        "sha256": "91e3c0466d578c457423475bc3da81725d87b56887a8614488b6f1e64012f0d8"
+      },
+      {
+        "local_path": "results/applied-energy/table33_residual_electricity_factors.csv",
+        "bytes": 32878,
+        "sha256": "b664eda6d9dce47b40368b700b706831ff481bdc5444831655a68419d19d0118"
+      },
+      {
+        "local_path": "paper/tables/table14_egrid_historical_state_factors.csv",
+        "bytes": 103784,
+        "sha256": "ccc0838a978e0069f6c4f9f4d9a2112a23a1769326ed600e17beee57812c52b2"
+      },
+      {
+        "local_path": "paper/tables/table15_egrid_historical_national_factors.csv",
+        "bytes": 3917,
+        "sha256": "eb177c72e380defd319e4efcc2043855e8a7fbe66430ea3b85b276f110ccf858"
+      },
+      {
+        "local_path": "paper/tables/table16_historical_cooling_results.csv",
+        "bytes": 596618,
+        "sha256": "478aa0b495d7f7b1dcac8c0901f55851b8f6fc229712b3398d8243b3ba5e86f7"
+      },
+      {
+        "local_path": "paper/tables/table17_historical_ranking_robustness.csv",
+        "bytes": 164669,
+        "sha256": "7286e108076522ab9cb1dbab7c6ed56b4bad0649e8d2b0efe5a05a2345ccb8d6"
+      },
+      {
+        "local_path": "paper/tables/table18_national_decarbonization_results.csv",
+        "bytes": 18156,
+        "sha256": "55771a4cdf051ac40c81a849b45a2c7891ec0f203a817a4bf1e2a5a63af9b45b"
+      },
+      {
+        "local_path": "paper/tables/table19_server_inventory_stress_test.csv",
+        "bytes": 3528,
+        "sha256": "e1fd142c122ab19c3a0abfa07688150dcab795b13f54e5d6d20cb91fd7b4d0fa"
+      },
+      {
+        "local_path": "paper/tables/table20_method_comparison.csv",
+        "bytes": 1104,
+        "sha256": "c745252a51bbb7c34f8d13188e352f8a3e0fac5d9eca4b1678945e74327f0d51"
+      },
+      {
+        "local_path": "paper/tables/table21_anchor_extrapolation_diagnostic.csv",
+        "bytes": 665,
+        "sha256": "073373e6730c3cbbf0919c242eec97295905513df231d5df5af4d6c0124b3cf6"
+      },
+      {
+        "local_path": "paper/tables/table22_boundary_mismatch_stress.csv",
+        "bytes": 1194,
+        "sha256": "da19656ca72d59bc04ee5a2a575457210dd3ae1067a5dd682af35a9e4d8dd8cf"
+      },
+      {
+        "local_path": "paper/tables/table23_joint_assumption_stress.csv",
+        "bytes": 6625,
+        "sha256": "f07db57d34f9cd49dc174d875d5a037d202740b56c336a9d5cf7fb97a1b1317c"
+      },
+      {
+        "local_path": "paper/tables/table24_functional_unit_sensitivity.csv",
+        "bytes": 773,
+        "sha256": "3c0f685324ad0204fd019e302bd55edc59ae6ba4c8b31bdc066a5f7618f62c96"
+      },
+      {
+        "local_path": "paper/tables/table25_priority_index_sensitivity.csv",
+        "bytes": 1412,
+        "sha256": "63ca0a7f7d329bb3d1f2cb614bd9b224573f0051b94652791773c1cc15ae58fd"
+      },
+      {
+        "local_path": "paper/tables/table26_stress_structure_sensitivity.csv",
+        "bytes": 105062,
+        "sha256": "91072e3c0ca47aa578526ff5a83b2695de64376b781e81635e06ede79707648d"
+      },
+      {
+        "local_path": "paper/tables/table27_stress_convergence.csv",
+        "bytes": 4520,
+        "sha256": "50e03ff6594b2733d8bf287c4e0a911e86644f23bb5e3b7c52f628acb3774326"
+      },
+      {
+        "local_path": "paper/tables/table28_lifecycle_electricity_factors.csv",
+        "bytes": 31607,
+        "sha256": "cf2977700c81d7d50495ae7435628d1a8ac0828abe744e8f2f4ba9a36fd6b903"
+      },
+      {
+        "local_path": "paper/tables/table29_standardized_rank_robustness.csv",
+        "bytes": 136625,
+        "sha256": "1ef07b9087bf5a14621432509b85e572eb3f18145ff3dd037e8e242dc1ddc308"
+      },
+      {
+        "local_path": "paper/tables/table30_released_endpoint_method_audit.csv",
+        "bytes": 1580,
+        "sha256": "73f758daec3d8d5846fd81d23072d02adbd36b6f342ba7e26030804610d2503c"
+      },
+      {
+        "local_path": "paper/tables/table31_implied_electricity_response.csv",
+        "bytes": 1335,
+        "sha256": "3dddce23f8eb09e86559bbe8910a5ec0b5d633e38967227fc7f41e85228d97a0"
+      },
+      {
+        "local_path": "paper/tables/table32_national_lifecycle_cutoffs.csv",
+        "bytes": 4725,
+        "sha256": "91e3c0466d578c457423475bc3da81725d87b56887a8614488b6f1e64012f0d8"
+      },
+      {
+        "local_path": "paper/tables/table33_residual_electricity_factors.csv",
+        "bytes": 32878,
+        "sha256": "b664eda6d9dce47b40368b700b706831ff481bdc5444831655a68419d19d0118"
+      },
+      {
+        "local_path": "paper/figures/figure6_historical_grid_transition.svg",
+        "bytes": 34796,
+        "sha256": "c088eecbe88fa5eb582a6f58fb9f0b1fbbac94296d8e9b545d0f4f332acfb4f2"
+      },
+      {
+        "local_path": "paper/figures/figure7_performance_robustness.svg",
+        "bytes": 4181,
+        "sha256": "7675fd5a20aa68ba9db9d9227117222c5dda239bc46a408e3b0d40373d451a07"
+      },
+      {
+        "local_path": "paper/figures/figure8_scope_uncertainty.svg",
+        "bytes": 6607,
+        "sha256": "3468ef8c732dcb95d12d9c889bf263c7553fb21e68041a54daa762897ad7209a"
+      },
+      {
+        "local_path": "paper/figures/figure9_stress_structure.svg",
+        "bytes": 7246,
+        "sha256": "98cee1bf47b24196f4df52139ec0422708721b2f7bac83e1c945d6b761a4514c"
+      },
+      {
+        "local_path": "paper/figures/figure10_lifecycle_electricity.svg",
+        "bytes": 5120,
+        "sha256": "90ecc5dc79ddee83b4253b1c125ce2dd2fc3caad05ff3a4f68277c4e07d2fa35"
+      },
+      {
+        "local_path": "paper/figures/figure11_standardized_robustness.svg",
+        "bytes": 9665,
+        "sha256": "5f4c9e728b46cdcc71dbe26554cfa7d45b69aa6179437c0c2061e231eba54e9a"
+      }
+    ],
     "joint_stress_base_seed": 20250730,
     "iterations_per_design": 20000
   },
@@ -87,6 +365,9 @@
     "joint_assumption_stress": "seeded triangular perturbation envelopes; frequencies are not probabilities or confidence levels",
     "stress_structure_sensitivity": "triangular-marginal block and Gaussian-copula dependence diagnostic; no empirical correlation or probability",
     "stress_convergence": "nested 5,000, 20,000, and 80,000 draw numerical check; Monte Carlo precision is not epistemic uncertainty",
-    "boundary_mismatch": "transparent additive stress; not an upstream inventory estimate"
+    "boundary_mismatch": "transparent additive stress; not an upstream inventory estimate",
+    "lifecycle_electricity": "Federal LCA Commons 2023 consumption-mix product systems calculated with the repository's IPCC AR5-100 method; unlinked technosphere inputs are reported as cutoffs",
+    "standardized_rank_robustness": "exact equal-relative-width deterministic uncertainty sets; not probability or physical validation",
+    "released_endpoint_method_identity": "published article reports AR5 GWP100; archived detailed workbook provides numeric endpoints in GTP100 cells while GWP100 cells are blank, and comparative use-phase formulas reference the blank F29 cells"
   }
 }

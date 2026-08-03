@@ -207,13 +207,16 @@ The Phase 1 model includes:
 - scenario SHA-256 digests and model version in JSON results; and
 - one-at-a-time GHG sensitivity screening.
 - automated scientific-quality findings and comparative-claim blockers.
-- duration-weighted laboratory performance maps that derive measured PUE,
-  on-site water intensity, and cooling COP; and
+- duration-weighted laboratory performance maps that derive cooling-only
+  partial PUE, on-site water intensity, and cooling COP; and
 - reproducible independent-parameter Monte Carlo propagation with p05, p50,
   p95, and mean results.
 
-It does not yet model correlated or model-form uncertainty, water scarcity,
-heat reuse, redundancy networks, repair queues, or workload output. These are
+The hourly performance-map path uses IT load and dry-bulb temperature with one
+constant grid factor; wet-bulb temperature is validated but not yet an
+interpolation coordinate. It does not yet model correlated or model-form
+uncertainty, water scarcity, heat reuse, redundancy networks, repair queues,
+or workload output. These are
 tracked in the [research roadmap](docs/ROADMAP.md).
 
 ## Repository map
