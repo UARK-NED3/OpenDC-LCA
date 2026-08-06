@@ -1,10 +1,12 @@
 # Transferability audit of data-center cooling LCA: lifecycle electricity, functional equivalence, and rank robustness
 
-**Braden Stevens (1), Pengjiang Xiang (1), Yimin Chen (2), Darin Nutter (1), and Han Hu (1)**
+**Braden Stevens (1, 3), Pengjiang Xiang (1, 3), Yimin Chen (2), Darin Nutter (1), and Han Hu (1)**
 
 (1) Department of Mechanical Engineering, University of Arkansas, Fayetteville, AR 72701, U.S.
 
 (2) Building Technologies Research and Integration Center, Oak Ridge National Laboratory, Oak Ridge, TN 37830, U.S.
+
+(3) Harrison French & Associates Ltd., Bentonville, AR 72712, U.S.
 
 *Pre-submission draft for coauthor review.*
 
