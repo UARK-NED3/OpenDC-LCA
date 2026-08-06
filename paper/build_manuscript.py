@@ -397,16 +397,21 @@ def parse_markdown(doc, text):
     lines = text.splitlines()
     title = lines[0][2:].strip()
     authors = lines[2].strip("*")
-    affiliation = " ".join(lines[4:6]).strip()
     abstract_index = next(
         i for i, line in enumerate(lines) if line.strip() == "## Abstract"
     )
+    title_metadata = [line.strip() for line in lines[4:abstract_index] if line.strip()]
+    affiliation_lines = [line for line in title_metadata if not line.startswith("*")]
     draft_note = " ".join(
-        line.strip().strip("*")
-        for line in lines[7:abstract_index]
-        if line.strip()
+        line.strip("*") for line in title_metadata if line.startswith("*")
+    ) or "Pre-submission draft for coauthor review."
+    add_title_block(
+        doc,
+        title,
+        [(authors, False)]
+        + [(affiliation, False) for affiliation in affiliation_lines]
+        + [(draft_note, True)],
     )
-    add_title_block(doc, title, [(authors, False), (affiliation, False), (draft_note, True)])
 
     index = abstract_index
     paragraph_buffer = []
@@ -495,7 +500,7 @@ def main():
     props = doc.core_properties
     props.title = "OpenDC-LCA manuscript"
     props.subject = "Open, evidence-gated LCA for data-center cooling"
-    props.author = "Han Hu; Darin W. Nutter"
+    props.author = "Braden Stevens; Pengjiang Xiang; Yimin Chen; Darin Nutter; Han Hu"
     props.keywords = "data center, cooling, LCA, reproducibility, OpenDC-LCA"
     doc.save(OUTPUT)
     print(OUTPUT)
