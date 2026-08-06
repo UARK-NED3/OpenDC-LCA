@@ -98,19 +98,24 @@
     "python_version": "3.12.3",
     "python_implementation": "CPython",
     "platform": "Windows-11-10.0.26100-SP0",
-    "git_commit": "c9b94928d23a1ae15996caf96795ef77415ed1f8",
+    "git_commit": "dcb6ce4503dfa564a97a73840230fef22bc0b965",
     "git_dirty": true,
-    "git_status_sha256": "4dccf98070c49335c4be5313831bbc064dbfb8a6174b619956e3e6311168b665",
+    "git_status_sha256": "2e109398f3637fa809122e7d1d17c3d1d8c9bf0ac726a0f37dc64a05158e2d81",
     "code": [
       {
         "local_path": "scripts/run_applied_energy_analysis.py",
-        "bytes": 104649,
-        "sha256": "3d504c2b022cc287b8c425f047d10313f863911d97a6d9c93cbe73952fa19686"
+        "bytes": 104950,
+        "sha256": "7a5603db27f9635790d2a4a4493438d390174d38535c76531093960957494067"
       },
       {
         "local_path": "scripts/run_integrated_evidence_analysis.py",
         "bytes": 31505,
         "sha256": "a96e1744a5834a05ebdd6c7d2f06ad801faf3fdb68020bf23fbf2c6597c22ec6"
+      },
+      {
+        "local_path": "scripts/normalize_figure_typography.py",
+        "bytes": 2450,
+        "sha256": "39acc85fd936309df5c1c56d5f27e02a953a621c656a2ae41abec3926b72263c"
       },
       {
         "local_path": "src/opendc_lca/public_data.py",
@@ -326,33 +331,33 @@
       },
       {
         "local_path": "paper/figures/figure6_historical_grid_transition.svg",
-        "bytes": 34796,
-        "sha256": "c088eecbe88fa5eb582a6f58fb9f0b1fbbac94296d8e9b545d0f4f332acfb4f2"
+        "bytes": 34683,
+        "sha256": "47a3cde4104744eda2bc7111aaccfe6e1e9956da9b44cf308a69a266696bb0f0"
       },
       {
         "local_path": "paper/figures/figure7_performance_robustness.svg",
-        "bytes": 4181,
-        "sha256": "7675fd5a20aa68ba9db9d9227117222c5dda239bc46a408e3b0d40373d451a07"
+        "bytes": 4075,
+        "sha256": "4a58a3968ed3ed2796e326946c8c715c74a954b532dcd7161d7b5058a016b6f8"
       },
       {
         "local_path": "paper/figures/figure8_scope_uncertainty.svg",
-        "bytes": 6607,
-        "sha256": "3468ef8c732dcb95d12d9c889bf263c7553fb21e68041a54daa762897ad7209a"
+        "bytes": 6497,
+        "sha256": "48e4a379d791c7182dc1253a3a536a8b15d4b495e4855749343d8526761d41ae"
       },
       {
         "local_path": "paper/figures/figure9_stress_structure.svg",
-        "bytes": 7246,
-        "sha256": "98cee1bf47b24196f4df52139ec0422708721b2f7bac83e1c945d6b761a4514c"
+        "bytes": 7134,
+        "sha256": "a5b0fb85127de21c0a7705369fa8c74adcd146278af086e422c27d717fdd63cb"
       },
       {
         "local_path": "paper/figures/figure10_lifecycle_electricity.svg",
-        "bytes": 5120,
-        "sha256": "90ecc5dc79ddee83b4253b1c125ce2dd2fc3caad05ff3a4f68277c4e07d2fa35"
+        "bytes": 5025,
+        "sha256": "0dd80c404f769799a23abb9b224108e0bcab527ef18dbbe7fc2e8f38dcce84f2"
       },
       {
         "local_path": "paper/figures/figure11_standardized_robustness.svg",
-        "bytes": 9665,
-        "sha256": "5f4c9e728b46cdcc71dbe26554cfa7d45b69aa6179437c0c2061e231eba54e9a"
+        "bytes": 9549,
+        "sha256": "42bcdc31704c904f256fea4b575b39ffdaf71a590748730c3b671c33d6572f19"
       }
     ],
     "joint_stress_base_seed": 20250730,

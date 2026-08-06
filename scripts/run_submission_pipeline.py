@@ -151,6 +151,7 @@ def main() -> None:
             [python, "scripts/run_research_analysis.py"],
             [python, "scripts/run_integrated_evidence_analysis.py"],
             [python, "scripts/run_applied_energy_analysis.py"],
+            [python, "scripts/normalize_figure_typography.py"],
             [python, "-m", "unittest", "discover", "-s", "tests", "-v"],
         ]
     )

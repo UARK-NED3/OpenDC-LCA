@@ -26,9 +26,11 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "scripts"))
 
 from opendc_lca.public_data import read_xlsx_rows  # noqa: E402
 from opendc_lca.provenance import sha256_file  # noqa: E402
+from normalize_figure_typography import normalize as normalize_figure_typography  # noqa: E402
 
 SPEC = importlib.util.spec_from_file_location(
     "integrated", ROOT / "scripts" / "run_integrated_evidence_analysis.py"
@@ -2318,9 +2320,12 @@ def main() -> None:
     figure_stress_structure(stress_structure)
     figure_lifecycle_electricity(lifecycle_electricity, crossover)
     figure_standardized_robustness(standardized_robustness)
+    for figure_path in sorted(FIGURES.glob("*.svg")):
+        normalize_figure_typography(figure_path)
     analysis_code_paths = [
         Path(__file__),
         ROOT / "scripts" / "run_integrated_evidence_analysis.py",
+        ROOT / "scripts" / "normalize_figure_typography.py",
         ROOT / "src" / "opendc_lca" / "public_data.py",
         ROOT / "src" / "opendc_lca" / "provenance.py",
     ]

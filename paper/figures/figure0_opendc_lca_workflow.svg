@@ -5,14 +5,14 @@
     </marker>
     <style>
       text{font-family:Arial,sans-serif;fill:#17324d}
-      .title{font-size:26px;font-weight:700}
-      .subtitle{font-size:15px;fill:#52697c}
-      .section{font-size:17px;font-weight:700}
-      .cardtitle{font-size:15px;font-weight:700}
-      .body{font-size:13px}
-      .small{font-size:11px;fill:#587086}
-      .number{font-size:25px;font-weight:700}
-      .step{font-size:14px;font-weight:700}
+      .title{font-size:30px;font-weight:700}
+      .subtitle{font-size:18px;fill:#52697c}
+      .section{font-size:20px;font-weight:700}
+      .cardtitle{font-size:18px;font-weight:700}
+      .body{font-size:15px}
+      .small{font-size:14px;fill:#587086}
+      .number{font-size:29px;font-weight:700}
+      .step{font-size:16px;font-weight:700}
     </style>
   </defs>
 
@@ -21,8 +21,8 @@
   <text x="44" y="68" class="subtitle">One calculation spine keeps the functional unit, boundary, transformation, uncertainty and claim status visible.</text>
 
   <rect x="42" y="92" width="1116" height="58" rx="10" fill="#17324d"/>
-  <text x="600" y="116" text-anchor="middle" style="font-size:12px;fill:#bcd2e2;font-weight:700">DECISION QUESTION</text>
-  <text x="600" y="138" text-anchor="middle" style="font-size:17px;fill:white;font-weight:700">Which cooling architecture is preferred, where can the ranking change, and what evidence would resolve it?</text>
+  <text x="600" y="116" text-anchor="middle" style="font-size:14px;fill:#bcd2e2;font-weight:700">DECISION QUESTION</text>
+  <text x="600" y="138" text-anchor="middle" style="font-size:18px;fill:white;font-weight:700">Which cooling architecture is preferred, where can the ranking change, and what evidence would resolve it?</text>
 
   <text x="52" y="187" class="section">1  Evidence with declared role</text>
   <text x="414" y="187" class="section">2  Harmonization and claim gate</text>
@@ -58,22 +58,22 @@
   <line x1="441" y1="260" x2="441" y2="578" stroke="#b9c8d4" stroke-width="5"/>
 
   <circle cx="441" cy="263" r="17" fill="#0072b2"/>
-  <text x="441" y="268" text-anchor="middle" style="font-size:12px;font-weight:700;fill:white">1</text>
+  <text x="441" y="268" text-anchor="middle" style="font-size:14px;font-weight:700;fill:white">1</text>
   <text x="475" y="253" class="step">Define equivalence</text>
   <text x="475" y="276" class="body">Useful computation · lifetime · reliability</text>
 
   <circle cx="441" cy="356" r="17" fill="#d55e00"/>
-  <text x="441" y="361" text-anchor="middle" style="font-size:12px;font-weight:700;fill:white">2</text>
+  <text x="441" y="361" text-anchor="middle" style="font-size:14px;font-weight:700;fill:white">2</text>
   <text x="475" y="346" class="step">Align what can be aligned</text>
   <text x="475" y="369" class="body">Unit · GWP basis · year · geography</text>
 
   <circle cx="441" cy="449" r="17" fill="#7c3aed"/>
-  <text x="441" y="454" text-anchor="middle" style="font-size:12px;font-weight:700;fill:white">3</text>
+  <text x="441" y="454" text-anchor="middle" style="font-size:14px;font-weight:700;fill:white">3</text>
   <text x="475" y="439" class="step">Expose transformation limits</text>
   <text x="475" y="462" class="body">Interpolation · extrapolation · boundary gap</text>
 
   <circle cx="441" cy="542" r="17" fill="#009e73"/>
-  <text x="441" y="547" text-anchor="middle" style="font-size:12px;font-weight:700;fill:white">4</text>
+  <text x="441" y="547" text-anchor="middle" style="font-size:14px;font-weight:700;fill:white">4</text>
   <text x="475" y="532" class="step">Propagate and classify evidence</text>
   <text x="475" y="555" class="body">Joint stress · provenance · review status</text>
 
