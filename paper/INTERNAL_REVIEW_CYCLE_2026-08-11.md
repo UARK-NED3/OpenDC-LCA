@@ -82,11 +82,11 @@ filled with assumptions in this cycle.
 - All 48 references are cited, no citation is missing, and first appearances
   follow the sequence 1--48.
 - All 65 automated tests passed under Python 3.12.
-- The Elsevier manuscript compiled twice to 51 pages and the supplement twice
+- The Elsevier manuscript compiled twice to 50 pages and the supplement twice
   to 14 pages. The final logs contain no undefined citations or references,
   fatal errors, or overfull boxes. Benign underfull-line, bookmark, and MiKTeX
   update-notice messages remain.
-- All 51 manuscript pages were rasterized and visually inspected. No clipping,
+- All 50 manuscript pages were rasterized and visually inspected. No clipping,
   overlap, broken figures or tables, missing glyphs, or footer collision was
   found. Hyperlink borders were hidden to improve readability.
 - Extracted PDF and DOCX text contain no TODO/TBD markers, hidden prompts,
@@ -100,3 +100,12 @@ filled with assumptions in this cycle.
 manuscript defects found in this cycle are resolved. The residual items above
 cannot be closed without author confirmation, a public archival action, or
 independent LCA evidence.
+
+## Section-heading style revision
+
+At the author's request, the main-text and supplementary headings were audited
+for grammatical form and rhetorical function. Sentence-like headings and
+headings that disclosed a finding or conclusion were replaced with short noun
+phrases that identify the subject of each section. This editorial revision did
+not change the section order, technical content, numerical results, equations,
+figures, tables, citations, or claim boundaries.

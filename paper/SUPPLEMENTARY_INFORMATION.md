@@ -59,7 +59,7 @@ do not enter a reported cooling LCIA total.
 | `table33_residual_electricity_factors.csv` | Separate residual-consumption systems | Market-based accounting sensitivity |
 | `table34_boavizta_server_inclusion.csv` | All 55 candidates and reasons | Transparent inclusion/exclusion flow |
 
-## S3. Released primary-energy and blue-water results
+## S3. Released lifecycle results
 
 The 24-cell reconstruction includes GHG, primary energy, and blue water. The
 main manuscript focuses on GHG because the historical eGRID extension supplies
@@ -68,7 +68,7 @@ electricity-mediated water inventories. The other indicators inherit the
 released functional unit, boundary, allocation, performance, and electricity
 cases and were not re-based with eGRID.
 
-## S4. Released endpoint and crossover diagnostics
+## S4. Endpoint and crossover diagnostics
 
 The article identifies AR5 GWP100, but the detailed public workbook contains
 the two numeric electricity endpoints in cells labelled GTP100, while its
@@ -84,7 +84,7 @@ inside the 2023 state-rate range under the fixed released foreground. This is
 conditional on server performance, fluid, equipment quantity, lifetime, and
 the numerical transfer model.
 
-## S5. Federal electricity calculation and scope
+## S5. Electricity-system calculation
 
 The 2023 ordinary consumption systems comprise 60 balancing authorities, 10
 FERC regions, and the national system. The national partial linked-system
@@ -101,7 +101,7 @@ lifecycle benchmarks. The custom solver has an analytic unit-conversion,
 provider-scaling, elementary-flow-sign, and cutoff test, but independent
 reproduction in openLCA or Brightway remains a submission action.
 
-## S6. Deterministic robustness and secondary stress designs
+## S6. Robustness analyses
 
 ![Supplementary Figure S2. One-at-a-time use-phase change required to alter close rankings across 2023 state rates. These thresholds are experimental discrimination targets, not uncertainty intervals.](figures/figure7_performance_robustness.svg)
 
@@ -119,7 +119,7 @@ frequencies describe that stress design, not empirical uncertainty.
 `table27_stress_convergence.csv` records nested 5,000-, 20,000-, and
 80,000-draw checks and numerical Monte Carlo standard errors.
 
-## S7. Server-product inclusion and dispersion
+## S7. Server-product evidence
 
 ![Supplementary Figure S3. Distribution of manufacturing GHG across 48 included Boavizta server records. The records inherit heterogeneous product rules, hardware configurations, lifetimes, and source methods.](figures/figure4_server_epd_distribution.svg)
 
@@ -130,7 +130,7 @@ uses included annualized dispersion but is not a product-substitution model.
 Decision use requires architecture-specific server count, configuration,
 useful computation, and lifetime under harmonized product rules.
 
-## S8. Construction-material route screen
+## S8. Construction-material screening
 
 ![Supplementary Figure S4. Selected matched ÖKOBAUDAT A1-A3 GHG factors. The comparison identifies per-kilogram procurement leverage and is not propagated to a data-center total.](figures/figure5_material_levers.svg)
 
@@ -138,7 +138,7 @@ The selected records are German generic datasets. A facility analysis requires
 architecture-specific quantities, material grade and supplier, fabrication,
 transport, replacement, and end-of-life alignment.
 
-## S9. Hourly climate and performance-map fixtures
+## S9. Climate and performance-map fixtures
 
 The Fayetteville TMY file contains 8,760 hourly weather records. It is paired
 with a synthetic performance surface to test schema and unit validation,
@@ -166,7 +166,7 @@ Formal analysis would require empirical distributions and correlations, the
 probability and consequence of a wrong choice, measurement cost and precision,
 a decision threshold, stakeholder utility, and posterior updating.
 
-## S11. Reliability and interoperability boundaries
+## S11. Reliability and interoperability
 
 The package supports discrete replacement, linearized replacement, Weibull
 renewal expectation, and optional Arrhenius acceleration. These functions do

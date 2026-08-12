@@ -43,7 +43,7 @@ preferable cooling architecture.
 
 ## 1. Introduction
 
-### 1.1. Cooling is an energy-system and lifecycle decision
+### 1.1. Cooling-system lifecycle context
 
 Data centers couple rapidly changing computing hardware to long-lived
 buildings, electrical systems, cooling plants, and regional energy and water
@@ -73,7 +73,7 @@ loss, replacement, water scarcity, or useful computation. Cooling selection is
 an energy-system decision with lifecycle consequences, not a
 single-metric efficiency contest.
 
-### 1.2. Existing data-center LCAs
+### 1.2. Data-center LCA literature
 
 Early environmental assessments showed that operating electricity dominates
 many data-center footprints and that PUE alone can transfer burdens outside
@@ -114,7 +114,7 @@ primary studies do not provide a reusable audit for determining whether a
 published cooling comparison can be transferred to a different electricity
 system without changing its method, boundary, or computational service.
 
-### 1.3. Electricity accounting, time, and geography
+### 1.3. Temporal and geographic electricity accounting
 
 Electricity is not a scalar independent of method. Attributional LCA usually
 requires a consumption mix with upstream generation, transmission, and other
@@ -136,7 +136,7 @@ For cooling, hourly operation is necessary but insufficient: the grid method,
 geography, and upstream boundary must also be aligned. A weather file cannot
 repair an incompatible electricity inventory.
 
-### 1.4. Data quality, uncertainty, and the decision value of evidence
+### 1.4. Data quality, uncertainty, and decision value
 
 LCA uncertainty arises from parameters, scenarios, model form, allocation,
 system boundary, and incomplete knowledge. Monte Carlo propagation is useful
@@ -165,7 +165,7 @@ comparative assertions intended for public disclosure [35,36]. Code tests,
 data checks, and coauthor review can strengthen traceability, but none is a
 substitute for an independent critical review.
 
-### 1.5. Research gap and contribution
+### 1.5. Research gap and contributions
 
 General engines such as openLCA and Brightway calculate process networks,
 exchange inventories, and apply life-cycle impact assessment (LCIA) methods [37,38]. They do not determine
@@ -220,7 +220,7 @@ inventories, or external critical review.
 
 ## 2. Framework and methods
 
-### 2.1. Evidence-to-decision architecture
+### 2.1. Evidence-to-decision framework
 
 Figure 1 shows the workflow of OpenDC-LCA, an open-source data-center cooling
 life-cycle assessment tool. The repository records source-family
@@ -266,7 +266,7 @@ performance, lifetime, and end-of-life treatment are unchanged. Onsite water
 and electricity-supply-chain water are reported separately; location- and
 market-based electricity are not merged.
 
-### 2.3. Dataset roles and inclusion logic
+### 2.3. Dataset roles and inclusion criteria
 
 Table 1 states how each downloaded source enters this study. This is an
 important methodological control: being readable by the software does not make
@@ -290,7 +290,7 @@ redistribution permission is unclear or large upstream archives have not been
 reviewed for redistribution. Derived tables retain filenames, worksheets,
 fields, units, and checksums.
 
-### 2.4. Static energy, equipment, fluid, and replacement calculations
+### 2.4. Static lifecycle calculations
 
 For IT capacity \(P_\mathrm{IT}\), utilization \(u\), and one year, annual IT
 electricity is
@@ -353,7 +353,7 @@ Annual purchases and outputs balance as
 analysis uses the normalized component values released by the authors rather
 than inventing missing quantities.
 
-### 2.5. Released-model reconstruction and electricity-intensity index
+### 2.5. Released-model reconstruction
 
 For each of four cooling architectures, two electricity cases, and three
 impact metrics, the released total was recomputed from the seven aggregate
@@ -405,7 +405,7 @@ g^*=g_R+(g_G-g_R)
 \tag{9}
 \]
 
-### 2.6. Common-basis eGRID reconstruction
+### 2.6. eGRID harmonization
 
 EPA changed the GWP values used by eGRID: releases before 2018 used IPCC SAR,
 2018-2022 used AR4, and 2023 used AR5 without climate-carbon feedback [40,41].
@@ -432,7 +432,7 @@ The eGRID factors describe in-state generation. They are not consumption
 mixes, marginal rates, hourly signals, contractual procurement, or LCIs with
 upstream fuel and infrastructure. No state-specific LCA is claimed.
 
-### 2.7. Federal LCA Commons consumption-system calculation
+### 2.7. Federal LCA Commons electricity accounting
 
 The 2023 U.S. Electricity Baseline was downloaded from the Federal LCA Commons
 as openLCA 2 JSON-LD together with the repository's IPCC GWP method [42]. The
@@ -467,7 +467,7 @@ other generation infrastructure and transmission/distribution infrastructure
 are outside scope [42]. The very low factors in some hydropower-dominated
 systems must not be interpreted as complete electricity LCAs.
 
-### 2.8. Extrapolation, boundary, and functional-unit diagnostics
+### 2.8. Transferability diagnostics
 
 Each of the 459 state-year rates was classified as below, between, or above
 the two released electricity anchors. Equation (8) is interpolation only for
@@ -496,7 +496,7 @@ This correction represents an unresolved combination of useful throughput,
 server count, quality of service, lifetime, and replacement. It is not a
 measured two-phase penalty.
 
-### 2.9. Deterministic rank-robustness and secondary stress designs
+### 2.9. Rank-robustness and stress analyses
 
 The main robustness analysis uses equal relative half-widths so that one
 assumption block is not made influential merely by assigning it a wider range.
@@ -583,7 +583,7 @@ robustness was tested using
 \(a,b\in\{0.5,1,2\}\). This is a screening priority, not formal
 value-of-information.
 
-### 2.11. Temporal performance, reliability, interoperability, and claims
+### 2.11. Temporal performance and software controls
 
 The package can bilinearly interpolate a bounded IT-load/dry-bulb performance
 map and integrate its cooling-only partial PUE against hourly conditions using
@@ -621,7 +621,7 @@ against the cited sources and automated tests under author supervision.
 
 ## 3. Results
 
-### 3.1. Arithmetic reconstruction exposed an unresolved method identity
+### 3.1. Released-model method identity
 
 All 24 released combinations of architecture, electricity scenario, and
 impact metric reconciled to the seven published Figure-4 contributions at
@@ -643,7 +643,7 @@ are not independently measured electricity demand.
 
 ![Figure 2. Relative reductions versus air cooling obtained by summing the released Microsoft/WSP normalized contributions. All 24 totals were reconciled at workbook precision. This figure reproduces released arithmetic; it does not validate inventories, method identity, or field performance.](figures/figure1_microsoft_grid_reductions.svg)
 
-### 3.2. The historical direct-generation trend is insensitive to eGRID's GWP update
+### 3.2. Historical generation-emission intensity
 
 The common-basis U.S. generation factor declined from 517.731 kg CO2e/MWh in
 2012 to 349.667 kg CO2e/MWh in 2023, a 32.462% reduction. The trajectory was
@@ -664,7 +664,7 @@ cooling anchors, so 29.85% of the transfers were extrapolations.
 
 ![Figure 3. Harmonized AR5-GWP100 eGRID state/DC generation rates for nine releases, with electricity intensity on the horizontal axis in kg CO2e/MWh. The orange polyline connects the reported provider U.S. aggregate for each year; blue points fall below the released-model numerical cold-plate/single-phase crossover. These are direct-generation scenarios, not consumption LCIs or state cooling LCAs.](figures/figure6_historical_grid_transition.svg)
 
-### 3.3. Consumption-system factors remove the arbitrary boundary adder but retain documented cutoffs
+### 3.3. Lifecycle electricity factors
 
 The 71 non-residual Federal LCA Commons systems ranged from 0.921 to 987.844
 kg CO2e/MWh. The national linked-system factor was 422.931 kg CO2e/MWh:
@@ -698,7 +698,7 @@ accounting products were not mixed within any cooling screen.
 
 ![Figure 4. IPCC AR5-GWP100 partial linked-system electricity factors for 10 FERC regions and the United States. The horizontal axis is kg CO2e/MWh delivered at the user. Bars separate generation-process impacts from other linked upstream and infrastructure impacts. The green dashed line marks the 96.704 kg CO2e/MWh cold-plate/single-phase numerical crossover; the purple dashed line marks the 524.893 kg CO2e/MWh released high numerical anchor. Neither line creates method equivalence.](figures/figure10_lifecycle_electricity.svg)
 
-### 3.4. Equal-width bounds identify service equivalence and use phase as the limiting blocks
+### 3.4. Rank-robustness thresholds
 
 At the national lifecycle factor, the numerical two-phase first rank could not
 be reversed by a shared grid-factor change within the tested nonnegative range
@@ -731,7 +731,7 @@ performance difference.
 
 ![Figure 5. Deterministic equal-width rank-robustness certificates. (A) National critical half-width by active block. (B) all-block thresholds across 60 balancing authorities, 10 FERC regions, and the national system. Bounds are uncertainty sets, not probability distributions or physical validation.](figures/figure11_standardized_robustness.svg)
 
-### 3.5. Server and construction data reveal leverage but not architecture totals
+### 3.5. Server and construction evidence
 
 Of 55 Boavizta `Datacenter/Server` candidates, 48 included records spanned
 465-2,503 kg CO2e/server for
@@ -751,7 +751,7 @@ than CEM II/A. These are procurement levers, not data-center reductions. Their
 facility effect remains unknown until each architecture has a reviewed bill of
 quantities.
 
-### 3.6. Data-priority rank is useful but not invariant
+### 3.6. Data-priority sensitivity
 
 Under the base contribution-times-weakness index, use phase was the highest
 priority, followed by storage, networking, and compute-server evidence. Across
@@ -767,7 +767,7 @@ information. A formal acquisition decision requires empirical parameter
 distributions, correlations, measurement cost, and the loss associated with a
 wrong architecture choice [34].
 
-### 3.7. Software checks and practitioner outputs
+### 3.7. Software verification and practitioner outputs
 
 The full local test suite covers calculation, fluid mass conservation,
 interoperability, reliability, public-data parsing, practitioner workflow,
@@ -789,7 +789,7 @@ the physical adequacy of a screening model.
 
 ## 4. Discussion
 
-### 4.1. The central result is a claim boundary, not a cooling winner
+### 4.1. Comparative claim boundaries
 
 The released table and every unperturbed electricity screen place two-phase
 first. Three independent findings prevent that order from becoming a public
@@ -809,7 +809,7 @@ assessment must report the numerical result together with its functional unit,
 method identity, system boundary, cutoff structure, robustness definition, and
 claim status.
 
-### 4.2. Lifecycle electricity materially changes the boundary diagnosis
+### 4.2. Electricity-system boundaries
 
 The eGRID reconstruction shows that the 32.46% historical national decline is
 robust to changing GWP conventions. The Federal LCA Commons calculation then
@@ -831,7 +831,7 @@ The 7.67% national difference between ordinary and residual consumption mixes
 shows that the accounting choice is consequential even before the cooling
 foreground is harmonized.
 
-### 4.3. Equalized bounds correct an attribution error in the earlier stress design
+### 4.3. Robustness-bound design
 
 The earlier triangular analysis assigned embodied burden a half-width 10 times
 the use-phase and service widths. Its conclusion that embodied variation was
@@ -856,7 +856,7 @@ lifecycle comparison. The legacy triangular results still demonstrate that
 dependence assumptions matter, but they do not rank the real-world importance
 of uncertainty blocks.
 
-### 4.4. Useful computation is the decisive experimental bridge
+### 4.4. Functional equivalence
 
 Vcore-year is more informative than facility area or rack count, but it is
 still a proxy. Equivalent useful computation depends on workload, accelerator
@@ -876,7 +876,7 @@ tracked with that performance. A thermal result without useful computation
 cannot close the LCA functional unit; a product carbon footprint without
 architecture quantity cannot close the embodied inventory.
 
-### 4.5. Declining grid-emission intensity changes the value of evidence
+### 4.5. Grid decarbonization and evidence priorities
 
 The national analysis shows a dual effect. Cleaner generation lowers every
 electricity-dependent cooling result and contracts the absolute value of
@@ -895,7 +895,7 @@ product is a linked foreground dataset: useful computation, server
 configuration and lifetime, cooling bill of quantities, material route, and
 measured operation under one functional unit.
 
-### 4.6. Role relative to openLCA, Brightway, and dynamic-LCA tools
+### 4.6. Relationship to LCA software
 
 OpenDC-LCA does not replace openLCA, Brightway, Temporalis, premise, or
 bw_timex. Those tools provide process-network calculation, database
@@ -931,7 +931,7 @@ hydrogen dataset becomes numerical evidence only after technology,
 electricity source, compression/storage, allocation, geography, and LCIA
 method are linked to a declared product system.
 
-### 4.7. Implications for hyperscale practitioners and the Microsoft study
+### 4.7. Hyperscale applications
 
 The most useful extension of the Microsoft/WSP work is not another static
 national scenario. It is a jointly governed evidence package that allows the
@@ -955,7 +955,7 @@ released arithmetic and the national direct-generation trend. The cooling
 crossovers, first ranks, and response coefficients remain conditional numerical
 screens until the five evidence gaps are closed.
 
-### 4.8. Limitations and submission-grade evidence needs
+### 4.8. Limitations and evidence requirements
 
 The analysis remains secondary. It does not recreate proprietary background
 inventories, confidential bills of quantities, the full virtual-core model,

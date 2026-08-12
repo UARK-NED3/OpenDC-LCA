@@ -89,10 +89,10 @@ File & Content & Evidence interpretation \\
 \end{longtable}
 }
 
-\section{Released primary-energy and blue-water results}
+\section{Released lifecycle results}
 The 24-cell reconstruction includes GHG, primary energy, and blue water. The main manuscript focuses on GHG because the historical eGRID extension supplies gas-specific air-emission data, not lifecycle primary-energy or electricity-mediated water inventories. The other indicators inherit the released functional unit, boundary, allocation, performance, and electricity cases and were not re-based with eGRID.
 
-\section{Released endpoint and crossover diagnostics}
+\section{Endpoint and crossover diagnostics}
 The article identifies AR5 GWP100, but the detailed public workbook contains the two numeric electricity endpoints in cells labelled GTP100, while its corresponding GWP100 cells are blank. Direct worksheet-XML parsing verifies that comparative use-phase formulas \texttt{Comparative results 0\% RE!D118} and \texttt{Comparative results 100\% RE!D122} point to those blank F29 cells. This unresolved method identity prevents treatment of the cooling screen as a common-method LCA.
 
 \begin{figure}[H]
@@ -103,12 +103,12 @@ The article identifies AR5 GWP100, but the detailed public workbook contains the
 
 The two-phase numerical line has no crossover with cold plate or single-phase inside the 2023 state-rate range under the fixed released foreground. This is conditional on server performance, fluid, equipment quantity, lifetime, and the numerical transfer model.
 
-\section{Federal electricity calculation and scope}
+\section{Electricity-system calculation}
 The 2023 ordinary consumption systems comprise 60 balancing authorities, 10 FERC regions, and the national system. The national partial linked-system result is 422.931 kg CO2e/MWh, with 369.848 from named generation processes and 53.084 from other linked processes. The matched residual-consumption result is 455.350 kg CO2e/MWh and is kept separate.
 
 The national ordinary system solves 582 processes and 1,174 provider links in five fixed-point iterations. It retains 287 unlinked technosphere inputs across 47 processes as explicit cutoffs. Provider scope also omits transmission/distribution infrastructure and some generation infrastructure. The results are partial-scope screening factors, not complete electricity lifecycle benchmarks. The custom solver has an analytic unit-conversion, provider-scaling, elementary-flow-sign, and cutoff test, but independent reproduction in openLCA or Brightway remains a submission action.
 
-\section{Deterministic robustness and secondary stress designs}
+\section{Robustness analyses}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.96\linewidth]{figures/figure7_performance_robustness.pdf}
@@ -119,7 +119,7 @@ At equal relative half-widths, the national first-rank screen reverses at 2.99\%
 
 The earlier triangular design assigned embodied burden a half-width ten times the use-phase and service widths. Within that declared wide design, embodied-only variation gave a 63.36\% two-phase first-rank frequency, compared with 79.52\% for use only, 73.90\% for service only, and 100\% for grid only. The frequencies describe that stress design, not empirical uncertainty. \texttt{table27\_stress\_convergence.csv} records nested 5,000-, 20,000-, and 80,000-draw checks and numerical Monte Carlo standard errors.
 
-\section{Server-product inclusion and dispersion}
+\section{Server-product evidence}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.96\linewidth]{figures/figure4_server_epd_distribution.pdf}
@@ -128,7 +128,7 @@ The earlier triangular design assigned embodied burden a half-width ten times th
 
 All 55 \texttt{Datacenter/Server} candidates appear in Table 34. Forty-eight contain total GWP, manufacturing share, and positive lifetime. Seven Lenovo records are excluded because manufacturing share is blank. The common-scaling stress uses included annualized dispersion but is not a product-substitution model. Decision use requires architecture-specific server count, configuration, useful computation, and lifetime under harmonized product rules.
 
-\section{Construction-material route screen}
+\section{Construction-material screening}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.96\linewidth]{figures/figure5_material_levers.pdf}
@@ -137,7 +137,7 @@ All 55 \texttt{Datacenter/Server} candidates appear in Table 34. Forty-eight con
 
 The selected records are German generic datasets. A facility analysis requires architecture-specific quantities, material grade and supplier, fabrication, transport, replacement, and end-of-life alignment.
 
-\section{Hourly climate and performance-map fixtures}
+\section{Climate and performance-map fixtures}
 The Fayetteville TMY file contains 8,760 hourly weather records. It is paired with a synthetic performance surface to test schema and unit validation, bounded bilinear interpolation, uncovered-domain rejection, cooling-only partial-PUE integration with one constant grid factor, and interface consistency.
 
 \begin{figure}[H]
@@ -157,7 +157,7 @@ Wet-bulb temperature is validated in the input schema but is not an interpolatio
 \section{Data-priority diagnostic}
 The base index multiplies mean released GHG contribution by normalized pedigree weakness. Alternative exponents show that use phase is usually, but not always, first; storage remains in the top tier. This is not formal value of information. Formal analysis would require empirical distributions and correlations, the probability and consequence of a wrong choice, measurement cost and precision, a decision threshold, stakeholder utility, and posterior updating.
 
-\section{Reliability and interoperability boundaries}
+\section{Reliability and interoperability}
 The package supports discrete replacement, linearized replacement, Weibull renewal expectation, and optional Arrhenius acceleration. These functions do not supply architecture-specific reliability without failure, maintenance, duty-cycle, temperature, censoring, and downtime records. Dependent failures, redundancy, and repair queues require an extended model.
 
 Successful openLCA JSON-LD parsing or Brightway mapping establishes syntactic exchange only. Numerical compatibility also requires matching reference product and unit, provider and database version, geography and year, system model, allocation, cutoff, elementary-flow nomenclature, LCIA method, and foreground linkage. USLCI and GLAD archives remain future inputs rather than silent substitutes in the current cooling results.
