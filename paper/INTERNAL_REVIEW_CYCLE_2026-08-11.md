@@ -109,3 +109,13 @@ headings that disclosed a finding or conclusion were replaced with short noun
 phrases that identify the subject of each section. This editorial revision did
 not change the section order, technical content, numerical results, equations,
 figures, tables, citations, or claim boundaries.
+
+## Colon and semicolon revision
+
+At the author's request, colons and semicolons were removed from the manuscript
+narrative and supplementary prose wherever they were not part of a source
+title, URL, identifier, or required syntax. Short lists were recast with i),
+ii), and subsequent markers. Longer lists were rewritten as complete sentences
+with First, Second, and related transitions. The revision preserved the
+technical relationships, numerical values, equations, evidence classes,
+citations, and claim limits.

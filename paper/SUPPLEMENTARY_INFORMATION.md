@@ -19,17 +19,16 @@ Python runtime, Git commit and dirty-state digest, fixed seeds and iterations,
 and hashes for every generated table and figure. A provider catalog is not
 treated as an execution manifest.
 
-Provider fields used in the analyses are:
-
-- Microsoft/WSP: normalized GHG, primary-energy, and blue-water contribution
-  tables; detailed GaBi electricity endpoints; pedigree assessment.
-- eGRID: state and U.S. generation, CO2, CH4, N2O, and reported CO2e rates.
-- Federal LCA Commons: openLCA process exchanges, product-system links, unit
-  groups, and IPCC AR5-100 characterization factors.
-- Boavizta: product category, manufacturer, product name, report date,
-  lifetime, total GWP, and manufacturing share.
-- ÖKOBAUDAT: UUID, product, geography, declared unit, modules A1-A3, GWP,
-  nonrenewable primary energy, and freshwater.
+The analyses use specific fields from each provider. First, the Microsoft/WSP
+archive supplies normalized GHG, primary-energy, and blue-water contribution
+tables, detailed GaBi electricity endpoints, and a pedigree assessment.
+Second, eGRID supplies state and U.S. generation, CO2, CH4, N2O, and reported
+CO2e rates. Third, the Federal LCA Commons supplies openLCA process exchanges,
+product-system links, unit groups, and IPCC AR5-100 characterization factors.
+Fourth, Boavizta supplies product category, manufacturer, product name, report
+date, lifetime, total GWP, and manufacturing share. Finally, ÖKOBAUDAT supplies
+the UUID, product, geography, declared unit, modules A1-A3, GWP, nonrenewable
+primary energy, and freshwater.
 
 USLCI, GLAD hydrogen, and USGS records are registered and exchange-tested but
 do not enter a reported cooling LCIA total.
@@ -161,7 +160,7 @@ common load-weather domain, plus an energy-balance residual.
 
 The base index multiplies mean released GHG contribution by normalized pedigree
 weakness. Alternative exponents show that use phase is usually, but not always,
-first; storage remains in the top tier. This is not formal value of information.
+first. Storage remains in the top tier. This is not formal value of information.
 Formal analysis would require empirical distributions and correlations, the
 probability and consequence of a wrong choice, measurement cost and precision,
 a decision threshold, stakeholder utility, and posterior updating.
@@ -197,7 +196,7 @@ unit is presently `it_mwh`.
 
 ## S13. Reproduction commands
 
-From the repository root:
+Run the following commands from the repository root.
 
 ```bash
 python -m pip install -e .

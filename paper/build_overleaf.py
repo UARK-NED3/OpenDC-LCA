@@ -359,13 +359,13 @@ def build() -> None:
             close_list()
             index += 1
             continue
-        if stripped.startswith("**Keywords:**"):
+        if stripped.startswith("**Keywords**"):
             flush_paragraph()
             if in_abstract:
                 output.append(r"\end{abstract}")
-            keywords = re.sub(r"^\*\*Keywords:\*\*\s*", "", stripped)
+            keywords = re.sub(r"^\*\*Keywords\*\*\s*", "", stripped)
             keyword_latex = r" \sep ".join(
-                protect_inline(keyword.strip()) for keyword in keywords.split(";")
+                protect_inline(keyword.strip()) for keyword in keywords.split(",")
             )
             output += [
                 r"\begin{keyword}",

@@ -36,7 +36,7 @@ EQUATION_DISPLAY = {
     "3": "I_k,op = EF_k PUE                                                       (3)",
     "4": "I_k,eq = Σ_i q_i ceil(L_s/L_i) (I_k,i^prod + I_k,i^EOL) / L_s          (4)",
     "5": "m_prod,annual = m_0 / L_f + m_loss                                      (5)",
-    "6": "I_k,fluid = m_prod,annual I_k^prod + (m_0/L_f) I_k^EOL;  GHG_direct = m_loss GWP_direct   (6)",
+    "6": "I_k,fluid = m_prod,annual I_k^prod + (m_0/L_f) I_k^EOL    and    GHG_direct = m_loss GWP_direct   (6)",
     "7": "z_s = (g_s - g_R) / (g_G - g_R)                                        (7)",
     "8": "I_j,s = I_j,R + (I_j,G - I_j,R) z_s                                    (8)",
     "9": "g* = g_R + (g_G-g_R)(I_b,R-I_a,R)/[(I_a,G-I_a,R)-(I_b,G-I_b,R)]        (9)",

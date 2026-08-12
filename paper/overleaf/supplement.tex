@@ -27,23 +27,7 @@ The source registry records each provider-native file, version, access URL, decl
 
 The checksum ledger contains 42 provider files, including all nine historical eGRID downloads. The Applied Energy execution metadata records the files that enter its numerical results, all directly imported analysis modules, the Python runtime, Git commit and dirty-state digest, fixed seeds and iterations, and hashes for every generated table and figure. A provider catalog is not treated as an execution manifest.
 
-Provider fields used in the analyses are:
-
-\begin{itemize}
-\item Microsoft/WSP: normalized GHG, primary-energy, and blue-water contribution
-tables; detailed GaBi electricity endpoints; pedigree assessment.
-
-\item eGRID: state and U.S. generation, CO2, CH4, N2O, and reported CO2e rates.
-\item Federal LCA Commons: openLCA process exchanges, product-system links, unit
-groups, and IPCC AR5-100 characterization factors.
-
-\item Boavizta: product category, manufacturer, product name, report date,
-lifetime, total GWP, and manufacturing share.
-
-\item ÖKOBAUDAT: UUID, product, geography, declared unit, modules A1-A3, GWP,
-nonrenewable primary energy, and freshwater.
-
-\end{itemize}
+The analyses use specific fields from each provider. First, the Microsoft/WSP archive supplies normalized GHG, primary-energy, and blue-water contribution tables, detailed GaBi electricity endpoints, and a pedigree assessment. Second, eGRID supplies state and U.S. generation, CO2, CH4, N2O, and reported CO2e rates. Third, the Federal LCA Commons supplies openLCA process exchanges, product-system links, unit groups, and IPCC AR5-100 characterization factors. Fourth, Boavizta supplies product category, manufacturer, product name, report date, lifetime, total GWP, and manufacturing share. Finally, ÖKOBAUDAT supplies the UUID, product, geography, declared unit, modules A1-A3, GWP, nonrenewable primary energy, and freshwater.
 
 USLCI, GLAD hydrogen, and USGS records are registered and exchange-tested but do not enter a reported cooling LCIA total.
 
@@ -155,7 +139,7 @@ The Fayetteville TMY file contains 8,760 hourly weather records. It is paired wi
 Wet-bulb temperature is validated in the input schema but is not an interpolation coordinate. Other facility overhead is outside the partial-PUE boundary unless included in the supplied cooling-power field. Submission-grade results require architecture-specific measured power for IT-integral fans, pumps, coolant distribution, heat rejection, controls, and onsite water over a common load-weather domain, plus an energy-balance residual.
 
 \section{Data-priority diagnostic}
-The base index multiplies mean released GHG contribution by normalized pedigree weakness. Alternative exponents show that use phase is usually, but not always, first; storage remains in the top tier. This is not formal value of information. Formal analysis would require empirical distributions and correlations, the probability and consequence of a wrong choice, measurement cost and precision, a decision threshold, stakeholder utility, and posterior updating.
+The base index multiplies mean released GHG contribution by normalized pedigree weakness. Alternative exponents show that use phase is usually, but not always, first. Storage remains in the top tier. This is not formal value of information. Formal analysis would require empirical distributions and correlations, the probability and consequence of a wrong choice, measurement cost and precision, a decision threshold, stakeholder utility, and posterior updating.
 
 \section{Reliability and interoperability}
 The package supports discrete replacement, linearized replacement, Weibull renewal expectation, and optional Arrhenius acceleration. These functions do not supply architecture-specific reliability without failure, maintenance, duty-cycle, temperature, censoring, and downtime records. Dependent failures, redundancy, and repair queues require an extended model.
@@ -168,7 +152,7 @@ Scenario parsing rejects non-finite numeric values. Result manifests retain the 
 These are metadata blockers, not authentication, parameter-level uncertainty mapping, ISO conformity, or evidence that an external review occurred. Useful computation remains a manual prerequisite because the executable functional unit is presently \texttt{it\_mwh}.
 
 \section{Reproduction commands}
-From the repository root:
+Run the following commands from the repository root.
 
 \begin{verbatim}
 python -m pip install -e .
