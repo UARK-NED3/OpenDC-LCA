@@ -48,10 +48,6 @@ governed scenario for reproducibility.
 - [Example scenarios](examples/)
 - [Report an issue or request help](https://github.com/UARK-NED3/OpenDC-LCA/issues)
 
-## Related interactive tool
-
-- [Data-Center Water and Grid Exposure Atlas](https://hanhuark.github.io/Data-Center-Water-Research/atlas/) — a public screening map for location-specific water and grid exposure.
-
 Research outputs include the
 [manuscript](paper/MANUSCRIPT.md), an
 [integrated evidence workbook](paper/OpenDC-LCA_integrated_evidence.xlsx), the
