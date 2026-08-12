@@ -97,15 +97,15 @@
   "execution_manifest": {
     "python_version": "3.12.3",
     "python_implementation": "CPython",
-    "platform": "Windows-11-10.0.26100-SP0",
-    "git_commit": "dcb6ce4503dfa564a97a73840230fef22bc0b965",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_commit": "d37c433bb40e2950095b6bf8d9de7becb48644ef",
     "git_dirty": true,
-    "git_status_sha256": "2e109398f3637fa809122e7d1d17c3d1d8c9bf0ac726a0f37dc64a05158e2d81",
+    "git_status_sha256": "d00bf5350c5986bb28a11ca21ee55852fb7a55efcb0bedb07cb8467f7a1826d5",
     "code": [
       {
         "local_path": "scripts/run_applied_energy_analysis.py",
-        "bytes": 104950,
-        "sha256": "7a5603db27f9635790d2a4a4493438d390174d38535c76531093960957494067"
+        "bytes": 104992,
+        "sha256": "80d0925c962baf43a0975cab2bf8bb855d6e242764dd4ff9e1ca7f22334db609"
       },
       {
         "local_path": "scripts/run_integrated_evidence_analysis.py",
@@ -331,8 +331,8 @@
       },
       {
         "local_path": "paper/figures/figure6_historical_grid_transition.svg",
-        "bytes": 34683,
-        "sha256": "47a3cde4104744eda2bc7111aaccfe6e1e9956da9b44cf308a69a266696bb0f0"
+        "bytes": 34696,
+        "sha256": "9aaeeb63cca1e9705104721d0617afba42100420f0c3cca815afef933ca5b1b9"
       },
       {
         "local_path": "paper/figures/figure7_performance_robustness.svg",
@@ -351,8 +351,8 @@
       },
       {
         "local_path": "paper/figures/figure10_lifecycle_electricity.svg",
-        "bytes": 5025,
-        "sha256": "0dd80c404f769799a23abb9b224108e0bcab527ef18dbbe7fc2e8f38dcce84f2"
+        "bytes": 5054,
+        "sha256": "8837c7368ab253b5e2c6759f7423a03dff8f22dc620d4530f7f1ed11686b17a1"
       },
       {
         "local_path": "paper/figures/figure11_standardized_robustness.svg",

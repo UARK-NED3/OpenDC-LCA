@@ -494,5 +494,5 @@
 <line x1="170.9" y1="90" x2="170.9" y2="470" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 5"/>
 <text class="label" x="177.9" y="108">cold-plate/one-phase crossover: 96.7</text>
 <text class="axis" x="550" y="535" text-anchor="middle">State total-output electricity intensity (kg CO₂e/MWh)</text>
-<text class="note" x="90" y="578">Dots: state-year scenarios; orange line: provider U.S. aggregate; blue dots fall below the released-model crossover.</text>
+<text class="note" x="90" y="578">Dots: state-year scenarios; orange polyline: reported provider U.S. aggregate; blue dots fall below the released-model crossover.</text>
 </svg>

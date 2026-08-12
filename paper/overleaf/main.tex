@@ -10,7 +10,7 @@
 \journal{Applied Energy}
 \begin{document}
 \begin{frontmatter}
-\title{Transferability audit of data-center cooling LCA: lifecycle electricity, functional equivalence, and rank robustness}
+\title{Transferability audit of data-center cooling life-cycle assessment: lifecycle electricity, functional equivalence, and rank robustness}
 \author[uark,hfa]{Braden Stevens}
 \author[uark,hfa]{Pengjiang Xiang}
 \author[ornl]{Yimin Chen}
@@ -21,30 +21,30 @@
 \address[hfa]{Harrison French \& Associates Ltd., Bentonville, AR 72712, U.S.}
 \cortext[cor1]{Corresponding author}
 \begin{abstract}
-Published data-center cooling LCAs are difficult to transfer across grids and facilities because electricity boundaries, climate methods, useful-computation equivalence, and foreground inventories can differ. This Technology Assessment audits a released Microsoft/WSP comparison and tests which conclusions remain supported after those differences are made explicit. We reconstructed 24 published totals, harmonized nine U.S. EPA eGRID releases to IPCC AR5 GWP100, and calculated 71 non-residual 2023 electricity consumption product systems from the Federal LCA Commons. The source article reports AR5 GWP100, whereas the archived detailed workbook places the two numeric electricity endpoints in GTP100 cells while its corresponding GWP100 cells are blank; comparative use-phase formulas point to those blank F29 cells. Accordingly, cooling totals are retained only as numerical transferability screens. The harmonized national direct-generation factor declined 32.46\%, from 517.73 kg CO2e/MWh in 2012 to 349.67 kg CO2e/MWh in 2023. The linked national consumption system yielded 422.93 kg CO2e/MWh, including 53.08 kg CO2e/MWh beyond generation processes; all 10 FERC regions exceeded the 96.70 kg CO2e/MWh numerical cold-plate/single-phase crossover, while 10 of 60 balancing authorities fell below it. The product system nevertheless retained 287 unlinked technosphere inputs, so these are partial linked-system factors, not complete lifecycle benchmarks. Under equal relative bounds, the national first-rank screen failed at a 1.32\% all-block half-width; service-equivalence and use-phase thresholds were 2.64\% and 2.99\%, compared with 22.15\% for embodied burden. Thus, an earlier conclusion that embodied variation was dominant was an artifact of assigning it a wider range. The audit supports the national decarbonization trend and identifies the data needed for a valid comparison, but it does not identify a universally preferable cooling architecture.
+Published data-center cooling life-cycle assessments (LCAs) are difficult to transfer across grids and facilities because electricity boundaries, climate methods, useful-computation equivalence, and foreground inventories can differ. This technology assessment uses OpenDC-LCA, an open-source evidence-audit and comparison-validator tool, to audit a released Microsoft/WSP comparison and test which conclusions remain supported after those differences are made explicit. We reconstructed 24 published totals, harmonized nine U.S. EPA eGRID releases to IPCC AR5 GWP100, and calculated 71 non-residual 2023 electricity consumption product systems from the Federal LCA Commons. The source article reports AR5 GWP100, whereas the archived detailed workbook places the two numeric electricity endpoints in GTP100 cells while its corresponding GWP100 cells are blank; comparative use-phase formulas point to those blank F29 cells. Accordingly, cooling totals are retained only as numerical transferability screens. The harmonized national direct-generation factor declined 32.46\%, from 517.73 kg CO2e/MWh in 2012 to 349.67 kg CO2e/MWh in 2023. The linked national consumption system yielded 422.93 kg CO2e/MWh, including 53.08 kg CO2e/MWh beyond generation processes; all 10 FERC regions exceeded the 96.70 kg CO2e/MWh numerical cold-plate/single-phase crossover, while 10 of 60 balancing authorities fell below it. The product system nevertheless retained 287 unlinked technosphere inputs, so these are partial linked-system factors, not complete lifecycle benchmarks. Under equal relative bounds, the national first-rank screen failed at a 1.32\% all-block half-width; service-equivalence and use-phase thresholds were 2.64\% and 2.99\%, compared with 22.15\% for embodied burden. Thus, an earlier conclusion that embodied variation was dominant was an artifact of assigning it a wider range. The audit supports the observed national decline in generation-related GHG intensity and identifies the data needed for a valid comparison, but it does not identify a universally preferable cooling architecture.
 
 \end{abstract}
 \begin{keyword}
-data center \sep life-cycle assessment \sep technology assessment \sep lifecycle electricity \sep functional equivalence \sep sensitivity analysis \sep open-source software
+data center \sep life-cycle assessment \sep energy efficiency \sep lifecycle electricity \sep functional equivalence \sep sensitivity analysis \sep open-source software
 \end{keyword}
 \end{frontmatter}
 
 \section{Introduction}
 \subsection{Cooling is an energy-system and lifecycle decision}
-Data centers couple rapidly changing computing hardware to long-lived buildings, electrical systems, cooling plants, and regional energy and water systems. Global data-center electricity estimates remain uncertain, but the scale and growth of cloud and artificial-intelligence workloads make energy efficiency and supply decarbonization simultaneous design constraints \cite{ref1,ref2}. At the equipment level, increasing processor heat flux and rack density are driving a transition from room air cooling toward rear-door heat exchangers, direct-to-chip cold plates, and single- or two-phase immersion \cite{ref3,ref4,ref5}.
+Data centers couple rapidly changing computing hardware to long-lived buildings, electrical systems, cooling plants, and regional energy and water systems. Global data-center electricity estimates remain uncertain, but the scale and growth of cloud and artificial intelligence (AI) workloads make energy efficiency and electricity-supply emissions simultaneous design constraints \cite{ref1,ref2}. At the equipment level, increasing processor heat flux and rack density are driving a transition from room air cooling toward rear-door heat exchangers, direct-to-chip cold plates, and single- or two-phase immersion \cite{ref3,ref4,ref5}.
 
-These alternatives are not interchangeable heat exchangers. They alter server fans, pumps, coolant distribution units, heat-rejection temperature, fluid inventory, rack or tank construction, packing density, repair procedures, and sometimes achievable clock rate. System experiments have reported materially different coefficient of performance and cost behavior for single- and two-phase immersion over load \cite{ref6}, while recent single-phase tests show that flow direction, coolant viscosity, and water temperature affect chip temperature, thermal resistance, and PUE \cite{ref7}. Two-phase experiments similarly show that boiling, pressure stability, and condenser performance must be evaluated at server and system levels \cite{ref8}. A comparison at equal rack count, equal IT electricity, or equal nameplate capacity risks comparing different computational services.
+These alternatives are not interchangeable heat exchangers. They alter server fans, pumps, coolant distribution units, heat-rejection temperature, fluid inventory, rack or tank construction, packing density, repair procedures, and sometimes achievable clock rate. System experiments have reported materially different coefficient of performance and cost behavior for single- and two-phase immersion over load \cite{ref6}, while recent single-phase tests show that flow direction, coolant viscosity, and water temperature affect chip temperature, thermal resistance, and power usage effectiveness (PUE) \cite{ref7}. Two-phase experiments similarly show that boiling, pressure stability, and condenser performance must be evaluated at server and system levels \cite{ref8}. A comparison at equal rack count, equal IT electricity, or equal nameplate capacity risks comparing different computational services.
 
 PUE remains useful for facility energy management, but it is not a lifecycle functional unit and does not represent hardware production, cooling-fluid loss, replacement, water scarcity, or useful computation. Cooling selection is an energy-system decision with lifecycle consequences, not a single-metric efficiency contest.
 
-\subsection{What existing data-center LCAs show}
+\subsection{Existing data-center LCAs}
 Early environmental assessments showed that operating electricity dominates many data-center footprints and that PUE alone can transfer burdens outside the measured facility boundary \cite{ref9}. U.S. studies subsequently linked data centers to spatially varying electricity and water burdens \cite{ref10,ref11}. At the product scale, Isler-Kaya and Karaosmanoglu collected manufacturing inventory for a cooling device and evaluated electricity and waste scenarios \cite{ref12}. Wenzel and Radgen compared energy, material-flow, exergy, and lifecycle assessment methods for a wet cooling tower, illustrating that method choice changes the question answered \cite{ref13}.
 
 Alissa et al. published the most detailed public hyperscale comparison of air, cold-plate, single-phase immersion, and two-phase immersion \cite{ref14}. Their cradle-to-grave model included buildings, support equipment, servers, racks or tanks, cables, cooling fluids, use-phase electricity and water, replacement, and end of life. The use of Vcore-year as the functional unit was a major advance because it allowed packing density and cooling-enabled computation to enter the comparison. The accompanying archive includes normalized contributions, equations, uncertainty material, and a pedigree assessment \cite{ref15}. It does not, however, disclose every licensed background process, architecture-specific bill of quantities, or a transferable mapping from electricity to workload performance.
 
 Recent work has moved closer to architecture- and service-level assessment. d'Orgeval et al. modeled complete data-center configurations and reported performance-normalized results for GPU-based subsets \cite{ref44}. Wu et al. released and validated a cooling-plant virtual testbed against three months of operating data, with 7.62\% mean absolute percentage error for power \cite{ref45}. These studies provide performance and architecture evidence that a secondary normalized table cannot supply. ITU-T L.1410 likewise treats the functional unit and the rules for comparative ICT analysis as explicit study choices \cite{ref48}.
 
-Other LCA work confirms that electricity decarbonization and cooling efficiency are complementary but can shift impacts among categories \cite{ref16}. Manufacturer and ICT studies also show wide dispersion in embodied server impacts \cite{ref17,ref18}. Together, this literature exposes a specific gap: available primary studies do not provide a reusable audit for determining whether a published cooling comparison can be transferred to a different electricity system without changing its method, boundary, or computational service.
+Other LCA work confirms that changes in electricity-generation emissions and cooling efficiency are complementary but can shift impacts among categories \cite{ref16}. Manufacturer and ICT studies also show wide dispersion in embodied server impacts \cite{ref17,ref18}. Together, this literature exposes a specific gap: available primary studies do not provide a reusable audit for determining whether a published cooling comparison can be transferred to a different electricity system without changing its method, boundary, or computational service.
 
 \subsection{Electricity accounting, time, and geography}
 Electricity is not a scalar independent of method. Attributional LCA usually requires a consumption mix with upstream generation, transmission, and other indirect processes, whereas eGRID state total-output rates describe direct emissions from in-state generation. Location-based, market-based, and marginal factors answer different questions. Combining location- and market-based accounting inconsistently can double count renewable attributes \cite{ref19,ref20}. Average rates can also fail to represent the effect of workload shifting; Dandres et al. found that average and marginal electricity signals can lead to different real-time data-center decisions \cite{ref21}.
@@ -59,7 +59,7 @@ Data-quality assessment is not a decorative appendix. EPA guidance emphasizes re
 The review standard also depends on the claim. ISO 14040 and ISO 14044 define the LCA framework and requirements, whereas ISO 14071:2024 specifies critical review processes and reviewer competencies, with particular relevance to comparative assertions intended for public disclosure \cite{ref31,ref32}. Code tests, data checks, and coauthor review can strengthen traceability, but none is a substitute for an independent critical review.
 
 \subsection{Research gap and contribution}
-General engines such as openLCA and Brightway calculate process networks, exchange inventories, and apply LCIA methods \cite{ref33,ref34}. They do not determine whether cooling alternatives deliver equivalent computation, whether a performance map covers the operating domain, whether a grid substitution preserves the original electricity boundary, or whether secondary screening results support a public comparative assertion. Conversely, cooling-plant models can validate operational power without closing lifecycle inventories or comparative-review requirements \cite{ref45}.
+General engines such as openLCA and Brightway calculate process networks, exchange inventories, and apply life-cycle impact assessment (LCIA) methods \cite{ref33,ref34}. They do not determine whether cooling alternatives deliver equivalent computation, whether a performance map covers the operating domain, whether a grid substitution preserves the original electricity boundary, or whether secondary screening results support a public comparative assertion. Conversely, cooling-plant models can validate operational power without closing lifecycle inventories or comparative-review requirements \cite{ref45}.
 
 Four gaps remain at the intersection of cooling engineering and LCA:
 
@@ -78,7 +78,7 @@ reconstructed, screened, empirically supported, or suitable for a comparative cl
 
 \end{enumerate}
 
-This study is a Technology Assessment of the transferability of the released Microsoft/WSP case. Its contributions are:
+This study is a technology assessment of the transferability of the released Microsoft/WSP case. Its contributions are:
 
 \begin{enumerate}
 \item an exact reconstruction of 24 released totals and a cell-level audit that
@@ -87,22 +87,24 @@ identifies an unresolved GTP100/GWP100 inconsistency in the public archive;
 \item a common-basis reconstruction of nine eGRID releases from gas-specific
 emissions;
 
-\item a linked openLCA JSON-LD calculation of 71 Federal LCA Commons 2023
+\item an openLCA-compatible JSON-LD calculation of 71 Federal LCA Commons 2023
 consumption systems, with process links, numerical residuals, and unlinked technosphere cutoffs reported rather than hidden;
 
 \item exact, equal-width, deterministic rank-robustness certificates that
 distinguish the effects of grid, use phase, embodied burden, and service equivalence without assigning unsupported probabilities; and
 
-\item an open comparison validator that blocks incompatible functional units,
+\item the open-source OpenDC-LCA comparison validator, which blocks incompatible functional units,
 boundaries, electricity accounting, LCIA methods, or missing field-level lineage, while stating that metadata checks are not physical validation.
 
 \end{enumerate}
+
+Together, the reconstruction addresses the missing public arithmetic in gap 1; the harmonization and linked-system calculations expose the method and boundary conflicts in gap 2; the rank-robustness certificates identify the measurements with decision leverage in gap 3; and the OpenDC-LCA validator preserves the evidence class needed to prevent gap 4. OpenDC-LCA is therefore the reproducible implementation of this assessment layer, not a replacement for the process-network engines openLCA or Brightway.
 
 The aim is not to reconstruct licensed background inventories or declare a winning cooling technology. It is to determine which claims survive a transferability audit and which require primary measurement, complete inventories, or external critical review.
 
 \section{Framework and methods}
 \subsection{Evidence-to-decision architecture}
-Figure 1 shows the OpenDC-LCA workflow. The repository records source-family metadata and a per-file path, byte count, and SHA-256 checksum. Dataset-specific tables retain the worksheet, field, unit, boundary, and numerical role used in each analysis. This is file-level integrity plus family-level provenance, not a complete flow-level data-lineage graph. The harmonization stage then asks, in order: are the alternatives functionally equivalent; are the units, characterization methods, time, and geography aligned; is the required transformation interpolation or extrapolation; and are uncertainty, correlation, and review status adequate for the proposed claim? The result is classified as reconstructed, screening-transformed, registered/unlinked, or supported by primary decision-grade evidence.
+Figure 1 shows the workflow of OpenDC-LCA, an open-source data-center cooling life-cycle assessment tool. The repository records source-family metadata and a per-file path, byte count, and SHA-256 checksum. Dataset-specific tables retain the worksheet, field, unit, boundary, and numerical role used in each analysis. This is file-level integrity plus family-level provenance, not a complete flow-level data-lineage graph. The harmonization stage asks the following questions in order: (1) are the alternatives functionally equivalent; (2) are the units, characterization methods, time, and geography aligned; (3) is the required transformation interpolation or extrapolation; and (4) are uncertainty, correlation, and review status adequate for the proposed claim? The result is classified as reconstructed, screening-transformed, registered/unlinked, or supported by primary decision-grade evidence.
 
 \begin{figure}[!htbp]
 \centering
@@ -348,12 +350,12 @@ The cell-level audit changed their permissible use. The article identifies AR5 G
 \subsection{The historical direct-generation trend is insensitive to eGRID's GWP update}
 The common-basis U.S. generation factor declined from 517.731 kg CO2e/MWh in 2012 to 349.667 kg CO2e/MWh in 2023, a 32.462\% reduction. The trajectory was not monotonic: the factor rose from 373.097 in 2020 to 388.699 in 2021 before declining. Reconstructing every year with AR5 GWP100 changed the provider-published national rate by no more than 0.248 kg CO2e/MWh, in 2012. The direct CO2-only rate was 348.000 kg/MWh in 2023. Thus, the long-run decline is not an artifact of eGRID's transition from SAR to AR4 and AR5.
 
-The 50-state-plus-DC reconstruction matched the official national result through 2018. From 2019 onward it was 0.32-0.43\% lower because the panel covered 99.55-99.58\% of the provider U.S. generation after excluding Puerto Rico. We retained the provider aggregate for the national series. Across the full panel, 137 of 459 numerical rates lay outside the two released cooling anchors, so 29.85\% of the transfers were extrapolations.
+The 50-state-plus-DC reconstruction matched the official national result through 2018. From 2019 onward it was 0.32-0.43\% lower because the panel covered 99.55-99.58\% of the provider U.S. generation after excluding Puerto Rico. We retained the provider aggregate for the national series. In Figure 3, the orange polyline connects the reported provider U.S. aggregate direct-generation rate for each release year; it is not fitted to the state/DC points. Across the full panel, 137 of 459 numerical rates lay outside the two released cooling anchors, so 29.85\% of the transfers were extrapolations.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.98\linewidth]{figures/figure6_historical_grid_transition.pdf}
-\caption{Harmonized AR5-GWP100 eGRID state/DC generation rates for nine releases. Orange denotes the provider U.S. aggregate. Blue points fall below the released-model numerical cold-plate/single-phase crossover. These are direct-generation scenarios, not consumption LCIs or state cooling LCAs.}
+\caption{Harmonized AR5-GWP100 eGRID state/DC generation rates for nine releases, with electricity intensity on the horizontal axis in kg CO2e/MWh. The orange polyline connects the reported provider U.S. aggregate for each year; blue points fall below the released-model numerical cold-plate/single-phase crossover. These are direct-generation scenarios, not consumption LCIs or state cooling LCAs.}
 \label{fig:figure6-historical-grid-transition}
 \end{figure}
 
@@ -369,7 +371,7 @@ The national residual-consumption system was 455.350 kg CO2e/MWh, comprising 399
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.98\linewidth]{figures/figure10_lifecycle_electricity.pdf}
-\caption{IPCC AR5-GWP100 partial linked-system electricity factors for 10 FERC regions and the United States. Bars separate generation-process impacts from other linked upstream and infrastructure impacts. Vertical lines show the two released numerical cooling landmarks; they do not create method equivalence.}
+\caption{IPCC AR5-GWP100 partial linked-system electricity factors for 10 FERC regions and the United States. The horizontal axis is kg CO2e/MWh delivered at the user. Bars separate generation-process impacts from other linked upstream and infrastructure impacts. The green dashed line marks the 96.704 kg CO2e/MWh cold-plate/single-phase numerical crossover; the purple dashed line marks the 524.893 kg CO2e/MWh released high numerical anchor. Neither line creates method equivalence.}
 \label{fig:figure10-lifecycle-electricity}
 \end{figure}
 
@@ -427,7 +429,7 @@ Vcore-year is more informative than facility area or rack count, but it is still
 
 A shared protocol should measure, for every architecture, completed workload or benchmark output; IT and cooling power; inlet and component temperatures; flow and pressure drop; fan, pump, CDU and heat-rejection power; onsite water; failure and maintenance events; and uncertainty/calibration lineage over the same load-weather domain. Server count, configuration, and replacement must be tracked with that performance. A thermal result without useful computation cannot close the LCA functional unit; a product carbon footprint without architecture quantity cannot close the embodied inventory.
 
-\subsection{Decarbonization changes the value of evidence}
+\subsection{Declining grid-emission intensity changes the value of evidence}
 The national analysis shows a dual effect. Cleaner generation lowers every electricity-dependent cooling result and contracts the absolute value of operational efficiency, while increasing the fraction supplied by embodied terms. Percentage savings alone hide this transition: the absolute modeled two-phase-versus-air benefit fell 29.45\% between the 2012 and 2023 generation conditions.
 
 This shift explains why the Boavizta and ÖKOBAUDAT datasets matter even though they were not inserted into architecture totals. The 5.38-fold server manufacturing range is larger than many cooling differences, but heterogeneous PCFs cannot be treated as an uncertainty distribution for interchangeable servers. The approximately 50-60\% material-route GHG levers are large per kilogram, but kilograms by architecture are missing. The needed research product is a linked foreground dataset: useful computation, server configuration and lifetime, cooling bill of quantities, material route, and measured operation under one functional unit.

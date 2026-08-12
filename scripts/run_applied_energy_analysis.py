@@ -1858,7 +1858,7 @@ def figure_historical(
         f'<line x1="{cx:.1f}" y1="{top}" x2="{cx:.1f}" y2="{top+height}" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 5"/>',
         f'<text class="label" x="{cx+7:.1f}" y="{top+18}">cold-plate/one-phase crossover: {crossover:.1f}</text>',
         '<text class="axis" x="550" y="535" text-anchor="middle">State total-output electricity intensity (kg CO₂e/MWh)</text>',
-        '<text class="note" x="90" y="578">Dots: state-year scenarios; orange line: provider U.S. aggregate; blue dots fall below the released-model crossover.</text>',
+        '<text class="note" x="90" y="578">Dots: state-year scenarios; orange polyline: reported provider U.S. aggregate; blue dots fall below the released-model crossover.</text>',
     ]
     write_svg(FIGURES / "figure6_historical_grid_transition.svg", body)
 
@@ -2135,9 +2135,9 @@ def figure_lifecycle_electricity(
     anchor_x = x0 + chart_width * MICROSOFT_GRID_GHG_KG_PER_MWH / maximum
     body += [
         f'<line x1="{crossover_x:.1f}" y1="{y0-25}" x2="{crossover_x:.1f}" y2="{y0+len(selected)*row_height}" stroke="#009E73" stroke-width="3" stroke-dasharray="8 5"/>',
-        f'<text class="note" x="{crossover_x+5:.1f}" y="{y0-32}">numerical CP/1P crossover {crossover:.1f}</text>',
+        f'<text class="note" x="{crossover_x+5:.1f}" y="{y0-32}">green dashed: numerical CP/1P crossover {crossover:.1f}</text>',
         f'<line x1="{anchor_x:.1f}" y1="{y0-25}" x2="{anchor_x:.1f}" y2="{y0+len(selected)*row_height}" stroke="#7C3AED" stroke-width="3" stroke-dasharray="3 5"/>',
-        f'<text class="note" x="{anchor_x-5:.1f}" y="{y0-50}" text-anchor="end">released high numerical anchor {MICROSOFT_GRID_GHG_KG_PER_MWH:.1f}</text>',
+        f'<text class="note" x="{anchor_x-5:.1f}" y="{y0-50}" text-anchor="end">purple dashed: released high numerical anchor {MICROSOFT_GRID_GHG_KG_PER_MWH:.1f}</text>',
         '<rect x="250" y="735" width="18" height="14" fill="#0072B2"/><text class="note" x="278" y="747">generation processes</text>',
         '<rect x="450" y="735" width="18" height="14" fill="#D55E00"/><text class="note" x="478" y="747">upstream and infrastructure</text>',
         '<text class="axis" x="660" y="790" text-anchor="middle">IPCC AR5 GWP100 (kg CO₂e/MWh delivered at user)</text>',
