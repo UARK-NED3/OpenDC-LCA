@@ -30,8 +30,10 @@ This directory is the stable handoff for manuscript development.
 - `overleaf/`: compiling Elsevier `elsarticle` project for Applied Energy,
   including vector figures, highlights and a cover-letter draft.
 - `OpenDC-LCA_Applied_Energy_Overleaf.zip`: reproducible Overleaf working
-  archive; author metadata, declarations, DOI deposit, and external critical
-  review remain pre-submission actions.
+  archive. Known author affiliations, corresponding-author contact, HFA
+  employment, and AI use are stated; CRediT roles, funding, any additional
+  interests, a DOI deposit, and external critical review remain pre-submission
+  actions.
 
 Regenerate the Applied Energy analysis and submission files with:
 
@@ -47,6 +49,6 @@ inclusion flow. These are transferability tests of the released foreground
 model, not substitutes for a common-method cooling LCA, measured performance
 surfaces, or architecture-specific bills of quantities.
 
-The manuscript is a scientific draft, not a submitted paper. Authorship,
-contributions, funding, competing interests, target-journal formatting, and the
-LCA critical-review pathway must be confirmed by the authors before submission.
+The manuscript is a scientific draft, not a submitted paper. All authors must
+approve authorship, CRediT roles, funding, acknowledgments, competing interests,
+AI disclosures, and the LCA critical-review pathway before submission.

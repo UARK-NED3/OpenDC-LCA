@@ -8,38 +8,36 @@
 
 (3) Harrison French & Associates Ltd., Bentonville, AR 72712, U.S.
 
-*Pre-submission draft for coauthor review.*
+*Corresponding author: Han Hu (hanhu@uark.edu).*
 
 ## Abstract
 
-Published data-center cooling life-cycle assessments (LCAs) are difficult to transfer across grids and
-facilities because electricity boundaries, climate methods, useful-computation
-equivalence, and foreground inventories can differ. This technology assessment
-uses OpenDC-LCA, an open-source evidence-audit and comparison-validator tool,
-to audit a released Microsoft/WSP comparison and test which conclusions remain
-supported after those differences are made explicit. We reconstructed 24
-published totals, harmonized nine U.S. EPA eGRID releases to IPCC AR5 GWP100,
-and calculated 71 non-residual 2023 electricity consumption product systems
-from the Federal LCA Commons. The source article reports AR5 GWP100, whereas
-the archived detailed workbook places the two numeric electricity endpoints
-in GTP100 cells while its corresponding GWP100 cells are blank; comparative
-use-phase formulas point to those blank F29 cells.
-Accordingly, cooling totals are retained only as numerical transferability
-screens. The harmonized national direct-generation factor declined 32.46%,
-from 517.73 kg CO2e/MWh in 2012 to 349.67 kg CO2e/MWh in 2023. The linked
-national consumption system yielded 422.93 kg CO2e/MWh, including 53.08
-kg CO2e/MWh beyond generation processes; all 10 FERC regions exceeded the
-96.70 kg CO2e/MWh numerical cold-plate/single-phase crossover, while 10 of 60
-balancing authorities fell below it. The product system nevertheless retained
-287 unlinked technosphere inputs, so these are partial linked-system factors,
-not complete lifecycle benchmarks. Under equal relative bounds, the national
-first-rank screen failed at a 1.32% all-block half-width; service-equivalence
-and use-phase thresholds were 2.64% and 2.99%, compared with 22.15% for
-embodied burden. Thus, an earlier conclusion that embodied variation was
-dominant was an artifact of assigning it a wider range. The audit supports the
-observed national decline in generation-related GHG intensity and identifies the data needed for a valid
-comparison, but it does not identify a universally preferable cooling
-architecture.
+Published data-center cooling life-cycle assessments (LCAs) are difficult to
+transfer because electricity boundaries, climate methods, useful-computation
+equivalence, and foreground inventories differ. This Technology Assessment
+uses OpenDC-LCA, an open-source evidence-audit and comparison-validation tool,
+to test which conclusions from the released Microsoft/WSP comparison remain
+supportable. We reconstructed 24 totals, harmonized nine U.S. Environmental
+Protection Agency Emissions & Generation Resource Integrated Database (eGRID)
+releases to the Intergovernmental Panel on Climate Change Fifth Assessment
+Report 100-year global warming potential (AR5 GWP100), and calculated 71
+non-residual 2023 Federal LCA Commons electricity-consumption systems. The
+article reports AR5 GWP100, but its archived workbook places the numeric
+electricity endpoints in 100-year global temperature-change-potential (GTP100)
+cells while the corresponding GWP100 cells are blank; formulas point to those
+blank cells.
+We therefore retain cooling totals only as numerical transferability screens.
+The harmonized national direct-generation factor declined 32.46%, from 517.73
+to 349.67 kg carbon dioxide equivalent per megawatt-hour between 2012 and 2023.
+The partial linked national consumption system yielded 422.93 kg carbon
+dioxide equivalent per megawatt-hour but retained 287 unlinked technosphere
+inputs. Under equal relative bounds, the first-rank screen failed at a 1.32%
+all-block half-width; service-equivalence and use-phase thresholds were 2.64%
+and 2.99%, compared with 22.15% for embodied burden. This result reverses an
+earlier attribution of rank sensitivity to embodied variation. The audit
+supports the decline in generation-related greenhouse-gas intensity and
+identifies decision-critical data, but it does not identify a universally
+preferable cooling architecture.
 
 **Keywords:** data center; life-cycle assessment; energy efficiency; lifecycle electricity; functional equivalence; sensitivity analysis; open-source software
 
@@ -101,17 +99,17 @@ electricity to workload performance.
 
 Recent work has moved closer to architecture- and service-level assessment.
 d'Orgeval et al. modeled complete data-center configurations and reported
-performance-normalized results for GPU-based subsets [44]. Wu et al. released
+performance-normalized results for GPU-based subsets [16]. Wu et al. released
 and validated a cooling-plant virtual testbed against three months of operating
-data, with 7.62% mean absolute percentage error for power [45]. These studies
+data, with 7.62% mean absolute percentage error for power [17]. These studies
 provide performance and architecture evidence that a secondary normalized
 table cannot supply. ITU-T L.1410 likewise treats the functional unit and the
-rules for comparative ICT analysis as explicit study choices [48].
+rules for comparative ICT analysis as explicit study choices [18].
 
 Other LCA work confirms that changes in electricity-generation emissions and cooling
-efficiency are complementary but can shift impacts among categories [16].
+efficiency are complementary but can shift impacts among categories [19].
 Manufacturer and ICT studies also show wide dispersion in embodied server
-impacts [17,18]. Together, this literature exposes a specific gap: available
+impacts [20,21]. Together, this literature exposes a specific gap: available
 primary studies do not provide a reusable audit for determining whether a
 published cooling comparison can be transferred to a different electricity
 system without changing its method, boundary, or computational service.
@@ -123,17 +121,17 @@ requires a consumption mix with upstream generation, transmission, and other
 indirect processes, whereas eGRID state total-output rates describe direct
 emissions from in-state generation. Location-based, market-based, and marginal
 factors answer different questions. Combining location- and market-based
-accounting inconsistently can double count renewable attributes [19,20].
+accounting inconsistently can double count renewable attributes [22,23].
 Average rates can also fail to represent the effect of workload shifting;
 Dandres et al. found that average and marginal electricity signals can lead to
-different real-time data-center decisions [21].
+different real-time data-center decisions [24].
 
 Time enters at several levels: cooling performance varies with load and
 weather; grid composition varies hourly and over years; equipment is replaced
 at discrete times; and background technologies evolve. Dynamic-LCA reviews
 distinguish temporal inventory, characterization, and prospective background
-change [22,23]. Open tools such as Temporalis and, more recently, bw_timex show
-how temporal information can be propagated through process networks [24-26].
+change [25,26]. Open tools such as Temporalis and, more recently, bw_timex show
+how temporal information can be propagated through process networks [27-29].
 For cooling, hourly operation is necessary but insufficient: the grid method,
 geography, and upstream boundary must also be aligned. A weather file cannot
 repair an incompatible electricity inventory.
@@ -145,17 +143,17 @@ system boundary, and incomplete knowledge. Monte Carlo propagation is useful
 when distributions and correlations are supportable; it becomes misleading
 when arbitrary ranges are presented as confidence. Correlation can materially
 change propagated uncertainty and cannot be inferred from marginal ranges
-alone [46]. Reviews recommend separating variability from uncertainty and
-using sensitivity analysis to identify influential assumptions [27]. Pedigree matrices can communicate
+alone [30]. Reviews recommend separating variability from uncertainty and
+using sensitivity analysis to identify influential assumptions [31]. Pedigree matrices can communicate
 reliability, temporal, geographic, and technological representativeness, but
 the conversion from qualitative scores to uncertainty is itself a modeling
-choice [28,29].
+choice [32,33].
 
 Data-quality assessment is not a decorative appendix. EPA guidance
-emphasizes reproducible documentation at flow and process levels [29].
+emphasizes reproducible documentation at flow and process levels [33].
 Decision analysis goes further: value-of-information methods prioritize data
 whose resolution is expected to change a decision, rather than simply
-improving every weak input [30]. This distinction is important for
+improving every weak input [34]. This distinction is important for
 electronics-cooling laboratories. A parameter may have poor pedigree but
 negligible decision leverage; a seemingly precise PUE difference may be
 decisive if two lifecycle alternatives are nearly tied.
@@ -163,20 +161,20 @@ decisive if two lifecycle alternatives are nearly tied.
 The review standard also depends on the claim. ISO 14040 and ISO 14044 define
 the LCA framework and requirements, whereas ISO 14071:2024 specifies critical
 review processes and reviewer competencies, with particular relevance to
-comparative assertions intended for public disclosure [31,32]. Code tests,
+comparative assertions intended for public disclosure [35,36]. Code tests,
 data checks, and coauthor review can strengthen traceability, but none is a
 substitute for an independent critical review.
 
 ### 1.5. Research gap and contribution
 
 General engines such as openLCA and Brightway calculate process networks,
-exchange inventories, and apply life-cycle impact assessment (LCIA) methods [33,34]. They do not determine
+exchange inventories, and apply life-cycle impact assessment (LCIA) methods [37,38]. They do not determine
 whether cooling alternatives deliver equivalent computation, whether a
 performance map covers the operating domain, whether a grid substitution
 preserves the original electricity boundary, or whether secondary screening
 results support a public comparative assertion. Conversely, cooling-plant
 models can validate operational power without closing lifecycle inventories
-or comparative-review requirements [45].
+or comparative-review requirements [17].
 
 Four gaps remain at the intersection of cooling engineering and LCA:
 
@@ -237,10 +235,10 @@ for the proposed claim? The result is classified as reconstructed,
 screening-transformed, registered/unlinked, or supported by primary
 decision-grade evidence.
 
-![Figure 1. OpenDC-LCA evidence-to-decision architecture. Inputs are assigned a numerical role before calculation. The harmonization spine makes functional equivalence, method alignment, extrapolation, uncertainty, and claim status explicit. Outputs combine the numerical result with its evidence class and next-data requirement.](figures/figure0_opendc_lca_workflow.svg)
+![Figure 1. OpenDC-LCA evidence-to-decision architecture. Inputs are assigned a numerical role before calculation. The harmonization spine makes functional equivalence, method alignment, extrapolation, uncertainty, and claim status explicit. Outputs combine the numerical result with its evidence class and next-data requirement. The diagram layout was developed with assistance from OpenAI Codex and was reviewed and edited by the authors.](figures/figure0_opendc_lca_workflow.svg)
 
 OpenDC-LCA is implemented in Python 3.10 or later and distributed under the
-MIT License [35]. The development branch evaluated here extends version 1.1.0
+MIT License [39]. The development branch evaluated here extends version 1.1.0
 and provides a command-line interface, Python API,
 local browser GUI, scenario and performance-map schemas, reliability and
 replacement models, openLCA JSON-LD and Brightway mappings, evidence audits,
@@ -279,13 +277,13 @@ a dataset compatible with the case model.
 | Source and evidence used | Numerical role in this paper | Boundary or transfer limit | Claim class |
 |---|---|---|---|
 | Microsoft/WSP archive: 24 totals, component tables, 2 electricity anchors, pedigree records [14,15] | Arithmetic reconstruction, foreground contribution model, crossover and stress analyses | Licensed background inventories and complete bills of quantities are not public | Released/reconstructed |
-| EPA eGRID: 459 state/DC-year rows and 9 U.S. aggregates [36,37] | Common-basis generation-rate scenarios and historical trend | Direct generation rates are not consumption-based lifecycle electricity inventories | Screening transformation |
-| Federal LCA Commons U.S. Electricity Baseline 2023 and IPCC GWP method [47] | Linked consumption-system factors for 60 balancing authorities, 10 FERC regions, and the United States | Unlinked technosphere inputs remain zero-burden cutoffs; not harmonized with the released cooling foreground | Partial linked-system screen |
-| Boavizta: 48 server PCF records [38] | Server-manufacturing dispersion and common-scaling stress | Products, configurations, PCRs, lifetimes, and performance are heterogeneous | Secondary cross-product evidence |
-| ÖKOBAUDAT: 6 selected A1-A3 processes [39] | Matched steel- and cement-route procurement levers | German generic factors require architecture-specific bills of quantities | Secondary process evidence |
-| NOAA TMY: 8,760 Fayetteville weather rows [40] | Performance-map and hourly-integration software test | No measured four-architecture cooling surface is available | Illustrative only |
-| USLCI and 7 GLAD hydrogen archives [41,42] | Exchange and interoperability tests | Product-system links, allocation, providers, and LCIA methods are unresolved | Registered/unlinked |
-| USGS watershed boundary: HU12 geometry [43] | Spatial data contract test | Geometry is not withdrawal, consumption, or water-scarcity characterization | Registered/unlinked |
+| EPA eGRID: 459 state/DC-year rows and 9 U.S. aggregates [40,41] | Common-basis generation-rate scenarios and historical trend | Direct generation rates are not consumption-based lifecycle electricity inventories | Screening transformation |
+| Federal LCA Commons U.S. Electricity Baseline 2023 and IPCC GWP method [42] | Linked consumption-system factors for 60 balancing authorities, 10 FERC regions, and the United States | Unlinked technosphere inputs remain zero-burden cutoffs; not harmonized with the released cooling foreground | Partial linked-system screen |
+| Boavizta: 48 server PCF records [43] | Server-manufacturing dispersion and common-scaling stress | Products, configurations, PCRs, lifetimes, and performance are heterogeneous | Secondary cross-product evidence |
+| ÖKOBAUDAT: 6 selected A1-A3 processes [44] | Matched steel- and cement-route procurement levers | German generic factors require architecture-specific bills of quantities | Secondary process evidence |
+| NOAA TMY: 8,760 Fayetteville weather rows [45] | Performance-map and hourly-integration software test | No measured four-architecture cooling surface is available | Illustrative only |
+| USLCI and 7 GLAD hydrogen archives [46,47] | Exchange and interoperability tests | Product-system links, allocation, providers, and LCIA methods are unresolved | Registered/unlinked |
+| USGS watershed boundary: HU12 geometry [48] | Spatial data contract test | Geometry is not withdrawal, consumption, or water-scarcity characterization | Registered/unlinked |
 
 Provider-native raw files remain outside the public repository when
 redistribution permission is unclear or large upstream archives have not been
@@ -410,7 +408,7 @@ g^*=g_R+(g_G-g_R)
 ### 2.6. Common-basis eGRID reconstruction
 
 EPA changed the GWP values used by eGRID: releases before 2018 used IPCC SAR,
-2018-2022 used AR4, and 2023 used AR5 without climate-carbon feedback [36,37].
+2018-2022 used AR4, and 2023 used AR5 without climate-carbon feedback [40,41].
 To remove this avoidable discontinuity, every state and U.S. factor was
 reconstructed from net generation and gas-specific annual emissions:
 
@@ -437,7 +435,7 @@ upstream fuel and infrastructure. No state-specific LCA is claimed.
 ### 2.7. Federal LCA Commons consumption-system calculation
 
 The 2023 U.S. Electricity Baseline was downloaded from the Federal LCA Commons
-as openLCA 2 JSON-LD together with the repository's IPCC GWP method [47]. The
+as openLCA 2 JSON-LD together with the repository's IPCC GWP method [42]. The
 inventory contains 947 processes and 142 product systems generated with
 ElectricityLCI 3.0.0. We retained 71 non-residual, at-user consumption systems:
 60 balancing authorities, 10 FERC regions, and the national mix. The matched
@@ -466,7 +464,7 @@ The provider scope includes trade, transmission and distribution losses, and
 upstream fuel supply. Generation infrastructure is included only for the
 provider-specified gas, oil, coal, solar, wind, and geothermal technologies;
 other generation infrastructure and transmission/distribution infrastructure
-are outside scope [47]. The very low factors in some hydropower-dominated
+are outside scope [42]. The very low factors in some hydropower-dominated
 systems must not be interpreted as complete electricity LCAs.
 
 ### 2.8. Extrapolation, boundary, and functional-unit diagnostics
@@ -612,7 +610,14 @@ uncertainty, and insufficient declared review remain blockers. These checks
 also reject non-finite numeric inputs, retain the field-to-source map in result
 manifests, and require a matching inclusion/exclusion record for custom
 comparative boundaries. They verify metadata consistency only: they cannot authenticate a citation,
-distribution, review status, physical model, or ISO conformity [31,32].
+distribution, review status, physical model, or ISO conformity [35,36].
+
+OpenAI Codex (OpenAI) was used in a supporting role during software
+development and review, test generation, plotting-code review, and manuscript
+organization and language editing. It did not provide primary data or serve as
+an evidence source. Reported numerical results were regenerated with the
+version-controlled deterministic workflows described above and checked
+against the cited sources and automated tests under author supervision.
 
 ## 3. Results
 
@@ -760,7 +765,7 @@ supports a near-term measurement sequence—hourly IT and cooling electricity,
 then server inventories and functional performance—but not a unique value of
 information. A formal acquisition decision requires empirical parameter
 distributions, correlations, measurement cost, and the loss associated with a
-wrong architecture choice [30].
+wrong architecture choice [34].
 
 ### 3.7. Software checks and practitioner outputs
 
@@ -821,7 +826,7 @@ unlinked technosphere exchanges still carry zero upstream burden. A complete
 calculation requires those providers to be linked or their omitted impacts to
 be bounded and independently reproduced. Even then, electricity cannot repair
 the unresolved cooling-foreground LCIA method. Location- and market-based
-cases must also remain consistent throughout the product system [19,20].
+cases must also remain consistent throughout the product system [22,23].
 The 7.67% national difference between ordinary and residual consumption mixes
 shows that the accounting choice is consequential even before the cooling
 foreground is harmonized.
@@ -842,7 +847,7 @@ technology-specific foreground multipliers cannot reverse the numerical first
 rank. Its value lies in falsifiability: any proposed empirical uncertainty
 model can be compared against the same bound structure. A probability of rank
 would additionally require measured marginal distributions and correlations
-[46].
+[30].
 
 This correction changes the near-term research priority. Measurements should
 first close functional equivalence and use-phase demand, while bills of
@@ -860,7 +865,7 @@ availability, and quality of service. The one-sided 5.50% median threshold and
 the symmetric 2.64% national service bound are break-even requirements, not
 measured penalties. They define the approximate resolution required of a
 comparative experiment. ITU-T L.1410 similarly requires an explicit functional
-unit and comparative baseline for ICT services [48].
+unit and comparative baseline for ICT services [18].
 
 A shared protocol should measure, for every architecture, completed workload
 or benchmark output; IT and cooling power; inlet and component temperatures;
@@ -894,7 +899,7 @@ measured operation under one functional unit.
 
 OpenDC-LCA does not replace openLCA, Brightway, Temporalis, premise, or
 bw_timex. Those tools provide process-network calculation, database
-management, prospective backgrounds, or time-explicit LCA [24-26,33,34]. The
+management, prospective backgrounds, or time-explicit LCA [27-29,37,38]. The
 assessment layer here adds:
 
 1. a functional-equivalence check tied to useful computation;
@@ -914,8 +919,8 @@ calculation, not to authorize a public environmental claim.
 
 This role also differs from recent data-center models.
 AlphaDataCenterCooling provides operational validation of a cooling plant
-[45], while d'Orgeval et al. compare full data-center architectures and, for a
-subset, normalize by computational performance [44]. The present work tests
+[17], while d'Orgeval et al. compare full data-center architectures and, for a
+subset, normalize by computational performance [16]. The present work tests
 whether published secondary LCA results retain their meaning when moved across
 electricity datasets and claim contexts; it does not duplicate either primary
 modeling capability.
@@ -995,7 +1000,7 @@ comparative LCA results.
 The national eGRID generation factor declined 32.46% from 2012 to 2023 after
 all nine releases were harmonized to AR5 GWP100. The Federal LCA Commons
 national consumption system yielded 422.93 kg CO2e/MWh, including 53.08
-kg CO2e/MWh from linked processes beyond generation, and all 10 FERC systems
+kg CO2e/MWh from linked processes beyond generation, and all 10 FERC regions
 lay above the 96.70 kg CO2e/MWh numerical crossover. These partial
 linked-system factors retain documented technosphere cutoffs and require
 independent calculator verification before benchmark use.
@@ -1008,12 +1013,13 @@ failed at 1.32%. The dominant near-term evidence needs are
 architecture-resolved useful computation and use-phase demand, followed by
 complete bills of quantities and common-method inventories.
 
-OpenDC-LCA now blocks comparisons with mismatched functional units, boundaries,
-electricity accounting, LCIA methods, or missing field-level source mappings.
-That validator catches declared metadata incompatibilities but does not verify
-the underlying science. The study is suitable as a transferability Technology
-Assessment; it does not support a public claim of environmental superiority
-among cooling architectures.
+The OpenDC-LCA validator rejects configured comparisons whose declared
+metadata contain mismatched functional units, boundaries, electricity
+accounting, LCIA methods, or missing field-level source mappings. This check
+detects declared incompatibilities but does not verify the underlying science.
+The study is suitable as a transferability Technology Assessment; it does not
+support a public claim of environmental superiority among cooling
+architectures.
 
 ## Data and code availability
 
@@ -1027,8 +1033,27 @@ provider-file manifest record file sizes and SHA-256 checksums. Provider-native
 files remain outside Git when redistribution permission is unclear or a large
 upstream archive has not been reviewed for redistribution. The Microsoft
 archive, eGRID files, Federal LCA Commons baseline and method, and NOAA data are
-available from their public providers [15,36,37,40,47]. No DOI-bearing software
+available from their public providers [15,40-42,45]. No DOI-bearing software
 archive is available at the time of this draft.
+
+## Competing interests
+
+Braden Stevens and Pengjiang Xiang are full-time employees of Harrison French
+& Associates Ltd.
+
+## Ethics statement
+
+This secondary study used public or author-held engineering datasets and did
+not involve human participants or animals; research-ethics approval was not
+required.
+
+## Declaration of generative AI and AI-assisted technologies in the manuscript preparation process
+
+During preparation of this work, the authors used OpenAI Codex to support code
+review, test development, figure-code review, manuscript organization, and
+language editing. The authors reviewed and edited the resulting material,
+verified the reported calculations and cited sources, and take full
+responsibility for the content of the article.
 
 ## References
 
@@ -1037,6 +1062,7 @@ archive is available at the time of this draft.
     (2020). https://doi.org/10.1126/science.aba3758
 2. International Energy Agency. Data centres and data transmission networks.
     https://www.iea.org/energy-system/buildings/data-centres-and-data-transmission-networks
+    (accessed 11 August 2026).
 3. Khalaj, A. H. & Halgamuge, S. K. A review on efficient thermal management
     of air- and liquid-cooled data centers. *Applied Energy* **205**, 1165-1184
     (2017). https://doi.org/10.1016/j.apenergy.2017.08.037
@@ -1084,118 +1110,122 @@ archive is available at the time of this draft.
 15. Alissa, H. et al. Data and model archive for “Using life cycle assessment
    to drive innovation for sustainable cool clouds.” Zenodo record 14268168
    (2024). https://doi.org/10.5281/zenodo.14268168
-16. Zhang, M., Carbajales-Dale, M., Ma, X., Guo, L. & Fan, C. Cleaner grid or
+16. d'Orgeval, A., Sheehan, S., Avenas, Q., Assoumou, E. & Sessa, V.
+    Generative AI impact assessment through a life cycle analysis of multiple
+    data center typologies. *Applied Energy* **406**, 127288 (2026).
+    https://doi.org/10.1016/j.apenergy.2025.127288
+17. Wu, S., Zheng, W., Wang, Z., Chen, G., Yang, P., Yue, S., Li, D. & Wu, Y.
+    AlphaDataCenterCooling: A new computational model for data center cooling
+    system evaluation. *Applied Energy* **380**, 125100 (2025).
+    https://doi.org/10.1016/j.apenergy.2024.125100
+18. International Telecommunication Union. ITU-T Recommendation L.1410:
+    Methodology for environmental life cycle assessments of information and
+    communication technology goods, networks and services (2024).
+    https://handle.itu.int/11.1002/1000/16010
+19. Zhang, M., Carbajales-Dale, M., Ma, X., Guo, L. & Fan, C. Cleaner grid or
     smarter cooling? Environmental impact trade-offs of a data center using
     the life cycle assessment method. *Cleaner Energy Systems* **12**, 100223
     (2025). https://doi.org/10.1016/j.cles.2025.100223
-17. Boyd, S. B., Horvath, A. & Dornfeld, D. Life-cycle assessment of
+20. Boyd, S. B., Horvath, A. & Dornfeld, D. Life-cycle assessment of
     computational logic produced from 1995 through 2010. *Environmental
     Science & Technology* **47**, 2947-2954 (2013).
     https://doi.org/10.1021/es303012r
-18. Malmodin, J. & Lundén, D. The energy and carbon footprint of the global
+21. Malmodin, J. & Lundén, D. The energy and carbon footprint of the global
     ICT and E&M sectors 2010-2015. *Sustainability* **10**, 3027 (2018).
     https://doi.org/10.3390/su10093027
-19. Holzapfel, P., Bach, V. & Finkbeiner, M. Electricity accounting in life
+22. Holzapfel, P., Bach, V. & Finkbeiner, M. Electricity accounting in life
     cycle assessment: the challenge of double counting. *International Journal
     of Life Cycle Assessment* **28**, 771-787 (2023).
     https://doi.org/10.1007/s11367-023-02158-w
-20. Holzapfel, P., Bunsen, J., Schmidt-Sierra, I., Bach, V. & Finkbeiner, M.
+23. Holzapfel, P., Bunsen, J., Schmidt-Sierra, I., Bach, V. & Finkbeiner, M.
     Replacing location-based electricity consumption with market-based
     residual mixes in background data to avoid possible double counting.
     *International Journal of Life Cycle Assessment* **29**, 1279-1289
     (2024). https://doi.org/10.1007/s11367-024-02294-x
-21. Dandres, T., Farrahi Moghaddam, R., Nguyen, K. K., Lemieux, Y., Samson,
+24. Dandres, T., Farrahi Moghaddam, R., Nguyen, K. K., Lemieux, Y., Samson,
     R. & Cheriet, M. Consideration of marginal electricity in real-time
     minimization of distributed data centre emissions. *Journal of Cleaner
     Production* **143**, 116-124 (2017).
     https://doi.org/10.1016/j.jclepro.2016.12.143
-22. Sohn, J., Kalbar, P., Goldstein, B. & Birkved, M. Defining temporally
+25. Sohn, J., Kalbar, P., Goldstein, B. & Birkved, M. Defining temporally
     dynamic life cycle assessment: a review. *Integrated Environmental
     Assessment and Management* **16**, 314-323 (2020).
     https://doi.org/10.1002/ieam.4235
-23. Beloin-Saint-Pierre, D. et al. Addressing temporal considerations in life
+26. Beloin-Saint-Pierre, D. et al. Addressing temporal considerations in life
     cycle assessment. *Science of the Total Environment* **743**, 140700
     (2020). https://doi.org/10.1016/j.scitotenv.2020.140700
-24. Cardellini, G., Mutel, C. L., Vial, E. & Muys, B. Temporalis, a generic
+27. Cardellini, G., Mutel, C. L., Vial, E. & Muys, B. Temporalis, a generic
     method and tool for dynamic life cycle assessment. *Science of the Total
     Environment* **645**, 585-595 (2018).
     https://doi.org/10.1016/j.scitotenv.2018.07.044
-25. Müller, A. et al. Time-explicit life cycle assessment: a flexible
+28. Müller, A. et al. Time-explicit life cycle assessment: a flexible
     framework for coherent consideration of temporal dynamics.
     *International Journal of Life Cycle Assessment* (2025).
     https://doi.org/10.1007/s11367-025-02539-3
-26. Diepers, T., Müller, A. & Jakobs, A. bw_timex: a Python package for
+29. Diepers, T., Müller, A. & Jakobs, A. bw_timex: a Python package for
     time-explicit life cycle assessment. *Journal of Open Source Software*
     **11**, 9621 (2026). https://doi.org/10.21105/joss.09621
-27. Michiels, F. & Geeraerd, A. How to decide and visualize whether
+30. Groen, E. A. & Heijungs, R. Ignoring correlation in uncertainty and
+    sensitivity analysis in life cycle assessment: what is the risk?
+    *Environmental Impact Assessment Review* **62**, 98-109 (2017).
+    https://doi.org/10.1016/j.eiar.2016.10.006
+31. Michiels, F. & Geeraerd, A. How to decide and visualize whether
     uncertainty or variability is dominating in life cycle assessment
     results: a systematic review. *Environmental Modelling & Software*
     **133**, 104841 (2020).
     https://doi.org/10.1016/j.envsoft.2020.104841
-28. Lloyd, S. M. & Ries, R. Characterizing, propagating, and analyzing
+32. Lloyd, S. M. & Ries, R. Characterizing, propagating, and analyzing
     uncertainty in life-cycle assessment: a survey of quantitative approaches.
     *Journal of Industrial Ecology* **11**, 161-179 (2007).
     https://doi.org/10.1162/jiec.2007.1136
-29. Edelen, A. & Ingwersen, W. Guidance on Data Quality Assessment for Life
+33. Edelen, A. & Ingwersen, W. Guidance on Data Quality Assessment for Life
     Cycle Inventory Data. U.S. EPA, EPA/600/R-16/096 (2016).
     https://cfpub.epa.gov/si/si_public_record_report.cfm?Lab=NRMRL&dirEntryId=321834
-30. Marchese, D. C., Bates, M. E., Keisler, J. M., Alcaraz, M. L., Linkov, I.
+34. Marchese, D. C., Bates, M. E., Keisler, J. M., Alcaraz, M. L., Linkov, I.
     & Olivetti, E. A. Value of information analysis for life cycle assessment:
     uncertain emissions in green manufacturing of electronic tablets.
     *Journal of Cleaner Production* **197**, 1540-1545 (2018).
     https://doi.org/10.1016/j.jclepro.2018.06.113
-31. International Organization for Standardization. ISO 14040:2006,
+35. International Organization for Standardization. ISO 14040:2006,
    Environmental management - Life cycle assessment - Principles and
    framework; and ISO 14044:2006, Environmental management - Life cycle
    assessment - Requirements and guidelines.
    https://www.iso.org/committee/54854/x/catalogue/;
-   https://www.iso.org/standard/38498.html
-32. International Organization for Standardization. ISO 14071:2024,
+   https://www.iso.org/standard/38498.html (accessed 11 August 2026).
+36. International Organization for Standardization. ISO 14071:2024,
    Environmental management - Life cycle assessment - Critical review
    processes and reviewer competencies (2024).
-   https://www.iso.org/standard/82464.html
-33. GreenDelta. openLCA: open source life cycle assessment software.
-   https://www.openlca.org/
-34. Mutel, C. Brightway: an open source framework for life cycle assessment.
+   https://www.iso.org/standard/82464.html (accessed 11 August 2026).
+37. GreenDelta. openLCA: open source life cycle assessment software.
+   https://www.openlca.org/ (accessed 11 August 2026).
+38. Mutel, C. Brightway: an open source framework for life cycle assessment.
     *Journal of Open Source Software* **2**, 236 (2017).
     https://doi.org/10.21105/joss.00236
-35. UARK-NED3. OpenDC-LCA version 1.1.0.
-   https://github.com/UARK-NED3/OpenDC-LCA
-36. U.S. Environmental Protection Agency. Emissions & Generation Resource
+39. UARK-NED3. OpenDC-LCA version 1.1.0.
+   https://github.com/UARK-NED3/OpenDC-LCA (accessed 11 August 2026).
+40. U.S. Environmental Protection Agency. Emissions & Generation Resource
    Integrated Database (eGRID), detailed data.
-   https://www.epa.gov/egrid/detailed-data
-37. U.S. Environmental Protection Agency. Frequent questions about eGRID:
+   https://www.epa.gov/egrid/detailed-data (accessed 11 August 2026).
+41. U.S. Environmental Protection Agency. Frequent questions about eGRID:
    global warming potentials and methodology changes.
    https://www.epa.gov/egrid/frequent-questions-about-egrid
-38. Boavizta. BoaviztAPI data repository.
-    https://github.com/Boavizta/boaviztapi
-39. Bundesinstitut für Bau-, Stadt- und Raumforschung. ÖKOBAUDAT 2024-II.
-    https://www.oekobaudat.de/
-40. National Centers for Environmental Information. Typical Meteorological
-   Year data. https://www.ncei.noaa.gov/access/typical-meteorological-year/
-41. National Renewable Energy Laboratory. U.S. Life Cycle Inventory Database,
-   version 1.2026-06.0. Federal LCA Commons.
-   https://www.lcacommons.gov/
-42. United Nations Environment Programme. Global LCA Data Access network.
-    https://www.globallcadataaccess.org/
-43. U.S. Geological Survey. Watershed Boundary Dataset.
-    https://www.usgs.gov/national-hydrography/watershed-boundary-dataset
-44. d'Orgeval, A., Sheehan, S., Avenas, Q., Assoumou, E. & Sessa, V.
-    Generative AI impact assessment through a life cycle analysis of multiple
-    data center typologies. *Applied Energy* **406**, 127288 (2026).
-    https://doi.org/10.1016/j.apenergy.2025.127288
-45. Wu, S., Zheng, W., Wang, Z., Chen, G., Yang, P., Yue, S., Li, D. & Wu, Y.
-    AlphaDataCenterCooling: A new computational model for data center cooling
-    system evaluation. *Applied Energy* **380**, 125100 (2025).
-    https://doi.org/10.1016/j.apenergy.2024.125100
-46. Groen, E. A. & Heijungs, R. Ignoring correlation in uncertainty and
-    sensitivity analysis in life cycle assessment: what is the risk?
-    *Environmental Impact Assessment Review* **62**, 98-109 (2017).
-    https://doi.org/10.1016/j.eiar.2016.10.006
-47. National Energy Technology Laboratory. U.S. Electricity Baseline, 2023
+   (accessed 11 August 2026).
+42. National Energy Technology Laboratory. U.S. Electricity Baseline, 2023
     data release, version 03.00.000. Federal LCA Commons (2026).
     https://www.lcacommons.gov/lca-collaboration/Federal_LCA_Commons/US_electricity_baseline
-48. International Telecommunication Union. ITU-T Recommendation L.1410:
-    Methodology for environmental life cycle assessments of information and
-    communication technology goods, networks and services (2024).
-    https://handle.itu.int/11.1002/1000/16010
+    (accessed 11 August 2026).
+43. Boavizta. BoaviztAPI data repository.
+    https://github.com/Boavizta/boaviztapi (accessed 11 August 2026).
+44. Bundesinstitut für Bau-, Stadt- und Raumforschung. ÖKOBAUDAT 2024-II.
+    https://www.oekobaudat.de/ (accessed 11 August 2026).
+45. National Centers for Environmental Information. Typical Meteorological
+   Year data. https://www.ncei.noaa.gov/access/typical-meteorological-year/
+   (accessed 11 August 2026).
+46. National Renewable Energy Laboratory. U.S. Life Cycle Inventory Database,
+   version 1.2026-06.0. Federal LCA Commons.
+   https://www.lcacommons.gov/ (accessed 11 August 2026).
+47. United Nations Environment Programme. Global LCA Data Access network.
+    https://www.globallcadataaccess.org/ (accessed 11 August 2026).
+48. U.S. Geological Survey. Watershed Boundary Dataset.
+    https://www.usgs.gov/national-hydrography/watershed-boundary-dataset
+    (accessed 11 August 2026).

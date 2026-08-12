@@ -309,6 +309,7 @@ def build() -> None:
         r"\usepackage{graphicx,float,pdflscape}",
         r"\usepackage{siunitx}",
         r"\usepackage{url,hyperref}",
+        r"\hypersetup{hidelinks}",
         r"\usepackage[T1]{fontenc}",
         r"\usepackage[utf8]{inputenc}",
         r"\setlength{\emergencystretch}{3em}",
@@ -321,6 +322,7 @@ def build() -> None:
         r"\author[ornl]{Yimin Chen}",
         r"\author[uark]{Darin Nutter}",
         r"\author[uark]{Han Hu\corref{cor1}}",
+        r"\ead{hanhu@uark.edu}",
         r"\address[uark]{Department of Mechanical Engineering, University of Arkansas, Fayetteville, AR 72701, U.S.}",
         r"\address[ornl]{Building Technologies Research and Integration Center, Oak Ridge National Laboratory, Oak Ridge, TN 37830, U.S.}",
         r"\address[hfa]{Harrison French \& Associates Ltd., Bentonville, AR 72712, U.S.}",
@@ -520,6 +522,7 @@ def build_supplement() -> None:
     output = [
         r"\documentclass[review,12pt]{elsarticle}",
         r"\usepackage{booktabs,tabularx,array,longtable,graphicx,float,pdflscape,url,hyperref}",
+        r"\hypersetup{hidelinks}",
         r"\usepackage[T1]{fontenc}",
         r"\usepackage[utf8]{inputenc}",
         r"\setlength{\emergencystretch}{3em}",
