@@ -82,13 +82,14 @@ filled with assumptions in this cycle.
 - All 48 references are cited, no citation is missing, and first appearances
   follow the sequence 1--48.
 - All 65 automated tests passed under Python 3.12.
-- The Elsevier manuscript compiled twice to 50 pages and the supplement twice
-  to 14 pages. The final logs contain no undefined citations or references,
+- The Elsevier manuscript compiled twice to 52 pages and the supplement twice
+  to 15 pages. The final logs contain no undefined citations or references,
   fatal errors, or overfull boxes. Benign underfull-line, bookmark, and MiKTeX
   update-notice messages remain.
-- All 50 manuscript pages were rasterized and visually inspected. No clipping,
-  overlap, broken figures or tables, missing glyphs, or footer collision was
-  found. Hyperlink borders were hidden to improve readability.
+- All 52 manuscript pages and all 15 supplementary pages were rasterized and
+  visually inspected. No clipping, overlap, broken figures or tables, missing
+  glyphs, or footer collision was found. Hyperlink borders were hidden to
+  improve readability.
 - Extracted PDF and DOCX text contain no TODO/TBD markers, hidden prompts,
   authoring instructions, or AI self-reference outside the required disclosure.
 - The regenerated DOCX passed ZIP/package and structural checks (one section,
@@ -119,3 +120,16 @@ ii), and subsequent markers. Longer lists were rewritten as complete sentences
 with First, Second, and related transitions. The revision preserved the
 technical relationships, numerical values, equations, evidence classes,
 citations, and claim limits.
+
+## Figure and table integration revision
+
+Generic visual signposting was replaced with figure-led technical orientation.
+The main-text introductions now identify the plotted cooling architectures,
+impact indicators, electricity cases, source populations, lifecycle boundaries,
+thresholds, and panel roles. Supplementary figure introductions now state the
+independent and dependent variables, operating ranges, sample sizes, percentile
+markers, and screening limits that are visible in each plot. Table references
+now describe the fields and methodological decisions conveyed by the table
+rather than merely announcing its presence. Weak short transitions were also
+merged with the technical statements they introduced. Numerical values and
+evidence classifications were checked against the current plotted artifacts.

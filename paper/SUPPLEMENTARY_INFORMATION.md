@@ -76,7 +76,13 @@ that comparative use-phase formulas `Comparative results 0% RE!D118` and
 `Comparative results 100% RE!D122` point to those blank F29 cells. This unresolved method
 identity prevents treatment of the cooling screen as a common-method LCA.
 
-![Supplementary Figure S1. Screening totals transferred across 2023 eGRID state/DC rates. The vertical line is the cold-plate/single-phase numerical crossover. The x-axis is an electricity-intensity index across incompatible lifecycle boundaries, not a background-process substitution.](figures/figure2_grid_crossover.svg)
+Supplementary Figure S1 plots the affine GHG screening lines for air cooling,
+cold plate, single-phase immersion, and two-phase immersion against 2023
+state/DC total-output electricity intensity. The two vertical markers locate
+the 96.704 kg CO2e/MWh cold-plate/single-phase crossover and the weighted
+50-state-plus-DC reference factor.
+
+![Supplementary Figure S1. Affine GHG screening lines for air cooling, cold plate, single-phase immersion, and two-phase immersion across 2023 eGRID state/DC total-output rates. The dashed marker locates the 96.704 kg CO2e/MWh cold-plate/single-phase numerical crossover, and the dotted marker locates the weighted 50-state-plus-DC reference factor. The horizontal axis transfers released endpoints across incompatible lifecycle boundaries and is not a background-process substitution.](figures/figure2_grid_crossover.svg)
 
 The two-phase numerical line has no crossover with cold plate or single-phase
 inside the 2023 state-rate range under the fixed released foreground. This is
@@ -102,7 +108,13 @@ reproduction in openLCA or Brightway remains a submission action.
 
 ## S6. Robustness analyses
 
-![Supplementary Figure S2. One-at-a-time use-phase change required to alter close rankings across 2023 state rates. These thresholds are experimental discrimination targets, not uncertainty intervals.](figures/figure7_performance_robustness.svg)
+Supplementary Figure S2 plots two break-even use-phase adjustments against
+2023 state electricity intensity. The blue curve gives the cold-plate change
+required to equal single-phase immersion, while the orange curve gives the
+two-phase degradation that can occur before another architecture becomes the
+numerical first rank.
+
+![Supplementary Figure S2. One-at-a-time use-phase changes required to alter close rankings across 2023 state electricity intensities. The blue curve gives the cold-plate adjustment required to equal single-phase immersion, and the orange curve gives the two-phase degradation tolerated before loss of the numerical first rank. These break-even thresholds are experimental discrimination targets, not uncertainty intervals.](figures/figure7_performance_robustness.svg)
 
 At equal relative half-widths, the national first-rank screen reverses at
 2.99% for technology-specific use phase, 22.15% for embodied burden, 2.64% for
@@ -120,16 +132,29 @@ frequencies describe that stress design, not empirical uncertainty.
 
 ## S7. Server-product evidence
 
+Supplementary Figure S3 presents the manufacturing-GHG distribution for the 48
+included Boavizta server records and marks the 25th percentile, median, and 75th
+percentile at 1,146, 1,215, and 1,337 kg CO2e/server, respectively.
+
 ![Supplementary Figure S3. Distribution of manufacturing GHG across 48 included Boavizta server records. The records inherit heterogeneous product rules, hardware configurations, lifetimes, and source methods.](figures/figure4_server_epd_distribution.svg)
 
-All 55 `Datacenter/Server` candidates appear in Table 34. Forty-eight contain
-total GWP, manufacturing share, and positive lifetime. Seven Lenovo records
-are excluded because manufacturing share is blank. The common-scaling stress
-uses included annualized dispersion but is not a product-substitution model.
-Decision use requires architecture-specific server count, configuration,
-useful computation, and lifetime under harmonized product rules.
+Table 34 provides a candidate-level inclusion audit for all 55
+`Datacenter/Server` records by retaining the product identity, total GWP,
+manufacturing share, lifetime, inclusion status, and exclusion reason.
+Forty-eight records contain total GWP, manufacturing share, and positive
+lifetime, while seven Lenovo records are excluded because manufacturing share
+is blank. The common-scaling stress uses included annualized dispersion but is
+not a product-substitution model. Decision use requires architecture-specific
+server count, configuration, useful computation, and lifetime under harmonized
+product rules.
 
 ## S8. Construction-material screening
+
+Supplementary Figure S4 compares matched German generic A1-A3 GHG factors for
+two procurement choices. The selected high-scrap electric-arc-furnace steel
+route decreases the factor from 2.922 to 1.172 kg CO2e/kg product, while the
+selected CEM III cement chemistry decreases it from 0.895 to 0.449 kg
+CO2e/kg product.
 
 ![Supplementary Figure S4. Selected matched ÖKOBAUDAT A1-A3 GHG factors. The comparison identifies per-kilogram procurement leverage and is not propagated to a data-center total.](figures/figure5_material_levers.svg)
 
@@ -145,9 +170,15 @@ bounded bilinear interpolation, uncovered-domain rejection, cooling-only
 partial-PUE integration with one constant grid factor, and interface
 consistency.
 
-![Supplementary Figure S5. Monthly cooling-only partial PUE from the Fayetteville weather and declared illustrative performance surface. This is a software fixture, not empirical evidence for a cooling technology.](figures/figure2_monthly_climate_pue.svg)
+Supplementary Figures S5 and S6 document the two views of this software
+fixture. Figure S5 integrates the synthetic performance map over 8,760 hourly
+weather records to compare monthly cooling-only partial PUE for four
+architectures, while Figure S6 resolves the input surface across dry-bulb
+temperatures from -15 to 35 °C and IT loads of 40, 70, and 100 kW.
 
-![Supplementary Figure S6. Synthetic load-temperature cooling surface used to verify bounded interpolation. No comparative assertion is permitted from this fixture.](figures/figure5_synthetic_performance_surface.svg)
+![Supplementary Figure S5. Monthly cooling-only partial PUE for air cooling, cold plate, single-phase immersion, and two-phase immersion obtained by integrating the declared synthetic performance map over 8,760 Fayetteville TMY weather records. The values test the software workflow and do not provide empirical evidence for any cooling technology.](figures/figure2_monthly_climate_pue.svg)
+
+![Supplementary Figure S6. Synthetic partial-PUE surface across dry-bulb temperatures from -15 to 35 °C and IT loads of 40, 70, and 100 kW. The declared grid verifies bounded load-temperature interpolation and does not support a comparative technology assertion.](figures/figure5_synthetic_performance_surface.svg)
 
 Wet-bulb temperature is validated in the input schema but is not an
 interpolation coordinate. Other facility overhead is outside the partial-PUE
