@@ -207,6 +207,9 @@ The Phase 1 model includes:
 - scenario SHA-256 digests and model version in JSON results; and
 - one-at-a-time GHG sensitivity screening.
 - automated scientific-quality findings and comparative-claim blockers.
+- custom-boundary records that classify every energy item as metered, allocated,
+  or excluded and prevent an incomplete shared-infrastructure boundary from
+  being labeled facility PUE.
 - duration-weighted laboratory performance maps that derive cooling-only
   partial PUE, on-site water intensity, and cooling COP; and
 - reproducible independent-parameter Monte Carlo propagation with p05, p50,

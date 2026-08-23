@@ -500,7 +500,10 @@ def main():
     props = doc.core_properties
     props.title = "OpenDC-LCA manuscript"
     props.subject = "Open, evidence-gated LCA for data-center cooling"
-    props.author = "Braden Stevens; Pengjiang Xiang; Yimin Chen; Darin Nutter; Han Hu"
+    props.author = (
+        "Braden Stevens; Pengjiang Xiang; Pawel Wolinski; Charles Dwyer; "
+        "Yimin Chen; Darin Nutter; Han Hu"
+    )
     props.keywords = "data center, cooling, LCA, reproducibility, OpenDC-LCA"
     doc.save(OUTPUT)
     print(OUTPUT)

@@ -32,6 +32,18 @@ SUPPORTED_SOURCE_REVIEW_STATUSES = {
     "independently_reviewed",
 }
 SUPPORTED_CONFIDENTIALITY = {"public", "aggregated_confidential", "confidential"}
+SUPPORTED_ENERGY_ITEM_CLASSES = {"metered", "allocated", "excluded"}
+SUPPORTED_ENERGY_ITEM_ROLES = {
+    "it_load",
+    "dedicated_support",
+    "shared_support",
+    "other",
+}
+SUPPORTED_REPORTED_ENERGY_METRICS = {
+    "not_reported",
+    "dedicated_support_ratio",
+    "facility_pue",
+}
 
 
 class ValidationError(ValueError):
@@ -257,14 +269,114 @@ class StudyDefinition:
                     "boundary_definition requires included_processes and "
                     "excluded_processes lists plus a rationale"
                 )
+            energy_items_raw = boundary_definition_raw.get("energy_items")
+            reported_energy_metric = str(
+                boundary_definition_raw.get("reported_energy_metric", "")
+            )
+            complete_energy_item_inventory = boundary_definition_raw.get(
+                "complete_energy_item_inventory"
+            )
+            if not isinstance(energy_items_raw, list) or not energy_items_raw:
+                raise ValidationError(
+                    "boundary_definition requires a non-empty energy_items list"
+                )
+            if reported_energy_metric not in SUPPORTED_REPORTED_ENERGY_METRICS:
+                raise ValidationError(
+                    "boundary_definition reported_energy_metric must be one of: "
+                    + ", ".join(sorted(SUPPORTED_REPORTED_ENERGY_METRICS))
+                )
+            if not isinstance(complete_energy_item_inventory, bool):
+                raise ValidationError(
+                    "boundary_definition complete_energy_item_inventory must be true or false"
+                )
+
+            energy_items: list[dict[str, str]] = []
+            names: set[str] = set()
+            for item in energy_items_raw:
+                if not isinstance(item, dict):
+                    raise ValidationError(
+                        "Each boundary_definition energy_items entry must be an object"
+                    )
+                name = str(item.get("name", "")).strip()
+                classification = str(item.get("classification", "")).strip()
+                role = str(item.get("role", "")).strip()
+                item_rationale = str(item.get("rationale", "")).strip()
+                if not name or not item_rationale:
+                    raise ValidationError(
+                        "Each boundary_definition energy item requires name and rationale"
+                    )
+                if name in names:
+                    raise ValidationError(
+                        "boundary_definition energy item names must be unique"
+                    )
+                if classification not in SUPPORTED_ENERGY_ITEM_CLASSES:
+                    raise ValidationError(
+                        "boundary_definition energy-item classification must be one of: "
+                        + ", ".join(sorted(SUPPORTED_ENERGY_ITEM_CLASSES))
+                    )
+                if role not in SUPPORTED_ENERGY_ITEM_ROLES:
+                    raise ValidationError(
+                        "boundary_definition energy-item role must be one of: "
+                        + ", ".join(sorted(SUPPORTED_ENERGY_ITEM_ROLES))
+                    )
+                normalized_item = {
+                    "name": name,
+                    "classification": classification,
+                    "role": role,
+                    "rationale": item_rationale,
+                }
+                if classification == "metered":
+                    meter_id = str(item.get("meter_id", "")).strip()
+                    if not meter_id:
+                        raise ValidationError(
+                            "Metered boundary_definition energy items require meter_id"
+                        )
+                    normalized_item["meter_id"] = meter_id
+                if classification == "allocated":
+                    allocation_method = str(
+                        item.get("allocation_method", "")
+                    ).strip()
+                    if not allocation_method:
+                        raise ValidationError(
+                            "Allocated boundary_definition energy items require allocation_method"
+                        )
+                    normalized_item["allocation_method"] = allocation_method
+                names.add(name)
+                energy_items.append(normalized_item)
+
+            if reported_energy_metric == "facility_pue":
+                if not complete_energy_item_inventory:
+                    raise ValidationError(
+                        "facility_pue requires complete_energy_item_inventory=true"
+                    )
+                if not any(
+                    item["role"] == "it_load"
+                    and item["classification"] == "metered"
+                    for item in energy_items
+                ):
+                    raise ValidationError(
+                        "facility_pue requires a metered it_load energy item"
+                    )
+                if any(
+                    item["role"] == "shared_support"
+                    and item["classification"] == "excluded"
+                    for item in energy_items
+                ):
+                    raise ValidationError(
+                        "facility_pue cannot exclude a shared_support energy item; "
+                        "meter or allocate it instead"
+                    )
             boundary_definition = {
                 "included_processes": sorted(str(item).strip() for item in included),
                 "excluded_processes": sorted(str(item).strip() for item in excluded),
                 "rationale": rationale,
+                "energy_items": sorted(energy_items, key=lambda item: item["name"]),
+                "reported_energy_metric": reported_energy_metric,
+                "complete_energy_item_inventory": complete_energy_item_inventory,
             }
-        if boundary == "custom" and comparative and boundary_definition is None:
+        if boundary == "custom" and boundary_definition is None:
             raise ValidationError(
-                "A comparative custom boundary requires boundary_definition"
+                "A custom system boundary requires boundary_definition"
             )
         return cls(
             functional_unit=functional_unit,

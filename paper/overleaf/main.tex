@@ -14,11 +14,15 @@
 \title{Transferability audit of data-center cooling life-cycle assessment considering lifecycle electricity, functional equivalence, and rank robustness}
 \author[uark,hfa]{Braden Stevens}
 \author[uark,hfa]{Pengjiang Xiang}
+\author[ahpcc]{Pawel Wolinski}
+\author[its]{Charles Dwyer}
 \author[ornl]{Yimin Chen}
 \author[uark]{Darin Nutter}
 \author[uark]{Han Hu\corref{cor1}}
 \ead{hanhu@uark.edu}
 \address[uark]{Department of Mechanical Engineering, University of Arkansas, Fayetteville, AR 72701, U.S.}
+\address[ahpcc]{Arkansas High Performance Computing Center, University of Arkansas, Fayetteville, AR 72701, U.S.}
+\address[its]{IT Services, University of Arkansas, Fayetteville, AR 72701, U.S.}
 \address[ornl]{Building Technologies Research and Integration Center, Oak Ridge National Laboratory, Oak Ridge, TN 37830, U.S.}
 \address[hfa]{Harrison French \& Associates Ltd., Bentonville, AR 72712, U.S.}
 \cortext[cor1]{Corresponding author}
@@ -421,7 +425,11 @@ This is why USLCI and GLAD hydrogen archives were exchange-tested but not forced
 \subsection{Hyperscale applications}
 The most useful extension of the Microsoft/WSP work is not another static national scenario. It is a jointly governed evidence package that allows the released model to be updated without weakening its functional-unit insight. Closing the method, foreground, performance, electricity, and uncertainty gaps requires five additions. First, the original GWP100 electricity factors or elementary-flow inventories are needed to resolve the public workbook's blank F29 cells. Second, the package requires architecture-specific, anonymized bills of quantities and service lives. Third, it requires measured performance surfaces for IT output, server power, facility parasitics, and onsite water across load and weather. Fourth, it requires a complete provider-linked lifecycle electricity model under the same LCIA method, with cutoffs linked or bounded and with location-based, market-based, and marginal operational signals reported separately. Finally, empirical uncertainty and correlation information are needed for rank-probability and value-of-information analyses.
 
-OpenDC-LCA supplies schemas, transformations, tests, and claim boundaries for that collaboration. The two conclusions supported independently here are the released arithmetic and the national direct-generation trend. The cooling crossovers, first ranks, and response coefficients remain conditional numerical screens until the five evidence gaps are closed.
+OpenDC-LCA supplies schemas, transformations, tests, and claim boundaries for that collaboration. A preliminary university high-performance-computing site characterization illustrates why those claim boundaries matter in practice. The site combines dedicated IT and liquid-cooling paths with raised-floor CRAC cooling shared by several institutional users. It therefore cannot support a single facility PUE without a documented allocation of shared support loads. The preliminary record contains no operational time series and does not report site energy, cooling performance, PUE, or environmental impacts. It instead defines the metering sequence required to produce those results.
+
+The custom-boundary validator now classifies each energy item as metered, allocated, or excluded. Metered records identify their meter, allocated records identify an allocation method, and excluded records state a rationale. A facility-PUE label requires a complete energy-item inventory, a metered IT-load boundary, and no excluded shared-support item. A partial record can instead report a dedicated-support ratio for the stated UPS and dedicated-cooling boundary. This check does not authenticate meter data or determine whether an allocation is physically representative, but it prevents incomplete shared infrastructure from being silently labeled as facility energy.
+
+The two conclusions supported independently here are the released arithmetic and the national direct-generation trend. The cooling crossovers, first ranks, and response coefficients remain conditional numerical screens until the five evidence gaps are closed.
 
 \subsection{Limitations and evidence requirements}
 Because this analysis is secondary, it does not recreate proprietary background inventories, confidential bills of quantities, the full virtual-core model, or measured hyperscale operation. Equation (8) uses a numerical axis whose climate-method identity is unresolved in the public archive. The Federal LCA Commons factors contain 287 national unlinked technosphere exchanges. The custom solver has not been independently reproduced in openLCA or Brightway. The additive allowance, triangular marginals, and copula dependence cases are secondary diagnostics, not estimates. The convergence check limits numerical sampling error within those designs. It does not reduce epistemic uncertainty in the ranges, dependence structure, cutoffs, or foreground model. eGRID state rates omit consumption transfers, contracts, hourly dispatch, and marginal effects.

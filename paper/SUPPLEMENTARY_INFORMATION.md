@@ -218,14 +218,46 @@ the field-to-source map and stable digests of source records. Public comparison
 requests are blocked when functional units, boundaries, electricity
 accounting, allocation, LCIA methods, or replacement rules differ, or when
 field-level lineage is missing. A custom comparative boundary requires a
-structured inclusion/exclusion record that must match across scenarios.
+structured inclusion/exclusion record that must match across scenarios. Each
+custom-boundary energy item is classified as metered, allocated, or excluded.
+Metered items identify the meter, allocated items identify the allocation
+method, and excluded items state their rationale. A facility-PUE label requires
+a complete inventory, a metered IT-load item, and no excluded shared-support
+item. A dedicated-support ratio remains available for a bounded UPS and
+dedicated-cooling pathway, but it is not PUE.
 
 These are metadata blockers, not authentication, parameter-level uncertainty
 mapping, ISO conformity, or evidence that an external review occurred. Useful
 computation remains a manual prerequisite because the executable functional
 unit is presently `it_mwh`.
 
-## S13. Reproduction commands
+## S13. Shared-infrastructure pre-metering case
+
+A preliminary university high-performance-computing site characterization was
+used to test the custom-boundary record. The site combines i) a UPS-fed IT path,
+ii) a dedicated liquid-cooling path serving rear-door heat exchangers and
+GPU-adjacent cooling equipment, and iii) raised-floor room cooling shared with
+other institutional IT users. The site documentation and tour observations are
+confidential working records and are not included in this repository.
+
+The site has not supplied historical meter exports, cooling-loop flow records,
+or workload-service records. It is therefore not an operational validation
+case, a facility LCA, or a PUE result. The implementation records the required
+future measurement classes as i) UPS input and output energy, ii) dedicated
+chiller and pump electricity, iii) chilled-loop supply temperature, return
+temperature, glycol composition, and flow, iv) shared CRAC energy or an
+explicit allocation sensitivity, and v) aggregate computing service. This
+structure keeps directly metered, allocated, and excluded energy distinct until
+the required evidence exists.
+
+For the eventual liquid-loop assessment, heat removal must be calculated from
+the measured mass flow, mixture heat capacity, and supply-return temperature
+difference. Rated refrigeration capacity cannot be substituted for chiller
+electricity. The first publishable facility result will therefore report a
+dedicated-support ratio and a shared-cooling allocation range before any
+facility-PUE claim.
+
+## S14. Reproduction commands
 
 Run the following commands from the repository root.
 

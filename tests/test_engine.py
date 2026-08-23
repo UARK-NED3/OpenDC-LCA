@@ -294,6 +294,30 @@ class EngineTests(unittest.TestCase):
                 "included_processes": ["cooling equipment", "electricity"],
                 "excluded_processes": ["IT hardware"],
                 "rationale": "Test boundary",
+                "reported_energy_metric": "dedicated_support_ratio",
+                "complete_energy_item_inventory": False,
+                "energy_items": [
+                    {
+                        "name": "IT electricity",
+                        "classification": "metered",
+                        "role": "it_load",
+                        "meter_id": "ups-output",
+                        "rationale": "Reference IT boundary.",
+                    },
+                    {
+                        "name": "Shared cooling",
+                        "classification": "allocated",
+                        "role": "shared_support",
+                        "allocation_method": "documented allocation scenario",
+                        "rationale": "Shared support load.",
+                    },
+                    {
+                        "name": "Building shell",
+                        "classification": "excluded",
+                        "role": "other",
+                        "rationale": "Outside the declared screening boundary.",
+                    },
+                ],
             }
         scenarios = [Scenario.from_dict(first), Scenario.from_dict(second)]
         self.assertNotIn(
@@ -316,6 +340,70 @@ class EngineTests(unittest.TestCase):
         data["study"]["system_boundary"] = "custom"
         data["study"]["comparative_assertion"] = True
         with self.assertRaises(ValidationError):
+            Scenario.from_dict(data)
+
+    def test_custom_boundary_requires_energy_classification(self):
+        data = scenario_data()
+        data["study"]["system_boundary"] = "custom"
+        data["study"]["boundary_definition"] = {
+            "included_processes": ["electricity"],
+            "excluded_processes": ["building shell"],
+            "rationale": "Test boundary",
+        }
+        with self.assertRaisesRegex(ValidationError, "energy_items"):
+            Scenario.from_dict(data)
+
+    def test_metered_and_allocated_energy_items_require_provenance(self):
+        data = scenario_data()
+        data["study"]["system_boundary"] = "custom"
+        data["study"]["boundary_definition"] = {
+            "included_processes": ["electricity"],
+            "excluded_processes": ["building shell"],
+            "rationale": "Test boundary",
+            "reported_energy_metric": "dedicated_support_ratio",
+            "complete_energy_item_inventory": False,
+            "energy_items": [
+                {
+                    "name": "IT electricity",
+                    "classification": "metered",
+                    "role": "it_load",
+                    "rationale": "Meter required.",
+                }
+            ],
+        }
+        with self.assertRaisesRegex(ValidationError, "meter_id"):
+            Scenario.from_dict(data)
+        data["study"]["boundary_definition"]["energy_items"][0]["meter_id"] = "ups-output"
+        data["study"]["boundary_definition"]["energy_items"][0]["classification"] = "allocated"
+        with self.assertRaisesRegex(ValidationError, "allocation_method"):
+            Scenario.from_dict(data)
+
+    def test_facility_pue_rejects_excluded_shared_support(self):
+        data = scenario_data()
+        data["study"]["system_boundary"] = "custom"
+        data["study"]["boundary_definition"] = {
+            "included_processes": ["electricity"],
+            "excluded_processes": ["building shell"],
+            "rationale": "Test boundary",
+            "reported_energy_metric": "facility_pue",
+            "complete_energy_item_inventory": True,
+            "energy_items": [
+                {
+                    "name": "IT electricity",
+                    "classification": "metered",
+                    "role": "it_load",
+                    "meter_id": "ups-output",
+                    "rationale": "Reference IT boundary.",
+                },
+                {
+                    "name": "Shared cooling",
+                    "classification": "excluded",
+                    "role": "shared_support",
+                    "rationale": "Deliberately invalid PUE test.",
+                },
+            ],
+        }
+        with self.assertRaisesRegex(ValidationError, "cannot exclude"):
             Scenario.from_dict(data)
 
     def test_schema_declares_input_source_map(self):

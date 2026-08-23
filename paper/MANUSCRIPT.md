@@ -1,12 +1,16 @@
 # Transferability audit of data-center cooling life-cycle assessment considering lifecycle electricity, functional equivalence, and rank robustness
 
-**Braden Stevens (1, 3), Pengjiang Xiang (1, 3), Yimin Chen (2), Darin Nutter (1), and Han Hu (1)**
+**Braden Stevens (1, 5), Pengjiang Xiang (1, 5), Pawel Wolinski (2), Charles Dwyer (3), Yimin Chen (4), Darin Nutter (1), and Han Hu (1)**
 
 (1) Department of Mechanical Engineering, University of Arkansas, Fayetteville, AR 72701, U.S.
 
-(2) Building Technologies Research and Integration Center, Oak Ridge National Laboratory, Oak Ridge, TN 37830, U.S.
+(2) Arkansas High Performance Computing Center, University of Arkansas, Fayetteville, AR 72701, U.S.
 
-(3) Harrison French & Associates Ltd., Bentonville, AR 72712, U.S.
+(3) IT Services, University of Arkansas, Fayetteville, AR 72701, U.S.
+
+(4) Building Technologies Research and Integration Center, Oak Ridge National Laboratory, Oak Ridge, TN 37830, U.S.
+
+(5) Harrison French & Associates Ltd., Bentonville, AR 72712, U.S.
 
 *The corresponding author is Han Hu (hanhu@uark.edu).*
 
@@ -980,7 +984,26 @@ reported separately. Finally, empirical uncertainty and correlation
 information are needed for rank-probability and value-of-information analyses.
 
 OpenDC-LCA supplies schemas, transformations, tests, and claim boundaries for
-that collaboration. The two conclusions supported independently here are the
+that collaboration. A preliminary university high-performance-computing site
+characterization illustrates why those claim boundaries matter in practice. The
+site combines dedicated IT and liquid-cooling paths with raised-floor CRAC
+cooling shared by several institutional users. It therefore cannot support a
+single facility PUE without a documented allocation of shared support loads.
+The preliminary record contains no operational time series and does not report
+site energy, cooling performance, PUE, or environmental impacts. It instead
+defines the metering sequence required to produce those results.
+
+The custom-boundary validator now classifies each energy item as metered,
+allocated, or excluded. Metered records identify their meter, allocated records
+identify an allocation method, and excluded records state a rationale. A
+facility-PUE label requires a complete energy-item inventory, a metered IT-load
+boundary, and no excluded shared-support item. A partial record can instead
+report a dedicated-support ratio for the stated UPS and dedicated-cooling
+boundary. This check does not authenticate meter data or determine whether an
+allocation is physically representative, but it prevents incomplete shared
+infrastructure from being silently labeled as facility energy.
+
+The two conclusions supported independently here are the
 released arithmetic and the national direct-generation trend. The cooling
 crossovers, first ranks, and response coefficients remain conditional numerical
 screens until the five evidence gaps are closed.

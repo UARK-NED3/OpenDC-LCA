@@ -20,6 +20,20 @@ denominator. GPU-hour and workload-based units are planned but not yet supported
 - Renewable procurement must not be represented by setting operational impacts
   to zero unless the chosen accounting method supports that treatment.
 
+### Custom mixed-infrastructure boundaries
+
+For a custom boundary, every energy item must be classified as `metered`,
+`allocated`, or `excluded`. Metered items require a meter identifier. Allocated
+items require a stated allocation method. Excluded items require a rationale.
+The record also states whether it is complete and whether the reported metric
+is `facility_pue`, `dedicated_support_ratio`, or not reported.
+
+`facility_pue` requires a complete item inventory, a metered IT-load item, and
+no excluded shared-support item. A dedicated-support ratio may report only the
+metered IT, UPS-loss, dedicated cooling, and pump boundary, but it is not PUE.
+Shared CRAC, lighting, or other building loads must be metered, allocated with
+a documented sensitivity method, or excluded with an explicit rationale.
+
 ## Water
 
 `blue_water_l` means consumptive use of surface water or groundwater, expressed
