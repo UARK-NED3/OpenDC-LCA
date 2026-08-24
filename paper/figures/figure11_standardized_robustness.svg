@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-label="Equal-width bounds identify service and use-phase assumptions as limiting">
 <style>text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:23px;font-weight:700}.axis{font-size:17px}.label{font-size:16px}.note{font-size:14px;fill:#52606d}</style>
 <rect width="100%" height="100%" fill="white"/>
-<text class="label" x="70" y="82" style="font-weight:700">A  National lifecycle context</text>
-<text class="label" x="650" y="82" style="font-weight:700">B  All 71 lifecycle electricity contexts</text>
+<text class="label" x="70" y="94" style="font-weight:700">(a)</text>
+<text class="label" x="650" y="94" style="font-weight:700">(b)</text>
 <line x1="210.0" y1="105" x2="210.0" y2="555" stroke="#E5E7EB"/>
 <text class="note" x="210.0" y="580" text-anchor="middle">0%</text>
 <line x1="280.0" y1="105" x2="280.0" y2="555" stroke="#E5E7EB"/>

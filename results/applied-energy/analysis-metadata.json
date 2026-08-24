@@ -98,14 +98,14 @@
     "python_version": "3.12.3",
     "python_implementation": "CPython",
     "platform": "Windows-11-10.0.26200-SP0",
-    "git_commit": "d37c433bb40e2950095b6bf8d9de7becb48644ef",
+    "git_commit": "f1147ec085011760008446cfd87f6564b4145654",
     "git_dirty": true,
-    "git_status_sha256": "d00bf5350c5986bb28a11ca21ee55852fb7a55efcb0bedb07cb8467f7a1826d5",
+    "git_status_sha256": "2186cdd6e708376f280733e5176e8a218f30a75d041937c28e20031fef24be32",
     "code": [
       {
         "local_path": "scripts/run_applied_energy_analysis.py",
-        "bytes": 104992,
-        "sha256": "80d0925c962baf43a0975cab2bf8bb855d6e242764dd4ff9e1ca7f22334db609"
+        "bytes": 104929,
+        "sha256": "aa855db27c044338b242b23b24102342c9546f6bb25025d8987837371d3da095"
       },
       {
         "local_path": "scripts/run_integrated_evidence_analysis.py",
@@ -356,8 +356,8 @@
       },
       {
         "local_path": "paper/figures/figure11_standardized_robustness.svg",
-        "bytes": 9549,
-        "sha256": "42bcdc31704c904f256fea4b575b39ffdaf71a590748730c3b671c33d6572f19"
+        "bytes": 9486,
+        "sha256": "1e774e1442d3a6ee632476cc8ddcec127b04a3438271a908f6c5ad281e9ef982"
       }
     ],
     "joint_stress_base_seed": 20250730,

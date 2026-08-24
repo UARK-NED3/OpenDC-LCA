@@ -51,6 +51,8 @@ def write_execution_manifest() -> None:
                 "OpenDC-LCA_manuscript.pdf",
                 "OpenDC-LCA_supplementary_information.pdf",
                 "OpenDC-LCA_Applied_Energy_Overleaf.zip",
+                "AUTHOR_REVISION_2026-08-23.md",
+                "SUBMISSION_ACTIONS.md",
             )),
             *(ROOT / "paper" / "overleaf" / name for name in (
                 "main.tex", "supplement.tex", "main.pdf", "supplement.pdf"
@@ -110,6 +112,20 @@ def write_execution_manifest() -> None:
         "verification": {
             "command": f"{sys.executable} -m unittest discover -s tests -v",
             "completed_before_manifest_write": True,
+        },
+        "submission_release_gate": {
+            "exact_revision_is_immutable_public_archive": False,
+            "doi": None,
+            "required_before_submission": [
+                "clean tagged commit",
+                "public immutable archive with version DOI",
+                "archive reproduction from permitted inputs",
+            ],
+            "reason": (
+                "The manifest records a local execution state. It does not "
+                "make a dirty worktree or a GitHub branch an immutable "
+                "archival release."
+            ),
         },
     }
     destination = ROOT / "results" / "submission-execution-manifest.json"

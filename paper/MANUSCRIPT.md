@@ -1,4 +1,4 @@
-# Transferability audit of data-center cooling life-cycle assessment considering lifecycle electricity, functional equivalence, and rank robustness
+# Transferability assessment of published data-center cooling life-cycle comparisons
 
 **Braden Stevens (1, 5), Pengjiang Xiang (1, 5), Pawel Wolinski (2), Charles Dwyer (3), Yimin Chen (4), Darin Nutter (1), and Han Hu (1)**
 
@@ -20,28 +20,27 @@ Published data-center cooling life-cycle assessments (LCAs) are difficult to
 transfer because electricity boundaries, climate methods, useful-computation
 equivalence, and foreground inventories differ. This Technology Assessment
 uses OpenDC-LCA, an open-source evidence-audit and comparison-validation tool,
-to test which conclusions from the released Microsoft/WSP comparison remain
-supportable. We reconstructed 24 totals, harmonized nine U.S. Environmental
-Protection Agency Emissions & Generation Resource Integrated Database (eGRID)
-releases to the Intergovernmental Panel on Climate Change Fifth Assessment
-Report 100-year global warming potential (AR5 GWP100), and calculated 71
-non-residual 2023 Federal LCA Commons electricity-consumption systems. The
-article reports AR5 GWP100, but its archived workbook places the numeric
-electricity endpoints in 100-year global temperature-change-potential (GTP100)
-cells while the corresponding GWP100 cells are blank and the comparative
-use-phase formulas reference those blank cells.
-We therefore retain cooling totals only as numerical transferability screens.
-The harmonized national direct-generation factor declined 32.46%, from 517.73
-to 349.67 kg carbon dioxide equivalent per megawatt-hour between 2012 and 2023.
-The partial linked national consumption system yielded 422.93 kg carbon
-dioxide equivalent per megawatt-hour but retained 287 unlinked technosphere
-inputs. Under equal relative bounds, the first-rank screen failed at a 1.32%
-all-block half-width. Service-equivalence and use-phase thresholds were 2.64%
-and 2.99%, compared with 22.15% for embodied burden. This result reverses an
-earlier attribution of rank sensitivity to embodied variation. The audit
-supports the decline in generation-related greenhouse-gas intensity and
-identifies decision-critical data, but it does not identify a universally
-preferable cooling architecture.
+to determine which conclusions from the released Microsoft/WSP comparison
+remain supportable. We reconstructed 24 reported totals, harmonized nine U.S.
+Environmental Protection Agency Emissions & Generation Resource Integrated
+Database (eGRID) releases to the Intergovernmental Panel on Climate Change
+Fifth Assessment Report 100-year global warming potential (AR5 GWP100), and
+calculated 71 non-residual 2023 Federal LCA Commons electricity-consumption
+systems. The archived workbook reports AR5 GWP100, but its numeric electricity
+endpoints occur in 100-year global temperature-change-potential (GTP100) cells.
+The corresponding GWP100 cells are blank and the comparative use-phase formulas
+reference those blank cells. Cooling totals are therefore retained only as
+released-workbook numerical screens. The harmonized national direct-generation
+factor declined 32.46%, from 517.73 to 349.67 kg carbon dioxide equivalent per
+megawatt-hour between 2012 and 2023. The partial linked national consumption
+system yielded 422.93 kg carbon dioxide equivalent per megawatt-hour but
+retained 287 unlinked technosphere inputs. Under equal relative bounds, the
+first-rank screen failed at a 1.32% all-block half-width. Service-equivalence
+and use-phase thresholds were 2.64% and 2.99%, compared with 22.15% for
+embodied burden. The assessment identifies the measurements and inventories
+needed before a facility can use a published comparison for a cooling decision.
+It supports the historical generation-intensity trend, but it does not identify
+a universally preferable cooling architecture.
 
 **Keywords**  data center, life-cycle assessment, energy efficiency, lifecycle electricity, functional equivalence, sensitivity analysis, open-source software
 
@@ -58,19 +57,18 @@ At the equipment level, increasing processor heat flux and rack density are
 driving a transition from room air cooling toward rear-door heat exchangers,
 direct-to-chip cold plates, and single- or two-phase immersion [3-5].
 
-These cooling architectures alter more than the heat exchanger because they
-also change server fans, pumps, coolant distribution units, heat-rejection
+These cooling architectures alter more than the heat exchanger. They also
+change server fans, pumps, coolant distribution units, heat-rejection
 temperature, fluid inventory, rack or tank construction, packing density,
 repair procedures, and sometimes achievable clock rate. System experiments
-have reported materially
-different coefficient of performance and cost behavior for single- and
-two-phase immersion over load [6], while recent single-phase tests show that
-flow direction, coolant viscosity, and water temperature affect chip
-temperature, thermal resistance, and power usage effectiveness (PUE) [7]. Two-phase experiments similarly
-show that boiling, pressure stability, and condenser performance must be
-evaluated at server and system levels [8]. A comparison at equal rack count,
-equal IT electricity, or equal nameplate capacity risks comparing different
-computational services.
+have reported load-dependent differences in coefficient of performance and
+cost for single- and two-phase immersion [6]. Recent single-phase tests show
+that flow direction, coolant viscosity, and water temperature affect chip
+temperature, thermal resistance, and power usage effectiveness (PUE) [7].
+Two-phase experiments similarly indicate that boiling, pressure stability, and
+condenser performance must be evaluated at server and system levels [8]. A
+comparison at equal rack count, equal IT electricity, or equal nameplate
+capacity can therefore compare different computational services.
 
 PUE remains useful for facility energy management, but it is not a lifecycle
 functional unit and does not represent hardware production, cooling-fluid
@@ -190,34 +188,24 @@ show which measurement could change the technology decision. Fourth, software
 often produces a number without preserving whether it is reconstructed,
 screened, empirically supported, or suitable for a comparative claim.
 
-This technology assessment addresses the transferability of the released
-Microsoft/WSP case through five linked contributions. First, it reconstructs
-24 released totals and audits the workbook cells to identify an unresolved
-GTP100/GWP100 inconsistency in the public archive. Second, it harmonizes nine
-eGRID releases from gas-specific emissions. Third, it calculates 71
-Federal LCA Commons 2023 consumption systems with an openLCA-compatible JSON-LD
-workflow and reports process links, numerical
-residuals, and unlinked technosphere cutoffs rather than hiding them.
-Fourth, it derives exact, equal-width, deterministic rank-robustness
-certificates that distinguish the effects of grid, use phase, embodied burden,
-and service equivalence without assigning unsupported probabilities. Finally,
-it provides the open-source OpenDC-LCA comparison validator, which blocks
-incompatible functional units, boundaries, electricity accounting, LCIA
-methods, or missing field-level lineage while stating that metadata checks are
-not physical validation.
+This technology assessment evaluates one released Microsoft/WSP case through
+four linked analyses. First, it reconstructs 24 released totals and audits the
+workbook cells to identify an unresolved GTP100/GWP100 inconsistency. Second,
+it harmonizes nine eGRID releases from gas-specific emissions and net
+generation. Third, it calculates 71 Federal LCA Commons 2023 consumption
+systems with an openLCA-compatible JSON-LD workflow and reports process links,
+numerical residuals, and unlinked technosphere cutoffs. Fourth, it derives
+exact equal-width deterministic rank-robustness certificates that distinguish
+grid, use-phase, embodied-burden, and service-equivalence sensitivity without
+assigning unsupported probabilities. OpenDC-LCA implements the accompanying
+comparison audit. It checks declared functional units, boundaries, electricity
+accounting, LCIA methods, and field-level lineage, but it does not replace
+openLCA or Brightway and does not physically validate a cooling system.
 
-Together, the reconstruction addresses the missing public arithmetic in gap 1.
-The harmonization and linked-system calculations expose the method and
-boundary conflicts in gap 2. The rank-robustness certificates identify the
-measurements with decision leverage in gap 3. The OpenDC-LCA validator
-preserves the evidence class needed to prevent gap 4. OpenDC-LCA is therefore
-the reproducible implementation of this assessment layer, not a replacement
-for the process-network engines openLCA or Brightway.
-
-The aim is not to reconstruct licensed background inventories or declare a
-winning cooling technology. It is to determine which claims survive a
-transferability audit and which require primary measurement, complete
-inventories, or external critical review.
+The aim is to establish the evidentiary boundary of this released case. The
+assessment identifies which results can be reconstructed or transformed, which
+results remain numerical diagnostics, and which measurements or inventories are
+required before a cooling decision can be transferred to another facility.
 
 ## 2. Framework and methods
 
@@ -271,6 +259,16 @@ and IT assets. Common systems may be excluded only when their quantity,
 performance, lifetime, and end-of-life treatment are unchanged. Onsite water
 and electricity-supply-chain water are reported separately. Location- and
 market-based electricity are not merged.
+
+Operational validation uses a separate measurement boundary. The IT boundary
+must be metered, and every support-energy item must be classified as metered,
+allocated, or excluded. A facility PUE is permitted only when the numerator
+contains all support energy within the declared facility boundary. A dedicated
+support ratio may be reported for a smaller UPS and dedicated-cooling boundary,
+but it is not facility PUE. The repository measurement protocol defines the
+required electrical, thermal, workload, calibration, and provenance records
+for a shared-infrastructure site. It also requires a common workload before
+the service denominator can be compared across cooling architectures.
 
 ### 2.3. Dataset roles and inclusion criteria
 
@@ -434,7 +432,7 @@ where CO2 is reported in short tons, CH4 and N2O in pounds, \(E_y\) in MWh,
 and the final factor converts pounds to kilograms. The provider-published
 CO2e rate was retained as a comparison. The provider U.S. aggregate, rather
 than the 50-state-plus-DC reconstruction, was used for national results.
-Puerto Rico was excluded from the state/DC panel. The resulting scope coverage
+Puerto Rico was excluded from the state/DC dataset. The resulting scope coverage
 was reported for each year.
 
 The eGRID factors describe in-state generation. They are not consumption
@@ -472,7 +470,7 @@ constitute complete lifecycle benchmarks.
 The provider scope includes trade, transmission and distribution losses, and
 upstream fuel supply. Generation infrastructure is included only for the
 provider-specified gas, oil, coal, solar, wind, and geothermal technologies.
-other generation infrastructure and transmission/distribution infrastructure
+Other generation infrastructure and transmission/distribution infrastructure
 are outside scope [42]. The very low factors in some hydropower-dominated
 systems must not be interpreted as complete electricity LCAs.
 
@@ -480,16 +478,17 @@ systems must not be interpreted as complete electricity LCAs.
 
 Each of the 459 state-year rates was classified as below, between, or above
 the two released electricity anchors. Equation (8) is interpolation only for
-the middle class.
+the middle class, and its intersections are released-workbook numerical
+crossovers rather than physical thresholds or facility decision rules.
 
 The earlier analysis added transparent allowances of 0, 25, 50, 75, and 100
 kg CO2e/MWh to every 2023 eGRID rate. Those values were not data-based and are
 retained only in the Supplementary Information as a diagnostic of the direct
 generation boundary. The primary boundary analysis instead uses the partial
 linked-system factors in Section 2.7. We also report the exact numerical
-clearance between the lowest 2023 direct rate and the
-cold-plate/single-phase crossover, \(g^*-\min(g_s)\), without interpreting it
-as an upstream estimate.
+clearance between the lowest 2023 direct rate and the cold-plate/single-phase
+released-workbook crossover, \(g^*-\min(g_s)\), without interpreting it as an
+upstream estimate.
 
 Functional-unit sensitivity was evaluated separately. At each state-year, the
 minimum multiplicative increase in two-phase impact per equivalent useful
@@ -665,22 +664,22 @@ The common-basis U.S. generation factor declined from 517.731 kg CO2e/MWh in
 not monotonic. The factor rose from 373.097 in 2020 to 388.699 in 2021 before
 declining. Reconstructing every year with AR5 GWP100 changed the
 provider-published national rate by no more than 0.248 kg CO2e/MWh, in 2012.
-The direct CO2-only rate was 348.000 kg/MWh in 2023. Thus, the long-run decline
-is not an artifact of eGRID's transition from SAR to AR4 and AR5.
+The direct CO2-only rate was 348.000 kg/MWh in 2023. The long-run decline is
+therefore not an artifact of eGRID's transition from SAR to AR4 and AR5.
 
 The 50-state-plus-DC reconstruction matched the official national result
-through 2018. From 2019 onward it was 0.32-0.43% lower because the panel
+through 2018. From 2019 onward it was 0.32-0.43% lower because the dataset
 covered 99.55-99.58% of the provider U.S. generation after excluding Puerto
 Rico. Figure 3 places all 459 harmonized state/DC generation rates from nine
 eGRID releases on a common kg CO2e/MWh axis, overlays the reported provider
 U.S. aggregate trajectory as an orange polyline, and identifies points below
 the 96.704 kg CO2e/MWh cold-plate/single-phase crossover in blue. The provider
 aggregate was retained for the national series and was not fitted to the
-state/DC points. Across the full panel, 137 of 459 numerical rates lay outside
+state/DC points. Across the full dataset, 137 of 459 numerical rates lay outside
 the two released cooling anchors, so 29.85% of the transfers were
 extrapolations.
 
-![Figure 3. Harmonized AR5-GWP100 eGRID state/DC generation rates for nine releases, with electricity intensity on the horizontal axis in kg CO2e/MWh. The orange polyline connects the reported provider U.S. aggregate for each year. Blue points fall below the released-model numerical cold-plate/single-phase crossover. These are direct-generation scenarios, not consumption LCIs or state cooling LCAs.](figures/figure6_historical_grid_transition.svg)
+![Figure 3. Harmonized AR5-GWP100 eGRID state/DC generation rates for nine releases, with electricity intensity on the horizontal axis in kg CO2e/MWh. The orange polyline connects the reported provider U.S. aggregate for each year. Blue points fall below the released-workbook numerical cold-plate/single-phase crossover. These are direct-generation scenarios, not consumption LCIs, state cooling LCAs, or facility decision thresholds.](figures/figure6_historical_grid_transition.svg)
 
 ### 3.3. Lifecycle electricity factors
 
@@ -698,8 +697,8 @@ direct-generation rate by 73.264 kg CO2e/MWh, although the difference also
 contains consumption-mix, delivery-loss, flow-coverage, and boundary effects
 and is not an isolated upstream correction.
 
-All 10 FERC-region systems exceeded the 96.704 kg CO2e/MWh numerical
-cold-plate/single-phase crossover. Their factors ranged from 238.897 kg CO2e/MWh for
+All 10 FERC-region systems exceeded the 96.704 kg CO2e/MWh released-workbook
+numerical cold-plate/single-phase crossover. Their factors ranged from 238.897 kg CO2e/MWh for
 NYISO to 557.110 kg CO2e/MWh for MISO. Ten of 60 balancing-authority systems
 fell below the crossover, and 15 of all 71 systems exceeded the released high
 anchor of 524.893 kg CO2e/MWh. The numerical cooling screen placed two-phase
@@ -720,13 +719,13 @@ was 7.67% above the ordinary consumption-system result. This difference is an
 electricity-accounting sensitivity, not an uncertainty interval, and the two
 accounting products were not mixed within any cooling screen.
 
-![Figure 4. IPCC AR5-GWP100 partial linked-system electricity factors for 10 FERC regions and the United States. The horizontal axis is kg CO2e/MWh delivered at the user. Bars separate generation-process impacts from other linked upstream and infrastructure impacts. The green dashed line marks the 96.704 kg CO2e/MWh cold-plate/single-phase numerical crossover. The purple dashed line marks the 524.893 kg CO2e/MWh released high numerical anchor. Neither line creates method equivalence.](figures/figure10_lifecycle_electricity.svg)
+![Figure 4. IPCC AR5-GWP100 partial linked-system electricity factors for 10 FERC regions and the United States. The horizontal axis is kg CO2e/MWh delivered at the user. Bars separate generation-process impacts from other linked upstream and infrastructure impacts. The green dashed line marks the 96.704 kg CO2e/MWh released-workbook numerical crossover. The purple dashed line marks the 524.893 kg CO2e/MWh released high numerical anchor. Neither line creates method equivalence or a facility decision threshold.](figures/figure10_lifecycle_electricity.svg)
 
 ### 3.4. Rank-robustness thresholds
 
-Figure 5 compares the national critical half-widths for shared grid, use phase,
-embodied burden, service equivalence, and simultaneous equal-width variation
-in panel A. Panel B plots the all-block critical half-width against lifecycle
+Fig. 5a compares the national critical half-widths for shared grid, use
+phase, embodied burden, service equivalence, and simultaneous equal-width
+variation. Fig. 5b plots the all-block critical half-width against lifecycle
 electricity intensity for 60 balancing authorities, 10 FERC regions, and the
 national system.
 
@@ -761,13 +760,13 @@ impact per equivalent useful computation would erase its numerical first rank.
 This is a break-even requirement for future measurements, not an observed
 performance difference.
 
-![Figure 5. Deterministic equal-width rank-robustness certificates. (A) National critical half-width by active block. (B) all-block thresholds across 60 balancing authorities, 10 FERC regions, and the national system. Bounds are uncertainty sets, not probability distributions or physical validation.](figures/figure11_standardized_robustness.svg)
+![Figure 5. Deterministic equal-width rank-robustness certificates. (a) Critical half-widths for the national lifecycle-electricity context by active assumption block. (b) All-block critical half-widths plotted against partial linked-system electricity intensity for 60 balancing authorities, 10 FERC regions, and the national system. Bounds are uncertainty sets rather than probability distributions or physical validation.](figures/figure11_standardized_robustness.svg)
 
 ### 3.5. Server and construction evidence
 
-Of 55 Boavizta `Datacenter/Server` candidates, 48 included records spanned
-465-2,503 kg CO2e/server for
-manufacturing, a 5.38-fold range. Annualized values spanned 116-626 kg
+Of 55 Boavizta `Datacenter/Server` candidates, 48 eligible records spanned
+465-2,503 kg CO2e/server for manufacturing, a 5.38-fold range. Annualized
+values spanned 116-626 kg
 CO2e/server-year. Commonly scaling the released server-related contributions
 across the empirical 0.38-2.06-fold annualized envelope did not change the
 deterministic two-phase first rank. That structural stress does not model
@@ -966,7 +965,7 @@ hydrogen dataset becomes numerical evidence only after technology,
 electricity source, compression/storage, allocation, geography, and LCIA
 method are linked to a declared product system.
 
-### 4.7. Hyperscale applications
+### 4.7. Operational validation
 
 The most useful extension of the Microsoft/WSP work is not another static
 national scenario. It is a jointly governed evidence package that allows the
@@ -1003,12 +1002,24 @@ boundary. This check does not authenticate meter data or determine whether an
 allocation is physically representative, but it prevents incomplete shared
 infrastructure from being silently labeled as facility energy.
 
+The next study stage requires synchronized interval records rather than a
+single annual utility total. The shared-infrastructure measurement protocol
+requires UPS input and output, dedicated cooling and pump electricity, shared
+support electricity or an allocation basis, chilled-loop temperature and flow,
+glycol concentration, environmental conditions, and meter calibration records.
+It also requires completed workload or benchmark output, hardware configuration,
+and availability over the same intervals. These records allow a dedicated
+support ratio to be calculated without calling it PUE. They permit a facility
+PUE only when the full shared-support boundary is metered or allocated. They
+also create the common service denominator needed for an architecture-level
+comparison.
+
 The two conclusions supported independently here are the
 released arithmetic and the national direct-generation trend. The cooling
 crossovers, first ranks, and response coefficients remain conditional numerical
 screens until the five evidence gaps are closed.
 
-### 4.8. Limitations and evidence requirements
+### 4.8. Evidence requirements and limitations
 
 Because this analysis is secondary, it does not recreate proprietary
 background inventories, confidential bills of quantities, the full
@@ -1038,35 +1049,43 @@ not a public assertion that one cooling architecture is environmentally
 preferable. Such an assertion would require resolved common-method inventories,
 reviewed primary performance and useful-computation data, architecture bills
 of quantities, water-scarcity characterization, empirically supported joint
-uncertainty, and an external critical review panel.
+uncertainty, and an external critical review.
+
+The next reproducibility gate is distinct from the next measurement gate. The
+national, low, and high Federal electricity systems must be independently
+reproduced in openLCA or Brightway using the same JSON-LD product systems and
+IPCC method. The comparison should report the software version, target amount,
+process count, link count, characterized total, and unlinked-exchange count.
+Any difference must be traced to unit conversion, provider resolution,
+characterization, or cutoff treatment. Until this check and a quantitative
+cutoff bound are available, the partial linked-system factors remain an
+auditable screen rather than a benchmark.
 
 ## 5. Conclusions
 
-This assessment separates three evidence levels that had previously been
-combined. These levels are reproduced source arithmetic, direct-generation
-trend analysis, and conditional cooling screens. All 24 published totals were arithmetically
-reproduced, but the public archive does not resolve whether the two numeric
-electricity endpoints used by the screening axis are AR5 GWP100 or GTP100.
-Cooling ranks derived from that axis cannot be interpreted as common-method
-comparative LCA results.
+Four conclusions follow from the transferability audit. First, all 24
+published totals were arithmetically reproduced, but the public archive does
+not resolve whether the two numeric electricity endpoints used by the screening
+axis are AR5 GWP100 or GTP100. Cooling ranks derived from that axis cannot be
+interpreted as common-method comparative LCA results.
 
-The national eGRID generation factor declined 32.46% from 2012 to 2023 after
-all nine releases were harmonized to AR5 GWP100. The Federal LCA Commons
-national consumption system yielded 422.93 kg CO2e/MWh, including 53.08
-kg CO2e/MWh from linked processes beyond generation, and all 10 FERC regions
-lay above the 96.70 kg CO2e/MWh numerical crossover. These partial
+Second, the national eGRID generation factor declined 32.46% from 2012 to
+2023 after all nine releases were harmonized to AR5 GWP100. The Federal LCA
+Commons national consumption system yielded 422.93 kg CO2e/MWh, including
+53.08 kg CO2e/MWh from linked processes beyond generation, and all 10 FERC
+regions lay above the 96.70 kg CO2e/MWh numerical crossover. These partial
 linked-system factors retain documented technosphere cutoffs and require
 independent calculator verification before benchmark use.
 
-Equal-width robustness analysis corrected the earlier attribution of rank
-loss to embodied variation. At the national lifecycle factor, the first-rank
-screen failed at 2.64% service-equivalence variation, 2.99% use-phase
-variation, and 22.15% embodied variation. Simultaneous equal-width changes
-failed at 1.32%. The dominant near-term evidence needs are
+Third, equal-width robustness analysis corrected the earlier attribution of
+rank loss to embodied variation. At the national lifecycle factor, the
+first-rank screen failed at 2.64% service-equivalence variation, 2.99%
+use-phase variation, and 22.15% embodied variation. Simultaneous equal-width
+changes failed at 1.32%. The dominant near-term evidence needs are
 architecture-resolved useful computation and use-phase demand, followed by
 complete bills of quantities and common-method inventories.
 
-The OpenDC-LCA validator rejects configured comparisons whose declared
+Fourth, the OpenDC-LCA validator rejects configured comparisons whose declared
 metadata contain mismatched functional units, boundaries, electricity
 accounting, LCIA methods, or missing field-level source mappings. This check
 detects declared incompatibilities but does not verify the underlying science.
@@ -1081,13 +1100,16 @@ https://github.com/UARK-NED3/OpenDC-LCA and
 https://github.com/UARK-NED3/OpenDC-LCA/releases/tag/v1.1.0. The development
 revision evaluated here adds the Federal LCA Commons solver, cutoff reporting,
 equal-width robustness certificates, and comparison-level metadata checks. It
-will be tagged and archived before submission. Analysis metadata and the
-provider-file manifest record file sizes and SHA-256 checksums. Provider-native
-files remain outside Git when redistribution permission is unclear or a large
-upstream archive has not been reviewed for redistribution. The Microsoft
-archive, eGRID files, Federal LCA Commons baseline and method, and NOAA data are
-available from their public providers [15,40-42,45]. No DOI-bearing software
-archive is available at the time of this draft.
+is recorded in the local execution manifest with file hashes and dirty-worktree
+status, but it is not yet an immutable public release. Before submission, the
+authors must create a clean tag, archive the exact code, derived tables,
+figures, manuscript source, environment specification, and provenance manifest,
+and insert the issued version DOI here. Provider-native files remain outside Git
+when redistribution permission is unclear or a large upstream archive has not
+been reviewed for redistribution. The Microsoft archive, eGRID files, Federal
+LCA Commons baseline and method, and NOAA data are available from their public
+providers [15,40-42,45]. No DOI-bearing archive for the exact manuscript
+revision is available at the time of this draft.
 
 ## Competing interests
 
@@ -1099,6 +1121,12 @@ Braden Stevens and Pengjiang Xiang are full-time employees of Harrison French
 This secondary study used public or author-held engineering datasets and did
 not involve human participants or animals. Research-ethics approval was not
 required.
+
+## Author-contribution and funding confirmation
+
+A CRediT author-contribution statement, funding statement, acknowledgments,
+and confirmation of any additional competing interests require all-author
+approval before submission. They are not inferred in this draft.
 
 ## Declaration of generative AI and AI-assisted technologies in the manuscript preparation process
 

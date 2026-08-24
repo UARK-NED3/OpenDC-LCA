@@ -511,6 +511,23 @@ class AppliedEnergyEvidenceTests(unittest.TestCase):
             (ROOT / "paper" / "tables" / "table34_boavizta_server_inclusion.csv").is_file()
         )
 
+
+class SubmissionReleaseGateTests(unittest.TestCase):
+    def test_execution_manifest_does_not_mislabel_local_state_as_archived(self):
+        manifest = json.loads(
+            (ROOT / "results" / "submission-execution-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        gate = manifest["submission_release_gate"]
+        self.assertFalse(gate["exact_revision_is_immutable_public_archive"])
+        self.assertIsNone(gate["doi"])
+        self.assertIn("clean tagged commit", gate["required_before_submission"])
+        self.assertIn(
+            "public immutable archive with version DOI",
+            gate["required_before_submission"],
+        )
+
     def test_all_24_released_totals_reconcile_from_seven_components(self):
         source = (
             applied_energy.integrated.RAW

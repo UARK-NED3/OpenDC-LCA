@@ -190,6 +190,11 @@ The TMY and synthetic performance-map demonstrations exercise the
 measurement-to-LCA path but remain illustrative. The engine refuses
 extrapolation beyond the measured grid and does not authorize comparative
 claims until the required performance datasets and review status are present.
+For a site that shares electrical or mechanical infrastructure with other
+occupants, use the [shared-infrastructure measurement protocol](docs/SHARED_INFRASTRUCTURE_MEASUREMENT_PROTOCOL.md).
+It separates a dedicated-support ratio from facility PUE and specifies the
+service, electrical, thermal, provenance, and data-rights records needed for a
+future operational validation study.
 
 ## Model boundary
 

@@ -19,6 +19,8 @@ This directory is the stable handoff for manuscript development.
   scientific assessment, reviewer-author revisions, and final verification.
 - `SUBMISSION_ACTIONS.md`: author approvals and external actions intentionally
   kept outside the manuscript.
+- `AUTHOR_REVISION_2026-08-23.md`: evidence-bearing response to the latest
+  internal pre-submission review.
 - `tables/`: machine-readable CSV tables.
 - `figures/`: editable, publication-ready SVG figures.
 - `OpenDC-LCA_integrated_evidence.xlsx`: auditable workbook for the earlier
@@ -52,3 +54,6 @@ surfaces, or architecture-specific bills of quantities.
 The manuscript is a scientific draft, not a submitted paper. All authors must
 approve authorship, CRediT roles, funding, acknowledgments, competing interests,
 AI disclosures, and the LCA critical-review pathway before submission.
+The generic shared-site metering and functional-equivalence protocol is in
+`docs/SHARED_INFRASTRUCTURE_MEASUREMENT_PROTOCOL.md`. It contains no facility
+telemetry or identifying site records.

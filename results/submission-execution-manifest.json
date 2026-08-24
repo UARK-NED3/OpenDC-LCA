@@ -1,10 +1,10 @@
 {
   "purpose": "submission claim-to-input-to-code-to-output execution record",
   "python_version": "3.12.3",
-  "platform": "Windows-11-10.0.26100-SP0",
-  "git_commit": "c9b94928d23a1ae15996caf96795ef77415ed1f8",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "git_commit": "f1147ec085011760008446cfd87f6564b4145654",
   "git_dirty": true,
-  "git_status_sha256": "3351eb4024ea467021a5d749298ce9502677d06e2669d5b2ad71f1e4f56de398",
+  "git_status_sha256": "1ba510c7500c2b1ca1450f60bccbc967d9e12dc6b1b1e6a642e38b46a662e8cd",
   "source_manifest": {
     "local_path": "data/derived/source-file-manifest.json",
     "bytes": 10692,
@@ -13,18 +13,23 @@
   "code": [
     {
       "local_path": "paper/build_manuscript.py",
-      "bytes": 18794,
-      "sha256": "2d704e9dada45fab5b85f84ebce922549b4b41dec415a940c24d311479fcc341"
+      "bytes": 19141,
+      "sha256": "5e9b348eb8d7227bdb76bc52d847ec8360de1b37d308361ddc53fa8366de3486"
     },
     {
       "local_path": "paper/build_overleaf.py",
-      "bytes": 22280,
-      "sha256": "b2a08841a8b3bd806ecfaa149fdd500bff23f43138dfd9b7999a6bcab499a6b9"
+      "bytes": 23705,
+      "sha256": "912c7898de6640f3d6142597f855832c299712541bf9a87480094c13f75c2467"
     },
     {
       "local_path": "scripts/build_source_manifest.py",
       "bytes": 2365,
       "sha256": "82f9bedd621989db01c046ec400b232eb3242d2e92ce9b721688131443d7a8f9"
+    },
+    {
+      "local_path": "scripts/normalize_figure_typography.py",
+      "bytes": 2450,
+      "sha256": "39acc85fd936309df5c1c56d5f27e02a953a621c656a2ae41abec3926b72263c"
     },
     {
       "local_path": "scripts/refresh_public_data.py",
@@ -33,8 +38,8 @@
     },
     {
       "local_path": "scripts/run_applied_energy_analysis.py",
-      "bytes": 104649,
-      "sha256": "3d504c2b022cc287b8c425f047d10313f863911d97a6d9c93cbe73952fa19686"
+      "bytes": 104929,
+      "sha256": "aa855db27c044338b242b23b24102342c9546f6bb25025d8987837371d3da095"
     },
     {
       "local_path": "scripts/run_integrated_evidence_analysis.py",
@@ -48,8 +53,8 @@
     },
     {
       "local_path": "scripts/run_submission_pipeline.py",
-      "bytes": 6869,
-      "sha256": "2b87bdad95b7f8a09591b4e898bd00b0f9f68a576f91f321d4bba426a83c2aea"
+      "bytes": 7607,
+      "sha256": "35fd5b0e7e1ca1d44046c2fccec9deed6446cefe35bf39f2c045033a8a4a3343"
     },
     {
       "local_path": "scripts/run_v06_measurement_demo.py",
@@ -108,8 +113,8 @@
     },
     {
       "local_path": "src/opendc_lca/models.py",
-      "bytes": 19048,
-      "sha256": "ef5e481e253795e461c315e26447e1938ddb9abc9aacd2a3e56abf8a83c7c029"
+      "bytes": 24354,
+      "sha256": "2b46de6cc836f1934ebc54a31df2bd856350e945b5f839eccbced2722e3ba60d"
     },
     {
       "local_path": "src/opendc_lca/performance.py",
@@ -148,8 +153,8 @@
     },
     {
       "local_path": "tests/test_analysis_scripts.py",
-      "bytes": 20256,
-      "sha256": "e3b114ef295de01fe9ed121e93f23147339d12427e87e7e34038633ed44bf756"
+      "bytes": 20947,
+      "sha256": "6699c3baf384c9782d15a86d18ee5210fed36a39719ef86d927d438f14d7fb1e"
     },
     {
       "local_path": "tests/test_api_gui.py",
@@ -158,8 +163,8 @@
     },
     {
       "local_path": "tests/test_engine.py",
-      "bytes": 19070,
-      "sha256": "f2317ff84de930364acda3ccaafd3197dc232feb46b0799e37e45c95572d72cf"
+      "bytes": 22916,
+      "sha256": "1f5a5685e5f3871923f13b81707e8d254d354f7f256f1b75d1618282e49fb092"
     },
     {
       "local_path": "tests/test_interoperability_reliability.py",
@@ -184,129 +189,134 @@
   ],
   "outputs": [
     {
+      "local_path": "paper/AUTHOR_REVISION_2026-08-23.md",
+      "bytes": 3684,
+      "sha256": "ebbf0fc72ecd81178a92a8b5063e370613f694ce79fc55995b20f113e28ec998"
+    },
+    {
       "local_path": "paper/figures/figure0_opendc_lca_workflow.svg",
-      "bytes": 7110,
-      "sha256": "56a726a9214b675fd47b1bcb9e5d1f75077fdac03a9cf60a930011e8dc6a6487"
+      "bytes": 7228,
+      "sha256": "6da715be0cf4febc37adc981ea0ad1b0bfcb0a9455be2eef87c94c1294d201ef"
     },
     {
       "local_path": "paper/figures/figure10_lifecycle_electricity.svg",
-      "bytes": 5120,
-      "sha256": "90ecc5dc79ddee83b4253b1c125ce2dd2fc3caad05ff3a4f68277c4e07d2fa35"
+      "bytes": 5054,
+      "sha256": "8837c7368ab253b5e2c6759f7423a03dff8f22dc620d4530f7f1ed11686b17a1"
     },
     {
       "local_path": "paper/figures/figure11_standardized_robustness.svg",
-      "bytes": 9665,
-      "sha256": "5f4c9e728b46cdcc71dbe26554cfa7d45b69aa6179437c0c2061e231eba54e9a"
+      "bytes": 9486,
+      "sha256": "1e774e1442d3a6ee632476cc8ddcec127b04a3438271a908f6c5ad281e9ef982"
     },
     {
       "local_path": "paper/figures/figure1_microsoft_grid_reductions.svg",
-      "bytes": 2682,
-      "sha256": "86ba3e30002c62f6685d57e9b87c118d79bfcbefddeca98fc964915095b30d6d"
+      "bytes": 2580,
+      "sha256": "5e6c4bad33daea3578a442459d72dd3e5412dcb04c5b0f8b6d4ee7695c048fe7"
     },
     {
       "local_path": "paper/figures/figure2_grid_crossover.svg",
-      "bytes": 5984,
-      "sha256": "6abde01be8b3565ebf5f1cc448b3bc2833757a8156693e2004ce1429a7d88e8d"
+      "bytes": 5865,
+      "sha256": "a6e67b95d0584a36693fc204a2fe97a3e66b7f1e434f2ad5fa49b3cd2ebd33d9"
     },
     {
       "local_path": "paper/figures/figure2_monthly_climate_pue.svg",
-      "bytes": 3433,
-      "sha256": "20af9004ea37665cfe6bd1ac8c839a93db00b5d4e849b964d702d721d3ee4184"
+      "bytes": 3332,
+      "sha256": "19469d9cfa9f2a46dc06b0c429f8aa7d9a2815ceffe4ad36afc06d9d153fd1e4"
     },
     {
       "local_path": "paper/figures/figure3_data_priority.svg",
-      "bytes": 3043,
-      "sha256": "adf0a4ba9d2bee88f28eed6f76a488e6a3be0fca99d3f275dba8b43a35bc0ab5"
+      "bytes": 2937,
+      "sha256": "8b6789c2fa568cdf4746101819c20e18aa149cb3e0c5325b245d087064fc3546"
     },
     {
       "local_path": "paper/figures/figure3_hourly_operational_ghg.svg",
-      "bytes": 2247,
-      "sha256": "b567ad1dd0f31bf38156fa512fd6823c2ecfc133f5984b818edafc451e502935"
+      "bytes": 2147,
+      "sha256": "19984cbb96ddeb4e32297411c4c521d4fe97e88532ba5ce600391bd09e006ec0"
     },
     {
       "local_path": "paper/figures/figure4_measurement_surface_demo.svg",
-      "bytes": 1097,
-      "sha256": "a10dbf0d3992616d8bdd94362411e4c76f60015f72a44735d81f5ea64aa1161f"
+      "bytes": 1018,
+      "sha256": "8f4408599e3c8abf32cf31462609a555751642753000e584bcb6b35045e2eefe"
     },
     {
       "local_path": "paper/figures/figure4_server_epd_distribution.svg",
-      "bytes": 2163,
-      "sha256": "cc14742d23c80770159fb3930c6d7ccc092eb9eff39d97ca67b7e8dc47690ed1"
+      "bytes": 2068,
+      "sha256": "95baa769e2d11baec7b34a0fba851099291573bca74fc5027c447ce2c8786171"
     },
     {
       "local_path": "paper/figures/figure5_material_levers.svg",
-      "bytes": 1427,
-      "sha256": "ae82cbf25343c7259afc5ca50383b81ea5256a508fb9ab269e2f1d042dc60ddb"
+      "bytes": 1326,
+      "sha256": "99baa66b55770f0b0781953460b407b544a8c0190a0fa261cf2ba4c75b1fd295"
     },
     {
       "local_path": "paper/figures/figure5_synthetic_performance_surface.svg",
-      "bytes": 2289,
-      "sha256": "c359ff9cd3a458b6d7642f780043edb7dc43863a3c08abce6d316be59e12dff0"
+      "bytes": 2227,
+      "sha256": "e5a2673df0a5a059f260b15be2235fa03895997c27dd1901a5c4614ddcb9764f"
     },
     {
       "local_path": "paper/figures/figure6_historical_grid_transition.svg",
-      "bytes": 34796,
-      "sha256": "c088eecbe88fa5eb582a6f58fb9f0b1fbbac94296d8e9b545d0f4f332acfb4f2"
+      "bytes": 34696,
+      "sha256": "9aaeeb63cca1e9705104721d0617afba42100420f0c3cca815afef933ca5b1b9"
     },
     {
       "local_path": "paper/figures/figure7_performance_robustness.svg",
-      "bytes": 4181,
-      "sha256": "7675fd5a20aa68ba9db9d9227117222c5dda239bc46a408e3b0d40373d451a07"
+      "bytes": 4075,
+      "sha256": "4a58a3968ed3ed2796e326946c8c715c74a954b532dcd7161d7b5058a016b6f8"
     },
     {
       "local_path": "paper/figures/figure8_scope_uncertainty.svg",
-      "bytes": 6607,
-      "sha256": "3468ef8c732dcb95d12d9c889bf263c7553fb21e68041a54daa762897ad7209a"
+      "bytes": 6497,
+      "sha256": "48e4a379d791c7182dc1253a3a536a8b15d4b495e4855749343d8526761d41ae"
     },
     {
       "local_path": "paper/figures/figure9_stress_structure.svg",
-      "bytes": 7246,
-      "sha256": "98cee1bf47b24196f4df52139ec0422708721b2f7bac83e1c945d6b761a4514c"
+      "bytes": 7134,
+      "sha256": "a5b0fb85127de21c0a7705369fa8c74adcd146278af086e422c27d717fdd63cb"
     },
     {
       "local_path": "paper/MANUSCRIPT.md",
-      "bytes": 68420,
-      "sha256": "2f7c67f1b9acf565afa5fdd33313518cc923ac44fdc035be73ff092e6c7b73ec"
+      "bytes": 77103,
+      "sha256": "14a0fa6a1b82e6460555d8129d2757df6a4d12a73b481c2fe739ce653b2126ce"
     },
     {
       "local_path": "paper/OpenDC-LCA_Applied_Energy_Overleaf.zip",
-      "bytes": 1384752,
-      "sha256": "b6af42e404d58434c4e9865343e19347fa45bb6db90bd5ef59d274d2bda48c60"
+      "bytes": 2852767,
+      "sha256": "b2937071c8f4e8b6a29ff319880512e2ece39f30057800de0263f7562353c91a"
     },
     {
       "local_path": "paper/OpenDC-LCA_manuscript.docx",
-      "bytes": 807292,
-      "sha256": "b03cc57099ddea5964e93ae71dacc01b5aace27aa214eac8772ec046fb273bb0"
+      "bytes": 857268,
+      "sha256": "bf7536644c0868a028a85aadd40b9f7789e6bc74945add93aaabadc14df526c2"
     },
     {
       "local_path": "paper/OpenDC-LCA_manuscript.pdf",
-      "bytes": 1351194,
-      "sha256": "99bc988dd03ed14949c9069c1c18c2b82232b146fbea87d8058ade9a39afedfc"
+      "bytes": 1400682,
+      "sha256": "8d804e35c54f23845854cd8266a00c4912ece2f431edf3e61d3ab1b1cf6ec30f"
     },
     {
       "local_path": "paper/OpenDC-LCA_supplementary_information.pdf",
-      "bytes": 1034804,
-      "sha256": "4a08544632730197c28db1257afd596849d0254b2d2e59880b3187a1c9091b34"
+      "bytes": 1000984,
+      "sha256": "34c62719665e758e9a8ab7a4fdb7615c7e9b2de9ec2a93308ec8325c0b51c9e9"
     },
     {
       "local_path": "paper/overleaf/main.pdf",
-      "bytes": 1351194,
-      "sha256": "99bc988dd03ed14949c9069c1c18c2b82232b146fbea87d8058ade9a39afedfc"
+      "bytes": 1400682,
+      "sha256": "8d804e35c54f23845854cd8266a00c4912ece2f431edf3e61d3ab1b1cf6ec30f"
     },
     {
       "local_path": "paper/overleaf/main.tex",
-      "bytes": 73147,
-      "sha256": "ffd7874c79122aad6c54ab47815db9e61f83c201b671586b77f55505555f9368"
+      "bytes": 81807,
+      "sha256": "1c3116121f9f784087ccaf47a778ef64ac6b0a57e9d387ffa446bb807ccb84bb"
     },
     {
       "local_path": "paper/overleaf/supplement.pdf",
-      "bytes": 1034804,
-      "sha256": "4a08544632730197c28db1257afd596849d0254b2d2e59880b3187a1c9091b34"
+      "bytes": 1000984,
+      "sha256": "3a9de4f0566439b28e7af434ef58c8d2b8d53cf1d9762e7eab4bf151d7733c5a"
     },
     {
       "local_path": "paper/overleaf/supplement.tex",
-      "bytes": 15218,
-      "sha256": "78d636410ed0ab6a570ca7aba2ecc4d843b0c33e2f58b1641a96d2d2dfb03816"
+      "bytes": 20153,
+      "sha256": "3819f48db9c5f6e5e955f9057129d09feb46a19102dbaa0562ff6cb987b92098"
     },
     {
       "local_path": "paper/RESULTS_PACKAGE.md",
@@ -314,9 +324,14 @@
       "sha256": "4ddf9608a01427e7b89f4b9636904aa389c875d1b0533816deea4c2a65eff7c4"
     },
     {
+      "local_path": "paper/SUBMISSION_ACTIONS.md",
+      "bytes": 2525,
+      "sha256": "2f045eab69f6ba2c7d5134f8e14d81f23642332ab1488785f52b4b175f4b41b4"
+    },
+    {
       "local_path": "paper/SUPPLEMENTARY_INFORMATION.md",
-      "bytes": 13352,
-      "sha256": "47ca3b9576da510a89262771d42604f9151c921c6ff748cb3141aed125a429c9"
+      "bytes": 17744,
+      "sha256": "578e1ae656d4d940b9a54014f6bfcde66bc8be65e780d87987d994f1e9013209"
     },
     {
       "local_path": "paper/tables/table0_capability_evidence_matrix.csv",
@@ -495,8 +510,8 @@
     },
     {
       "local_path": "results/applied-energy/analysis-metadata.json",
-      "bytes": 16395,
-      "sha256": "5fc44130f8ec83a1e9808886bc7f7b3c34aca4b23c70ffd01b76cb58a4aa394a"
+      "bytes": 16589,
+      "sha256": "6391edc4a0f94ae3931d64dcdb2a00187e0879222aee2a43f476d3747624c2e2"
     },
     {
       "local_path": "results/applied-energy/table14_egrid_historical_state_factors.csv",
@@ -666,5 +681,15 @@
   "verification": {
     "command": "C:\\Users\\hanhu\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m unittest discover -s tests -v",
     "completed_before_manifest_write": true
+  },
+  "submission_release_gate": {
+    "exact_revision_is_immutable_public_archive": false,
+    "doi": null,
+    "required_before_submission": [
+      "clean tagged commit",
+      "public immutable archive with version DOI",
+      "archive reproduction from permitted inputs"
+    ],
+    "reason": "The manifest records a local execution state. It does not make a dirty worktree or a GitHub branch an immutable archival release."
   }
 }

@@ -2154,8 +2154,8 @@ def figure_standardized_robustness(rows: list[dict[str, object]]) -> None:
         height=720,
     )
     body += [
-        '<text class="label" x="70" y="82" style="font-weight:700">A  National lifecycle context</text>',
-        '<text class="label" x="650" y="82" style="font-weight:700">B  All 71 lifecycle electricity contexts</text>',
+        '<text class="label" x="70" y="94" style="font-weight:700">(a)</text>',
+        '<text class="label" x="650" y="94" style="font-weight:700">(b)</text>',
     ]
     national = [row for row in rows if row["region_level"] == "US"]
     labels = (
