@@ -179,17 +179,19 @@ results support a public comparative assertion. Conversely, cooling-plant
 models can validate operational power without closing lifecycle inventories
 or comparative-review requirements [17].
 
-Four gaps remain at the intersection of cooling engineering and LCA. First,
+Five gaps remain at the intersection of cooling engineering and LCA. First,
 published normalized totals cannot be transparently updated when foreground
 quantities and licensed process mappings are incomplete. Second, common-unit
 electricity factors can retain incompatible characterization methods and
 system boundaries. Third, qualitative data-quality scores do not directly
 show which measurement could change the technology decision. Fourth, software
 often produces a number without preserving whether it is reconstructed,
-screened, empirically supported, or suitable for a comparative claim.
+screened, empirically supported, or suitable for a comparative claim. Fifth,
+the literature rarely records the minimum metadata needed to determine whether
+a published result can be numerically transferred to another facility.
 
 This technology assessment evaluates one released Microsoft/WSP case through
-four linked analyses. First, it reconstructs 24 released totals and audits the
+six linked analyses. First, it reconstructs 24 released totals and audits the
 workbook cells to identify an unresolved GTP100/GWP100 inconsistency. Second,
 it harmonizes nine eGRID releases from gas-specific emissions and net
 generation. Third, it calculates 71 Federal LCA Commons 2023 consumption
@@ -197,10 +199,14 @@ systems with an openLCA-compatible JSON-LD workflow and reports process links,
 numerical residuals, and unlinked technosphere cutoffs. Fourth, it derives
 exact equal-width deterministic rank-robustness certificates that distinguish
 grid, use-phase, embodied-burden, and service-equivalence sensitivity without
-assigning unsupported probabilities. OpenDC-LCA implements the accompanying
-comparison audit. It checks declared functional units, boundaries, electricity
-accounting, LCIA methods, and field-level lineage, but it does not replace
-openLCA or Brightway and does not physically validate a cooling system.
+assigning unsupported probabilities. Fifth, it records the audit state of four
+cited cooling-LCA records without inferring unavailable information from an
+article. Sixth, it encodes an EnergyPlus reference-archetype contract from Sun
+et al. [49] but reports no model output because the reference model was not
+executed or calibrated. OpenDC-LCA implements the accompanying comparison
+audit. It checks declared functional units, boundaries, electricity accounting,
+LCIA methods, and field-level lineage, but it does not replace openLCA or
+Brightway and does not physically validate a cooling system.
 
 The aim is to establish the evidentiary boundary of this released case. The
 assessment identifies which results can be reconstructed or transformed, which
@@ -630,6 +636,28 @@ an evidence source. Reported numerical results were regenerated with the
 version-controlled deterministic workflows described above and checked
 against the cited sources and automated tests under author supervision.
 
+### 2.12. Cross-study evidence map and archetype contract
+
+The rapid evidence map evaluates four cooling-LCA records already included in
+the literature context [12,14-16,19]. Each record is assigned a separate
+status for the functional unit, system boundary, cooling-performance evidence,
+numeric artifact, LCIA-method identity, and workload equivalence. A status of
+not audited means only that the present repository did not inspect that source
+beyond the article-level record. It does not indicate that the authors failed
+to provide an artifact or that their study is unsuitable for its stated goal.
+The map is therefore a reproducible audit-scope statement, not a systematic
+review or a study-quality score.
+
+The extension also records the two reference prototypes published by Sun et
+al. [49]. The small computer-room archetype uses CRAC units at 40 and 100
+W/ft2 of IT-equipment load. The large stand-alone archetype uses CRAH units and
+a central chiller plant at 100 and 500 W/ft2. They are useful starting points
+for future climate and load scenarios. The present environment contained no
+EnergyPlus or OpenStudio executable. No prototype was run, no AHPCC
+calibration was attempted, and no EnergyPlus result enters an LCA calculation.
+The contract prohibits treating an air-side archetype as a liquid-cooling model
+or as a representation of the shared AHPCC facility.
+
 ## 3. Results
 
 ### 3.1. Released-model method identity
@@ -797,7 +825,28 @@ information. A formal acquisition decision requires empirical parameter
 distributions, correlations, measurement cost, and the loss associated with a
 wrong architecture choice [34].
 
-### 3.7. Software verification and practitioner outputs
+### 3.7. Cross-study evidence map and archetype status
+
+Figure 6 shows the per-record evidence status for the four-study rapid map.
+The Microsoft/WSP record was the only one for which this repository audited a
+public numeric archive. It documented the released functional unit and system
+boundary, but the audit retained unresolved statuses for cooling-performance
+evidence, LCIA-method identity, and workload equivalence. The remaining three
+records are article-level context only. Their not-audited cells describe the
+scope of this repository rather than an absence of source material. None of
+the four records is numerically transferable across every declared gate.
+
+The EnergyPlus contract records a small CRAC computer room and a large
+CRAH-plus-chiller data center with the published IT-load-density pairs [49].
+The runtime audit found neither EnergyPlus nor OpenStudio. The repository
+therefore reports a blocked execution status and no simulated energy, PUE,
+water, emissions, or technology ranking. This negative result is important
+because an unrun archetype must not be presented as independent operational
+evidence.
+
+![Figure 6. Rapid cross-study transferability evidence map. Each cell states whether the present repository documented, left unresolved, or did not audit the required evidence element. The four rows cover the Microsoft/WSP archive and three article-level contextual records. The map is an audit-scope statement, not a judgment of the cited studies or an assertion that unreviewed artifacts do not exist.](figures/figure12_transferability_evidence_map.svg)
+
+### 3.8. Software verification and practitioner outputs
 
 The full local test suite covers calculation, fluid mass conservation,
 interoperability, reliability, public-data parsing, practitioner workflow,
@@ -1063,7 +1112,7 @@ auditable screen rather than a benchmark.
 
 ## 5. Conclusions
 
-Four conclusions follow from the transferability audit. First, all 24
+Five conclusions follow from the transferability audit. First, all 24
 published totals were arithmetically reproduced, but the public archive does
 not resolve whether the two numeric electricity endpoints used by the screening
 axis are AR5 GWP100 or GTP100. Cooling ranks derived from that axis cannot be
@@ -1089,6 +1138,16 @@ Fourth, the OpenDC-LCA validator rejects configured comparisons whose declared
 metadata contain mismatched functional units, boundaries, electricity
 accounting, LCIA methods, or missing field-level source mappings. This check
 detects declared incompatibilities but does not verify the underlying science.
+
+Fifth, the rapid four-record evidence map separates an unreviewed source from a
+known unresolved field. Only the Microsoft/WSP public archive was audited at
+the numeric-artifact level. It still failed the complete transferability gate
+because the numeric endpoint method identity, architecture-resolved cooling
+performance, and common workload equivalence remain unresolved. The LBNL
+EnergyPlus archetype contract supplies a controlled next modeling step, but no
+simulated result is reported until the model is run, reviewed, and connected to
+validated liquid-cooling performance.
+
 The study is suitable as a transferability Technology Assessment. It does not
 support a public claim of environmental superiority among cooling
 architectures.
@@ -1310,3 +1369,6 @@ responsibility for the content of the article.
 48. U.S. Geological Survey. Watershed Boundary Dataset.
     https://www.usgs.gov/national-hydrography/watershed-boundary-dataset
     (accessed 11 August 2026).
+49. Sun, K., Luo, N., Luo, X. & Hong, T. Prototype energy models for data
+    centers. *Energy and Buildings* **231**, 110603 (2021).
+    https://doi.org/10.1016/j.enbuild.2020.110603

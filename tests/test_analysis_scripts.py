@@ -528,6 +528,10 @@ class SubmissionReleaseGateTests(unittest.TestCase):
             gate["required_before_submission"],
         )
 
+    @unittest.skipUnless(
+        RAW_EVIDENCE_AVAILABLE,
+        "paper reconstruction tests require locally held, non-redistributed inputs",
+    )
     def test_all_24_released_totals_reconcile_from_seven_components(self):
         source = (
             applied_energy.integrated.RAW

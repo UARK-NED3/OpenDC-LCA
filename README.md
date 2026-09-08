@@ -182,6 +182,7 @@ python scripts/run_research_analysis.py
 python scripts/run_v06_measurement_demo.py
 python scripts/run_integrated_evidence_analysis.py
 python scripts/run_applied_energy_analysis.py
+python scripts/run_transferability_extension.py
 python scripts/build_source_manifest.py --check
 python -m unittest discover -s tests -v
 ```
@@ -195,6 +196,14 @@ occupants, use the [shared-infrastructure measurement protocol](docs/SHARED_INFR
 It separates a dedicated-support ratio from facility PUE and specifies the
 service, electrical, thermal, provenance, and data-rights records needed for a
 future operational validation study.
+
+The repository also includes a [cross-study transferability evidence map](data/derived/transferability_evidence_map.csv)
+and an [EnergyPlus archetype contract](docs/ENERGYPLUS_ARCHETYPE_EXTENSION.md).
+The four-study map states its audit scope record by record. It is not a
+systematic review or a study-quality score. The contract is based on the
+published LBNL CRAC and CRAH-plus-chiller prototypes, but the repository does
+not contain an executed or calibrated EnergyPlus result. It therefore cannot
+represent AHPCC or support a cooling-technology comparison.
 
 ## Model boundary
 
@@ -241,6 +250,8 @@ tracked in the [research roadmap](docs/ROADMAP.md).
 - `results/v0.4-microsoft-reproduction/`: released-result arithmetic audit
 - `results/v0.5-hourly-preview/`: climate-aware hypothesis demonstration
 - `results/v0.6-measurement-demo/`: measurement-surface protocol demonstration
+- `results/transferability-extension/`: cross-study evidence-map and
+  EnergyPlus-execution-status records
 - `paper/`: manuscript-ready tables, figures, workbook, and results narrative
 - `CHANGELOG.md`: release-level scientific and software changes
 

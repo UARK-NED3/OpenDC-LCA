@@ -516,6 +516,7 @@ def build() -> None:
         "table32_national_lifecycle_cutoffs.csv",
         "table33_residual_electricity_factors.csv",
         "table34_boavizta_server_inclusion.csv",
+        "table35_transferability_evidence_map.csv",
     ):
         shutil.copy2(ROOT / "tables" / name, OUT)
 

@@ -1,0 +1,15 @@
+{
+  "evidence_map": {
+    "studies_screened": 4,
+    "source_archives_audited": 1,
+    "records_not_audited_beyond_article_level": 3,
+    "numerically_transferable_records": 0,
+    "records_blocked_for_numeric_transfer": 1,
+    "interpretation": "This rapid map records what this repository audited. It does not claim that unreviewed studies lack a public artifact or that a documented study is scientifically valid for another facility."
+  },
+  "energyplus_runtime_found": false,
+  "openstudio_runtime_found": false,
+  "model_execution_status": "not_executed",
+  "model_execution_reason": "No EnergyPlus or OpenStudio executable was available in the reproduction environment. No energy-model output was generated.",
+  "archetype_contract": "data/derived/energyplus_archetype_contract.json"
+}

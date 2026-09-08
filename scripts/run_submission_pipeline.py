@@ -43,6 +43,7 @@ def write_execution_manifest() -> None:
             *ROOT.glob("paper/tables/*.csv"),
             *ROOT.glob("paper/figures/*.svg"),
             *ROOT.glob("results/applied-energy/*"),
+            *ROOT.glob("results/transferability-extension/*"),
             *(ROOT / "paper" / name for name in (
                 "MANUSCRIPT.md",
                 "SUPPLEMENTARY_INFORMATION.md",
@@ -108,6 +109,16 @@ def write_execution_manifest() -> None:
                 "code": ["scripts/run_applied_energy_analysis.py"],
                 "outputs": ["paper/tables/table29_standardized_rank_robustness.csv", "paper/figures/figure11_standardized_robustness.svg"],
             },
+            "rapid cross-study evidence map": {
+                "inputs": ["data/derived/transferability_evidence_map.csv"],
+                "code": ["src/opendc_lca/transferability.py", "scripts/run_transferability_extension.py"],
+                "outputs": ["paper/tables/table35_transferability_evidence_map.csv", "paper/figures/figure12_transferability_evidence_map.svg"],
+            },
+            "EnergyPlus archetype contract": {
+                "inputs": ["data/derived/energyplus_archetype_contract.json"],
+                "code": ["scripts/run_transferability_extension.py"],
+                "outputs": ["results/transferability-extension/status.json"],
+            },
         },
         "verification": {
             "command": f"{sys.executable} -m unittest discover -s tests -v",
@@ -167,6 +178,7 @@ def main() -> None:
             [python, "scripts/run_research_analysis.py"],
             [python, "scripts/run_integrated_evidence_analysis.py"],
             [python, "scripts/run_applied_energy_analysis.py"],
+            [python, "scripts/run_transferability_extension.py"],
             [python, "scripts/normalize_figure_typography.py"],
             [python, "-m", "unittest", "discover", "-s", "tests", "-v"],
         ]
@@ -176,6 +188,7 @@ def main() -> None:
             [
                 [python, "paper/build_manuscript.py"],
                 [python, "paper/build_overleaf.py"],
+                [python, "scripts/package_overleaf.py"],
             ]
         )
     for stage in stages:
