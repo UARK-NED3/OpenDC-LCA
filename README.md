@@ -199,6 +199,8 @@ future operational validation study.
 
 The repository also includes a [cross-study transferability evidence map](data/derived/transferability_evidence_map.csv)
 and an [EnergyPlus archetype contract](docs/ENERGYPLUS_ARCHETYPE_EXTENSION.md).
+For future equipment or facility records, the [OCP foreground-disclosure intake](docs/OCP_FOREGROUND_DISCLOSURE.md)
+provides a blank, field-level template and the source-document links.
 The four-study map states its audit scope record by record. It is not a
 systematic review or a study-quality score. The contract is based on the
 published LBNL CRAC and CRAH-plus-chiller prototypes, but the repository does

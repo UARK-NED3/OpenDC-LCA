@@ -46,7 +46,13 @@ name or an adjacent source record.
    [DOI](https://doi.org/10.1126/science.aba3758).
 10. **OCP, “LCA Guidelines for Cloud Providers.”** Industry guidance tied
     directly to the Microsoft/WSP study and necessary for the methods
-    comparison. [OCP project page](https://www.opencompute.org/projects/sustainability).
+    comparison. [Official OCP document](https://www.opencompute.org/documents/lca-sop-in-ocp-document-submission-template-docx-pdf).
+11. **OCP and iMasons Climate Accord, “Embodied Carbon Disclosure Base
+    Specification,” version 1 (2025).** A field-level disclosure structure for
+    future foreground equipment records. [Official OCP document](https://www.opencompute.org/documents/carbon-disclosure-ocp-base-specification-20250730-pdf).
+12. **OCP, “Impact of Strategies on Data Center Energy Consumption, Carbon
+    Footprint, and Water Consumption” (2026).** Guidance for keeping energy,
+    water, and carbon reporting boundaries explicit. [Official OCP document](https://www.opencompute.org/documents/dcf-water-heat-energy-2026march-pdf).
 
 ## Priority B: thermal-performance and temporal coupling
 

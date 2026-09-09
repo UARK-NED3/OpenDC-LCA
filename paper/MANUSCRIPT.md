@@ -266,6 +266,15 @@ performance, lifetime, and end-of-life treatment are unchanged. Onsite water
 and electricity-supply-chain water are reported separately. Location- and
 market-based electricity are not merged.
 
+The Open Compute Project (OCP) cloud-provider guideline identifies the same
+classes of foreground information for data-center LCAs, including IT and
+support equipment, building and electrical infrastructure, operation, cooling
+water, and end of life [50]. Its example service denominator should not be
+substituted for the present operational denominator. The public cooling archive
+does not provide a workload-independent mapping between a virtual-machine
+service and delivered IT electricity, and no job-level data are available for
+the four cooling architectures.
+
 Operational validation uses a separate measurement boundary. The IT boundary
 must be metered, and every support-energy item must be classified as metered,
 allocated, or excluded. A facility PUE is permitted only when the numerator
@@ -278,7 +287,7 @@ the service denominator can be compared across cooling architectures.
 
 ### 2.3. Dataset roles and inclusion criteria
 
-Table 1 distinguishes eight downloaded source families according to i) the
+Table 1 distinguishes nine downloaded source families according to i) the
 records used, ii) their numerical role in this study, iii) the unresolved
 boundary or transfer limit, and iv) the permissible claim class. This
 source-to-claim mapping prevents software readability from being mistaken for
@@ -296,6 +305,7 @@ compatibility with the case model.
 | NOAA TMY with 8,760 Fayetteville weather rows [45] | Performance-map and hourly-integration software test | No measured four-architecture cooling surface is available | Illustrative only |
 | USLCI and 7 GLAD hydrogen archives [46,47] | Exchange and interoperability tests | Product-system links, allocation, providers, and LCIA methods are unresolved | Registered/unlinked |
 | USGS watershed boundary with HU12 geometry [48] | Spatial data contract test | Geometry is not withdrawal, consumption, or water-scarcity characterization | Registered/unlinked |
+| OCP LCA guideline, embodied-carbon disclosure specification, and energy-carbon-water guideline [50-52] | Foreground-inventory field schema and interpretation guidance | Guidance supplies neither comparable cooling inventories nor measured architecture performance | Method guidance only |
 
 Provider-native raw files remain outside the public repository when
 redistribution permission is unclear or large upstream archives have not been
@@ -1100,6 +1110,18 @@ reviewed primary performance and useful-computation data, architecture bills
 of quantities, water-scarcity characterization, empirically supported joint
 uncertainty, and an external critical review.
 
+The OCP documents provide a practical structure for the missing foreground
+records. A future vendor or facility record should preserve the manufacturer,
+part number, quantity, reported functional unit, declared lifecycle modules,
+calculation method, background database, geography, reference year,
+verification status, source location, service life, and replacement rule
+[51]. The repository supplies a blank companion template for that purpose.
+Where water is evaluated, on-site consumption and electricity-supply-chain
+water should remain separate, and any water-use-effectiveness value must retain
+its IT-energy denominator and site boundary [52]. These fields make future
+evidence auditable. They do not harmonize different product-carbon-footprint
+methods, establish a facility water balance, or validate cooling performance.
+
 The next reproducibility gate is distinct from the next measurement gate. The
 national, low, and high Federal electricity systems must be independently
 reproduced in openLCA or Brightway using the same JSON-LD product systems and
@@ -1372,3 +1394,11 @@ responsibility for the content of the article.
 49. Sun, K., Luo, N., Luo, X. & Hong, T. Prototype energy models for data
     centers. *Energy and Buildings* **231**, 110603 (2021).
     https://doi.org/10.1016/j.enbuild.2020.110603
+50. Open Compute Project Foundation. *Guidelines: Life Cycle Assessment, LCA
+    Guidelines for Cloud Providers*. https://www.opencompute.org/documents/lca-sop-in-ocp-document-submission-template-docx-pdf (accessed 9 September 2026).
+51. Open Compute Project Foundation & iMasons Climate Accord. *Embodied Carbon
+    Disclosure Base Specification*, version 1 (July 2025).
+    https://www.opencompute.org/documents/carbon-disclosure-ocp-base-specification-20250730-pdf (accessed 9 September 2026).
+52. Open Compute Project Foundation. *Guidelines: Impact of Strategies on Data
+    Center Energy Consumption, Carbon Footprint, and Water Consumption* (March
+    2026). https://www.opencompute.org/documents/dcf-water-heat-energy-2026march-pdf (accessed 9 September 2026).

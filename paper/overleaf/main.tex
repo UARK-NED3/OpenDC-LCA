@@ -91,10 +91,12 @@ The practitioner package defaults to one MWh delivered to IT equipment (\texttt{
 
 The package supports a cooling-system cradle-to-grave boundary and a broader facility cradle-to-grave boundary. The former includes cooling and heat-rejection equipment, fluids, represented maintenance and replacement, operation, and end of life. The latter can also include building, electrical, and IT assets. Common systems may be excluded only when their quantity, performance, lifetime, and end-of-life treatment are unchanged. Onsite water and electricity-supply-chain water are reported separately. Location- and market-based electricity are not merged.
 
+The Open Compute Project (OCP) cloud-provider guideline identifies the same classes of foreground information for data-center LCAs, including IT and support equipment, building and electrical infrastructure, operation, cooling water, and end of life \cite{ref50}. Its example service denominator should not be substituted for the present operational denominator. The public cooling archive does not provide a workload-independent mapping between a virtual-machine service and delivered IT electricity, and no job-level data are available for the four cooling architectures.
+
 Operational validation uses a separate measurement boundary. The IT boundary must be metered, and every support-energy item must be classified as metered, allocated, or excluded. A facility PUE is permitted only when the numerator contains all support energy within the declared facility boundary. A dedicated support ratio may be reported for a smaller UPS and dedicated-cooling boundary, but it is not facility PUE. The repository measurement protocol defines the required electrical, thermal, workload, calibration, and provenance records for a shared-infrastructure site. It also requires a common workload before the service denominator can be compared across cooling architectures.
 
 \subsection{Dataset roles and inclusion criteria}
-Table 1 distinguishes eight downloaded source families according to i) the records used, ii) their numerical role in this study, iii) the unresolved boundary or transfer limit, and iv) the permissible claim class. This source-to-claim mapping prevents software readability from being mistaken for compatibility with the case model.
+Table 1 distinguishes nine downloaded source families according to i) the records used, ii) their numerical role in this study, iii) the unresolved boundary or transfer limit, and iv) the permissible claim class. This source-to-claim mapping prevents software readability from being mistaken for compatibility with the case model.
 
 {\footnotesize
 \setlength{\tabcolsep}{3pt}
@@ -129,6 +131,8 @@ NOAA TMY with 8,760 Fayetteville weather rows \cite{ref45} & Performance-\allowb
 USLCI and 7 GLAD hydrogen archives \cite{ref46,ref47} & Exchange and interoperability tests & Product-\allowbreak{}system links, allocation, providers, and LCIA methods are unresolved & Registered/\allowbreak{}unlinked \\
 \addlinespace[2pt]
 USGS watershed boundary with HU12 geometry \cite{ref48} & Spatial data contract test & Geometry is not withdrawal, consumption, or water-\allowbreak{}scarcity characterization & Registered/\allowbreak{}unlinked \\
+\addlinespace[2pt]
+OCP LCA guideline, embodied-\allowbreak{}carbon disclosure specification, and energy-\allowbreak{}carbon-\allowbreak{}water guideline \cite{ref50,ref51,ref52} & Foreground-\allowbreak{}inventory field schema and interpretation guidance & Guidance supplies neither comparable cooling inventories nor measured architecture performance & Method guidance only \\
 \addlinespace[2pt]
 \end{longtable}
 }
@@ -457,6 +461,8 @@ The climate-focused extension does not provide a boundary-consistent comparison 
 
 The evidence supports a methodological Technology Assessment of transferability, not a public assertion that one cooling architecture is environmentally preferable. Such an assertion would require resolved common-method inventories, reviewed primary performance and useful-computation data, architecture bills of quantities, water-scarcity characterization, empirically supported joint uncertainty, and an external critical review.
 
+The OCP documents provide a practical structure for the missing foreground records. A future vendor or facility record should preserve the manufacturer, part number, quantity, reported functional unit, declared lifecycle modules, calculation method, background database, geography, reference year, verification status, source location, service life, and replacement rule \cite{ref51}. The repository supplies a blank companion template for that purpose. Where water is evaluated, on-site consumption and electricity-supply-chain water should remain separate, and any water-use-effectiveness value must retain its IT-energy denominator and site boundary \cite{ref52}. These fields make future evidence auditable. They do not harmonize different product-carbon-footprint methods, establish a facility water balance, or validate cooling performance.
+
 The next reproducibility gate is distinct from the next measurement gate. The national, low, and high Federal electricity systems must be independently reproduced in openLCA or Brightway using the same JSON-LD product systems and IPCC method. The comparison should report the software version, target amount, process count, link count, characterized total, and unlinked-exchange count. Any difference must be traced to unit conversion, provider resolution, characterization, or cutoff treatment. Until this check and a quantitative cutoff bound are available, the partial linked-system factors remain an auditable screen rather than a benchmark.
 
 \section{Conclusions}
@@ -537,5 +543,8 @@ During preparation of this work, the authors used OpenAI Codex to support code r
 \bibitem{ref47} United Nations Environment Programme. Global LCA Data Access network. \url{https://www.globallcadataaccess.org/} (accessed 11 August 2026).
 \bibitem{ref48} U.S. Geological Survey. Watershed Boundary Dataset. \url{https://www.usgs.gov/national-hydrography/watershed-boundary-dataset} (accessed 11 August 2026).
 \bibitem{ref49} Sun, K., Luo, N., Luo, X. \& Hong, T. Prototype energy models for data centers. \textit{Energy and Buildings} \textbf{231}, 110603 (2021). \url{https://doi.org/10.1016/j.enbuild.2020.110603}
+\bibitem{ref50} Open Compute Project Foundation. \textit{Guidelines: Life Cycle Assessment, LCA Guidelines for Cloud Providers}. \url{https://www.opencompute.org/documents/lca-sop-in-ocp-document-submission-template-docx-pdf} (accessed 9 September 2026).
+\bibitem{ref51} Open Compute Project Foundation \& iMasons Climate Accord. \textit{Embodied Carbon Disclosure Base Specification}, version 1 (July 2025). \url{https://www.opencompute.org/documents/carbon-disclosure-ocp-base-specification-20250730-pdf} (accessed 9 September 2026).
+\bibitem{ref52} Open Compute Project Foundation. \textit{Guidelines: Impact of Strategies on Data Center Energy Consumption, Carbon Footprint, and Water Consumption} (March 2026). \url{https://www.opencompute.org/documents/dcf-water-heat-energy-2026march-pdf} (accessed 9 September 2026).
 \end{thebibliography}
 \end{document}
