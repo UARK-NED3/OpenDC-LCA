@@ -5,11 +5,38 @@ This document is normative for model version 1.x. Terms such as **must** and
 
 ## Functional unit
 
-Version 1.0 supports `it_mwh`: one MWh of electricity delivered to IT equipment.
+Version 1.x supports `it_mwh`: one MWh of electricity delivered to IT equipment.
 It may be used only when alternatives deliver equivalent computational service,
 utilization, reliability, and hardware life. If cooling changes any of these,
 authors must also report absolute results and explain why IT MWh remains a fair
-denominator. GPU-hour and workload-based units are planned but not yet supported.
+denominator. The current schema rejects GPU-hour and workload-based units.
+
+### Pathway to compute-service units
+
+A future `gpu_device_hour` unit will mean one installed GPU device operated for
+one wall-clock hour. It is not, by itself, a measure of useful computation.
+It may support a comparison only when the accelerator model, count, memory
+configuration, clock or power limit, utilization definition, availability rule,
+and workload or benchmark are the same across alternatives. A comparison across
+different accelerator generations, CPU and GPU systems, or materially different
+workloads must not use GPU-device hours as the sole service denominator.
+
+A future workload-based unit will mean one declared unit of completed work that
+meets a stated output-quality criterion. The workload identifier, software and
+model version, input set or input class, completion rule, quality metric,
+hardware configuration, and availability rule must be recorded. Examples such
+as completed jobs, simulation time steps, model inferences, or validated
+application output are not interchangeable unless a study supplies and
+validates a conversion.
+
+Before OpenDC-LCA accepts either unit, a release must provide i) a versioned
+input schema with these metadata, ii) time-aligned IT energy and workload
+records, iii) an explicit crosswalk to absolute energy and the existing
+`it_mwh` result, iv) unit and integration tests for zero, missing, and mixed
+hardware records, and v) independent review of the service-equivalence rule.
+Until then, GPU-device-hour and workload-normalized values may be retained as
+user-side evidence records but are not supported calculation outputs or public
+comparative-claim denominators.
 
 ## Energy boundary
 
@@ -34,6 +61,20 @@ Results use kilograms of carbon-dioxide equivalent. Every study must identify
 the characterization method and time horizon in its data-source records or
 study documentation. Direct emissions from coolant loss are separated from
 coolant production and end-of-life impacts.
+
+## Units and sign conventions
+
+Machine-readable inputs use SI-derived units stated in their field names.
+Electricity is recorded in kWh or MWh, power in kW, primary energy in MJ,
+mass in kg, water volume in L, time in h or year, and greenhouse-gas results in
+kg CO$_2$e. Temperatures must state the scale and are converted only at a
+documented input boundary. Multipliers and fractions are dimensionless.
+
+Positive inventory and impact values indicate a burden within the declared
+system boundary. Negative values are permitted only for a documented recovery
+or substitution credit. A zero is a numeric value and never means unknown,
+missing, or excluded. Missing, allocated, and excluded flows must be identified
+explicitly in the scenario or measurement record.
 
 ## Primary energy
 
