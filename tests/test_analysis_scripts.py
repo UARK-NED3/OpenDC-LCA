@@ -5,6 +5,21 @@ import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PRIVATE_INPUTS = (
+    ROOT
+    / "private-data"
+    / "incoming"
+    / "microsoft-zenodo"
+    / "LCA_Tool_w_Raw_&_Normalized_PlusUncertainty&Details.xlsx",
+    ROOT / "private-data" / "incoming" / "egrid-historical" / "eGRID2012_Data.xlsx",
+)
+MISSING_PRIVATE_INPUTS = [path for path in PRIVATE_INPUTS if not path.is_file()]
+
+pytestmark = pytest.mark.skipif(
+    bool(MISSING_PRIVATE_INPUTS),
+    reason="requires provider workbooks retained outside the public repository",
+)
+
 SPEC = importlib.util.spec_from_file_location(
     "applied_energy", ROOT / "scripts" / "run_applied_energy_analysis.py"
 )
