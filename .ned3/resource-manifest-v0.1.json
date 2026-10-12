@@ -1,0 +1,11 @@
+{
+  "manifest_version": "0.1.0",
+  "resource": {"id": "opendc-lca", "name": "OpenDC-LCA", "kind": "software", "visibility": "public"},
+  "canonical_repository": {"url": "https://github.com/UARK-NED3/OpenDC-LCA", "default_branch": "main", "reference": "c369b6a4cff185463a73e8e3215f4dec8a41e046", "accessed_on": "2026-10-12"},
+  "lifecycle": {"status": "maintained_release", "maintainer_review": "pending"},
+  "intended_use": {"users": ["data-center practitioners and researchers comparing declared cooling scenarios"], "supported_tasks": ["screen cooling life-cycle scenarios", "compare declared scenarios", "export governed study inputs and reports"], "not_intended_for": ["an ISO-conformant comparative LCA or a facility-specific decision without suitable foreground data, inventories, uncertainty analysis, system boundaries, and critical review"]},
+  "interfaces": {"required_inputs": ["functional unit", "system boundary", "site, cooling, electricity, water, and equipment assumptions", "source information"], "outputs": ["screening impacts", "contribution analysis", "audit warnings", "machine-readable results"], "execution": "documented_local"},
+  "evidence": {"ceiling": "screening", "validation_status": "requires_case_specific_evaluation", "limitations": ["Passing the automated audit is not an ISO conformity assessment.", "Result strength depends on declared foreground data, background inventories, uncertainty, system boundaries, and critical review."]},
+  "reuse": {"software_license": "declared", "data_rights": "verify_before_reuse", "citation": "citation_file"},
+  "links": {"documentation": "https://github.com/UARK-NED3/OpenDC-LCA#readme", "issues": "https://github.com/UARK-NED3/OpenDC-LCA/issues"}
+}

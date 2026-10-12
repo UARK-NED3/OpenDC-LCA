@@ -12,6 +12,9 @@ or user-defined cooling systems. It combines a guided local interface with
 traceable inputs, contribution analysis, scientific audit warnings, and
 machine-readable results.
 
+Repository scope, evidence, and reuse boundaries are also available in the
+[NED3 resource manifest](.ned3/resource-manifest-v0.1.json).
+
 > [!IMPORTANT]
 > OpenDC-LCA produces screening results unless the foreground data, background
 > inventories, uncertainty, system boundaries, and critical review support a
