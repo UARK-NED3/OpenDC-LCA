@@ -8,6 +8,7 @@ build/
 .venv/
 .DS_Store
 tmp/
+paper/overleaf_build/
 *.svg.png
 
 # Restricted or local LCA databases

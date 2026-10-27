@@ -114,15 +114,28 @@ def main() -> None:
             f'<text class="axis" x="{x:.1f}" y="{top+plot_height+27}" '
             f'text-anchor="middle">{metric}</text>'
         )
+    # Keep the legend inside the unused upper-left plotting region so the
+    # technology labels remain legible at manuscript width without increasing
+    # the figure height.
+    legend_x, legend_top, legend_step = 108, 132, 31
+    legend_labels = {
+        "Cold plate": "Cold plate",
+        "One-phase": "Single-phase immersion",
+        "Two-phase": "Two-phase immersion",
+    }
+    svg.append(
+        '<rect x="96" y="120" width="250" height="104" fill="white" '
+        'stroke="#6B7280" stroke-width="0.8"/>'
+    )
     for index, technology in enumerate(technologies):
-        x = 145 + index * 225
+        y = legend_top + index * legend_step
         svg += [
-            f'<rect x="{x}" y="458" width="18" height="18" fill="{COLORS[technology]}"/>',
-            f'<text class="axis" x="{x+27}" y="473">{technology}</text>',
+            f'<rect x="{legend_x}" y="{y}" width="18" height="18" fill="{COLORS[technology]}"/>',
+            f'<text class="axis" x="{legend_x+27}" y="{y+15}">{legend_labels[technology]}</text>',
         ]
     svg.append(
-        '<text class="axis" transform="translate(20 330) rotate(-90)">'
-        "Reduction relative to air-cooled (%)</text>"
+        '<text class="axis" transform="translate(28 390) rotate(-90)">'
+        "Reduction relative to air cooling (%)</text>"
     )
     write_svg(FIGURES / "figure1_microsoft_grid_reductions.svg", svg)
 
@@ -309,15 +322,17 @@ coupling.
 - NOAA Typical Meteorological Year:
   https://www.ncei.noaa.gov/access/typical-meteorological-year/
 """
-    (PAPER / "RESULTS_PACKAGE.md").write_text(report)
+    (PAPER / "RESULTS_PACKAGE_V04_V05.md").write_text(
+        report, encoding="utf-8"
+    )
     (V04 / "REPORT.md").write_text(
         "# v0.4 Microsoft/Nature reproduction\n\n"
-        "See [`paper/RESULTS_PACKAGE.md`](../../paper/RESULTS_PACKAGE.md). "
+        "See [`paper/RESULTS_PACKAGE_V04_V05.md`](../../paper/RESULTS_PACKAGE_V04_V05.md). "
         f"All 24 totals reconcile; maximum error: {max_error:.2e}.\n"
     )
     (V05 / "REPORT.md").write_text(
         "# v0.5 hourly research preview\n\n"
-        "See [`paper/RESULTS_PACKAGE.md`](../../paper/RESULTS_PACKAGE.md). "
+        "See [`paper/RESULTS_PACKAGE_V04_V05.md`](../../paper/RESULTS_PACKAGE_V04_V05.md). "
         "This is a hypothesis-generating protocol demonstration pending "
         "measured NED3 performance maps.\n"
     )

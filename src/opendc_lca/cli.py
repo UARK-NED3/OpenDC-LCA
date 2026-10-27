@@ -238,7 +238,10 @@ def main(argv: list[str] | None = None) -> int:
             else:
                 print(f"Architecture: {summary.architecture}")
                 print(f"Points: {summary.point_count}")
-                print(f"Measured PUE: {summary.measured_pue:.4f}")
+                print(
+                    "Measured cooling-only partial PUE: "
+                    f"{summary.measured_pue:.4f}"
+                )
                 print(
                     "On-site water: "
                     f"{summary.onsite_water_l_per_kwh_it:.4f} L/kWh IT"

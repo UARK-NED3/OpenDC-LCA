@@ -5,14 +5,14 @@
     </marker>
     <style>
       text{font-family:Arial,sans-serif;fill:#17324d}
-      .title{font-size:26px;font-weight:700}
-      .subtitle{font-size:15px;fill:#52697c}
-      .section{font-size:17px;font-weight:700}
-      .cardtitle{font-size:15px;font-weight:700}
-      .body{font-size:13px}
-      .small{font-size:11px;fill:#587086}
-      .number{font-size:25px;font-weight:700}
-      .step{font-size:14px;font-weight:700}
+      .title{font-size:30px;font-weight:700}
+      .subtitle{font-size:18px;fill:#52697c}
+      .section{font-size:20px;font-weight:700}
+      .cardtitle{font-size:18px;font-weight:700}
+      .body{font-size:15px}
+      .small{font-size:14px;fill:#587086}
+      .number{font-size:29px;font-weight:700}
+      .step{font-size:16px;font-weight:700}
     </style>
   </defs>
 
@@ -21,8 +21,8 @@
   <text x="44" y="68" class="subtitle">One calculation spine keeps the functional unit, boundary, transformation, uncertainty and claim status visible.</text>
 
   <rect x="42" y="92" width="1116" height="58" rx="10" fill="#17324d"/>
-  <text x="600" y="116" text-anchor="middle" style="font-size:12px;fill:#bcd2e2;font-weight:700">DECISION QUESTION</text>
-  <text x="600" y="138" text-anchor="middle" style="font-size:17px;fill:white;font-weight:700">Which cooling architecture is preferred, where can the ranking change, and what evidence would resolve it?</text>
+  <text x="600" y="116" text-anchor="middle" style="font-size:14px;fill:#bcd2e2;font-weight:700">DECISION QUESTION</text>
+  <text x="600" y="138" text-anchor="middle" style="font-size:18px;fill:white;font-weight:700">Which cooling architecture is preferred, where can the ranking change, and what evidence would resolve it?</text>
 
   <text x="52" y="187" class="section">1  Evidence with declared role</text>
   <text x="414" y="187" class="section">2  Harmonization and claim gate</text>
@@ -33,19 +33,19 @@
   <rect x="48" y="207" width="9" height="94" rx="4" fill="#0072b2"/>
   <text x="73" y="235" class="cardtitle">Released lifecycle model</text>
   <text x="73" y="260" class="body">Microsoft/WSP component results</text>
-  <text x="73" y="282" class="small">Role: arithmetic reconstruction</text>
+  <text x="73" y="282" class="small">Role: released-total reconciliation</text>
 
   <rect x="48" y="319" width="300" height="94" rx="10" fill="white" stroke="#7ca4bf"/>
   <rect x="48" y="319" width="9" height="94" rx="4" fill="#d55e00"/>
   <text x="73" y="347" class="cardtitle">Public scenario evidence</text>
   <text x="73" y="372" class="body">eGRID · Boavizta · ÖKOBAUDAT</text>
-  <text x="73" y="394" class="small">Role: bounded screening stress</text>
+  <text x="73" y="394" class="small">Role: declared screening scenarios</text>
 
   <rect x="48" y="431" width="300" height="94" rx="10" fill="white" stroke="#7ca4bf"/>
   <rect x="48" y="431" width="9" height="94" rx="4" fill="#7c3aed"/>
   <text x="73" y="459" class="cardtitle">Exchange-ready inventories</text>
   <text x="73" y="484" class="body">USLCI · GLAD · openLCA/Brightway</text>
-  <text x="73" y="506" class="small">Role: registered, not silently combined</text>
+  <text x="73" y="506" class="small">Role: exchange-tested; not in comparison</text>
 
   <rect x="48" y="543" width="300" height="94" rx="10" fill="white" stroke="#7ca4bf"/>
   <rect x="48" y="543" width="9" height="94" rx="4" fill="#009e73"/>
@@ -58,22 +58,22 @@
   <line x1="441" y1="260" x2="441" y2="578" stroke="#b9c8d4" stroke-width="5"/>
 
   <circle cx="441" cy="263" r="17" fill="#0072b2"/>
-  <text x="441" y="268" text-anchor="middle" style="font-size:12px;font-weight:700;fill:white">1</text>
+  <text x="441" y="268" text-anchor="middle" style="font-size:14px;font-weight:700;fill:white">1</text>
   <text x="475" y="253" class="step">Define equivalence</text>
   <text x="475" y="276" class="body">Useful computation · lifetime · reliability</text>
 
   <circle cx="441" cy="356" r="17" fill="#d55e00"/>
-  <text x="441" y="361" text-anchor="middle" style="font-size:12px;font-weight:700;fill:white">2</text>
-  <text x="475" y="346" class="step">Align what can be aligned</text>
+  <text x="441" y="361" text-anchor="middle" style="font-size:14px;font-weight:700;fill:white">2</text>
+  <text x="475" y="346" class="step">Assess method alignment</text>
   <text x="475" y="369" class="body">Unit · GWP basis · year · geography</text>
 
   <circle cx="441" cy="449" r="17" fill="#7c3aed"/>
-  <text x="441" y="454" text-anchor="middle" style="font-size:12px;font-weight:700;fill:white">3</text>
+  <text x="441" y="454" text-anchor="middle" style="font-size:14px;font-weight:700;fill:white">3</text>
   <text x="475" y="439" class="step">Expose transformation limits</text>
   <text x="475" y="462" class="body">Interpolation · extrapolation · boundary gap</text>
 
   <circle cx="441" cy="542" r="17" fill="#009e73"/>
-  <text x="441" y="547" text-anchor="middle" style="font-size:12px;font-weight:700;fill:white">4</text>
+  <text x="441" y="547" text-anchor="middle" style="font-size:14px;font-weight:700;fill:white">4</text>
   <text x="475" y="532" class="step">Propagate and classify evidence</text>
   <text x="475" y="555" class="body">Joint stress · provenance · review status</text>
 
@@ -86,23 +86,23 @@
   <!-- Outputs -->
   <rect x="836" y="207" width="316" height="120" rx="11" fill="white" stroke="#9bb1c2"/>
   <text x="860" y="235" class="cardtitle">Reproducibility</text>
-  <text x="860" y="275" class="number">24 / 24</text>
+  <text x="860" y="275" class="number">24</text>
   <text x="973" y="269" class="body">released totals reconciled</text>
   <text x="973" y="291" class="small">source IDs + equations + digests</text>
 
   <rect x="836" y="345" width="316" height="120" rx="11" fill="white" stroke="#9bb1c2"/>
-  <text x="860" y="373" class="cardtitle">Conditional decision boundary</text>
+  <text x="860" y="373" class="cardtitle">Released-model crossover</text>
   <text x="860" y="413" class="number">96.7</text>
   <text x="944" y="407" class="body">kg CO₂e/MWh</text>
-  <text x="944" y="429" class="small">cold plate / one-phase crossover</text>
+  <text x="944" y="429" class="small">cold plate = single-phase</text>
 
   <rect x="836" y="483" width="316" height="154" rx="11" fill="white" stroke="#9bb1c2"/>
-  <text x="860" y="511" class="cardtitle">Robustness and next evidence</text>
+  <text x="860" y="511" class="cardtitle">Screening limits and evidence needs</text>
   <text x="860" y="551" class="number">29.8%</text>
-  <text x="956" y="545" class="body">outside released anchors</text>
-  <text x="860" y="581" class="number">99→56%</text>
-  <text x="970" y="575" class="body">2P first-rank stress frequency</text>
-  <text x="860" y="612" class="small">Output: crossover + stress envelope + acquisition plan</text>
+  <text x="956" y="545" class="body">beyond released anchors</text>
+  <text x="860" y="586" class="number">99% → 55%</text>
+  <text x="860" y="610" class="small">two-phase first rank under narrow → wide stress</text>
+  <text x="860" y="630" class="small">declared draws; not a probability</text>
 
   <!-- Evidence-state key -->
   <rect x="42" y="662" width="1116" height="38" rx="9" fill="#e8edf1"/>

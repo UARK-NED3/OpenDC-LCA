@@ -1,0 +1,70 @@
+# OpenDC-LCA Applied Energy CAS submission package
+
+This package uses the supplied Elsevier CAS single-column template
+(`cas-sc.cls`, 2024-05-04). Select `main.tex` as the main document in Overleaf
+and compile with XeLaTeX. The manuscript and supplementary-information text use
+Times New Roman; figure artwork retains its own embedded typography.
+
+The package is deliberately flat. Every source, figure, and data file sits at
+the ZIP root, with no subfolders, to satisfy Elsevier Editorial Manager's
+requirement for LaTeX submissions.
+
+## Documents
+
+| File | Role |
+|---|---|
+| `main.tex` | Manuscript. Main document for Overleaf and Editorial Manager. |
+| `supplement.tex` | Supplementary Information. Compiles independently. |
+| `highlights.tex` | Separate upload item. |
+| `cover_letter_draft.tex` | Author-facing working file. Carried in the archive, not an Editorial Manager upload item. |
+| `SUBMISSION_ACTIONS.md` | Author-facing checklist of open pre-submission actions. Carried in the archive, not an Editorial Manager upload item. |
+| `cas-sc.cls`, `cas-common.sty`, `cas-model2-names.bst`, `cas-email.jpeg` | Elsevier CAS template files, unmodified. |
+
+## Figures
+
+Manuscript figures:
+
+| Figure | File |
+|---|---|
+| 1 | `Figure_1_OpenDC-LCA.png` |
+| 2 | `figure2_released_response_context.pdf` |
+| 3 | `figure6_historical_grid_transition.pdf` |
+| 4 | `figure10_lifecycle_electricity.pdf` |
+| 5 | `figure11_standardized_robustness.pdf` |
+
+Supplementary figures:
+
+| Figure | File |
+|---|---|
+| S1 | `figure1_microsoft_grid_reductions.pdf` |
+| S2 | `figure2_grid_crossover.pdf` |
+| S3 | `figure7_performance_robustness.pdf` |
+| S4 | `figure4_server_epd_distribution.pdf` |
+| S5 | `figure5_material_levers.pdf` |
+| S6 | `figure2_monthly_climate_pue.pdf` |
+| S7 | `figure5_synthetic_performance_surface.pdf` |
+
+File names carry their original generation order and do not track figure
+numbers. Figures 2--5 are vector PDFs rebuilt from the derived tables by
+`scripts/build_applied_energy_figures.py` in the repository.
+
+## Data files
+
+Every derived table named in `main.tex` or `supplement.tex` is included at the
+ZIP root, so the evidence manifest in the Supplementary Information resolves
+inside the package. Three further derived tables are carried for reviewer
+traceability although no sentence cites them by name:
+`table19_server_inventory_stress_test.csv`, `table20_method_comparison.csv`,
+and `table35_transferability_evidence_map.csv`.
+
+The complete derived-table set, the analysis code, and the provenance manifest
+are in the repository and in the DOI-bearing archive named in the manuscript's
+data and code availability statement.
+
+## Rebuilding the archive
+
+`scripts/package_applied_energy_cas.py` in the repository writes
+`paper/OpenDC-LCA_Applied_Energy_CAS_Overleaf.zip`. It resolves the figure and
+data dependencies from the `.tex` sources, fails if any named file is absent,
+and ships only declared files, so local build output (`.aux`, `.log`, `.pdf`,
+`.xdv`, and similar) never enters the archive.

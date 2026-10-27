@@ -15,33 +15,45 @@ This directory is the stable handoff for manuscript development.
   and paper-use guidance.
 - `RESPONSE_TO_REVIEW.md`: point-by-point record of completed revisions and
   evidence still required before submission.
+- `SUBMISSION_READINESS_CYCLE_2026-08-02.md`: outcomes of the Step 0--5
+  scientific assessment, reviewer-author revisions, and final verification.
+- `SUBMISSION_ACTIONS.md`: author approvals and external actions intentionally
+  kept outside the manuscript.
+- `AUTHOR_REVISION_2026-08-23.md`: evidence-bearing response to the latest
+  internal pre-submission review.
 - `tables/`: machine-readable CSV tables.
 - `figures/`: editable, publication-ready SVG figures.
-- `OpenDC-LCA_integrated_evidence.xlsx`: auditable workbook containing the
-  harmonized eGRID series, boundary and anchor diagnostics, joint stress
-  results, functional-unit sensitivity, public server records, material
-  levers, and evidence-priority tables.
+- `OpenDC-LCA_integrated_evidence.xlsx`: auditable workbook for the earlier
+  Tables 1--27 analysis. The machine-readable CSV files in `tables/` are the
+  authoritative source for the new Federal electricity, endpoint-method,
+  equal-width robustness, residual-mix, and server-inclusion Tables 28--34.
 - `results-workbook.xlsx`: compact formula-driven example workbook retained
   for the practitioner workflow.
 - `overleaf/`: compiling Elsevier `elsarticle` project for Applied Energy,
   including vector figures, highlights and a cover-letter draft.
-- `OpenDC-LCA_Applied_Energy_Overleaf.zip`: upload-ready Overleaf archive.
+- `OpenDC-LCA_Applied_Energy_Overleaf.zip`: reproducible Overleaf working
+  archive. Known author affiliations, corresponding-author contact, HFA
+  employment, and AI use are stated; CRediT roles, funding, any additional
+  interests, a DOI deposit, and external critical review remain pre-submission
+  actions.
 
 Regenerate the Applied Energy analysis and submission files with:
 
 ```bash
-python scripts/run_applied_energy_analysis.py
-python paper/build_overleaf.py
-cd paper/overleaf && tectonic main.tex
+python scripts/run_submission_pipeline.py --skip-refresh
 ```
 
-The Applied Energy extension now reconstructs all eGRID years to a common AR5
-GWP100 basis and adds anchor-extrapolation, electricity-boundary,
-functional-unit, joint assumption-stress, and evidence-priority diagnostics.
-These are transparent tests of the released foreground model, not substitutes
-for lifecycle-consistent electricity processes, measured cooling-performance
+The Applied Energy extension reconstructs all eGRID years to a common AR5
+GWP100 basis and adds a partial Federal LCA Commons linked-system calculation,
+explicit cutoff reporting, ordinary/residual accounting sensitivity, endpoint
+method audit, exact equal-width rank bounds, and transparent server-record
+inclusion flow. These are transferability tests of the released foreground
+model, not substitutes for a common-method cooling LCA, measured performance
 surfaces, or architecture-specific bills of quantities.
 
-The manuscript is a scientific draft, not a submitted paper. Authorship,
-contributions, funding, competing interests, target-journal formatting, and the
-LCA critical-review pathway must be confirmed by the authors before submission.
+The manuscript is a scientific draft, not a submitted paper. All authors must
+approve authorship, CRediT roles, funding, acknowledgments, competing interests,
+AI disclosures, and the LCA critical-review pathway before submission.
+The generic shared-site metering and functional-equivalence protocol is in
+`docs/SHARED_INFRASTRUCTURE_MEASUREMENT_PROTOCOL.md`. It contains no facility
+telemetry or identifying site records.

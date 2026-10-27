@@ -10,12 +10,10 @@ Included:
 - `figures/`: publication figures converted to vector PDF;
 - `highlights.tex`: Applied Energy highlights;
 - `cover_letter_draft.tex`: editable cover letter;
-- eight key CSV result tables for reviewer traceability.
+- selected machine-readable result tables for reviewer traceability.
 
-Before submission, confirm author order, corresponding-author email, funding,
-acknowledgments, competing interests, CRediT roles, and whether the manuscript
-should be linked to the Applied Energy data-center special issue or submitted
-as a regular article.
+Outstanding author approvals and external release actions are recorded in
+`SUBMISSION_ACTIONS.md`.
 
 Regenerate after editing `paper/MANUSCRIPT.md`:
 

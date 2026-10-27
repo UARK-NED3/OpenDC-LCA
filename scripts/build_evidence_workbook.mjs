@@ -185,13 +185,14 @@ const joint = workbook.worksheets.add("Joint Stress");
 const jointRange = writeMatrix(joint, "A1", jointValues);
 styleDataSheet(joint, jointRange, {
   A: 24, B: 21, C: 15, D: 14, E: 18, F: 20, G: 20, H: 23, I: 18,
-  J: 21, K: 26, L: 24, M: 14, N: 76,
+  J: 21, K: 26, L: 24, M: 14, N: 20, O: 76,
 });
 joint.getRange(`B2:M${jointValues.length}`).format.numberFormat = "0.00";
 joint.getRange(`D2:D${jointValues.length}`).format.numberFormat = "#,##0";
 joint.getRange(`M2:M${jointValues.length}`).format.numberFormat = "0";
-joint.getRange(`N2:N${jointValues.length}`).format.wrapText = true;
-joint.tables.add(`A1:N${jointValues.length}`, true, "JointStressTable").style =
+joint.getRange(`N2:N${jointValues.length}`).format.numberFormat = "@";
+joint.getRange(`O2:O${jointValues.length}`).format.wrapText = true;
+joint.tables.add(`A1:O${jointValues.length}`, true, "JointStressTable").style =
   "TableStyleMedium4";
 
 const functionalValues = await csvValues("table24_functional_unit_sensitivity.csv");
@@ -218,6 +219,43 @@ priorityRobustness.tables.add(
   `A1:H${priorityRobustnessValues.length}`,
   true,
   "PriorityRobustnessTable",
+).style = "TableStyleMedium2";
+
+const structureValues = await csvValues("table26_stress_structure_sensitivity.csv");
+const structure = workbook.worksheets.add("Stress Structure");
+const structureRange = writeMatrix(structure, "A1", structureValues);
+styleDataSheet(structure, structureRange, {
+  A: 24, B: 21, C: 15, D: 25, E: 22, F: 14, G: 18, H: 21,
+  I: 26, J: 24, K: 14, L: 18, M: 76,
+});
+structure.getRange(`B2:L${structureValues.length}`).format.numberFormat = "0.00";
+structure.getRange(`F2:F${structureValues.length}`).format.numberFormat = "#,##0";
+structure.getRange(`K2:K${structureValues.length}`).format.numberFormat = "0";
+structure.getRange(`L2:L${structureValues.length}`).format.numberFormat = "@";
+structure.getRange(`M2:M${structureValues.length}`).format.wrapText = true;
+structure.tables.add(
+  `A1:M${structureValues.length}`,
+  true,
+  "StressStructureTable",
+).style = "TableStyleMedium4";
+
+const convergenceValues = await csvValues("table27_stress_convergence.csv");
+const convergence = workbook.worksheets.add("Stress Convergence");
+const convergenceRange = writeMatrix(convergence, "A1", convergenceValues);
+styleDataSheet(convergence, convergenceRange, {
+  A: 24, B: 16, C: 14, D: 28, E: 29, F: 31, G: 20, H: 78,
+});
+convergence.getRange(`C2:F${convergenceValues.length}`).format.numberFormat =
+  "0.000";
+convergence.getRange(`C2:C${convergenceValues.length}`).format.numberFormat =
+  "#,##0";
+convergence.getRange(`G2:G${convergenceValues.length}`).format.numberFormat =
+  "@";
+convergence.getRange(`H2:H${convergenceValues.length}`).format.wrapText = true;
+convergence.tables.add(
+  `A1:H${convergenceValues.length}`,
+  true,
+  "StressConvergenceTable",
 ).style = "TableStyleMedium2";
 
 const summary = workbook.worksheets.add("Key Results");
@@ -251,13 +289,33 @@ const usWideTwoPhase = jointValues.find(
 const fu2023 = functionalValues.find((row) => row[0] === "2023 states/DC");
 const steelLever = materialValues.find((row) => row[0] === "Steel route");
 const cementLever = materialValues.find((row) => row[0] === "Cement chemistry");
-summary.getRange("A4:D13").values = [
+const boundaryClearance = boundaryValues[1][9];
+const independentWide = structureValues.find(
+  (row) =>
+    row[0] === "2023 U.S. generation" &&
+    row[2] === "wide" &&
+    row[3] === "all four blocks" &&
+    Number(row[4]) === 0 &&
+    row[6] === "Two-phase",
+);
+const commonWide = structureValues.find(
+  (row) =>
+    row[0] === "2023 U.S. generation" &&
+    row[2] === "wide" &&
+    row[3] === "all four blocks" &&
+    Number(row[4]) === 1 &&
+    row[6] === "Two-phase",
+);
+summary.getRange("A4:D16").values = [
   ["Cold plate / one-phase crossover", crossoverValues[1][3], "kg CO2e/MWh", "A conditional decision boundary in the numerical intensity-index screen, not a state-specific process LCA."],
+  ["Exact boundary clearance", boundaryClearance, "kg CO2e/MWh", "Additive amount that moves the lowest 2023 state rate to the crossover; a diagnostic, not an upstream estimate."],
   ["Observed 2023 state/DC range", `${Math.min(...stateFactors).toFixed(2)}–${Math.max(...stateFactors).toFixed(2)}`, "kg CO2e/MWh", "The crossover lies inside the annual production-factor range, but boundary mismatch constrains interpretation."],
   ["Harmonized U.S. grid decline, 2012–2023", gridDeclinePct, "%", "Direct CO2, CH4 and N2O reconstruction on one AR5 basis avoids mixing provider GWP conventions."],
   ["State-years outside released anchors", allAnchorRow[6], "%", "Extrapolation is explicit: 137 of 459 state-year factors lie outside the two released electricity endpoints."],
   ["Two-phase first rank, narrow stress", usNarrowTwoPhase[9], "% of trials", "Seeded assumption-stress frequency; not a fitted probability."],
   ["Two-phase first rank, wide stress", usWideTwoPhase[9], "% of trials", "The nominal ranking becomes conditional under broad joint perturbations."],
+  ["Wide all-block: independent errors", independentWide[7], "% of trials", "Two-phase first-rank frequency at zero latent technology correlation."],
+  ["Wide all-block: common-mode errors", commonWide[7], "% of trials", "Same triangular marginals with fully common-mode technology-specific errors."],
   ["Two-phase adverse service correction", fu2023[4], "%", "Median increase in impact per equivalent useful computation needed to lose first rank in 2023."],
   ["Boavizta server manufacturing median", serverSummaryValues[1][5], "kg CO2e/server", "Public server PCFs vary substantially, making server inventory selection consequential."],
   ["EAF/high-scrap steel GWP reduction", steelLever[7], "%", "A large unit-process lever that cannot be propagated without facility quantities."],
@@ -267,8 +325,8 @@ summary.getRange("A3:D3").format = {
   fill: "#17324D",
   font: { bold: true, color: "#FFFFFF" },
 };
-summary.getRange("A4:A13").format = { fill: "#DCEAF4", font: { bold: true } };
-summary.getRange("A3:D13").format.borders = {
+summary.getRange("A4:A16").format = { fill: "#DCEAF4", font: { bold: true } };
+summary.getRange("A3:D16").format.borders = {
   insideHorizontal: { style: "thin", color: "#DCE3EA" },
   outside: { style: "thin", color: "#A8B5C2" },
 };
@@ -276,9 +334,9 @@ summary.getRange("A:A").format.columnWidth = 35;
 summary.getRange("B:B").format.columnWidth = 18;
 summary.getRange("C:C").format.columnWidth = 18;
 summary.getRange("D:D").format.columnWidth = 72;
-summary.getRange("A3:D13").format.wrapText = true;
-summary.getRange("A3:D13").format.autofitRows();
-summary.getRange("B4:B13").format.numberFormat = "0.0";
+summary.getRange("A3:D16").format.wrapText = true;
+summary.getRange("A3:D16").format.autofitRows();
+summary.getRange("B4:B16").format.numberFormat = "0.0";
 const chartRows = [["Component", "Priority index (%)"]].concat(
   priorityValues.slice(1).map((row) => [row[0], 100 * Number(row[5])]),
 );
@@ -317,6 +375,7 @@ for (const sheetName of [
   "Joint Stress",
   "Functional Unit",
   "Priority Robustness",
+  "Stress Convergence",
   "Key Results",
 ]) {
   const preview = await workbook.render({
@@ -330,10 +389,23 @@ for (const sheetName of [
     new Uint8Array(await preview.arrayBuffer()),
   );
 }
+for (let start = 1; start <= structureValues.length; start += 50) {
+  const end = Math.min(structureValues.length, start + 49);
+  const preview = await workbook.render({
+    sheetName: "Stress Structure",
+    range: `A${start}:M${end}`,
+    scale: 1,
+    format: "png",
+  });
+  await fs.writeFile(
+    path.join(previewDir, `stress-structure-${start}-${end}.png`),
+    new Uint8Array(await preview.arrayBuffer()),
+  );
+}
 
 const check = await workbook.inspect({
   kind: "table",
-  range: "Key Results!A1:D13",
+  range: "Key Results!A1:D16",
   include: "values,formulas",
   tableMaxRows: 10,
   tableMaxCols: 6,

@@ -6,7 +6,10 @@ from __future__ import annotations
 import re
 import shutil
 import subprocess
+import tempfile
+import time
 from pathlib import Path
+import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / "MANUSCRIPT.md"
@@ -86,25 +89,70 @@ def escape(text: str) -> str:
 
 def table_latex(rows: list[list[str]], caption: str) -> str:
     columns = len(rows[0])
-    if columns == 5:
+
+    def cell(value: str) -> str:
+        return (
+            protect_inline(value)
+            .replace("/", r"/\allowbreak{}")
+            .replace("-", r"-\allowbreak{}")
+        )
+
+    if columns == 4 and rows[0][0] != "Envelope":
         ragged = r">{\raggedright\arraybackslash}"
         spec = (
             ragged
-            + r"p{0.12\linewidth}"
+            + r"p{0.18\textwidth}"
             + ragged
+            + r"p{0.23\textwidth}"
+            + ragged
+            + r"p{0.34\textwidth}"
+            + ragged
+            + r"p{0.16\textwidth}"
+        )
+        header = " & ".join(cell(value) for value in rows[0]) + r" \\"
+        output = [
+            r"{\footnotesize",
+            r"\setlength{\tabcolsep}{3pt}",
+            r"\begin{longtable}{" + spec + "}",
+            r"\caption{" + protect_inline(caption) + r"}\\",
+            r"\toprule",
+            header,
+            r"\midrule",
+            r"\endfirsthead",
+            r"\caption[]{" + protect_inline(caption) + r" (continued)}\\",
+            r"\toprule",
+            header,
+            r"\midrule",
+            r"\endhead",
+            r"\midrule",
+            r"\multicolumn{4}{r}{Continued on next page}\\",
+            r"\endfoot",
+            r"\bottomrule",
+            r"\endlastfoot",
+        ]
+        for row in rows[2:]:
+            output.append(" & ".join(cell(value) for value in row) + r" \\")
+            output.append(r"\addlinespace[2pt]")
+        output += [r"\end{longtable}", r"}", ""]
+        return "\n".join(output)
+
+    if columns == 4:
+        ragged = r">{\raggedright\arraybackslash}"
+        spec = (
+            ragged
             + r"p{0.15\linewidth}"
             + ragged
-            + r"p{0.22\linewidth}"
+            + r"p{0.39\linewidth}"
             + ragged
-            + r"p{0.28\linewidth}"
+            + r"p{0.18\linewidth}"
             + ragged
-            + r"p{0.13\linewidth}"
+            + r"p{0.18\linewidth}"
         )
-        font_size = r"\scriptsize"
+        font_size = r"\small"
         tab_space = "3pt"
-        table_begin = [r"\begin{landscape}", r"\begin{table}[p]"]
-        table_end = [r"\end{table}", r"\end{landscape}"]
-        width = r"\linewidth"
+        table_begin = [r"\begin{table}[!htbp]"]
+        table_end = [r"\end{table}"]
+        width = r"\textwidth"
     else:
         spec = "l" + "X" * (columns - 1)
         font_size = r"\small"
@@ -119,12 +167,12 @@ def table_latex(rows: list[list[str]], caption: str) -> str:
         rf"\setlength{{\tabcolsep}}{{{tab_space}}}",
         r"\begin{tabularx}{" + width + "}{" + spec + "}",
         r"\toprule",
-        " & ".join(protect_inline(value) for value in rows[0]) + r" \\",
+        " & ".join(cell(value) for value in rows[0]) + r" \\",
         r"\midrule",
     ]
     for row in rows[2:]:
         output.append(
-            " & ".join(protect_inline(value) for value in row) + r" \\"
+            " & ".join(cell(value) for value in row) + r" \\"
         )
     output += [r"\bottomrule", r"\end{tabularx}"] + table_end + [""]
     return "\n".join(output)
@@ -181,10 +229,72 @@ def convert_figures() -> None:
     for filename in used:
         source = ROOT / "figures" / filename
         target = FIGURES / f"{source.stem}.pdf"
+        if shutil.which("rsvg-convert"):
+            subprocess.run(
+                ["rsvg-convert", "-f", "pdf", "-o", str(target), str(source)],
+                check=True,
+            )
+        else:
+            with tempfile.TemporaryDirectory(prefix="opendc-svg-") as temporary:
+                png = Path(temporary) / f"{source.stem}.png"
+                render_svg_with_browser(source, png, width=2400)
+                from PIL import Image
+
+                with Image.open(png) as rendered:
+                    rendered.convert("RGB").save(
+                        target, "PDF", resolution=300.0
+                    )
+
+
+def render_svg_with_browser(source: Path, target: Path, *, width: int) -> None:
+    """Rasterize an SVG with an installed Chromium browser."""
+    browser = next(
+        (
+            candidate
+            for candidate in (
+                Path(r"C:\Program Files\Google\Chrome\Application\chrome.exe"),
+                Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"),
+                Path(r"C:\Program Files\Microsoft\Edge\Application\msedge.exe"),
+            )
+            if candidate.is_file()
+        ),
+        None,
+    )
+    if browser is None:
+        raise RuntimeError("Figure conversion requires rsvg-convert or Chromium")
+    root = ET.parse(source).getroot()
+    view_box = root.attrib.get("viewBox", "").split()
+    if len(view_box) == 4:
+        source_width, source_height = float(view_box[2]), float(view_box[3])
+    else:
+        source_width = float(root.attrib["width"])
+        source_height = float(root.attrib["height"])
+    scale = width / source_width
+    css_width = round(source_width)
+    css_height = round(source_height)
+    with tempfile.TemporaryDirectory(prefix="opendc-browser-") as temporary:
         subprocess.run(
-            ["rsvg-convert", "-f", "pdf", "-o", str(target), str(source)],
+            [
+                str(browser),
+                "--headless=new",
+                "--disable-gpu",
+                "--hide-scrollbars",
+                "--no-first-run",
+                f"--force-device-scale-factor={scale}",
+                f"--user-data-dir={Path(temporary) / 'profile'}",
+                f"--window-size={css_width},{css_height}",
+                f"--screenshot={target}",
+                source.resolve().as_uri(),
+            ],
             check=True,
+            timeout=60,
         )
+        for _ in range(300):
+            if target.is_file() and target.stat().st_size:
+                break
+            time.sleep(0.1)
+        else:
+            raise RuntimeError(f"Browser did not render {source.name}")
 
 
 def build() -> None:
@@ -199,6 +309,7 @@ def build() -> None:
         r"\usepackage{graphicx,float,pdflscape}",
         r"\usepackage{siunitx}",
         r"\usepackage{url,hyperref}",
+        r"\hypersetup{hidelinks}",
         r"\usepackage[T1]{fontenc}",
         r"\usepackage[utf8]{inputenc}",
         r"\setlength{\emergencystretch}{3em}",
@@ -206,10 +317,19 @@ def build() -> None:
         r"\begin{document}",
         r"\begin{frontmatter}",
         r"\title{" + protect_inline(title) + "}",
+        r"\author[uark,hfa]{Braden Stevens}",
+        r"\author[uark,hfa]{Pengjiang Xiang}",
+        r"\author[ahpcc]{Pawel Wolinski}",
+        r"\author[its]{Charles Dwyer}",
+        r"\author[ornl]{Yimin Chen}",
+        r"\author[uark]{Darin Nutter}",
         r"\author[uark]{Han Hu\corref{cor1}}",
-        r"\ead{Corresponding author email to be confirmed}",
-        r"\author[uark]{Darin W. Nutter}",
-        r"\address[uark]{Department of Mechanical Engineering, University of Arkansas, Fayetteville, Arkansas, USA}",
+        r"\ead{hanhu@uark.edu}",
+        r"\address[uark]{Department of Mechanical Engineering, University of Arkansas, Fayetteville, AR 72701, U.S.}",
+        r"\address[ahpcc]{Arkansas High Performance Computing Center, University of Arkansas, Fayetteville, AR 72701, U.S.}",
+        r"\address[its]{IT Services, University of Arkansas, Fayetteville, AR 72701, U.S.}",
+        r"\address[ornl]{Building Technologies Research and Integration Center, Oak Ridge National Laboratory, Oak Ridge, TN 37830, U.S.}",
+        r"\address[hfa]{Harrison French \& Associates Ltd., Bentonville, AR 72712, U.S.}",
         r"\cortext[cor1]{Corresponding author}",
     ]
     index = next(i for i, line in enumerate(lines) if line.strip() == "## Abstract") + 1
@@ -243,13 +363,13 @@ def build() -> None:
             close_list()
             index += 1
             continue
-        if stripped.startswith("**Keywords:**"):
+        if stripped.startswith("**Keywords**"):
             flush_paragraph()
             if in_abstract:
                 output.append(r"\end{abstract}")
-            keywords = re.sub(r"^\*\*Keywords:\*\*\s*", "", stripped)
+            keywords = re.sub(r"^\*\*Keywords\*\*\s*", "", stripped)
             keyword_latex = r" \sep ".join(
-                protect_inline(keyword.strip()) for keyword in keywords.split(";")
+                protect_inline(keyword.strip()) for keyword in keywords.split(",")
             )
             output += [
                 r"\begin{keyword}",
@@ -299,12 +419,12 @@ def build() -> None:
                 caption, name = match.groups()
                 caption = re.sub(r"^Figure \d+\.\s*", "", caption)
                 output += [
-                    r"\begin{figure*}[htbp]",
+                    r"\begin{figure}[!htbp]",
                     r"\centering",
-                    rf"\includegraphics[width=0.96\textwidth]{{figures/{name}.pdf}}",
+                    rf"\includegraphics[width=0.98\linewidth]{{figures/{name}.pdf}}",
                     r"\caption{" + protect_inline(caption) + "}",
                     r"\label{fig:" + name.replace("_", "-") + "}",
-                    r"\end{figure*}",
+                    r"\end{figure}",
                     "",
                 ]
             index += 1
@@ -377,6 +497,7 @@ def build() -> None:
         output.append(rf"\bibitem{{ref{number}}} " + protect_inline(reference))
     output += [r"\end{thebibliography}", r"\end{document}", ""]
     (OUT / "main.tex").write_text("\n".join(output), encoding="utf-8")
+    shutil.copy2(ROOT / "SUBMISSION_ACTIONS.md", OUT)
     for name in (
         "table15_egrid_historical_national_factors.csv",
         "table19_server_inventory_stress_test.csv",
@@ -386,6 +507,16 @@ def build() -> None:
         "table23_joint_assumption_stress.csv",
         "table24_functional_unit_sensitivity.csv",
         "table25_priority_index_sensitivity.csv",
+        "table26_stress_structure_sensitivity.csv",
+        "table27_stress_convergence.csv",
+        "table28_lifecycle_electricity_factors.csv",
+        "table29_standardized_rank_robustness.csv",
+        "table30_released_endpoint_method_audit.csv",
+        "table31_implied_electricity_response.csv",
+        "table32_national_lifecycle_cutoffs.csv",
+        "table33_residual_electricity_factors.csv",
+        "table34_boavizta_server_inclusion.csv",
+        "table35_transferability_evidence_map.csv",
     ):
         shutil.copy2(ROOT / "tables" / name, OUT)
 
@@ -396,6 +527,7 @@ def build_supplement() -> None:
     output = [
         r"\documentclass[review,12pt]{elsarticle}",
         r"\usepackage{booktabs,tabularx,array,longtable,graphicx,float,pdflscape,url,hyperref}",
+        r"\hypersetup{hidelinks}",
         r"\usepackage[T1]{fontenc}",
         r"\usepackage[utf8]{inputenc}",
         r"\setlength{\emergencystretch}{3em}",
@@ -405,9 +537,18 @@ def build_supplement() -> None:
         r"\begin{document}",
         r"\begin{frontmatter}",
         r"\title{" + protect_inline(lines[0][2:]) + "}",
+        r"\author[uark,hfa]{Braden Stevens}",
+        r"\author[uark,hfa]{Pengjiang Xiang}",
+        r"\author[ahpcc]{Pawel Wolinski}",
+        r"\author[its]{Charles Dwyer}",
+        r"\author[ornl]{Yimin Chen}",
+        r"\author[uark]{Darin Nutter}",
         r"\author[uark]{Han Hu}",
-        r"\author[uark]{Darin W. Nutter}",
-        r"\address[uark]{Department of Mechanical Engineering, University of Arkansas, Fayetteville, Arkansas, USA}",
+        r"\address[uark]{Department of Mechanical Engineering, University of Arkansas, Fayetteville, AR 72701, U.S.}",
+        r"\address[ahpcc]{Arkansas High Performance Computing Center, University of Arkansas, Fayetteville, AR 72701, U.S.}",
+        r"\address[its]{IT Services, University of Arkansas, Fayetteville, AR 72701, U.S.}",
+        r"\address[ornl]{Building Technologies Research and Integration Center, Oak Ridge National Laboratory, Oak Ridge, TN 37830, U.S.}",
+        r"\address[hfa]{Harrison French \& Associates Ltd., Bentonville, AR 72712, U.S.}",
         r"\end{frontmatter}",
         "",
     ]

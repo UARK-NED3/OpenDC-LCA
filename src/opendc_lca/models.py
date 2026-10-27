@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import math
 from typing import Any
 
 SUPPORTED_FUNCTIONAL_UNITS = {"it_mwh"}
@@ -31,6 +32,18 @@ SUPPORTED_SOURCE_REVIEW_STATUSES = {
     "independently_reviewed",
 }
 SUPPORTED_CONFIDENTIALITY = {"public", "aggregated_confidential", "confidential"}
+SUPPORTED_ENERGY_ITEM_CLASSES = {"metered", "allocated", "excluded"}
+SUPPORTED_ENERGY_ITEM_ROLES = {
+    "it_load",
+    "dedicated_support",
+    "shared_support",
+    "other",
+}
+SUPPORTED_REPORTED_ENERGY_METRICS = {
+    "not_reported",
+    "dedicated_support_ratio",
+    "facility_pue",
+}
 
 
 class ValidationError(ValueError):
@@ -50,6 +63,8 @@ def _number(
         value = float(data[key])
     except (TypeError, ValueError) as exc:
         raise ValidationError(f"{key} must be numeric") from exc
+    if not math.isfinite(value):
+        raise ValidationError(f"{key} must be finite")
     if positive and value <= 0:
         raise ValidationError(f"{key} must be greater than zero")
     if not positive and not allow_negative and value < 0:
@@ -189,6 +204,7 @@ class StudyDefinition:
     water_method: str
     replacement_model: str
     critical_review_status: str
+    boundary_definition: dict[str, Any] | None
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "StudyDefinition":
@@ -234,6 +250,134 @@ class StudyDefinition:
                 "critical_review_status must be one of: "
                 + ", ".join(sorted(SUPPORTED_REVIEW_STATUSES))
             )
+        boundary_definition_raw = data.get("boundary_definition")
+        boundary_definition: dict[str, Any] | None = None
+        if boundary_definition_raw is not None:
+            if not isinstance(boundary_definition_raw, dict):
+                raise ValidationError("boundary_definition must be an object")
+            included = boundary_definition_raw.get("included_processes")
+            excluded = boundary_definition_raw.get("excluded_processes")
+            rationale = str(boundary_definition_raw.get("rationale", "")).strip()
+            if (
+                not isinstance(included, list)
+                or not all(str(item).strip() for item in included)
+                or not isinstance(excluded, list)
+                or not all(str(item).strip() for item in excluded)
+                or not rationale
+            ):
+                raise ValidationError(
+                    "boundary_definition requires included_processes and "
+                    "excluded_processes lists plus a rationale"
+                )
+            energy_items_raw = boundary_definition_raw.get("energy_items")
+            reported_energy_metric = str(
+                boundary_definition_raw.get("reported_energy_metric", "")
+            )
+            complete_energy_item_inventory = boundary_definition_raw.get(
+                "complete_energy_item_inventory"
+            )
+            if not isinstance(energy_items_raw, list) or not energy_items_raw:
+                raise ValidationError(
+                    "boundary_definition requires a non-empty energy_items list"
+                )
+            if reported_energy_metric not in SUPPORTED_REPORTED_ENERGY_METRICS:
+                raise ValidationError(
+                    "boundary_definition reported_energy_metric must be one of: "
+                    + ", ".join(sorted(SUPPORTED_REPORTED_ENERGY_METRICS))
+                )
+            if not isinstance(complete_energy_item_inventory, bool):
+                raise ValidationError(
+                    "boundary_definition complete_energy_item_inventory must be true or false"
+                )
+
+            energy_items: list[dict[str, str]] = []
+            names: set[str] = set()
+            for item in energy_items_raw:
+                if not isinstance(item, dict):
+                    raise ValidationError(
+                        "Each boundary_definition energy_items entry must be an object"
+                    )
+                name = str(item.get("name", "")).strip()
+                classification = str(item.get("classification", "")).strip()
+                role = str(item.get("role", "")).strip()
+                item_rationale = str(item.get("rationale", "")).strip()
+                if not name or not item_rationale:
+                    raise ValidationError(
+                        "Each boundary_definition energy item requires name and rationale"
+                    )
+                if name in names:
+                    raise ValidationError(
+                        "boundary_definition energy item names must be unique"
+                    )
+                if classification not in SUPPORTED_ENERGY_ITEM_CLASSES:
+                    raise ValidationError(
+                        "boundary_definition energy-item classification must be one of: "
+                        + ", ".join(sorted(SUPPORTED_ENERGY_ITEM_CLASSES))
+                    )
+                if role not in SUPPORTED_ENERGY_ITEM_ROLES:
+                    raise ValidationError(
+                        "boundary_definition energy-item role must be one of: "
+                        + ", ".join(sorted(SUPPORTED_ENERGY_ITEM_ROLES))
+                    )
+                normalized_item = {
+                    "name": name,
+                    "classification": classification,
+                    "role": role,
+                    "rationale": item_rationale,
+                }
+                if classification == "metered":
+                    meter_id = str(item.get("meter_id", "")).strip()
+                    if not meter_id:
+                        raise ValidationError(
+                            "Metered boundary_definition energy items require meter_id"
+                        )
+                    normalized_item["meter_id"] = meter_id
+                if classification == "allocated":
+                    allocation_method = str(
+                        item.get("allocation_method", "")
+                    ).strip()
+                    if not allocation_method:
+                        raise ValidationError(
+                            "Allocated boundary_definition energy items require allocation_method"
+                        )
+                    normalized_item["allocation_method"] = allocation_method
+                names.add(name)
+                energy_items.append(normalized_item)
+
+            if reported_energy_metric == "facility_pue":
+                if not complete_energy_item_inventory:
+                    raise ValidationError(
+                        "facility_pue requires complete_energy_item_inventory=true"
+                    )
+                if not any(
+                    item["role"] == "it_load"
+                    and item["classification"] == "metered"
+                    for item in energy_items
+                ):
+                    raise ValidationError(
+                        "facility_pue requires a metered it_load energy item"
+                    )
+                if any(
+                    item["role"] == "shared_support"
+                    and item["classification"] == "excluded"
+                    for item in energy_items
+                ):
+                    raise ValidationError(
+                        "facility_pue cannot exclude a shared_support energy item; "
+                        "meter or allocate it instead"
+                    )
+            boundary_definition = {
+                "included_processes": sorted(str(item).strip() for item in included),
+                "excluded_processes": sorted(str(item).strip() for item in excluded),
+                "rationale": rationale,
+                "energy_items": sorted(energy_items, key=lambda item: item["name"]),
+                "reported_energy_metric": reported_energy_metric,
+                "complete_energy_item_inventory": complete_energy_item_inventory,
+            }
+        if boundary == "custom" and boundary_definition is None:
+            raise ValidationError(
+                "A custom system boundary requires boundary_definition"
+            )
         return cls(
             functional_unit=functional_unit,
             system_boundary=boundary,
@@ -247,6 +391,7 @@ class StudyDefinition:
             water_method=str(data["water_method"]),
             replacement_model=replacement_model,
             critical_review_status=review_status,
+            boundary_definition=boundary_definition,
         )
 
 
@@ -398,6 +543,7 @@ class Scenario:
     components: tuple[Component, ...]
     study: StudyDefinition
     data_sources: tuple[DataSource, ...]
+    input_source_map: dict[str, str] = field(default_factory=dict)
     fluid: Fluid | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
     source_digest_sha256: str = ""
@@ -425,6 +571,21 @@ class Scenario:
         source_ids = [source.id for source in sources]
         if len(source_ids) != len(set(source_ids)):
             raise ValidationError("data_sources IDs must be unique")
+        input_source_map = data.get("input_source_map", {})
+        if not isinstance(input_source_map, dict):
+            raise ValidationError("input_source_map must be an object")
+        unknown_source_ids = sorted(
+            {
+                str(source_id)
+                for source_id in input_source_map.values()
+                if str(source_id) not in source_ids
+            }
+        )
+        if unknown_source_ids:
+            raise ValidationError(
+                "input_source_map references unknown data source IDs: "
+                + ", ".join(unknown_source_ids)
+            )
         fluid_data = data.get("fluid")
         study = StudyDefinition.from_dict(data.get("study", {}))
         if (
@@ -451,6 +612,10 @@ class Scenario:
             components=components,
             study=study,
             data_sources=sources,
+            input_source_map={
+                str(field_name): str(source_id)
+                for field_name, source_id in input_source_map.items()
+            },
             fluid=Fluid.from_dict(fluid_data) if fluid_data else None,
             metadata=dict(data.get("metadata", {})),
         )

@@ -46,7 +46,26 @@ name or an adjacent source record.
    [DOI](https://doi.org/10.1126/science.aba3758).
 10. **OCP, “LCA Guidelines for Cloud Providers.”** Industry guidance tied
     directly to the Microsoft/WSP study and necessary for the methods
-    comparison. [OCP project page](https://www.opencompute.org/projects/sustainability).
+    comparison. [Official OCP document](https://www.opencompute.org/documents/lca-sop-in-ocp-document-submission-template-docx-pdf).
+11. **OCP and iMasons Climate Accord, “Embodied Carbon Disclosure Base
+    Specification,” version 1 (2025).** A field-level disclosure structure for
+    future foreground equipment records. [Official OCP document](https://www.opencompute.org/documents/carbon-disclosure-ocp-base-specification-20250730-pdf).
+12. **OCP, “Impact of Strategies on Data Center Energy Consumption, Carbon
+    Footprint, and Water Consumption” (2026).** Guidance for keeping energy,
+    water, and carbon reporting boundaries explicit. [Official OCP document](https://www.opencompute.org/documents/dcf-water-heat-energy-2026march-pdf).
+13. **Sharp et al., “Third Party Integration, Telemetry & APIs” (2025).**
+    Measurement-point and provenance guidance for future operational
+    validation. [Official OCP document](https://www.opencompute.org/documents/third-party-integration-telemetry-apis-final-pdf).
+14. **Mitchell et al., “Guidelines for Connection of Liquid Cooled Information
+    Technology Equipment to Data Center Facility Systems” (2022).** Defines
+    the FWS, TCS, and CDU heat-exchanger interface for liquid-cooling records.
+    [Official OCP document](https://www.opencompute.org/documents/ocp-acs-connection-guidance-acf-wp-05032022-pdf).
+15. **Mitchell et al., “Data Center Liquid Distribution Guidance & Reference
+    Designs” (2024).** Identifies foreground distribution equipment and
+    maintenance considerations. [Official OCP document](https://www.opencompute.org/documents/ocp-acf-reference-design-guidance-white-paper-r1-pdf).
+16. **Yaroch et al., “Guidelines for Using Propylene Glycol-Based Heat Transfer
+    Fluids in Single-Phase Cold Plate-Based Liquid Cooled Racks.”** Defines
+    documented fluid-condition and maintenance fields. [Official OCP document](https://www.opencompute.org/documents/guidelines-for-using-propylene-glycol-based-heat-transfer-fluids-in-single-phase-cold-plate-based-liquid-cooled-racks-final-pdf).
 
 ## Priority B: thermal-performance and temporal coupling
 

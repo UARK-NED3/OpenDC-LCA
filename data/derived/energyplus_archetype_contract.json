@@ -1,0 +1,44 @@
+{
+  "title": "OpenDC-LCA data-center EnergyPlus archetype extension contract",
+  "evidence_status": "reference_model_not_executed",
+  "reference": {
+    "citation_number": 49,
+    "doi": "10.1016/j.enbuild.2020.110603",
+    "source": "Sun et al. (2021), Prototype energy models for data centers"
+  },
+  "purpose": "Create a declared, reproducible starting point for climate-load scenario analysis. This contract does not represent AHPCC and is not an EnergyPlus result.",
+  "archetypes": [
+    {
+      "id": "small_computer_room_crac",
+      "scale": "computer room in a building",
+      "cooling_system": "computer room air conditioners",
+      "ite_load_density_w_per_ft2": [40, 100],
+      "ite_load_density_w_per_m2": [430, 1076]
+    },
+    {
+      "id": "large_standalone_data_center_crah_chiller",
+      "scale": "stand-alone data center",
+      "cooling_system": "computer room air handlers with central chiller plant",
+      "ite_load_density_w_per_ft2": [100, 500],
+      "ite_load_density_w_per_m2": [1076, 5382]
+    }
+  ],
+  "required_before_execution": [
+    "pin an OpenStudio-standards or source-model revision and record its checksum",
+    "select compatible EnergyPlus and OpenStudio versions",
+    "store EPW weather file provenance and checksum",
+    "declare cooling configuration and controls for every case",
+    "review each scenario for physical validity"
+  ],
+  "required_before_lca_coupling": [
+    "measured or independently validated cooling performance for the technology being compared",
+    "common useful-computation service definition",
+    "reviewed foreground inventories and replacement rules",
+    "method-compatible electricity lifecycle inventories"
+  ],
+  "prohibited_interpretations": [
+    "AHPCC representation without calibration and a shared-infrastructure boundary",
+    "liquid-cooling performance inferred from an air-cooled CRAC or CRAH archetype",
+    "comparative lifecycle conclusion from an unvalidated energy model"
+  ]
+}

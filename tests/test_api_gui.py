@@ -59,6 +59,8 @@ class ApiGuiTests(unittest.TestCase):
             "Operational screening only; equipment and fluid omitted",
         )
         self.assertFalse(result["comparative_claim_allowed"])
+        self.assertFalse(result["declared_metadata_gate_passed"])
+        self.assertIn("metadata", result["claim_gate_notice"])
         self.assertGreater(
             result["key_outputs"]["annual_facility_energy_mwh"], 0
         )

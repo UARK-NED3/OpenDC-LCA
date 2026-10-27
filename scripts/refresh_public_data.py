@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import csv
-import hashlib
 import json
 from pathlib import Path
 import sys
@@ -19,6 +18,7 @@ from opendc_lca.public_data import (  # noqa: E402
     operational_ghg_per_it_mwh,
     summarize_noaa_tmy,
 )
+from opendc_lca.provenance import build_file_manifest, write_file_manifest  # noqa: E402
 
 RAW = ROOT / "private-data" / "incoming"
 DERIVED = ROOT / "data" / "derived"
@@ -32,14 +32,6 @@ OEKO_UUIDS = [
     "aaaedf41-a759-4756-bd55-cd2af3af17f4",  # cement CEM II/A
     "8f4e4fdb-fa6c-46b3-8680-57120c4bee5e",  # cement CEM III
 ]
-
-
-def digest(path: Path) -> str:
-    value = hashlib.sha256()
-    with path.open("rb") as stream:
-        for block in iter(lambda: stream.read(1024 * 1024), b""):
-            value.update(block)
-    return value.hexdigest()
 
 
 def write_json(path: Path, value: object) -> None:
@@ -179,17 +171,8 @@ cooling performance.
 """
     (RESULTS / "REPORT.md").write_text(report)
 
-    source_files = sorted(path for path in RAW.rglob("*") if path.is_file())
-    manifest = [
-        {
-            "source_group": path.relative_to(RAW).parts[0],
-            "local_path": str(path.relative_to(ROOT)),
-            "bytes": path.stat().st_size,
-            "sha256": digest(path),
-        }
-        for path in source_files
-    ]
-    write_json(DERIVED / "source-file-manifest.json", manifest)
+    manifest = build_file_manifest(RAW, root=ROOT)
+    write_file_manifest(DERIVED / "source-file-manifest.json", manifest)
     print(f"Wrote derived data to {DERIVED}")
     print(f"Wrote analysis to {RESULTS}")
 

@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-label="Equal-width bounds identify service and use-phase assumptions as limiting">
+<style>text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:23px;font-weight:700}.axis{font-size:17px}.label{font-size:16px}.note{font-size:14px;fill:#52606d}</style>
+<rect width="100%" height="100%" fill="white"/>
+<text class="label" x="10" y="122">(a)</text>
+<text class="label" x="675" y="122">(b)</text>
+<line x1="210.0" y1="145" x2="210.0" y2="555" stroke="#E5E7EB"/>
+<text class="note" x="210.0" y="580" text-anchor="middle">0%</text>
+<line x1="280.0" y1="145" x2="280.0" y2="555" stroke="#E5E7EB"/>
+<text class="note" x="280.0" y="580" text-anchor="middle">5%</text>
+<line x1="350.0" y1="145" x2="350.0" y2="555" stroke="#E5E7EB"/>
+<text class="note" x="350.0" y="580" text-anchor="middle">10%</text>
+<line x1="420.0" y1="145" x2="420.0" y2="555" stroke="#E5E7EB"/>
+<text class="note" x="420.0" y="580" text-anchor="middle">15%</text>
+<line x1="490.0" y1="145" x2="490.0" y2="555" stroke="#E5E7EB"/>
+<text class="note" x="490.0" y="580" text-anchor="middle">20%</text>
+<line x1="560.0" y1="145" x2="560.0" y2="555" stroke="#E5E7EB"/>
+<text class="note" x="560.0" y="580" text-anchor="middle">25%</text>
+<text class="axis" x="195" y="187" text-anchor="end">Grid only</text>
+<rect x="210" y="160" width="350.0" height="38" rx="4" fill="#0072B2"/>
+<text class="note" x="568.0" y="185">>99.999%</text>
+<text class="axis" x="195" y="269" text-anchor="end">Use phase only</text>
+<rect x="210" y="242" width="41.9" height="38" rx="4" fill="#D55E00"/>
+<text class="note" x="259.9" y="267">2.99%</text>
+<text class="axis" x="195" y="351" text-anchor="end">Embodied only</text>
+<rect x="210" y="324" width="310.2" height="38" rx="4" fill="#0072B2"/>
+<text class="note" x="528.2" y="349">22.15%</text>
+<text class="axis" x="195" y="433" text-anchor="end">Service equivalence only</text>
+<rect x="210" y="406" width="36.9" height="38" rx="4" fill="#D55E00"/>
+<text class="note" x="254.9" y="431">2.64%</text>
+<text class="axis" x="195" y="515" text-anchor="end">All four equal-width</text>
+<rect x="210" y="488" width="18.5" height="38" rx="4" fill="#D55E00"/>
+<text class="note" x="236.5" y="513">1.32%</text>
+<text class="axis" x="385" y="620" text-anchor="middle">Critical half-width, <tspan font-style="italic">h</tspan></text>
+<g transform="translate(25 20)">
+<line x1="680.0" y1="125" x2="680.0" y2="535" stroke="#E5E7EB"/>
+<text class="note" x="680.0" y="563" text-anchor="middle">0</text>
+<line x1="766.0" y1="125" x2="766.0" y2="535" stroke="#E5E7EB"/>
+<text class="note" x="766.0" y="563" text-anchor="middle">200</text>
+<line x1="852.0" y1="125" x2="852.0" y2="535" stroke="#E5E7EB"/>
+<text class="note" x="852.0" y="563" text-anchor="middle">400</text>
+<line x1="938.0" y1="125" x2="938.0" y2="535" stroke="#E5E7EB"/>
+<text class="note" x="938.0" y="563" text-anchor="middle">600</text>
+<line x1="1024.0" y1="125" x2="1024.0" y2="535" stroke="#E5E7EB"/>
+<text class="note" x="1024.0" y="563" text-anchor="middle">800</text>
+<line x1="1110.0" y1="125" x2="1110.0" y2="535" stroke="#E5E7EB"/>
+<text class="note" x="1110.0" y="563" text-anchor="middle">1000</text>
+<line x1="680" y1="535.0" x2="1110" y2="535.0" stroke="#E5E7EB"/>
+<text class="note" x="670" y="539.0" text-anchor="end">1.0%</text>
+<line x1="680" y1="398.3" x2="1110" y2="398.3" stroke="#E5E7EB"/>
+<text class="note" x="670" y="402.3" text-anchor="end">1.2%</text>
+<line x1="680" y1="261.7" x2="1110" y2="261.7" stroke="#E5E7EB"/>
+<text class="note" x="670" y="265.7" text-anchor="end">1.4%</text>
+<line x1="680" y1="125.0" x2="1110" y2="125.0" stroke="#E5E7EB"/>
+<text class="note" x="670" y="129.0" text-anchor="end">1.6%</text>
+<circle cx="682.0" cy="425.0" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="934.1" cy="333.1" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="950.2" cy="335.4" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="788.8" cy="285.5" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="783.4" cy="281.7" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="751.9" cy="250.6" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="790.0" cy="286.3" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="836.5" cy="309.5" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="713.0" cy="215.6" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="890.9" cy="325.0" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="868.3" cy="319.6" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="820.9" cy="303.2" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="910.2" cy="329.0" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="799.4" cy="292.2" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="715.6" cy="208.0" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="891.2" cy="325.1" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="852.9" cy="315.1" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="929.1" cy="332.3" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="837.2" cy="309.8" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="1018.1" cy="343.2" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="897.9" cy="326.5" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="685.7" cy="378.2" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="902.2" cy="327.4" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="809.6" cy="297.8" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="821.6" cy="303.5" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="776.8" cy="276.5" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="943.4" cy="334.5" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="896.4" cy="326.2" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="1104.8" cy="349.6" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="909.8" cy="328.9" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="689.4" cy="340.2" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="686.1" cy="372.8" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="865.1" cy="318.7" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="782.7" cy="281.2" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="997.0" cy="341.1" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="853.0" cy="315.1" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="680.4" cy="451.0" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="1001.3" cy="341.5" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="734.1" cy="222.1" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="810.3" cy="298.2" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="867.4" cy="319.3" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="794.9" cy="289.5" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="680.9" cy="443.2" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="705.3" cy="243.3" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="820.0" cy="302.8" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="817.4" cy="301.6" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="712.9" cy="215.9" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="976.6" cy="338.8" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="1016.2" cy="343.0" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="733.0" cy="219.9" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="884.5" cy="323.6" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="875.9" cy="321.5" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="804.7" cy="295.2" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="888.1" cy="324.4" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="829.1" cy="306.7" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="977.1" cy="338.9" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="851.2" cy="314.6" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="869.8" cy="320.0" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="1058.9" cy="346.5" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="742.7" cy="237.3" r="4" fill="#0072B2" opacity="0.82"/>
+<circle cx="804.2" cy="295.0" r="4" fill="#D55E00" opacity="0.82"/>
+<circle cx="852.9" cy="315.1" r="4" fill="#D55E00" opacity="0.82"/>
+<circle cx="809.6" cy="297.8" r="4" fill="#D55E00" opacity="0.82"/>
+<circle cx="919.6" cy="330.7" r="4" fill="#D55E00" opacity="0.82"/>
+<circle cx="782.7" cy="281.2" r="4" fill="#D55E00" opacity="0.82"/>
+<circle cx="842.6" cy="311.7" r="4" fill="#D55E00" opacity="0.82"/>
+<circle cx="853.0" cy="315.1" r="4" fill="#D55E00" opacity="0.82"/>
+<circle cx="875.0" cy="321.3" r="4" fill="#D55E00" opacity="0.82"/>
+<circle cx="863.1" cy="318.1" r="4" fill="#D55E00" opacity="0.82"/>
+<circle cx="886.7" cy="324.1" r="4" fill="#D55E00" opacity="0.82"/>
+<circle cx="861.9" cy="317.8" r="4" fill="#009E73" opacity="0.82"/>
+<text class="axis" x="895" y="600" text-anchor="middle">Lifecycle electricity factor (kg CO₂e/MWh)</text>
+<text class="axis" x="635" y="330" text-anchor="middle" transform="rotate(-90 635 330)">Critical half-width, <tspan font-style="italic">h</tspan></text>
+</g>
+<rect x="1050" y="155" width="70" height="80" fill="white" stroke="#6B7280" stroke-width="0.8"/>
+<circle cx="1065" cy="169" r="5" fill="#0072B2"/><text class="note" x="1077" y="173">BA</text>
+<circle cx="1065" cy="194" r="5" fill="#D55E00"/><text class="note" x="1077" y="198">FERC</text>
+<circle cx="1065" cy="219" r="5" fill="#009E73"/><text class="note" x="1077" y="223">U.S.</text>
+</svg>

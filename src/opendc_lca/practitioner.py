@@ -290,10 +290,19 @@ def interpret_practitioner_scenario(data: object) -> dict[str, Any]:
         "Add watershed scarcity characterization before making a water-impact claim.",
     ])
     annual_it_mwh = result.annual_it_energy_kwh / 1000
+    declared_metadata_gate_passed = (
+        not blockers and scenario.study.comparative_assertion
+    )
     return {
         "evidence_level": level,
-        "comparative_claim_allowed": not blockers
-        and scenario.study.comparative_assertion,
+        "declared_metadata_gate_passed": declared_metadata_gate_passed,
+        "comparative_claim_allowed": declared_metadata_gate_passed,
+        "claim_gate_notice": (
+            "No declared metadata blockers; source truth, scientific validity, "
+            "and external critical review are not authenticated."
+            if declared_metadata_gate_passed
+            else "One or more declared metadata blockers remain."
+        ),
         "interpretation_scope": scenario.metadata.get(
             "interpretation", "Full scenario supplied"
         ),
@@ -348,7 +357,8 @@ def write_practitioner_report(
 - Cooling architecture: **{scenario.cooling_architecture}**
 - Evidence level: **{summary['evidence_level']}**
 - Interpretation scope: **{summary['interpretation_scope']}**
-- Public comparative claim allowed: **{'yes' if summary['comparative_claim_allowed'] else 'no'}**
+- Declared comparison-metadata gate: **{'no blockers' if summary['declared_metadata_gate_passed'] else 'blocked'}**
+- Gate limitation: {summary['claim_gate_notice']}
 
 ## What the model calculated
 

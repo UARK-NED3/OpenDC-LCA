@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 
 from .models import Scenario
 
@@ -96,6 +97,25 @@ def audit(scenario: Scenario) -> list[Finding]:
             "Confidential or aggregated-confidential sources require independent "
             "review: " + ", ".join(insufficient_confidential_review) + ".",
         ))
+    required_lineage = {
+        "it_capacity_kw",
+        "capacity_factor",
+        "pue",
+        "facility_lifetime_years",
+        "onsite_water_l_per_kwh_it",
+        "grid",
+        *(f"component:{component.name}" for component in scenario.components),
+    }
+    if scenario.fluid is not None:
+        required_lineage.add(f"fluid:{scenario.fluid.name}")
+    missing_lineage = sorted(required_lineage - set(scenario.input_source_map))
+    if scenario.study.comparative_assertion and missing_lineage:
+        findings.append(Finding(
+            "blocker",
+            "COMPARISON_REQUIRES_FIELD_LEVEL_LINEAGE",
+            "Public comparative assertions require field-level source mapping "
+            "for: " + ", ".join(missing_lineage) + ".",
+        ))
     methods = (
         scenario.study.ghg_method,
         scenario.study.primary_energy_method,
@@ -111,9 +131,12 @@ def audit(scenario: Scenario) -> list[Finding]:
             "assertion.",
         ))
 
-    if scenario.study.system_boundary == "custom":
+    if (
+        scenario.study.system_boundary == "custom"
+        and scenario.study.boundary_definition is None
+    ):
         findings.append(Finding(
-            "warning",
+            "blocker" if scenario.study.comparative_assertion else "warning",
             "CUSTOM_BOUNDARY_REQUIRES_REVIEW",
             "A custom system boundary requires a complete boundary diagram "
             "and inclusion/exclusion table.",
@@ -168,5 +191,78 @@ def audit(scenario: Scenario) -> list[Finding]:
             "info",
             "NO_AUTOMATED_FINDINGS",
             "No automated quality findings. This is not a critical review.",
+        ))
+    return findings
+
+
+def audit_comparison(scenarios: list[Scenario]) -> list[Finding]:
+    """Audit cross-scenario comparability and scenario-level claim blockers."""
+    if len(scenarios) < 2:
+        raise ValueError("Comparison audit requires at least two scenarios")
+    findings: list[Finding] = []
+    study_fields = (
+        "functional_unit",
+        "system_boundary",
+        "electricity_accounting",
+        "water_metric",
+        "allocation_method",
+        "ghg_method",
+        "primary_energy_method",
+        "water_method",
+        "replacement_model",
+    )
+    for field_name in study_fields:
+        values = {
+            str(getattr(scenario.study, field_name)) for scenario in scenarios
+        }
+        if len(values) > 1:
+            findings.append(Finding(
+                "blocker",
+                "INCOMPATIBLE_" + field_name.upper(),
+                f"Compared scenarios do not share {field_name}: "
+                + "; ".join(
+                    f"{scenario.name}={getattr(scenario.study, field_name)}"
+                    for scenario in scenarios
+                )
+                + ".",
+            ))
+    boundary_definitions = {
+        json.dumps(
+            scenario.study.boundary_definition,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        for scenario in scenarios
+        if scenario.study.system_boundary == "custom"
+    }
+    if len(boundary_definitions) > 1:
+        findings.append(Finding(
+            "blocker",
+            "INCOMPATIBLE_CUSTOM_BOUNDARY_DEFINITION",
+            "Compared custom-boundary scenarios do not share the same explicit "
+            "inclusion, exclusion, and rationale record.",
+        ))
+    assertion_flags = {scenario.study.comparative_assertion for scenario in scenarios}
+    if len(assertion_flags) > 1:
+        findings.append(Finding(
+            "blocker",
+            "INCONSISTENT_COMPARATIVE_ASSERTION_INTENT",
+            "All compared scenarios must declare the same comparative-assertion intent.",
+        ))
+    for scenario in scenarios:
+        for finding in audit(scenario):
+            if finding.severity == "blocker":
+                findings.append(Finding(
+                    "blocker",
+                    f"SCENARIO_{finding.code}",
+                    f"Scenario '{scenario.name}': {finding.message}",
+                ))
+    if not findings:
+        findings.append(Finding(
+            "info",
+            "COMPARISON_METADATA_COMPATIBLE",
+            "Automated metadata checks found no cross-scenario mismatch or "
+            "declared claim blocker. This does not verify source truth, model "
+            "validity, or constitute critical review.",
         ))
     return findings

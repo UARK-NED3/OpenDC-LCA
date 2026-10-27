@@ -173,17 +173,42 @@ electricity anchors, and tests electricity-boundary, functional-unit, and joint
 assumption sensitivity. It separates robust national decarbonization from
 conditional cooling rankings.
 
+The paper workflow also decomposes rank sensitivity by grid, use phase,
+embodied inventory, and service equivalence, and tests how declared dependence
+among technology-specific errors changes the result. Rebuilds require the
+locally held provider files listed by checksum in
+`data/derived/source-file-manifest.json`; clone-only package tests do not
+fabricate replacements for those files.
+
 ```bash
 python scripts/run_research_analysis.py
 python scripts/run_v06_measurement_demo.py
 python scripts/run_integrated_evidence_analysis.py
 python scripts/run_applied_energy_analysis.py
+python scripts/run_transferability_extension.py
+python scripts/build_source_manifest.py --check
+python -m unittest discover -s tests -v
 ```
 
 The TMY and synthetic performance-map demonstrations exercise the
 measurement-to-LCA path but remain illustrative. The engine refuses
 extrapolation beyond the measured grid and does not authorize comparative
 claims until the required performance datasets and review status are present.
+For a site that shares electrical or mechanical infrastructure with other
+occupants, use the [shared-infrastructure measurement protocol](docs/SHARED_INFRASTRUCTURE_MEASUREMENT_PROTOCOL.md).
+It separates a dedicated-support ratio from facility PUE and specifies the
+service, electrical, thermal, provenance, and data-rights records needed for a
+future operational validation study.
+
+The repository also includes a [cross-study transferability evidence map](data/derived/transferability_evidence_map.csv)
+and an [EnergyPlus archetype contract](docs/ENERGYPLUS_ARCHETYPE_EXTENSION.md).
+For future equipment or facility records, the [OCP foreground-disclosure intake](docs/OCP_FOREGROUND_DISCLOSURE.md)
+provides a blank, field-level template and the source-document links.
+The four-study map states its audit scope record by record. It is not a
+systematic review or a study-quality score. The contract is based on the
+published LBNL CRAC and CRAH-plus-chiller prototypes, but the repository does
+not contain an executed or calibrated EnergyPlus result. It therefore cannot
+represent AHPCC or support a cooling-technology comparison.
 
 ## Model boundary
 
@@ -201,13 +226,19 @@ The Phase 1 model includes:
 - scenario SHA-256 digests and model version in JSON results; and
 - one-at-a-time GHG sensitivity screening.
 - automated scientific-quality findings and comparative-claim blockers.
-- duration-weighted laboratory performance maps that derive measured PUE,
-  on-site water intensity, and cooling COP; and
+- custom-boundary records that classify every energy item as metered, allocated,
+  or excluded and prevent an incomplete shared-infrastructure boundary from
+  being labeled facility PUE.
+- duration-weighted laboratory performance maps that derive cooling-only
+  partial PUE, on-site water intensity, and cooling COP; and
 - reproducible independent-parameter Monte Carlo propagation with p05, p50,
   p95, and mean results.
 
-It does not yet model correlated or model-form uncertainty, water scarcity,
-heat reuse, redundancy networks, repair queues, or workload output. These are
+The hourly performance-map path uses IT load and dry-bulb temperature with one
+constant grid factor; wet-bulb temperature is validated but not yet an
+interpolation coordinate. It does not yet model correlated or model-form
+uncertainty, water scarcity, heat reuse, redundancy networks, repair queues,
+or workload output. These are
 tracked in the [research roadmap](docs/ROADMAP.md).
 
 ## Repository map
@@ -224,6 +255,8 @@ tracked in the [research roadmap](docs/ROADMAP.md).
 - `results/v0.4-microsoft-reproduction/`: released-result arithmetic audit
 - `results/v0.5-hourly-preview/`: climate-aware hypothesis demonstration
 - `results/v0.6-measurement-demo/`: measurement-surface protocol demonstration
+- `results/transferability-extension/`: cross-study evidence-map and
+  EnergyPlus-execution-status records
 - `paper/`: manuscript-ready tables, figures, workbook, and results narrative
 - `CHANGELOG.md`: release-level scientific and software changes
 

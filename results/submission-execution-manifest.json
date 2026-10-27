@@ -1,0 +1,695 @@
+{
+  "purpose": "submission claim-to-input-to-code-to-output execution record",
+  "python_version": "3.12.3",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "git_commit": "f1147ec085011760008446cfd87f6564b4145654",
+  "git_dirty": true,
+  "git_status_sha256": "1ba510c7500c2b1ca1450f60bccbc967d9e12dc6b1b1e6a642e38b46a662e8cd",
+  "source_manifest": {
+    "local_path": "data/derived/source-file-manifest.json",
+    "bytes": 10692,
+    "sha256": "4fb68103e9a003d75c6d201c7c7b6cac65152e591f11e59971ef1c0bad4c2ef1"
+  },
+  "code": [
+    {
+      "local_path": "paper/build_manuscript.py",
+      "bytes": 19141,
+      "sha256": "5e9b348eb8d7227bdb76bc52d847ec8360de1b37d308361ddc53fa8366de3486"
+    },
+    {
+      "local_path": "paper/build_overleaf.py",
+      "bytes": 23705,
+      "sha256": "912c7898de6640f3d6142597f855832c299712541bf9a87480094c13f75c2467"
+    },
+    {
+      "local_path": "scripts/build_source_manifest.py",
+      "bytes": 2365,
+      "sha256": "82f9bedd621989db01c046ec400b232eb3242d2e92ce9b721688131443d7a8f9"
+    },
+    {
+      "local_path": "scripts/normalize_figure_typography.py",
+      "bytes": 2450,
+      "sha256": "39acc85fd936309df5c1c56d5f27e02a953a621c656a2ae41abec3926b72263c"
+    },
+    {
+      "local_path": "scripts/refresh_public_data.py",
+      "bytes": 7731,
+      "sha256": "834f91cc231ab56766897c60b59d2e6627fd7faa552089919485875b8d93a2e4"
+    },
+    {
+      "local_path": "scripts/run_applied_energy_analysis.py",
+      "bytes": 104929,
+      "sha256": "aa855db27c044338b242b23b24102342c9546f6bb25025d8987837371d3da095"
+    },
+    {
+      "local_path": "scripts/run_integrated_evidence_analysis.py",
+      "bytes": 31505,
+      "sha256": "a96e1744a5834a05ebdd6c7d2f06ad801faf3fdb68020bf23fbf2c6597c22ec6"
+    },
+    {
+      "local_path": "scripts/run_research_analysis.py",
+      "bytes": 13216,
+      "sha256": "e66f02f00238b10eac7f36ca3b6f2b9ca31b75680c451efdaff624fff7088d41"
+    },
+    {
+      "local_path": "scripts/run_submission_pipeline.py",
+      "bytes": 7607,
+      "sha256": "35fd5b0e7e1ca1d44046c2fccec9deed6446cefe35bf39f2c045033a8a4a3343"
+    },
+    {
+      "local_path": "scripts/run_v06_measurement_demo.py",
+      "bytes": 11261,
+      "sha256": "782b039a64988bc2cab56ec8cdf4f93bd9bc83267335646d987ec16b60341194"
+    },
+    {
+      "local_path": "src/opendc_lca/__init__.py",
+      "bytes": 2485,
+      "sha256": "7a2bb5b4509f9c98a999ecb9d75690971885bba01256d82b7b4b092571d741cb"
+    },
+    {
+      "local_path": "src/opendc_lca/api.py",
+      "bytes": 2421,
+      "sha256": "fb64ea9999d4ba255de884abd5358e8c3929b665c4d63aa301766bf1809e2884"
+    },
+    {
+      "local_path": "src/opendc_lca/audit.py",
+      "bytes": 10041,
+      "sha256": "738883702a683c411cdb6519d63ee1fc7b926f0332fd6225910427928c1dbe79"
+    },
+    {
+      "local_path": "src/opendc_lca/benchmark.py",
+      "bytes": 6001,
+      "sha256": "b6faedffa7fe0b6e4abf108247862475103168325fc4ffc94279e1c4d0867bee"
+    },
+    {
+      "local_path": "src/opendc_lca/cli.py",
+      "bytes": 13601,
+      "sha256": "c4bfd0f12213870ba4cb3d7ba09df228e6c197a1d99b5cf3ae9f01a15c705ba4"
+    },
+    {
+      "local_path": "src/opendc_lca/engine.py",
+      "bytes": 15896,
+      "sha256": "264fb31ca2ba2c517bc8f5e2790483913ce808c8813c00686fd3b7489bb43b40"
+    },
+    {
+      "local_path": "src/opendc_lca/examples.py",
+      "bytes": 929,
+      "sha256": "41ec55a80f224ec4546c35164265c9b41eaea9c5d1aa29d6a7630fd0f4a8b6fb"
+    },
+    {
+      "local_path": "src/opendc_lca/gui.py",
+      "bytes": 18117,
+      "sha256": "897ba63e713be85c2c3367e01bbf220a7d1bd19b41663974910600f406786e1e"
+    },
+    {
+      "local_path": "src/opendc_lca/interoperability.py",
+      "bytes": 13020,
+      "sha256": "ee5424cb85bb2fb10b2ce15828cf4d249c49054c3da02960c9fec7b2d7c9b5b7"
+    },
+    {
+      "local_path": "src/opendc_lca/io.py",
+      "bytes": 1049,
+      "sha256": "8549cdf4d40a87956c2f87ece1d8e30d94388234fd0c79acd3e98cee296a2adb"
+    },
+    {
+      "local_path": "src/opendc_lca/models.py",
+      "bytes": 24354,
+      "sha256": "2b46de6cc836f1934ebc54a31df2bd856350e945b5f839eccbced2722e3ba60d"
+    },
+    {
+      "local_path": "src/opendc_lca/performance.py",
+      "bytes": 15621,
+      "sha256": "0f0b872dda4b6dfa1a08954ad12d58bb9bd52262b340225031ffdfb4c7483f2b"
+    },
+    {
+      "local_path": "src/opendc_lca/practitioner.py",
+      "bytes": 15944,
+      "sha256": "16840b8b3cdf4362b2cb1dc1b4b51ee02b4bace70690860df5b453ba6fe5bc90"
+    },
+    {
+      "local_path": "src/opendc_lca/provenance.py",
+      "bytes": 3424,
+      "sha256": "bae5ef27279ddaaf0e25a80c37a57125fe3d678e7910291438798fa86a5b229c"
+    },
+    {
+      "local_path": "src/opendc_lca/public_data.py",
+      "bytes": 12651,
+      "sha256": "f4d45b9a5e51d5cc7971823a4ab01619f69049db52904852832f80e4476e822a"
+    },
+    {
+      "local_path": "src/opendc_lca/report.py",
+      "bytes": 19509,
+      "sha256": "ddeecd926b0ad567fce90d74b815836b20f1caeb5cee23a72af267c69d20f059"
+    },
+    {
+      "local_path": "src/opendc_lca/research.py",
+      "bytes": 5097,
+      "sha256": "62f9a4df61b6e2112669a12f4f063b1c73b193baedf5e46805ebfe759a5dd276"
+    },
+    {
+      "local_path": "src/opendc_lca/uncertainty.py",
+      "bytes": 9285,
+      "sha256": "82ff6ec8bbd88488d9c5e822e46b46faf90e04619377f8329ec1932ecfac0781"
+    },
+    {
+      "local_path": "tests/test_analysis_scripts.py",
+      "bytes": 20947,
+      "sha256": "6699c3baf384c9782d15a86d18ee5210fed36a39719ef86d927d438f14d7fb1e"
+    },
+    {
+      "local_path": "tests/test_api_gui.py",
+      "bytes": 3939,
+      "sha256": "6606414311cbc305ff0983655618d52fe5f897c4c207b51357259ed96c620d95"
+    },
+    {
+      "local_path": "tests/test_engine.py",
+      "bytes": 22916,
+      "sha256": "1f5a5685e5f3871923f13b81707e8d254d354f7f256f1b75d1618282e49fb092"
+    },
+    {
+      "local_path": "tests/test_interoperability_reliability.py",
+      "bytes": 6184,
+      "sha256": "85c1fe2e20346bdeb8fd86e79fabfbcd844af29ba1de420db96448d262b6705c"
+    },
+    {
+      "local_path": "tests/test_practitioner.py",
+      "bytes": 2131,
+      "sha256": "da1b847ecb8f5f47b07986ac5e0c3d44d0b4c821ca84d75b03f30d2fe68533e2"
+    },
+    {
+      "local_path": "tests/test_public_data.py",
+      "bytes": 1726,
+      "sha256": "676b9c97950b783a014a2f7e4867ad9604de7b1e93f6d40640ef0a0c69174e35"
+    },
+    {
+      "local_path": "tests/test_research.py",
+      "bytes": 3100,
+      "sha256": "2af9da6ae23ec3a13ddad6920d63d1776b9dfdc85c4cdd0ce30cf7533790ed70"
+    }
+  ],
+  "outputs": [
+    {
+      "local_path": "paper/AUTHOR_REVISION_2026-08-23.md",
+      "bytes": 3684,
+      "sha256": "ebbf0fc72ecd81178a92a8b5063e370613f694ce79fc55995b20f113e28ec998"
+    },
+    {
+      "local_path": "paper/figures/figure0_opendc_lca_workflow.svg",
+      "bytes": 7228,
+      "sha256": "6da715be0cf4febc37adc981ea0ad1b0bfcb0a9455be2eef87c94c1294d201ef"
+    },
+    {
+      "local_path": "paper/figures/figure10_lifecycle_electricity.svg",
+      "bytes": 5054,
+      "sha256": "8837c7368ab253b5e2c6759f7423a03dff8f22dc620d4530f7f1ed11686b17a1"
+    },
+    {
+      "local_path": "paper/figures/figure11_standardized_robustness.svg",
+      "bytes": 9486,
+      "sha256": "1e774e1442d3a6ee632476cc8ddcec127b04a3438271a908f6c5ad281e9ef982"
+    },
+    {
+      "local_path": "paper/figures/figure1_microsoft_grid_reductions.svg",
+      "bytes": 2580,
+      "sha256": "5e6c4bad33daea3578a442459d72dd3e5412dcb04c5b0f8b6d4ee7695c048fe7"
+    },
+    {
+      "local_path": "paper/figures/figure2_grid_crossover.svg",
+      "bytes": 5865,
+      "sha256": "a6e67b95d0584a36693fc204a2fe97a3e66b7f1e434f2ad5fa49b3cd2ebd33d9"
+    },
+    {
+      "local_path": "paper/figures/figure2_monthly_climate_pue.svg",
+      "bytes": 3332,
+      "sha256": "19469d9cfa9f2a46dc06b0c429f8aa7d9a2815ceffe4ad36afc06d9d153fd1e4"
+    },
+    {
+      "local_path": "paper/figures/figure3_data_priority.svg",
+      "bytes": 2937,
+      "sha256": "8b6789c2fa568cdf4746101819c20e18aa149cb3e0c5325b245d087064fc3546"
+    },
+    {
+      "local_path": "paper/figures/figure3_hourly_operational_ghg.svg",
+      "bytes": 2147,
+      "sha256": "19984cbb96ddeb4e32297411c4c521d4fe97e88532ba5ce600391bd09e006ec0"
+    },
+    {
+      "local_path": "paper/figures/figure4_measurement_surface_demo.svg",
+      "bytes": 1018,
+      "sha256": "8f4408599e3c8abf32cf31462609a555751642753000e584bcb6b35045e2eefe"
+    },
+    {
+      "local_path": "paper/figures/figure4_server_epd_distribution.svg",
+      "bytes": 2068,
+      "sha256": "95baa769e2d11baec7b34a0fba851099291573bca74fc5027c447ce2c8786171"
+    },
+    {
+      "local_path": "paper/figures/figure5_material_levers.svg",
+      "bytes": 1326,
+      "sha256": "99baa66b55770f0b0781953460b407b544a8c0190a0fa261cf2ba4c75b1fd295"
+    },
+    {
+      "local_path": "paper/figures/figure5_synthetic_performance_surface.svg",
+      "bytes": 2227,
+      "sha256": "e5a2673df0a5a059f260b15be2235fa03895997c27dd1901a5c4614ddcb9764f"
+    },
+    {
+      "local_path": "paper/figures/figure6_historical_grid_transition.svg",
+      "bytes": 34696,
+      "sha256": "9aaeeb63cca1e9705104721d0617afba42100420f0c3cca815afef933ca5b1b9"
+    },
+    {
+      "local_path": "paper/figures/figure7_performance_robustness.svg",
+      "bytes": 4075,
+      "sha256": "4a58a3968ed3ed2796e326946c8c715c74a954b532dcd7161d7b5058a016b6f8"
+    },
+    {
+      "local_path": "paper/figures/figure8_scope_uncertainty.svg",
+      "bytes": 6497,
+      "sha256": "48e4a379d791c7182dc1253a3a536a8b15d4b495e4855749343d8526761d41ae"
+    },
+    {
+      "local_path": "paper/figures/figure9_stress_structure.svg",
+      "bytes": 7134,
+      "sha256": "a5b0fb85127de21c0a7705369fa8c74adcd146278af086e422c27d717fdd63cb"
+    },
+    {
+      "local_path": "paper/MANUSCRIPT.md",
+      "bytes": 77103,
+      "sha256": "14a0fa6a1b82e6460555d8129d2757df6a4d12a73b481c2fe739ce653b2126ce"
+    },
+    {
+      "local_path": "paper/OpenDC-LCA_Applied_Energy_Overleaf.zip",
+      "bytes": 2852767,
+      "sha256": "b2937071c8f4e8b6a29ff319880512e2ece39f30057800de0263f7562353c91a"
+    },
+    {
+      "local_path": "paper/OpenDC-LCA_manuscript.docx",
+      "bytes": 857268,
+      "sha256": "bf7536644c0868a028a85aadd40b9f7789e6bc74945add93aaabadc14df526c2"
+    },
+    {
+      "local_path": "paper/OpenDC-LCA_manuscript.pdf",
+      "bytes": 1400682,
+      "sha256": "8d804e35c54f23845854cd8266a00c4912ece2f431edf3e61d3ab1b1cf6ec30f"
+    },
+    {
+      "local_path": "paper/OpenDC-LCA_supplementary_information.pdf",
+      "bytes": 1000984,
+      "sha256": "34c62719665e758e9a8ab7a4fdb7615c7e9b2de9ec2a93308ec8325c0b51c9e9"
+    },
+    {
+      "local_path": "paper/overleaf/main.pdf",
+      "bytes": 1400682,
+      "sha256": "8d804e35c54f23845854cd8266a00c4912ece2f431edf3e61d3ab1b1cf6ec30f"
+    },
+    {
+      "local_path": "paper/overleaf/main.tex",
+      "bytes": 81807,
+      "sha256": "1c3116121f9f784087ccaf47a778ef64ac6b0a57e9d387ffa446bb807ccb84bb"
+    },
+    {
+      "local_path": "paper/overleaf/supplement.pdf",
+      "bytes": 1000984,
+      "sha256": "3a9de4f0566439b28e7af434ef58c8d2b8d53cf1d9762e7eab4bf151d7733c5a"
+    },
+    {
+      "local_path": "paper/overleaf/supplement.tex",
+      "bytes": 20153,
+      "sha256": "3819f48db9c5f6e5e955f9057129d09feb46a19102dbaa0562ff6cb987b92098"
+    },
+    {
+      "local_path": "paper/RESULTS_PACKAGE.md",
+      "bytes": 4827,
+      "sha256": "4ddf9608a01427e7b89f4b9636904aa389c875d1b0533816deea4c2a65eff7c4"
+    },
+    {
+      "local_path": "paper/SUBMISSION_ACTIONS.md",
+      "bytes": 2525,
+      "sha256": "2f045eab69f6ba2c7d5134f8e14d81f23642332ab1488785f52b4b175f4b41b4"
+    },
+    {
+      "local_path": "paper/SUPPLEMENTARY_INFORMATION.md",
+      "bytes": 17744,
+      "sha256": "578e1ae656d4d940b9a54014f6bfcde66bc8be65e780d87987d994f1e9013209"
+    },
+    {
+      "local_path": "paper/tables/table0_capability_evidence_matrix.csv",
+      "bytes": 1993,
+      "sha256": "725a93c0c05d0c874f663f8235c58553c3e8ef984c091fdc6998c94ea3288306"
+    },
+    {
+      "local_path": "paper/tables/table10_boavizta_server_summary.csv",
+      "bytes": 253,
+      "sha256": "fd5cd41d6507047464703eb36324579493b0e975d96520d480b34b911a0e1729"
+    },
+    {
+      "local_path": "paper/tables/table11_material_decarbonization_levers.csv",
+      "bytes": 2646,
+      "sha256": "c5ef9e9e027ec20c461d8e95ca588e7f39dc95d19a12786512c9228add501665"
+    },
+    {
+      "local_path": "paper/tables/table12_microsoft_pedigree_scores.csv",
+      "bytes": 26936,
+      "sha256": "f15be467540ce2a81408951b4acc87f7a2a8590ff3eefb8bb685e77da9621186"
+    },
+    {
+      "local_path": "paper/tables/table13_data_improvement_priority.csv",
+      "bytes": 1839,
+      "sha256": "f73c2379cf9f1c4165edb80762dbb2fcfb603cfc3ad4ff67a1b73662fd7f3a67"
+    },
+    {
+      "local_path": "paper/tables/table14_egrid_historical_state_factors.csv",
+      "bytes": 103784,
+      "sha256": "ccc0838a978e0069f6c4f9f4d9a2112a23a1769326ed600e17beee57812c52b2"
+    },
+    {
+      "local_path": "paper/tables/table15_egrid_historical_national_factors.csv",
+      "bytes": 3917,
+      "sha256": "eb177c72e380defd319e4efcc2043855e8a7fbe66430ea3b85b276f110ccf858"
+    },
+    {
+      "local_path": "paper/tables/table16_historical_cooling_results.csv",
+      "bytes": 596618,
+      "sha256": "478aa0b495d7f7b1dcac8c0901f55851b8f6fc229712b3398d8243b3ba5e86f7"
+    },
+    {
+      "local_path": "paper/tables/table17_historical_ranking_robustness.csv",
+      "bytes": 164669,
+      "sha256": "7286e108076522ab9cb1dbab7c6ed56b4bad0649e8d2b0efe5a05a2345ccb8d6"
+    },
+    {
+      "local_path": "paper/tables/table18_national_decarbonization_results.csv",
+      "bytes": 18156,
+      "sha256": "55771a4cdf051ac40c81a849b45a2c7891ec0f203a817a4bf1e2a5a63af9b45b"
+    },
+    {
+      "local_path": "paper/tables/table19_server_inventory_stress_test.csv",
+      "bytes": 3528,
+      "sha256": "e1fd142c122ab19c3a0abfa07688150dcab795b13f54e5d6d20cb91fd7b4d0fa"
+    },
+    {
+      "local_path": "paper/tables/table1_microsoft_reproduction_audit.csv",
+      "bytes": 2377,
+      "sha256": "f78f3533c8b511327e2f134f75f01d190a5120cd04323fea1d362801b6592603"
+    },
+    {
+      "local_path": "paper/tables/table20_method_comparison.csv",
+      "bytes": 1104,
+      "sha256": "c745252a51bbb7c34f8d13188e352f8a3e0fac5d9eca4b1678945e74327f0d51"
+    },
+    {
+      "local_path": "paper/tables/table21_anchor_extrapolation_diagnostic.csv",
+      "bytes": 665,
+      "sha256": "073373e6730c3cbbf0919c242eec97295905513df231d5df5af4d6c0124b3cf6"
+    },
+    {
+      "local_path": "paper/tables/table22_boundary_mismatch_stress.csv",
+      "bytes": 1194,
+      "sha256": "da19656ca72d59bc04ee5a2a575457210dd3ae1067a5dd682af35a9e4d8dd8cf"
+    },
+    {
+      "local_path": "paper/tables/table23_joint_assumption_stress.csv",
+      "bytes": 6625,
+      "sha256": "f07db57d34f9cd49dc174d875d5a037d202740b56c336a9d5cf7fb97a1b1317c"
+    },
+    {
+      "local_path": "paper/tables/table24_functional_unit_sensitivity.csv",
+      "bytes": 773,
+      "sha256": "3c0f685324ad0204fd019e302bd55edc59ae6ba4c8b31bdc066a5f7618f62c96"
+    },
+    {
+      "local_path": "paper/tables/table25_priority_index_sensitivity.csv",
+      "bytes": 1412,
+      "sha256": "63ca0a7f7d329bb3d1f2cb614bd9b224573f0051b94652791773c1cc15ae58fd"
+    },
+    {
+      "local_path": "paper/tables/table26_stress_structure_sensitivity.csv",
+      "bytes": 105062,
+      "sha256": "91072e3c0ca47aa578526ff5a83b2695de64376b781e81635e06ede79707648d"
+    },
+    {
+      "local_path": "paper/tables/table27_stress_convergence.csv",
+      "bytes": 4520,
+      "sha256": "50e03ff6594b2733d8bf287c4e0a911e86644f23bb5e3b7c52f628acb3774326"
+    },
+    {
+      "local_path": "paper/tables/table28_lifecycle_electricity_factors.csv",
+      "bytes": 31607,
+      "sha256": "cf2977700c81d7d50495ae7435628d1a8ac0828abe744e8f2f4ba9a36fd6b903"
+    },
+    {
+      "local_path": "paper/tables/table29_standardized_rank_robustness.csv",
+      "bytes": 136625,
+      "sha256": "1ef07b9087bf5a14621432509b85e572eb3f18145ff3dd037e8e242dc1ddc308"
+    },
+    {
+      "local_path": "paper/tables/table2_grid_reductions_vs_air.csv",
+      "bytes": 1000,
+      "sha256": "59195fac8585f899531392b4c45c48be5728987e298bb978e67611a06a29c7cc"
+    },
+    {
+      "local_path": "paper/tables/table30_released_endpoint_method_audit.csv",
+      "bytes": 1580,
+      "sha256": "73f758daec3d8d5846fd81d23072d02adbd36b6f342ba7e26030804610d2503c"
+    },
+    {
+      "local_path": "paper/tables/table31_implied_electricity_response.csv",
+      "bytes": 1335,
+      "sha256": "3dddce23f8eb09e86559bbe8910a5ec0b5d633e38967227fc7f41e85228d97a0"
+    },
+    {
+      "local_path": "paper/tables/table32_national_lifecycle_cutoffs.csv",
+      "bytes": 4725,
+      "sha256": "91e3c0466d578c457423475bc3da81725d87b56887a8614488b6f1e64012f0d8"
+    },
+    {
+      "local_path": "paper/tables/table33_residual_electricity_factors.csv",
+      "bytes": 32878,
+      "sha256": "b664eda6d9dce47b40368b700b706831ff481bdc5444831655a68419d19d0118"
+    },
+    {
+      "local_path": "paper/tables/table34_boavizta_server_inclusion.csv",
+      "bytes": 3660,
+      "sha256": "71c5c0a6f031f9bb23444e11a60347e2733f19ca2cd914c6bfd67484ebf3aa03"
+    },
+    {
+      "local_path": "paper/tables/table3_hourly_preview_summary.csv",
+      "bytes": 507,
+      "sha256": "49305773d60b1ba840d1f81490ac5a4e620b30e42e4016a109d7660693e40da2"
+    },
+    {
+      "local_path": "paper/tables/table4_monthly_temperature_pue.csv",
+      "bytes": 1254,
+      "sha256": "943391170ad2d44d0a205fd083b86706eaf3cf2d248898badf0e0d71b9fff544"
+    },
+    {
+      "local_path": "paper/tables/table5_measurement_surface_demo.csv",
+      "bytes": 507,
+      "sha256": "a5085a14c9a106405c79bb6e47278c13b86f2bbd2bb582b0dacfec8c9d0d5da1"
+    },
+    {
+      "local_path": "paper/tables/table6_state_rebased_ghg.csv",
+      "bytes": 81776,
+      "sha256": "36ec297c57047f619cbeae51d152a75f0011a814b36ddeeb0c42a016c096ad5b"
+    },
+    {
+      "local_path": "paper/tables/table7_state_rank_summary.csv",
+      "bytes": 13825,
+      "sha256": "b56f1861b5e0a323fc267d73a5f5624651b3a49a4a8d7ba346fe07e85111ba26"
+    },
+    {
+      "local_path": "paper/tables/table8_crossover_thresholds.csv",
+      "bytes": 600,
+      "sha256": "7963f939994b4dd19d2fa2899fb9b56d037984bf3ecf4ee9580880c9dc782578"
+    },
+    {
+      "local_path": "paper/tables/table9_boavizta_server_records.csv",
+      "bytes": 11130,
+      "sha256": "39328d3fb4ba77d8ab4aebb9239380efeae42618ba457c875efe32bd51a3cc4c"
+    },
+    {
+      "local_path": "results/applied-energy/analysis-metadata.json",
+      "bytes": 16589,
+      "sha256": "6391edc4a0f94ae3931d64dcdb2a00187e0879222aee2a43f476d3747624c2e2"
+    },
+    {
+      "local_path": "results/applied-energy/table14_egrid_historical_state_factors.csv",
+      "bytes": 103784,
+      "sha256": "ccc0838a978e0069f6c4f9f4d9a2112a23a1769326ed600e17beee57812c52b2"
+    },
+    {
+      "local_path": "results/applied-energy/table15_egrid_historical_national_factors.csv",
+      "bytes": 3917,
+      "sha256": "eb177c72e380defd319e4efcc2043855e8a7fbe66430ea3b85b276f110ccf858"
+    },
+    {
+      "local_path": "results/applied-energy/table16_historical_cooling_results.csv",
+      "bytes": 596618,
+      "sha256": "478aa0b495d7f7b1dcac8c0901f55851b8f6fc229712b3398d8243b3ba5e86f7"
+    },
+    {
+      "local_path": "results/applied-energy/table17_historical_ranking_robustness.csv",
+      "bytes": 164669,
+      "sha256": "7286e108076522ab9cb1dbab7c6ed56b4bad0649e8d2b0efe5a05a2345ccb8d6"
+    },
+    {
+      "local_path": "results/applied-energy/table18_national_decarbonization_results.csv",
+      "bytes": 18156,
+      "sha256": "55771a4cdf051ac40c81a849b45a2c7891ec0f203a817a4bf1e2a5a63af9b45b"
+    },
+    {
+      "local_path": "results/applied-energy/table19_server_inventory_stress_test.csv",
+      "bytes": 3528,
+      "sha256": "e1fd142c122ab19c3a0abfa07688150dcab795b13f54e5d6d20cb91fd7b4d0fa"
+    },
+    {
+      "local_path": "results/applied-energy/table20_method_comparison.csv",
+      "bytes": 1104,
+      "sha256": "c745252a51bbb7c34f8d13188e352f8a3e0fac5d9eca4b1678945e74327f0d51"
+    },
+    {
+      "local_path": "results/applied-energy/table21_anchor_extrapolation_diagnostic.csv",
+      "bytes": 665,
+      "sha256": "073373e6730c3cbbf0919c242eec97295905513df231d5df5af4d6c0124b3cf6"
+    },
+    {
+      "local_path": "results/applied-energy/table22_boundary_mismatch_stress.csv",
+      "bytes": 1194,
+      "sha256": "da19656ca72d59bc04ee5a2a575457210dd3ae1067a5dd682af35a9e4d8dd8cf"
+    },
+    {
+      "local_path": "results/applied-energy/table23_joint_assumption_stress.csv",
+      "bytes": 6625,
+      "sha256": "f07db57d34f9cd49dc174d875d5a037d202740b56c336a9d5cf7fb97a1b1317c"
+    },
+    {
+      "local_path": "results/applied-energy/table24_functional_unit_sensitivity.csv",
+      "bytes": 773,
+      "sha256": "3c0f685324ad0204fd019e302bd55edc59ae6ba4c8b31bdc066a5f7618f62c96"
+    },
+    {
+      "local_path": "results/applied-energy/table25_priority_index_sensitivity.csv",
+      "bytes": 1412,
+      "sha256": "63ca0a7f7d329bb3d1f2cb614bd9b224573f0051b94652791773c1cc15ae58fd"
+    },
+    {
+      "local_path": "results/applied-energy/table26_stress_structure_sensitivity.csv",
+      "bytes": 105062,
+      "sha256": "91072e3c0ca47aa578526ff5a83b2695de64376b781e81635e06ede79707648d"
+    },
+    {
+      "local_path": "results/applied-energy/table27_stress_convergence.csv",
+      "bytes": 4520,
+      "sha256": "50e03ff6594b2733d8bf287c4e0a911e86644f23bb5e3b7c52f628acb3774326"
+    },
+    {
+      "local_path": "results/applied-energy/table28_lifecycle_electricity_factors.csv",
+      "bytes": 31607,
+      "sha256": "cf2977700c81d7d50495ae7435628d1a8ac0828abe744e8f2f4ba9a36fd6b903"
+    },
+    {
+      "local_path": "results/applied-energy/table29_standardized_rank_robustness.csv",
+      "bytes": 136625,
+      "sha256": "1ef07b9087bf5a14621432509b85e572eb3f18145ff3dd037e8e242dc1ddc308"
+    },
+    {
+      "local_path": "results/applied-energy/table30_released_endpoint_method_audit.csv",
+      "bytes": 1580,
+      "sha256": "73f758daec3d8d5846fd81d23072d02adbd36b6f342ba7e26030804610d2503c"
+    },
+    {
+      "local_path": "results/applied-energy/table31_implied_electricity_response.csv",
+      "bytes": 1335,
+      "sha256": "3dddce23f8eb09e86559bbe8910a5ec0b5d633e38967227fc7f41e85228d97a0"
+    },
+    {
+      "local_path": "results/applied-energy/table32_national_lifecycle_cutoffs.csv",
+      "bytes": 4725,
+      "sha256": "91e3c0466d578c457423475bc3da81725d87b56887a8614488b6f1e64012f0d8"
+    },
+    {
+      "local_path": "results/applied-energy/table33_residual_electricity_factors.csv",
+      "bytes": 32878,
+      "sha256": "b664eda6d9dce47b40368b700b706831ff481bdc5444831655a68419d19d0118"
+    }
+  ],
+  "claim_graph": {
+    "24 released totals": {
+      "inputs": [
+        "private-data/incoming/microsoft-nature/41586_2025_8832_MOESM2_ESM.xlsx"
+      ],
+      "code": [
+        "src/opendc_lca/research.py",
+        "scripts/run_research_analysis.py"
+      ],
+      "outputs": [
+        "paper/tables/table1_microsoft_reproduction_audit.csv"
+      ]
+    },
+    "endpoint method identity": {
+      "inputs": [
+        "private-data/incoming/microsoft-zenodo/LCA Tool with Detailed Equations.xlsx"
+      ],
+      "code": [
+        "scripts/run_applied_energy_analysis.py"
+      ],
+      "outputs": [
+        "paper/tables/table30_released_endpoint_method_audit.csv"
+      ]
+    },
+    "historical electricity trend": {
+      "inputs": [
+        "nine eGRID workbooks listed in the source manifest"
+      ],
+      "code": [
+        "scripts/run_applied_energy_analysis.py"
+      ],
+      "outputs": [
+        "paper/tables/table14_egrid_historical_state_factors.csv",
+        "paper/tables/table15_egrid_historical_national_factors.csv"
+      ]
+    },
+    "partial linked-system electricity": {
+      "inputs": [
+        "private-data/incoming/us-electricity-baseline/US_electricity_baseline_2023_jsonld.zip",
+        "private-data/incoming/us-electricity-baseline/IPCC_GWP_jsonld.zip"
+      ],
+      "code": [
+        "scripts/run_applied_energy_analysis.py"
+      ],
+      "outputs": [
+        "paper/tables/table28_lifecycle_electricity_factors.csv",
+        "paper/tables/table32_national_lifecycle_cutoffs.csv",
+        "paper/tables/table33_residual_electricity_factors.csv"
+      ]
+    },
+    "equal-width rank robustness": {
+      "inputs": [
+        "paper/tables/table28_lifecycle_electricity_factors.csv",
+        "private-data/incoming/microsoft-zenodo/LCA_Tool_w_Raw_&_Normalized_PlusUncertainty&Details.xlsx"
+      ],
+      "code": [
+        "scripts/run_applied_energy_analysis.py"
+      ],
+      "outputs": [
+        "paper/tables/table29_standardized_rank_robustness.csv",
+        "paper/figures/figure11_standardized_robustness.svg"
+      ]
+    }
+  },
+  "verification": {
+    "command": "C:\\Users\\hanhu\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m unittest discover -s tests -v",
+    "completed_before_manifest_write": true
+  },
+  "submission_release_gate": {
+    "exact_revision_is_immutable_public_archive": false,
+    "doi": null,
+    "required_before_submission": [
+      "clean tagged commit",
+      "public immutable archive with version DOI",
+      "archive reproduction from permitted inputs"
+    ],
+    "reason": "The manifest records a local execution state. It does not make a dirty worktree or a GitHub branch an immutable archival release."
+  }
+}
