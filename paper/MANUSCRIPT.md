@@ -269,11 +269,20 @@ market-based electricity are not merged.
 The Open Compute Project (OCP) cloud-provider guideline identifies the same
 classes of foreground information for data-center LCAs, including IT and
 support equipment, building and electrical infrastructure, operation, cooling
-water, and end of life [50]. Its example service denominator should not be
+water, and end of life [50-52]. Its example service denominator should not be
 substituted for the present operational denominator. The public cooling archive
 does not provide a workload-independent mapping between a virtual-machine
 service and delivered IT electricity, and no job-level data are available for
 the four cooling architectures.
+
+For a liquid-cooled site, the facility water system (FWS) and the technology
+cooling system (TCS) are separate physical loops when a coolant distribution
+unit (CDU) transfers heat across its heat exchanger. The TCS includes the
+CDU-to-rack loop, manifolds, rack equipment, and its coolant. A direct facility
+connection has no CDU separation and must identify the actual heat-exchange
+location. This nomenclature is used only to specify future inventory and
+telemetry records. It does not infer the topology of the university site or
+validate its operation [53-56].
 
 Operational validation uses a separate measurement boundary. The IT boundary
 must be metered, and every support-energy item must be classified as metered,
@@ -305,7 +314,7 @@ compatibility with the case model.
 | NOAA TMY with 8,760 Fayetteville weather rows [45] | Performance-map and hourly-integration software test | No measured four-architecture cooling surface is available | Illustrative only |
 | USLCI and 7 GLAD hydrogen archives [46,47] | Exchange and interoperability tests | Product-system links, allocation, providers, and LCIA methods are unresolved | Registered/unlinked |
 | USGS watershed boundary with HU12 geometry [48] | Spatial data contract test | Geometry is not withdrawal, consumption, or water-scarcity characterization | Registered/unlinked |
-| OCP LCA guideline, embodied-carbon disclosure specification, and energy-carbon-water guideline [50-52] | Foreground-inventory field schema and interpretation guidance | Guidance supplies neither comparable cooling inventories nor measured architecture performance | Method guidance only |
+| OCP LCA, carbon-disclosure, energy-water, telemetry, liquid-connection, liquid-distribution, and glycol-fluid guidance [50-56] | Foreground-inventory, liquid-loop, and telemetry field schemas | Guidance supplies neither comparable cooling inventories nor measured architecture performance | Method guidance only |
 
 Provider-native raw files remain outside the public repository when
 redistribution permission is unclear or large upstream archives have not been
@@ -761,11 +770,11 @@ accounting products were not mixed within any cooling screen.
 
 ### 3.4. Rank-robustness thresholds
 
-Fig. 5a compares the national critical half-widths for shared grid, use
-phase, embodied burden, service equivalence, and simultaneous equal-width
-variation. Fig. 5b plots the all-block critical half-width against lifecycle
-electricity intensity for 60 balancing authorities, 10 FERC regions, and the
-national system.
+Fig. 5a and Fig. 5b report the same critical half-width $h$. Fig. 5a changes
+the active assumption block at the national lifecycle-electricity context. Fig.
+5b holds all four blocks active at the same $h$ and plots the resulting
+threshold against lifecycle electricity intensity for 60 balancing authorities,
+10 FERC regions, and the national system.
 
 At the national lifecycle factor, the numerical two-phase first rank could not
 be reversed by a shared grid-factor change within the tested nonnegative range
@@ -798,7 +807,7 @@ impact per equivalent useful computation would erase its numerical first rank.
 This is a break-even requirement for future measurements, not an observed
 performance difference.
 
-![Figure 5. Deterministic equal-width rank-robustness certificates. (a) Critical half-widths for the national lifecycle-electricity context by active assumption block. (b) All-block critical half-widths plotted against partial linked-system electricity intensity for 60 balancing authorities, 10 FERC regions, and the national system. Bounds are uncertainty sets rather than probability distributions or physical validation.](figures/figure11_standardized_robustness.svg)
+![Figure 5. Deterministic rank-robustness certificates. Both axes report the same critical relative half-width h, which is the smallest symmetric relative half-width that permits reversal of the nominal numerical first rank. (a) The active assumption block changes at the national lifecycle-electricity context. (b) All four blocks vary at the same h, and the threshold is plotted against partial linked-system electricity intensity for 60 balancing authorities, 10 FERC regions, and the national system. Colors identify the electricity-context level only. The bounds are uncertainty sets rather than probability distributions or physical validation.](figures/figure11_standardized_robustness.svg)
 
 ### 3.5. Server and construction evidence
 
@@ -1071,7 +1080,13 @@ and availability over the same intervals. These records allow a dedicated
 support ratio to be calculated without calling it PUE. They permit a facility
 PUE only when the full shared-support boundary is metered or allocated. They
 also create the common service denominator needed for an architecture-level
-comparison.
+comparison. The OCP telemetry and liquid-cooling guidance further identifies
+the measurement-point metadata needed to interpret those records. These include
+the electrical hierarchy from UPS through PDU or busway, TCS supply and return
+temperatures, flow, pressure difference, pump status, liquid quality, and leak
+status. The FWS and TCS must be identified separately when a CDU isolates their
+fluids [53-56]. The protocol records these as requested fields, not as existing
+measurements at the university site.
 
 The two conclusions supported independently here are the
 released arithmetic and the national direct-generation trend. The cooling
@@ -1402,3 +1417,17 @@ responsibility for the content of the article.
 52. Open Compute Project Foundation. *Guidelines: Impact of Strategies on Data
     Center Energy Consumption, Carbon Footprint, and Water Consumption* (March
     2026). https://www.opencompute.org/documents/dcf-water-heat-energy-2026march-pdf (accessed 9 September 2026).
+53. Sharp, S., Kaneko, M., Chen, M., Shahi, P., Karajgikar, S. & James, D.
+    *Third Party Integration, Telemetry & APIs*, version 1.0 (October 2025).
+    Open Compute Project Foundation. https://www.opencompute.org/documents/third-party-integration-telemetry-apis-final-pdf (accessed 9 September 2026).
+54. Mitchell, D. *et al.* *Guidelines for Connection of Liquid Cooled
+    Information Technology Equipment to Data Center Facility Systems*, revision
+    1, version 1.0 (April 2022). Open Compute Project Foundation.
+    https://www.opencompute.org/documents/ocp-acs-connection-guidance-acf-wp-05032022-pdf (accessed 9 September 2026).
+55. Mitchell, D. *et al.* *Data Center Liquid Distribution Guidance & Reference
+    Designs*, revision 1.0 (January 2024). Open Compute Project Foundation.
+    https://www.opencompute.org/documents/ocp-acf-reference-design-guidance-white-paper-r1-pdf (accessed 9 September 2026).
+56. Yaroch, K., Cuthbert, J., Miller, D. & Sivapalan, S. *Guidelines for Using
+    Propylene Glycol-Based Heat Transfer Fluids in Single-Phase Cold Plate-Based
+    Liquid Cooled Racks*. Open Compute Project Foundation.
+    https://www.opencompute.org/contributions (accessed 9 September 2026).

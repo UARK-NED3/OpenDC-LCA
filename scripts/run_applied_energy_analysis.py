@@ -1856,9 +1856,9 @@ def figure_historical(
     cx = left + crossover / max_factor * width
     body += [
         f'<line x1="{cx:.1f}" y1="{top}" x2="{cx:.1f}" y2="{top+height}" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 5"/>',
-        f'<text class="label" x="{cx+7:.1f}" y="{top+18}">cold-plate/one-phase crossover: {crossover:.1f}</text>',
+        f'<text class="label" x="{cx+7:.1f}" y="{top-25}">Cold plate/single-phase crossover: {crossover:.1f}</text>',
         '<text class="axis" x="550" y="535" text-anchor="middle">State total-output electricity intensity (kg CO₂e/MWh)</text>',
-        '<text class="note" x="90" y="578">Dots: state-year scenarios; orange polyline: reported provider U.S. aggregate; blue dots fall below the released-model crossover.</text>',
+        '<text class="note" x="550" y="592" text-anchor="middle">Dots: state-year scenarios; orange polyline: reported provider U.S. aggregate; blue dots fall below the released-model crossover.</text>',
     ]
     write_svg(FIGURES / "figure6_historical_grid_transition.svg", body)
 
@@ -2109,6 +2109,9 @@ def figure_lifecycle_electricity(
         width=1200,
         height=820,
     )
+    # This figure uses colored text only to identify the two corresponding
+    # reference lines. All other labels and values remain black.
+    body.insert(2, '<style>text{font-family:Arial,sans-serif;fill:#000000}.note{fill:#000000}</style>')
     x0, y0, chart_width, row_height = 250, 105, 820, 53
     maximum = 620.0
     for tick in range(0, 601, 100):
@@ -2135,9 +2138,9 @@ def figure_lifecycle_electricity(
     anchor_x = x0 + chart_width * MICROSOFT_GRID_GHG_KG_PER_MWH / maximum
     body += [
         f'<line x1="{crossover_x:.1f}" y1="{y0-25}" x2="{crossover_x:.1f}" y2="{y0+len(selected)*row_height}" stroke="#009E73" stroke-width="3" stroke-dasharray="8 5"/>',
-        f'<text class="note" x="{crossover_x+5:.1f}" y="{y0-32}">green dashed: numerical CP/1P crossover {crossover:.1f}</text>',
+        f'<text class="note" x="{crossover_x+5:.1f}" y="{y0-32}" style="fill:#009E73">CP/1-P crossover: {crossover:.1f}</text>',
         f'<line x1="{anchor_x:.1f}" y1="{y0-25}" x2="{anchor_x:.1f}" y2="{y0+len(selected)*row_height}" stroke="#7C3AED" stroke-width="3" stroke-dasharray="3 5"/>',
-        f'<text class="note" x="{anchor_x-5:.1f}" y="{y0-50}" text-anchor="end">purple dashed: released high numerical anchor {MICROSOFT_GRID_GHG_KG_PER_MWH:.1f}</text>',
+        f'<text class="note" x="{anchor_x-5:.1f}" y="{y0-50}" text-anchor="end" style="fill:#7C3AED">Released high numerical anchor: {MICROSOFT_GRID_GHG_KG_PER_MWH:.1f}</text>',
         '<rect x="250" y="735" width="18" height="14" fill="#0072B2"/><text class="note" x="278" y="747">generation processes</text>',
         '<rect x="450" y="735" width="18" height="14" fill="#D55E00"/><text class="note" x="478" y="747">upstream and infrastructure</text>',
         '<text class="axis" x="660" y="790" text-anchor="middle">IPCC AR5 GWP100 (kg CO₂e/MWh delivered at user)</text>',
@@ -2154,18 +2157,18 @@ def figure_standardized_robustness(rows: list[dict[str, object]]) -> None:
         height=720,
     )
     body += [
-        '<text class="label" x="70" y="94" style="font-weight:700">(a)</text>',
-        '<text class="label" x="650" y="94" style="font-weight:700">(b)</text>',
+        '<text class="label" x="10" y="122">(a)</text>',
+        '<text class="label" x="675" y="122">(b)</text>',
     ]
     national = [row for row in rows if row["region_level"] == "US"]
     labels = (
-        "grid only",
-        "use phase only",
-        "embodied only",
-        "service equivalence only",
-        "all four equal-width",
+        "Grid only",
+        "Use phase only",
+        "Embodied only",
+        "Service equivalence only",
+        "All four equal-width",
     )
-    x0, y0, width = 210, 120, 350
+    x0, y0, width = 210, 160, 350
     maximum = 25.0
     for tick in (0, 5, 10, 15, 20, 25):
         x = x0 + width * tick / maximum
@@ -2192,16 +2195,19 @@ def figure_standardized_robustness(rows: list[dict[str, object]]) -> None:
             f'<rect x="{x0}" y="{y}" width="{bar_width:.1f}" height="38" rx="4" fill="{color}"/>',
             f'<text class="note" x="{x0+bar_width+8:.1f}" y="{y+25}">{value_label}</text>',
         ]
+    body.append(
+        '<text class="axis" x="385" y="620" text-anchor="middle">Critical half-width, <tspan font-style="italic">h</tspan></text>'
+    )
 
     all_block = [
         row for row in rows if row["active_assumption_blocks"] == "all four equal-width"
     ]
-    sx, sy, sw, sh = 680, 125, 430, 410
+    sx, sy, sw, sh = 705, 145, 430, 410
     for tick in (0, 200, 400, 600, 800, 1000):
         x = sx + sw * tick / 1000
         body += [
             f'<line x1="{x:.1f}" y1="{sy}" x2="{x:.1f}" y2="{sy+sh}" stroke="#E5E7EB"/>',
-            f'<text class="note" x="{x:.1f}" y="{sy+sh+28}" text-anchor="middle">{tick}</text>',
+            f'<text class="note" x="{x:.1f}" y="{sy+sh+25}" text-anchor="middle">{tick}</text>',
         ]
     for tick in (1.0, 1.2, 1.4, 1.6):
         y = sy + sh - (tick - 1.0) / 0.6 * sh
@@ -2215,18 +2221,17 @@ def figure_standardized_robustness(rows: list[dict[str, object]]) -> None:
         threshold = float(row["critical_equal_half_width_pct"])
         x = sx + sw * factor / 1000
         y = sy + sh - (threshold - 1.0) / 0.6 * sh
-        radius = 7 if row["region_level"] == "US" else 4
+        radius = 4
         body.append(
             f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{radius}" fill="{level_colors[str(row["region_level"])]}" opacity="0.82"/>'
         )
     body += [
-        '<text class="axis" x="895" y="600" text-anchor="middle">Lifecycle electricity factor (kg CO₂e/MWh)</text>',
-        '<text class="axis" x="635" y="330" text-anchor="middle" transform="rotate(-90 635 330)">critical equal half-width</text>',
-        '<circle cx="730" cy="630" r="5" fill="#0072B2"/><text class="note" x="743" y="634">BA</text>',
-        '<circle cx="805" cy="630" r="5" fill="#D55E00"/><text class="note" x="818" y="634">FERC</text>',
-        '<circle cx="895" cy="630" r="6" fill="#009E73"/><text class="note" x="910" y="634">U.S.</text>',
-        '<text class="note" x="70" y="660">Bounds are deterministic sets, not probability distributions. Lower thresholds indicate less rank robustness.</text>',
-        '<text class="note" x="70" y="686">The grid multiplier is shared; foreground multipliers may differ by technology. No certificate is physical validation.</text>',
+        '<text class="axis" x="920" y="620" text-anchor="middle">Lifecycle electricity factor (kg CO₂e/MWh)</text>',
+        '<text class="axis" x="660" y="350" text-anchor="middle" transform="rotate(-90 660 350)">Critical half-width, <tspan font-style="italic">h</tspan></text>',
+        '<rect x="1050" y="155" width="70" height="80" fill="white" stroke="#6B7280" stroke-width="0.8"/>',
+        '<circle cx="1065" cy="169" r="5" fill="#0072B2"/><text class="note" x="1077" y="173">BA</text>',
+        '<circle cx="1065" cy="194" r="5" fill="#D55E00"/><text class="note" x="1077" y="198">FERC</text>',
+        '<circle cx="1065" cy="219" r="5" fill="#009E73"/><text class="note" x="1077" y="223">U.S.</text>',
     ]
     write_svg(FIGURES / "figure11_standardized_robustness.svg", body)
 

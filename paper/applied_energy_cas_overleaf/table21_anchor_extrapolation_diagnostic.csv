@@ -1,0 +1,3 @@
+cohort,n,within_released_anchors,below_renewable_anchor,above_grid_anchor,extrapolated_total,extrapolated_pct,renewable_anchor_kgco2e_per_mwh,grid_anchor_kgco2e_per_mwh,interpretation
+all state-years,459,322,1,136,137,29.847494553376908,6.13302490385571,524.893385656191,Counts positions of harmonized eGRID screening rates relative to the released GaBi electricity endpoints; the rates do not share a complete system boundary.
+2023 states/DC,51,42,0,9,9,17.647058823529413,6.13302490385571,524.893385656191,Counts positions of harmonized eGRID screening rates relative to the released GaBi electricity endpoints; the rates do not share a complete system boundary.

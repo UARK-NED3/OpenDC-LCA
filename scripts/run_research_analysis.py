@@ -114,15 +114,28 @@ def main() -> None:
             f'<text class="axis" x="{x:.1f}" y="{top+plot_height+27}" '
             f'text-anchor="middle">{metric}</text>'
         )
+    # Keep the legend inside the unused upper-left plotting region so the
+    # technology labels remain legible at manuscript width without increasing
+    # the figure height.
+    legend_x, legend_top, legend_step = 108, 132, 31
+    legend_labels = {
+        "Cold plate": "Cold plate",
+        "One-phase": "Single-phase immersion",
+        "Two-phase": "Two-phase immersion",
+    }
+    svg.append(
+        '<rect x="96" y="120" width="250" height="104" fill="white" '
+        'stroke="#6B7280" stroke-width="0.8"/>'
+    )
     for index, technology in enumerate(technologies):
-        x = 145 + index * 225
+        y = legend_top + index * legend_step
         svg += [
-            f'<rect x="{x}" y="458" width="18" height="18" fill="{COLORS[technology]}"/>',
-            f'<text class="axis" x="{x+27}" y="473">{technology}</text>',
+            f'<rect x="{legend_x}" y="{y}" width="18" height="18" fill="{COLORS[technology]}"/>',
+            f'<text class="axis" x="{legend_x+27}" y="{y+15}">{legend_labels[technology]}</text>',
         ]
     svg.append(
-        '<text class="axis" transform="translate(20 330) rotate(-90)">'
-        "Reduction relative to air-cooled (%)</text>"
+        '<text class="axis" transform="translate(28 390) rotate(-90)">'
+        "Reduction relative to air cooling (%)</text>"
     )
     write_svg(FIGURES / "figure1_microsoft_grid_reductions.svg", svg)
 

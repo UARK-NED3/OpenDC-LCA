@@ -17,6 +17,21 @@ allocation method, or exclusion rationale. Maintain an energy-flow diagram
 that identifies whether each meter is upstream or downstream of the UPS and
 whether cooling electricity is dedicated or shared.
 
+## Liquid-loop boundary
+
+Record the physical loop before assigning a thermal measurement or a coolant
+inventory. The facility water system (FWS) delivers facility-side heat removal.
+The technology cooling system (TCS) carries liquid between a CDU and the
+liquid-cooled rack, including manifolds, hoses, cold plates, and the TCS fluid.
+When a CDU heat exchanger separates the fluids, record the FWS and TCS as
+separate loops. For a direct facility connection, record the connection and
+heat-exchange location instead of assigning a CDU boundary by assumption.
+
+This terminology follows OCP liquid-ITE connection, liquid-distribution, and
+glycol-fluid guidance. It specifies the collection schema only. It does not
+show that a particular site uses a CDU, a glycol concentration, or a given
+cooling topology.
+
 The following interval quantities use non-overlapping electrical boundaries:
 
 \[
@@ -49,13 +64,18 @@ thermal, and workload records after synchronization.
 
 | Evidence group | Minimum fields | Purpose and boundary rule |
 |---|---|---|
-| IT and UPS | timestamp; UPS input kWh; UPS output kWh; meter IDs; phase and voltage metadata | Quantifies IT energy and UPS loss without double counting. |
-| Dedicated cooling | timestamp; chiller, coolant-distribution-unit, rear-door, and dedicated-pump kWh where applicable | Quantifies cooling support that is demonstrably inside the IT boundary. |
+| IT and UPS | timestamp; UPS input and output kWh; meter IDs; voltage, current, frequency, phase, PDU or busway location | Quantifies IT energy and UPS loss without double counting. |
+| Dedicated cooling | timestamp; chiller, CDU, rear-door, and dedicated-pump kWh where applicable; equipment ID and operating status | Quantifies cooling support that is demonstrably inside the IT boundary. |
 | Shared support | timestamp; CRAC, central plant, and building energy where available; allocation driver and uncertainty | Required before a facility-PUE statement. Keep unavailable shared loads excluded rather than estimated silently. |
-| Thermal loop | supply and return temperature in degrees C; volumetric or mass flow; glycol mass fraction; pressure; sensor locations | Supports \(\dot Q=\dot m c_p(T_{\mathrm{return}}-T_{\mathrm{supply}})\). Evaluate \(c_p\) at the recorded glycol concentration and representative loop temperature. |
+| FWS and TCS thermal loops | loop identifier; supply and return temperature in degrees C; volumetric or mass flow; differential pressure; pump speed; valve position; sensor locations | Supports \(\dot Q=\dot m c_p(T_{\mathrm{return}}-T_{\mathrm{supply}})\) within a declared loop. Do not subtract heat rates across loops without synchronized data and stated uncertainty. |
+| Coolant condition | loop identifier; fluid manufacturer and product; glycol volume or mass fraction; initial fill mass; makeup, flushing, and disposal mass; inhibitor or treatment record; liquid-quality and leak records | Defines the fluid foreground inventory. Evaluate \(c_p\) at the recorded fluid composition and representative loop temperature. |
 | Environment | timestamp; outdoor dry-bulb and humidity or wet-bulb; room inlet temperature and humidity | Establishes the weather and condensation-control domain of the measurements. |
 | Computing service | timestamp; hardware configuration; scheduler/job records or a fixed benchmark; completed work; availability | Defines the service denominator. Rack count, cores, or nameplate capacity alone do not establish functional equivalence. |
 | Provenance and quality | meter model; calibration date; accuracy class; data export method; missing-data flags; maintenance/outage log | Supports uncertainty analysis and interpretation of discontinuities. |
+
+Use `data/templates/operational-telemetry-template.csv` for normalized
+interval records. The template is intentionally blank and does not imply that
+any listed measurement point is available at a particular facility.
 
 ## Functional-equivalence experiment
 

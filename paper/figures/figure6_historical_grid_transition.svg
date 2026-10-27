@@ -492,7 +492,7 @@
 <circle cx="785.5" cy="470.0" r="4" fill="#9CA3AF" opacity="0.72"/>
 <polyline points="523.0,90.0 518.8,159.1 470.9,228.2 451.4,297.3 427.3,331.8 402.0,366.4 415.1,400.9 403.9,435.5 382.4,470.0" fill="none" stroke="#D55E00" stroke-width="4"/>
 <line x1="170.9" y1="90" x2="170.9" y2="470" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 5"/>
-<text class="label" x="177.9" y="108">cold-plate/one-phase crossover: 96.7</text>
+<text class="label" x="177.9" y="65">Cold plate/single-phase crossover: 96.7</text>
 <text class="axis" x="550" y="535" text-anchor="middle">State total-output electricity intensity (kg CO₂e/MWh)</text>
-<text class="note" x="90" y="578">Dots: state-year scenarios; orange polyline: reported provider U.S. aggregate; blue dots fall below the released-model crossover.</text>
+<text class="note" x="550" y="592" text-anchor="middle">Dots: state-year scenarios; orange polyline: reported provider U.S. aggregate; blue dots fall below the released-model crossover.</text>
 </svg>

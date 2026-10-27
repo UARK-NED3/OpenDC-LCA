@@ -25,11 +25,12 @@
 <text class="axis" x="210.0" y="447" text-anchor="middle">GHG</text>
 <text class="axis" x="460.0" y="447" text-anchor="middle">Primary energy</text>
 <text class="axis" x="710.0" y="447" text-anchor="middle">Blue water</text>
-<rect x="145" y="458" width="18" height="18" fill="#0072B2"/>
-<text class="axis" x="172" y="473">Cold plate</text>
-<rect x="370" y="458" width="18" height="18" fill="#009E73"/>
-<text class="axis" x="397" y="473">One-phase</text>
-<rect x="595" y="458" width="18" height="18" fill="#D55E00"/>
-<text class="axis" x="622" y="473">Two-phase</text>
-<text class="axis" transform="translate(20 330) rotate(-90)">Reduction relative to air-cooled (%)</text>
+<rect x="96" y="120" width="250" height="104" fill="white" stroke="#6B7280" stroke-width="0.8"/>
+<rect x="108" y="132" width="18" height="18" fill="#0072B2"/>
+<text class="axis" x="135" y="147">Cold plate</text>
+<rect x="108" y="163" width="18" height="18" fill="#009E73"/>
+<text class="axis" x="135" y="178">Single-phase immersion</text>
+<rect x="108" y="194" width="18" height="18" fill="#D55E00"/>
+<text class="axis" x="135" y="209">Two-phase immersion</text>
+<text class="axis" transform="translate(28 390) rotate(-90)">Reduction relative to air cooling (%)</text>
 </svg>
