@@ -11,8 +11,10 @@ to compare cooling architectures. It is not a substitute for a reviewed ISO
 The current reporting unit is one MWh of delivered IT electricity during one
 operating year. It is appropriate for comparing facility cooling alternatives
 when IT service is equivalent. It is not adequate when cooling changes compute
-performance, throttling, hardware lifetime, or utilization. Future releases will
-support GPU-hour and workload-based functional units.
+performance, throttling, hardware lifetime, or utilization. The conventions
+document defines the evidence and validation pathway required before a future
+release can support GPU-device-hour or workload-based functional units. See
+[CONVENTIONS.md](CONVENTIONS.md#pathway-to-compute-service-units).
 
 ## Boundary
 
