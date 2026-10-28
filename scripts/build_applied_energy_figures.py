@@ -248,7 +248,6 @@ def figure_historical_grid_transition() -> None:
     states = read("table14_egrid_historical_state_factors.csv")
     national = read("table15_egrid_historical_national_factors.csv")
     years = sorted({int(row["year"]) for row in states})
-    position = {year: index for index, year in enumerate(years)}
 
     figure, axes = plt.subplots(figsize=(8.0, 4.51))
     axes.set_xlim(0, 1030)
@@ -256,15 +255,15 @@ def figure_historical_grid_transition() -> None:
     for tick in (0, 200, 400, 600, 800, 1000):
         axes.axvline(tick, color="#E5E7EB", linewidth=0.7, zorder=0)
     for year in years:
-        axes.axhline(position[year], color="#F3F4F6", linewidth=0.8, zorder=0)
+        axes.axhline(year, color="#F3F4F6", linewidth=0.8, zorder=0)
 
     below = [
-        (float(row["co2e_kg_per_mwh"]), position[int(row["year"])])
+        (float(row["co2e_kg_per_mwh"]), int(row["year"]))
         for row in states
         if float(row["co2e_kg_per_mwh"]) < CROSSOVER
     ]
     above = [
-        (float(row["co2e_kg_per_mwh"]), position[int(row["year"])])
+        (float(row["co2e_kg_per_mwh"]), int(row["year"]))
         for row in states
         if float(row["co2e_kg_per_mwh"]) >= CROSSOVER
     ]
@@ -286,28 +285,51 @@ def figure_historical_grid_transition() -> None:
         linewidths=0,
         zorder=3,
     )
-    axes.plot(
-        [float(row["generation_weighted_co2e_kg_per_mwh"]) for row in national],
-        [position[int(row["year"])] for row in national],
+    aggregate = sorted(
+        (
+            int(row["year"]),
+            float(row["generation_weighted_co2e_kg_per_mwh"]),
+        )
+        for row in national
+    )
+    for (year, value), (next_year, next_value) in zip(aggregate, aggregate[1:]):
+        # eGRID publishes no 2013, 2015, or 2017 release, so a segment
+        # spanning more than one year bridges an unobserved year.
+        bridged = next_year - year > 1
+        axes.plot(
+            [value, next_value],
+            [year, next_year],
+            color=ORANGE,
+            linewidth=2.6,
+            linestyle=(0, (2.6, 2.0)) if bridged else "solid",
+            solid_capstyle="round",
+            zorder=4,
+        )
+    axes.scatter(
+        [value for _, value in aggregate],
+        [year for year, _ in aggregate],
+        s=26,
         color=ORANGE,
-        linewidth=2.6,
-        zorder=4,
+        linewidths=0,
+        zorder=5,
     )
     axes.axvline(
         CROSSOVER, color=PURPLE, linestyle=(0, (6, 4)), linewidth=1.4, zorder=5
     )
     axes.text(
         CROSSOVER + 8,
-        -1.0,
+        min(years) - 0.85,
         f"Cold plate/single-phase crossover: {CROSSOVER:.1f}",
         fontsize=8.5,
         color="#374151",
         va="center",
     )
 
-    axes.set_yticks(list(position.values()))
+    axes.set_yticks(years)
     axes.set_yticklabels([str(year) for year in years])
-    axes.set_ylim(len(years) - 0.4, -1.5)
+    # True time spacing: the 2012-2018 releases are two years apart and
+    # the 2018-2023 releases one year apart.
+    axes.set_ylim(max(years) + 0.6, min(years) - 1.3)
     axes.set_ylabel("eGRID release year")
     axes.set_xlabel("State total-output electricity intensity (kg CO$_2$e/MWh)")
     for side in ("top", "right"):
